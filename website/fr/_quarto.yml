@@ -25,9 +25,14 @@ website:
     
     contents:
       - section: "Cours"
-        contents: "ch*.qmd"
-      - section: "Exercices"
-        contents: "ex*.qmd"
+        contents:
+          - section: "Introduction"
+            contents:
+              - section: "Details"
+                contents: ch1c.qmd
+              - ch1.qmd
+              - section: "Synthese"
+                contents: ch1r.qmd
 
 
 format:

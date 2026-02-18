@@ -1,0 +1,204 @@
+# Computational Imaging
+
+## Introduction
+
+L’imagerie computationnelle est un domaine en pleine expansion qui intègre étroitement le système de capture et le calcul pour former des images à partir de mesures, en utilisant des algorithmes sophistiqués. L’objectif de ce cours est d’introduire les principes fondamentaux, de fournir une vue d’ensemble des techniques modernes et de développer des compétences pratiques à travers des travaux pratiques et un mini-projet.
+
+Environ 75 % des informations que nous percevons du monde extérieur passent par le canal visuel humain. L’imagerie a donc toujours été essentielle. Cependant, l’imagerie traditionnelle se contente de capturer une scène pour obtenir une image directement exploitable, le calcul ne servant qu’à améliorer la qualité (débrutage, déconvolution). L’imagerie computationnelle, au contraire, repense la chaîne complète : l’optique *code* l’information de la scène sous une forme intermédiaire, et le calcul *décode* cette représentation pour reconstruire une ou plusieurs images interprétables par l’humain.
+
+### Pourquoi « imaging » ?
+
+L’être humain est un être visuel. L’imagerie vise à étendre nos capacités de perception, que ce soit pour voir l’invisible (microscopie, astrophysique), analyser des œuvres d’art ou encore guider des véhicules autonomes.
+
+### Pourquoi « computational » ?
+
+L’imagerie computationnelle se distingue de l’imagerie classique par le fait que l’image finale n’est pas directement accessible par le capteur. Elle doit être *reconstruite* grâce à des algorithmes qui résolvent un problème inverse. La conception du système optique et du traitement numérique est conjointe et optimisée pour une tâche donnée.
+
+#### Imagerie traditionnelle
+
+- L’optique forme une image proche de l’image finale (souvent sur un capteur plan).
+- Le calcul intervient *a posteriori* pour améliorer l’image (défloutage, réduction du bruit, réhaussement).
+
+#### Imagerie computationnelle
+
+- L’optique est conçue pour *encoder* la scène d’une manière spécifique (par exemple en codant l’information de profondeur, la polarisation, la phase, etc.).
+- Le calcul *décode* cette représentation pour reconstruire une ou plusieurs images (par exemple, une carte de profondeur, une image multispectrale, une scène 3D).
+- Les possibilités incluent de nouvelles optiques, de nouveaux capteurs, de nouveaux éclairages et de nouveaux algorithmes.
+
+### Qu’est‑ce que l’imagerie computationnelle ?
+
+L’imagerie computationnelle peut être définie comme le processus consistant à former indirectement des images à partir de mesures, en utilisant des algorithmes qui reposent sur une quantité importante de calcul. Elle représente une rupture avec la chaîne traditionnelle où la physique du dispositif, le traitement d’image et l’application finale sont considérés séparément. Il s’agit désormais de considérer l’imagerie comme un modèle intégré de perception et d’inférence, faisant le pont entre le monde physique/analogique et le monde numérique.
+
+```{.mermaid}
+graph TD
+    A[Monde physique] --> B[Encodage optique<br/>Nouvelles optiques, capteurs, éclairages]
+    B --> C[Représentation intermédiaire<br/>Mesures brutes]
+    C --> D[Décodage algorithmique<br/>Problème inverse, IA]
+    D --> E[Image(s) reconstruite(s)<br/>Exploitation par l'humain ou la machine]
+```
+
+### La photographie numérique comme exemple
+
+La photographie numérique classique (appareil photo ou smartphone) est déjà un exemple simple d’imagerie computationnelle : le capteur enregistre une matrice de pixels, puis un pipeline de traitement (dématriçage, balance des blancs, réduction de bruit, compression) produit une image JPEG. Les smartphones modernes poussent ce concept beaucoup plus loin en combinant plusieurs expositions (HDR), en fusionnant plusieurs images (mode nuit) ou en utilisant l’IA pour améliorer les détails.
+
+---
+
+## Objectifs et évaluation du cours
+
+| Partie | Pondération | Détails |
+|--------|-------------|---------|
+| Partie théorique | 40 % | 2 contrôles continus ou examen oral |
+| Travaux pratiques | 25 % | Note moyenne des TPs |
+| Mini‑projet | 35 % | Note moyenne (rapport + présentation) |
+
+**Condition de validation** : chaque partie (théorique, TP, mini‑projet) doit avoir une note ≥ 4.0 / 6.
+
+---
+
+## Livres recommandés
+
+(La diapositive n’énumère pas de titres précis. Nous recommandons de consulter la bibliographie fournie en cours.)
+
+---
+
+## Exemples motivants
+
+### Imagerie à l’échelle nanométrique / microscopie
+
+#### Imagerie de spin à l’échelle atomique par STM et nc‑AFM
+
+La détection de spin à la surface avec une résolution atomique est réalisée par microscopie à effet tunnel polarisée en spin (SP‑STM) ou par microscopie à force atomique sans contact (nc‑AFM). Ces méthodes exploitent soit le courant tunnel, soit les forces d’échange magnétique.
+
+#### Imagerie par résonance magnétique nanométrique
+
+La microscopie à force de résonance magnétique (MRFM) utilise un résonateur mécanique pour détecter le signal magnétique de spins nucléaires uniques. D’autres approches reposent sur des défauts de spin NV dans le diamant ou sur le courant tunnel combiné à la résonance de spin électronique (ESR‑STM).
+
+#### Imagerie cohérente par rayons X des systèmes magnétiques
+
+L’imagerie magnétique par rayons X cohérents est une méthode sans lentille qui donne accès au contraste de phase et d’absorption spécifique à un élément chimique, avec une résolution potentielle de 5 nm en 2D et 10 nm en 3D.
+
+### Applications astrophysiques
+
+L’imagerie computationnelle est cruciale pour répondre aux grandes questions sur l’univers. Les capteurs embarqués sur les télescopes et satellites génèrent des volumes de données colossaux, et les algorithmes de reconstruction permettent d’extraire des images exploitables à partir de mesures partielles ou bruitées.
+
+#### Capteurs pour l’acquisition d’information
+
+Les instruments modernes (radiotélescopes, interféromètres, caméras à comptage de photons) produisent des données qui doivent être traitées par des algorithmes spécifiques (synthèse d’ouverture, déconvolution, etc.).
+
+#### Volume de données généré
+
+Les futurs instruments comme le Square Kilometre Array (SKA) produiront des exaoctets de données, nécessitant des méthodes de traitement et de compression avancées.
+
+#### Résultats attendus
+
+Cartes du ciel, détection d’exoplanètes, étude de la matière noire, etc.
+
+### Imagerie médicale
+
+| Méthode | Porteur d’information | Remarque |
+|---------|------------------------|----------|
+| Échographie | Ondes pression haute fréquence | Imagerie par rétrodiffusion / réflexion |
+| Radiographie (projection) | Rayonnements ionisants | Imagerie par transmission |
+| Tomodensitométrie (CT, C‑arm) | Rayonnements ionisants | Reconstruction 3D à partir de projections |
+| Imagerie nucléaire (SPECT, PET) | Émission de particules | Détection de traceurs radioactifs |
+| Imagerie par résonance magnétique (IRM) | Précession de spin nucléaire | Contraste multidimensionnel |
+
+**Étapes de traitement** :
+1. Acquisition de multiples signaux 1D et 2D.
+2. Reconstruction d’un objet 3D.
+
+L’imagerie médicale utilise intensivement l’imagerie computationnelle pour reconstruire des volumes (CT, IRM, échographie 3D) et pour extraire des informations spectrales (spectroscopie par résonance magnétique).
+
+### Photographie computationnelle
+
+Les appareils mobiles modernes intègrent de nombreuses fonctionnalités d’imagerie computationnelle : HDR, mode nuit, fusion d’images, portraits avec effet bokeh, etc. Ces techniques combinent plusieurs acquisitions et traitements pour dépasser les limites physiques du capteur et de l’optique.
+
+### Industrie automobile
+
+Les voitures autonomes utilisent une multitude de capteurs (caméras, lidar, radar) et des algorithmes de fusion et d’interprétation pour percevoir l’environnement. L’imagerie 3D temps réel est essentielle pour la détection d’obstacles, la localisation et la prise de décision.
+
+### Solutions basées sur l’IA
+
+#### Optimisation conjointe optique–traitement
+
+Des approches récentes consistent à optimiser *conjointement* la conception optique et le réseau de neurones de traitement, en simulant l’ensemble du système de bout en bout. Cela permet de trouver des configurations optiques non intuitives qui, associées à un algorithme d’IA, donnent les meilleures performances pour une tâche donnée (par exemple, la reconstruction d’image ou l’estimation de profondeur).
+
+#### Deep optics
+
+- **Entraînement** : simulation complète du système (optique + capteur + algorithme) pour apprendre les paramètres optimaux.
+- **Inférence** : le système physique (optique codeur) est suivi d’un réseau de neurones (décodeur). On peut interpréter l’ensemble comme un réseau de neurones hybride optique‑électronique.
+
+### Analyse d’œuvres d’art
+
+L’imagerie computationnelle permet d’étudier les peintures de manière non invasive.
+
+- **Imagerie traditionnelle** : photographie en lumière visible, infrarouge, ultraviolet, radiographie.
+- **Macro fluorescence X (MA‑XRF)** : fournit un cube de données volumétrique où chaque point (x,y) possède un spectre de fluorescence. La position des pics en énergie est caractéristique des éléments chimiques présents. On peut ainsi créer des cartes de répartition des pigments.
+- **Extraction de dessins sous‑jacents** : des algorithmes d’apprentissage (par exemple, séparation de sources) permettent de révéler des esquisses cachées sous la couche picturale, comme pour le tableau de Goya *Dona Isabel de Porcel*.
+
+### Applications non triviales : imagerie non ligne de vue (NLOS)
+
+L’imagerie NLOS vise à reconstruire une scène cachée (par exemple, derrière un coin) en analysant la lumière diffusée par une surface visible. On éclaire une surface (mur, sol) et on mesure le temps de vol ou l’intensité de la lumière réfléchie par l’objet caché vers cette surface. Des algorithmes de reconstruction (retournement temporel, inversion de la propagation) permettent de former une image de la scène cachée. Cette technologie a des applications en sécurité, robotique, secours.
+
+---
+
+## Principaux sujets en imagerie computationnelle
+
+### Le système visuel humain
+
+- Anatomie de l’œil
+- Acuité, vision des couleurs, vision 3D
+- Sensibilité au contraste
+- Conflits en affichage (vergence‑accommodation)
+- Défauts de réfraction
+
+### Photographie numérique
+
+- Optique : lentilles, diaphragme
+- Ouverture et profondeur de champ
+- Champ de vision
+- Exposition et temps de pose
+- Bruit électronique et photonique
+- Matrices de filtres colorés (Bayer, etc.)
+- Pipeline de traitement d’image
+
+### Photographie computationnelle
+
+- Imagerie à grande dynamique (HDR)
+- *Tone mapping* (mappage de tons)
+- Photographie multi‑images et mode nuit
+- Ouvertures codées (*coded apertures*)
+
+### Apprentissage profond pour l’imagerie computationnelle
+
+- Réseaux de neurones convolutifs (CNN)
+- DnCNN (débruitage)
+- U‑Net (segmentation, reconstruction)
+
+### Optimisation et apprentissage profond
+
+- Méthodes de gradient proximal
+- Optimisation itérative avec *priors* profonds
+- Résolution de problèmes inverses généraux en imagerie
+
+### Imagerie compressive
+
+- Caméra à pixel unique
+- Imagerie hyperspectrale compressive
+- Imagerie de champ de lumière compressive
+
+### Introduction à l’optique ondulatoire et *deep optics*
+
+- Diffraction et interférences
+- Limite de diffraction
+- Optimisation conjointe optique‑traitement de bout en bout
+- Reconstruction de phase
+- Holographie générée par ordinateur
+
+### Affichages computationnels
+
+- Affichages lumière‑field pour la réalité virtuelle et augmentée (permettant de recréer le focus naturel)
+- Affichages holographiques (holographie dynamique, correction des aberrations)
+- Exemples : Konrad et al. (SIGCHI 2016), Padmanaban et al. (PNAS 2017, SIGGRAPH Asia 2019), Huang et al. (SIGGRAPH 2015), Wetzstein et al. (SIGGRAPH 2011, 2012), Peng et al. (SIGGRAPH Asia 2020), Choi et al. (Optica 2021)
+
+---

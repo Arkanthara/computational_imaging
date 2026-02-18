@@ -1,0 +1,109 @@
+# Computational Imaging
+
+## Introduction
+
+L’**imagerie computationnelle** forme indirectement des images à partir de mesures en utilisant des algorithmes sophistiqués. Elle intègre étroitement le système de capture et le calcul, contrairement à l’imagerie traditionnelle.
+
+- **Imagerie traditionnelle** : l’optique forme une image proche de l’image finale ; le calcul intervient *a posteriori* pour améliorer (débrutage, déconvolution).
+- **Imagerie computationnelle** : l’optique *encode* la scène en représentation intermédiaire ; le calcul *décode* pour reconstruire une ou plusieurs images.
+
+```{.mermaid}
+graph LR
+    A[Monde physique] --> B[Encodage optique]
+    B --> C[Représentation intermédiaire]
+    C --> D[Décodage algorithmique]
+    D --> E[Image(s) reconstruite(s)]
+```
+
+## Objectifs et évaluation
+
+| Partie | Pondération | Détails |
+|--------|-------------|---------|
+| Théorique | 40% | 2 CCs ou examen oral |
+| TPs | 25% | Moyenne des TPs |
+| Mini‑projet | 35% | Rapport + présentation |
+
+**Condition** : chaque partie ≥ 4.0/6.
+
+---
+
+## Exemples clés par domaine
+
+### Nanoscopie
+- **SP‑STM / nc‑AFM** : détection de spin à l’échelle atomique.
+- **MRFM** : résonance magnétique sur spin unique.
+- **Imagerie X cohérente** : magnétisme sans lentille, résolution 5‑10 nm.
+
+### Astrophysique
+- Synthèse d’ouverture, déconvolution.
+- Volumes de données massifs (SKA : exaoctets).
+- Reconstruction de cartes du ciel, étude matière noire.
+
+### Médical
+| Méthode | Porteur d’info | Principe |
+|---------|----------------|----------|
+| Échographie | Ondes pression | Rétrodiffusion |
+| Radiographie/CT | Rayonnements ionisants | Transmission / reconstruction 3D |
+| SPECT/PET | Émission traceurs | Imagerie fonctionnelle |
+| IRM | Précession spin | Contraste multidimensionnel |
+
+**Étapes** : acquisition signaux 1D/2D → reconstruction 3D.
+
+### Photographie computationnelle
+- HDR, mode nuit, fusion d’images, bokeh.
+
+### Automobile
+- Voitures autonomes : caméras, lidar, fusion, imagerie 3D temps réel.
+
+### IA / Deep optics
+- Optimisation conjointe optique‑traitement (simulation bout en bout).
+- Réseau hybride opto‑électronique : optique codeur + réseau décodeur.
+
+### Analyse d’art
+- **MA‑XRF** : cube (x, y, énergie) → cartes élémentaires des pigments.
+- Apprentissage pour séparation des couches picturales (ex. Goya).
+
+### Imagerie non ligne de vue (NLOS)
+- Reconstruction scène cachée par analyse lumière diffusée.
+- Applications : sécurité, robotique, secours.
+
+---
+
+## Principaux sujets
+
+### Système visuel humain
+- Anatomie œil, acuité, vision couleurs/3D.
+- Sensibilité contraste, conflits d’affichage, défauts réfraction.
+
+### Photographie numérique
+- Optique, ouverture, profondeur champ, exposition, bruit.
+- Filtres Bayer, pipeline traitement.
+
+### Photographie computationnelle
+- HDR, tone mapping, burst mode, coded apertures.
+
+### Deep learning pour l’imagerie
+- CNN, DnCNN (débruitage), U‑Net (segmentation/reconstruction).
+
+### Optimisation et deep learning
+- Méthodes gradient proximal, priors profonds.
+- Résolution problèmes inverses.
+
+### Imagerie compressive
+- Caméra pixel unique, hyperspectral, light field compressif.
+
+### Optique ondulatoire et deep optics
+- Diffraction, interférences, limite diffraction.
+- Optimisation conjointe, reconstruction phase, holographie.
+
+### Affichages computationnels
+- Light field displays (VR/AR), holographie dynamique.
+
+---
+
+## Concepts fondamentaux
+
+- **Problème inverse** : reconstruction à partir de mesures indirectes.
+- **Encodage‑décodage** : l’optique code l’information, le calcul la décode.
+- **Optimisation conjointe** : conception simultanée optique et algorithmes.
+- **Priors** : connaissances a priori (ex. régularisation, réseaux profonds).
