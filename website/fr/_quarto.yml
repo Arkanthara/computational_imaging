@@ -1,0 +1,46 @@
+project:
+  type: website
+  title: "Computational Imaging"
+  output-dir: ../_site/fr
+
+website:
+  # Language switching setup
+
+  navbar:
+    # background: primary
+    search: true
+    # Right side for language selector
+    right:
+      - text: Langage
+        icon: globe
+        menu:
+          - text: "Anglais"
+            href: ../index.html
+          - text: "Français"
+            href: index.html
+
+  sidebar:
+    style: docked
+    search: true
+    
+    contents:
+      - section: "Cours"
+        contents: "ch*.qmd"
+      - section: "Exercices"
+        contents: "ex*.qmd"
+
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+    toc: true
+    embed-resources: true
+  # pdf:
+  #   toc: true
+  # docx:
+  #   toc: true
+
+# filters:
+#   - diagram
