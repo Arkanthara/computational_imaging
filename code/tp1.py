@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from pypher.pypher import psf2otf
+from scipy.signal import convolve2d
+import argparse
 
 
 def read_image(name: str = "img/tangled.jpg") -> np.ndarray:
@@ -97,9 +99,14 @@ def add_noise(img: np.ndarray, mean: float = 0.0, std: float = 1.0) -> np.ndarra
 
 def filterFT(img: np.ndarray, h: np.ndarray) -> np.ndarray:
     F_img = np.fft.fft2(img)
+    h = psf2otf(h, shape=(img.shape))
     h = np.fft.fftshift(h)
     # print_image(np.log(np.abs(F_img * h) + 1))
     return np.abs(np.fft.ifft2(F_img * h))
+
+def filter(img: np.ndarray, h: np.ndarray) -> np.ndarray:
+    # Here, we ask for symmetric padding to apply filter to avoid vignette artifact
+    return convolve2d(img, h, mode='same')
 
 
 def gaussianKernel(std: float) -> np.ndarray:
@@ -109,57 +116,101 @@ def gaussianKernel(std: float) -> np.ndarray:
 
 
 if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser(description="TP1 of computational imaging")
+    parser.add_argument('-t', '--task', type=int, default=1, help="Enter the number of the task to execute")
+
+    args = parser.parse_args()
+
     tangled = cv2.imread("img/tangled.jpg", cv2.IMREAD_GRAYSCALE)
-    print_range(tangled)
 
     # TASK 1
     # 1.1 Low-pass filtering in frequency domain (using np.convolve2d !)
-    index = 1
-    plt.figure()
-    for i in [0.1, 1, 10]:
-        plt.subplot(3, 1, index)
-        tangled_gaussian_blur = cv2.GaussianBlur(tangled, (101, 101), i)
-        plt.imshow(tangled_gaussian_blur, cmap="gray")
-        plt.title(f"Gaussian blur with $\\sigma = {i}$")
-        plt.axis("off")
-        index += 1
-    plt.show()
+    if args.task == 1:
+        index = 1
+        plt.figure()
+        plt.suptitle("Gaussian blur")
+        for i in [0.1, 1, 10]:
+            # Create filter
+            h = gaussianKernel(i)
 
-    # 1.2 High-pass filtering (HighPass = Img - LowPass(Img))
-    index = 1
-    plt.figure()
-    for i in [0.1, 1, 10]:
-        plt.subplot(3, 1, index)
-        tangled_gaussian_highpass = tangled - cv2.GaussianBlur(tangled, (101, 101), i)
-        plt.imshow(tangled_gaussian_highpass, cmap="gray")
-        plt.title(f"Gaussian sharpening with $\\sigma = {i}$")
-        plt.axis("off")
-        index += 1
-    plt.show()
+            # Apply filter in frequency domain -> 2D convolution
+            plt.subplot(3, 2, index)
+            tangled_gaussian_blur = filter(tangled, h)
+            plt.imshow(tangled_gaussian_blur, cmap="gray")
+            plt.title(f"$\\sigma = {i}$, frequency domain")
+            plt.axis("off")
+            index += 1
+
+            # Apply filter in fourier domain -> multiplication
+            plt.subplot(3, 2, index)
+            tangled_gaussian_blur_ft = filterFT(tangled, h)
+            plt.imshow(tangled_gaussian_blur_ft, cmap="gray")
+            plt.title(f"$\\sigma = {i}$, Fourier domain")
+            plt.axis("off")
+            index += 1
+        plt.show()
+
+        # 1.2 High-pass filtering (HighPass = Img - LowPass(Img))
+        index = 1
+        plt.figure()
+        for i in [0.1, 1, 10]:
+            # Create filter
+            h = gaussianKernel(i)
+
+            # Apply filter in frequency domain -> 2D convolution
+            plt.subplot(3, 2, index)
+            tangled_gaussian_blur = convolve2d(tangled, h)
+            plt.imshow(tangled - tangled_gaussian_blur, cmap="gray")
+            plt.title(f"$\\sigma = {i}$, frequency domain")
+            plt.axis("off")
+            index += 1
+
+            # Apply filter in fourier domain -> multiplication
+            plt.subplot(3, 2, index)
+            tangled_gaussian_blur_ft = filterFT(tangled, h)
+            plt.imshow(tangled - tangled_gaussian_blur_ft, cmap="gray")
+            plt.title(f"$\\sigma = {i}$, Fourier domain")
+            plt.axis("off")
+            index += 1
+        plt.show()
 
     # TASK 2
     # Blur image
-    tangled_blured = cv2.GaussianBlur(tangled, (101, 101), 5)
+    elif args.task == 2:
+        tangled_blured = cv2.GaussianBlur(tangled, (101, 101), 5)
 
-    # 2.1
-    index = 1
-    plt.figure()
-    for i in [0, 0.001, 0.01, 0.1]:
-        plt.subplot(2, 2, index)
+        # 2.1
+        index = 1
+        plt.figure()
+        for i in [0, 0.001, 0.01, 0.1]:
+            plt.subplot(2, 2, index)
 
-        # Add noise
-        noise = cv2.randn(np.zeros_like(tangled), mean=0, stddev=i)
-        tangled_noised = cv2.add(tangled_blured, noise)
+            # Add noise
+            noise = cv2.randn(np.zeros_like(tangled), mean=0, stddev=i)
+            tangled_noised = cv2.add(tangled_blured, noise)
 
-        # Inverse filter in Fourrier domain
-        F_img = np.fft.fft2(tangled_noised)
-        h = cv2.getGaussianKernel(101, 5)
-        h = h @ h.T
-        h = psf2otf(h, shape=(tangled.shape))
-        h = np.fft.fftshift(h)
-        tangled_inv_filter = np.abs(np.fft.ifft2(F_img / (h + 1e-16)))
-        plt.imshow(tangled_inv_filter, cmap="gray")
-        plt.title(f"Inverse filtering with noise $\\sigma = {i}$")
-        plt.axis("off")
-        index += 1
-    plt.show()
+            # Inverse filter in Fourrier domain
+            F_img = np.fft.fft2(tangled_noised)
+            h = cv2.getGaussianKernel(101, 5)
+            h = h @ h.T
+            h = psf2otf(h, shape=(tangled.shape))
+            h = np.fft.fftshift(h)
+            tangled_inv_filter = np.abs(np.fft.ifft2(F_img / (h + 1e-16)))
+            plt.imshow(tangled_inv_filter, cmap="gray")
+            plt.title(f"Inverse filtering with noise $\\sigma = {i}$")
+            plt.axis("off")
+            index += 1
+
+            # Inverse filter in Fourrier domain
+            F_img = np.fft.fft2(tangled_noised)
+            h = cv2.getGaussianKernel(101, 5)
+            h = h @ h.T
+            h = psf2otf(h, shape=(tangled.shape))
+            h = np.fft.fftshift(h)
+            tangled_inv_filter = np.abs(np.fft.ifft2(F_img / (h + 1e-16)))
+            plt.imshow(tangled_inv_filter, cmap="gray")
+            plt.title(f"Inverse filtering with noise $\\sigma = {i}$")
+            plt.axis("off")
+            index += 1
+        plt.show()
