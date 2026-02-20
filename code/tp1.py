@@ -1,13 +1,13 @@
-import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from pypher.pypher import psf2otf
 from scipy.signal import convolve2d
 import argparse
+import skimage as sk
 
 
 def read_image(name: str = "img/tangled.jpg") -> np.ndarray:
-    img = cv2.imread(name, cv2.IMREAD_GRAYSCALE)
+    img = sk.io.imread(name, as_gray=True)
     return img
 
 
@@ -87,7 +87,7 @@ def MSE(img_1: np.ndarray, img_2: np.ndarray) -> float:
     return np.mean((img_1 - img_2) ** 2)
 
 
-def normalize(img: np.ndarray, target: int = 255) -> np.ndarray:
+def normalize(img: np.ndarray, target: float = 1.0) -> np.ndarray:
     return (img - img.min()) * target / (img.max() - img.min())
 
 
@@ -100,29 +100,38 @@ def add_noise(img: np.ndarray, mean: float = 0.0, std: float = 1.0) -> np.ndarra
 def filterFT(img: np.ndarray, h: np.ndarray) -> np.ndarray:
     F_img = np.fft.fft2(img)
     h = psf2otf(h, shape=(img.shape))
-    h = np.fft.fftshift(h)
-    # print_image(np.log(np.abs(F_img * h) + 1))
-    return np.abs(np.fft.ifft2(F_img * h))
+    h = normalize(h)
+    return normalize(np.abs(np.fft.ifft2(F_img * h)), target=1.0)
+
 
 def filter(img: np.ndarray, h: np.ndarray) -> np.ndarray:
     # Here, we ask for symmetric padding to apply filter to avoid vignette artifact
-    return convolve2d(img, h, mode='same')
+    return normalize(convolve2d(img, h, mode="same"), target=1.0)
 
 
 def gaussianKernel(std: float) -> np.ndarray:
-    h = cv2.getGaussianKernel(101, std)
-    h = h @ h.T
+    h = np.arange(102).astype(np.float64)
+    h = np.exp(-1 / 2 * (h - np.mean(h)) ** 2 / std**2)
+    h = normalize(h, target=1.0)
+    h = np.outer(h, h)
     return h
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(description="TP1 of computational imaging")
-    parser.add_argument('-t', '--task', type=int, default=1, help="Enter the number of the task to execute")
+    parser.add_argument(
+        "-t",
+        "--task",
+        type=int,
+        default=1,
+        help="Enter the number of the task to execute",
+    )
 
     args = parser.parse_args()
 
-    tangled = cv2.imread("img/tangled.jpg", cv2.IMREAD_GRAYSCALE)
+    tangled = sk.io.imread("img/tangled_small.jpg", as_gray=True)
+    tangled = normalize(tangled, target=1.0)
+    print_range(tangled)
 
     # TASK 1
     # 1.1 Low-pass filtering in frequency domain (using np.convolve2d !)
@@ -132,10 +141,15 @@ if __name__ == "__main__":
         plt.suptitle("Gaussian blur")
         for i in [0.1, 1, 10]:
             # Create filter
+            plt.subplot(3, 3, index)
             h = gaussianKernel(i)
+            plt.imshow(h, cmap="gray")
+            plt.title(f"Gaussian kernel, $\\sigma = {i}$")
+            plt.axis("off")
+            index += 1
 
             # Apply filter in frequency domain -> 2D convolution
-            plt.subplot(3, 2, index)
+            plt.subplot(3, 3, index)
             tangled_gaussian_blur = filter(tangled, h)
             plt.imshow(tangled_gaussian_blur, cmap="gray")
             plt.title(f"$\\sigma = {i}$, frequency domain")
@@ -143,7 +157,7 @@ if __name__ == "__main__":
             index += 1
 
             # Apply filter in fourier domain -> multiplication
-            plt.subplot(3, 2, index)
+            plt.subplot(3, 3, index)
             tangled_gaussian_blur_ft = filterFT(tangled, h)
             plt.imshow(tangled_gaussian_blur_ft, cmap="gray")
             plt.title(f"$\\sigma = {i}$, Fourier domain")
@@ -156,18 +170,24 @@ if __name__ == "__main__":
         plt.figure()
         for i in [0.1, 1, 10]:
             # Create filter
+            plt.subplot(3, 3, index)
             h = gaussianKernel(i)
+            plt.imshow(h, cmap="gray")
+            plt.title(f"Gaussian kernel, $\\sigma = {i}$")
+            plt.axis("off")
+            index += 1
 
             # Apply filter in frequency domain -> 2D convolution
-            plt.subplot(3, 2, index)
-            tangled_gaussian_blur = convolve2d(tangled, h)
+            plt.subplot(3, 3, index)
+            tangled_gaussian_blur = filter(tangled, h)
+            print_range(tangled_gaussian_blur)
             plt.imshow(tangled - tangled_gaussian_blur, cmap="gray")
             plt.title(f"$\\sigma = {i}$, frequency domain")
             plt.axis("off")
             index += 1
 
             # Apply filter in fourier domain -> multiplication
-            plt.subplot(3, 2, index)
+            plt.subplot(3, 3, index)
             tangled_gaussian_blur_ft = filterFT(tangled, h)
             plt.imshow(tangled - tangled_gaussian_blur_ft, cmap="gray")
             plt.title(f"$\\sigma = {i}$, Fourier domain")
