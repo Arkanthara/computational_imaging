@@ -86,6 +86,9 @@ def print_image(
 def MSE(img_1: np.ndarray, img_2: np.ndarray) -> float:
     return np.mean((img_1 - img_2) ** 2)
 
+def PSNR(img_1: np.ndarray, img_2: np.ndarray) -> float:
+    return 10 * np.log10(img_1.max()/MSE(img_1, img_2))
+
 
 def normalize(img: np.ndarray, target: float = 1.0) -> np.ndarray:
     return (img - img.min()) * target / (img.max() - img.min())
@@ -97,16 +100,21 @@ def add_noise(img: np.ndarray, mean: float = 0.0, std: float = 1.0) -> np.ndarra
     return np.clip(img_noised, a_min=0, a_max=255)
 
 
-def filterFT(img: np.ndarray, h: np.ndarray) -> np.ndarray:
-    F_img = np.fft.fft2(img)
-    h = psf2otf(h, shape=(img.shape))
-    h = normalize(h)
-    return normalize(np.abs(np.fft.ifft2(F_img * h)), target=1.0)
+def filterFT(img_1: np.ndarray, h: np.ndarray, img_2: np.ndarray = None, inv_filter: bool = False, wiener: bool = False) -> np.ndarray:
+    F_img = np.fft.fft2(img_1)
+    h = psf2otf(h, shape=(img_1.shape))
+    if inv_filter:
+        h = 1/(h + 1e-16)
+    if wiener:
+        assert img_2 is not None
+        h += 1e-16
+        h = h**2/(h*(h**2 + 1/PSNR(img_2, img_1)))
+    return np.abs(np.fft.ifft2(F_img * h))
 
 
 def filter(img: np.ndarray, h: np.ndarray) -> np.ndarray:
     # Here, we ask for symmetric padding to apply filter to avoid vignette artifact
-    return normalize(convolve2d(img, h, mode="same"), target=1.0)
+    return normalize(convolve2d(img, h, mode="same"), target=255)
 
 
 def gaussianKernel(std: float) -> np.ndarray:
@@ -123,14 +131,14 @@ if __name__ == "__main__":
         "-t",
         "--task",
         type=int,
-        default=1,
+        default=2,
         help="Enter the number of the task to execute",
     )
 
     args = parser.parse_args()
 
     tangled = sk.io.imread("img/tangled_small.jpg", as_gray=True)
-    tangled = normalize(tangled, target=1.0)
+    tangled = normalize(tangled, target=255)
     print_range(tangled)
 
     # TASK 1
@@ -198,39 +206,44 @@ if __name__ == "__main__":
     # TASK 2
     # Blur image
     elif args.task == 2:
-        tangled_blured = cv2.GaussianBlur(tangled, (101, 101), 5)
+        tangled_blured = sk.filters.gaussian(tangled, sigma=5)
 
         # 2.1
         index = 1
         plt.figure()
         for i in [0, 0.001, 0.01, 0.1]:
+            
             plt.subplot(2, 2, index)
 
             # Add noise
-            noise = cv2.randn(np.zeros_like(tangled), mean=0, stddev=i)
-            tangled_noised = cv2.add(tangled_blured, noise)
+            tangled_noised = sk.util.random_noise(tangled_blured, var=i)
 
             # Inverse filter in Fourrier domain
             F_img = np.fft.fft2(tangled_noised)
-            h = cv2.getGaussianKernel(101, 5)
-            h = h @ h.T
-            h = psf2otf(h, shape=(tangled.shape))
-            h = np.fft.fftshift(h)
-            tangled_inv_filter = np.abs(np.fft.ifft2(F_img / (h + 1e-16)))
+            h = gaussianKernel(5)
+            tangled_inv_filter = filterFT(tangled_noised, h, inv_filter=True)
+            plt.imshow(tangled_inv_filter, cmap="gray")
+            plt.title(f"Inverse filtering with noise $\\sigma = {i}$")
+            plt.axis("off")
+            index += 1
+        plt.show()
+
+        index = 1
+        plt.figure()
+        for i in [0, 0.001, 0.01, 0.1]:
+            
+            plt.subplot(2, 2, index)
+
+            # Add noise
+            tangled_noised = sk.util.random_noise(tangled_blured, var=i)
+            # Wiener filter in Fourrier domain
+            F_img = np.fft.fft2(tangled_noised)
+            SNR = np.mean(tangled_noised/5.0)
+            h = gaussianKernel(5)
+            tangled_inv_filter = filterFT(tangled_noised, h, tangled, wiener=True)
             plt.imshow(tangled_inv_filter, cmap="gray")
             plt.title(f"Inverse filtering with noise $\\sigma = {i}$")
             plt.axis("off")
             index += 1
 
-            # Inverse filter in Fourrier domain
-            F_img = np.fft.fft2(tangled_noised)
-            h = cv2.getGaussianKernel(101, 5)
-            h = h @ h.T
-            h = psf2otf(h, shape=(tangled.shape))
-            h = np.fft.fftshift(h)
-            tangled_inv_filter = np.abs(np.fft.ifft2(F_img / (h + 1e-16)))
-            plt.imshow(tangled_inv_filter, cmap="gray")
-            plt.title(f"Inverse filtering with noise $\\sigma = {i}$")
-            plt.axis("off")
-            index += 1
         plt.show()
