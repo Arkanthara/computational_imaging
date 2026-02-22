@@ -4,6 +4,7 @@ from pypher.pypher import psf2otf
 from scipy.signal import convolve2d
 import argparse
 import skimage as sk
+import time
 
 
 def read_image(name: str = "img/tangled.jpg") -> np.ndarray:
@@ -83,13 +84,6 @@ def print_image(
         plt.show()
 
 
-def MSE(img_1: np.ndarray, img_2: np.ndarray) -> float:
-    return np.mean((img_1 - img_2) ** 2)
-
-def PSNR(img_1: np.ndarray, img_2: np.ndarray) -> float:
-    return 10 * np.log10(img_1.max()/MSE(img_1, img_2))
-
-
 def normalize(img: np.ndarray, target: float = 1.0) -> np.ndarray:
     return (img - img.min()) * target / (img.max() - img.min())
 
@@ -99,30 +93,80 @@ def add_noise(img: np.ndarray, mean: float = 0.0, std: float = 1.0) -> np.ndarra
     img_noised = img + noise
     return np.clip(img_noised, a_min=0, a_max=255)
 
+def MSE(img_1: np.ndarray, img_2: np.ndarray) -> float:
+    return np.mean((img_1 - img_2) ** 2)
 
-def filterFT(img_1: np.ndarray, h: np.ndarray, img_2: np.ndarray = None, inv_filter: bool = False, wiener: bool = False) -> np.ndarray:
-    F_img = np.fft.fft2(img_1)
-    h = psf2otf(h, shape=(img_1.shape))
+# Fix the PSNR function first
+def PSNR(img_1: np.ndarray, img_2: np.ndarray) -> float:
+    mse = MSE(img_1, img_2)
+    if mse == 0:
+        return float('inf')
+    max_pixel = 255.0
+    return 10 * np.log10((max_pixel ** 2) / mse)
+
+# Fix the filterFT function
+def filterFT(img: np.ndarray, h: np.ndarray, inv_filter: bool = False, wiener: bool = False, K: float = 0.01) -> np.ndarray:
+    F_img = np.fft.fft2(img)
+    H = np.fft.fft2(h, s=img.shape)
     if inv_filter:
-        h = 1/(h + 1e-16)
-    if wiener:
-        assert img_2 is not None
-        h += 1e-16
-        h = h**2/(h*(h**2 + 1/PSNR(img_2, img_1)))
-    return np.abs(np.fft.ifft2(F_img * h))
-
+        H[H == 0] = 1e-10
+        H_inv = 1 / H
+        F_img_filtered = F_img * H_inv
+    elif wiener:
+        H_conj = np.conj(H)
+        H_mag_sq = np.abs(H) ** 2
+        H_inv = H_conj / (H_mag_sq + K)
+        F_img_filtered = F_img * H_inv
+    else:
+        F_img_filtered = F_img *H
+    img_filtered = np.fft.ifft2(F_img_filtered).real
+    return np.clip(img_filtered, 0, 255)
 
 def filter(img: np.ndarray, h: np.ndarray) -> np.ndarray:
     # Here, we ask for symmetric padding to apply filter to avoid vignette artifact
     return normalize(convolve2d(img, h, mode="same"), target=255)
 
 
-def gaussianKernel(std: float) -> np.ndarray:
-    h = np.arange(102).astype(np.float64)
-    h = np.exp(-1 / 2 * (h - np.mean(h)) ** 2 / std**2)
-    h = normalize(h, target=1.0)
-    h = np.outer(h, h)
-    return h
+def gaussianKernel(std: float, size: int = 101) -> np.ndarray:
+        x = np.arange(-(size // 2), size // 2 + 1)
+        kernel = np.exp(-(x**2) / (2 * std**2))
+        kernel = np.outer(kernel, kernel)
+        kernel /= kernel.sum()
+        return kernel
+
+
+def grad_l2(A, x, b):
+    # TODO: return the gradient of 0.5 * ||Ax - b||_2^2
+    return A.T @ A @ x - A.T @ b
+
+def residual_l2(A, x, b):
+    return 0.5 * np.linalg.norm(A @ x - b)**2
+
+def run_gd(A, b, step_size: float = 1e-4, num_iters: int = 1500, grad_fn=grad_l2, residual=residual_l2):
+    # Create random x
+    x = np.random.rand(A.shape[1], 1)
+    losses = []
+    time_list = []
+    for i in range(num_iters):
+        grad = grad_fn(A, x, b)
+        x = x - step_size * grad
+        losses.append(residual(A, x, b))
+        time_list.append(time.time())
+    return x, losses, time_list
+
+def run_sgd(A, b, step_size: float = 1e-4, num_iters: int = 1500, batch_size: int = 32, grad_fn=grad_l2, residual=residual_l2):
+    x = np.random.rand(A.shape[1], 1)
+    losses = []
+    time_list = []
+    for i in range(num_iters):
+        idx = np.random.choice(A.shape[0], batch_size, replace=False)
+        A_batch = A[idx]
+        b_batch = b[idx]
+        grad = grad_fn(A_batch, x, b_batch)
+        x = x - step_size * grad
+        losses.append(residual(A, x, b))
+        time_list.append(time.time())
+    return x, losses, time_list
 
 
 if __name__ == "__main__":
@@ -131,7 +175,7 @@ if __name__ == "__main__":
         "-t",
         "--task",
         type=int,
-        default=2,
+        default=3,
         help="Enter the number of the task to execute",
     )
 
@@ -214,9 +258,9 @@ if __name__ == "__main__":
         for i in [0, 0.001, 0.01, 0.1]:
             
             plt.subplot(2, 2, index)
-
             # Add noise
-            tangled_noised = sk.util.random_noise(tangled_blured, var=i)
+            tangled_noised = sk.util.random_noise(tangled_blured, var=i, clip=True)
+            tangled_noised = sk.util.img_as_ubyte(tangled_noised)
 
             # Inverse filter in Fourrier domain
             F_img = np.fft.fft2(tangled_noised)
@@ -235,7 +279,8 @@ if __name__ == "__main__":
             plt.subplot(2, 2, index)
 
             # Add noise
-            tangled_noised = sk.util.random_noise(tangled_blured, var=i)
+            tangled_noised = sk.util.random_noise(tangled_blured, var=i, clip=True)
+            tangled_noised = sk.util.img_as_ubyte(tangled_noised)
             # Wiener filter in Fourrier domain
             F_img = np.fft.fft2(tangled_noised)
             SNR = np.mean(tangled_noised/5.0)
@@ -246,4 +291,40 @@ if __name__ == "__main__":
             plt.axis("off")
             index += 1
 
+        plt.show()
+    
+    # TASK 3: Gradient descent
+    elif args.task == 3:
+        # Classical gradient descent
+        A = np.random.rand(500, 100)
+        b = np.random.rand(500, 1)
+        x, losses, time_list = run_gd(A, b)
+        plt.figure()
+        plt.plot(losses)
+        plt.title("Gradient Descent Loss")
+        plt.xlabel("Iteration")
+        plt.ylabel("Loss")
+        plt.show()
+        plt.figure()
+        plt.plot(time_list, losses)
+        plt.title("Gradient Descent Loss Over Time")
+        plt.xlabel("Time (s)")
+        plt.ylabel("Loss")
+        plt.show()
+
+        # Stochastic gradient descent
+        A = np.random.rand(500, 100)
+        b = np.random.rand(500, 1)
+        x, losses, time_list = run_sgd(A, b)
+        plt.figure()
+        plt.plot(losses)
+        plt.title("Stochastic Gradient Descent Loss")
+        plt.xlabel("Iteration")
+        plt.ylabel("Loss")
+        plt.show()
+        plt.figure()
+        plt.plot(time_list, losses)
+        plt.title("Stochastic Gradient Descent Loss Over Time")
+        plt.xlabel("Time (s)")
+        plt.ylabel("Loss")
         plt.show()
