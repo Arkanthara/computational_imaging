@@ -1,0 +1,291 @@
+# Résumé — Système Visuel Humain
+
+*Révision rapide — 14X062 Computational Imaging*
+
+---
+
+# Évolution & Biologie
+
+## Ce qu'il faut retenir
+
+L'œil est le résultat de **~450 millions d'années** d'évolution, depuis les simples cellules photosensibles jusqu'à l'œil vertébré complexe.
+
+Les **6 étapes clés** de l'évolution de l'œil :
+
+1. Cellules photosensibles planes (pas de directionnalité)
+2. Zone déprimée → sensibilité directionnelle limitée
+3. Œil à sténopé (*pinhole*) → imagerie rudimentaire
+4. Chambre close avec humeur transparente → rétine distincte
+5. Apparition d'un cristallin → focalisation
+6. Iris + cornée séparée → œil moderne complet
+
+---
+
+# Théories Historiques de la Vision
+
+## Les grandes étapes
+
+| Époque | Auteur | Idée clé | Statut |
+|---|---|---|---|
+| ~350 av. J.-C. | Platon | Lumière *émise* par les yeux | ❌ Faux |
+| ~330 av. J.-C. | Aristote | Images matérielles entrant dans l'œil | ❌ Incomplet |
+| ~1040 | **Alhazen** | Lumière voyageant vers l'œil, pointillisme | ✅ Fondateur |
+| ~1600 | **Kepler** | Théorie rétinienne, séparation par réfraction | ✅ Correct |
+| Moderne | — | Psychologie + neurophysiologie + vision computationnelle | ✅ |
+
+## Alhazen — points clés à retenir
+
+- Lumière voyage **en ligne droite**
+- Corps auto-lumineux → irradiation dans **toutes les directions**
+- Vision = collection de **points** sur les surfaces des objets
+- **Correspondance géométrique** monde ↔ image rétinienne
+
+## Kepler — point clé à retenir
+
+> Les rayons d'un même point de surface arrivent sur le cristallin depuis des **directions différentes** → réfractés différemment → **focalisés en un point unique** sur la rétine.
+
+---
+
+# Caractéristiques du HVS
+
+## Chiffres essentiels à mémoriser
+
+| Paramètre | Valeur |
+|---|---|
+| Acuité visuelle (20/20) | $\approx 1$ minute d'arc |
+| Champ horizontal | $\approx 200°$ ($120°$ binoculaire + $2 \times 40°$ monoculaire) |
+| Champ vertical | $\approx 135°$ |
+| Résolution temporelle | $\approx 60$ Hz |
+| Plage dynamique instantanée | $6{,}5$ stops |
+| Plage dynamique adaptée | $46{,}5$ stops ($\approx 14$ ordres de magnitude) |
+| Accommodation (jeune) | $\approx 8$ cm → $\infty$ |
+| Accommodation (50 ans) | $\approx 50$ cm → $\infty$ |
+| Bâtonnets | $\approx 10^8$ |
+| Cônes | $\approx 10^7$ |
+| Fibres du nerf optique | $\approx 10^6$ |
+
+⚠️ Le rapport $10^8$ photorécepteurs / $10^6$ fibres nerveuses impose un **codage/compression** obligatoire du signal visuel.
+
+---
+
+# Anatomie de l'Œil
+
+## Structure de l'avant vers l'arrière
+
+```{.mermaid}
+graph LR
+    A[Cornée\n~2/3 puissance dioptrique] --> B[Humeur aqueuse]
+    B --> C[Iris + Pupille\nØ 2–8 mm]
+    C --> D[Cristallin\naccommodation]
+    D --> E[Humeur vitrée]
+    E --> F[Rétine\nphotorécepteurs]
+    F --> G[Nerf optique]
+```
+
+**Points critiques :**
+
+- **Cornée** : principale surface réfractive
+- **Pupille** : contrôle la quantité de lumière (comme le diaphragme d'un appareil photo)
+- **Fovéa** : zone de haute résolution, riche en cônes
+- **Tache aveugle** (disque optique) : aucun photorécepteur → point aveugle dans le champ visuel
+
+---
+
+# Rétine & Photorécepteurs
+
+## Deux systèmes parallèles
+
+| | **Bâtonnets (Rods)** | **Cônes (Cones)** |
+|---|---|---|
+| Vision | Scotopique (faible lumière) | Photopique (bonne lumière) |
+| Résolution | **Basse** | **Haute** |
+| Sensibilité | **Haute** | Basse |
+| Couleur | Non (niveaux de gris) | **Oui** (S, M, L) |
+| Convergence | Forte (↓ résolution) | Faible (↑ résolution) |
+| Localisation | Périphérie | Fovéa |
+
+## Les 3 types de cônes
+
+1. **S** (*Short*) → $\approx 419$ nm → **bleu** (réponse faible)
+2. **M** (*Medium*) → $\approx 531$ nm → **vert** (réponse dominante)
+3. **L** (*Long*) → $\approx 559$ nm → **rouge** (proche infrarouge)
+
+## Limites de l'œil humain
+
+- Vaisseaux sanguins **devant** les photorécepteurs (œil inversé)
+- Image **renversée** sur la rétine
+- **Haute résolution uniquement dans la fovéa**
+- **Tache aveugle** au niveau du disque optique
+- Luminosité non uniforme sur la rétine
+
+---
+
+# Cellules Ganglionnaires de la Rétine
+
+## Rôle fondamental
+
+> Remplacer les **niveaux absolus** de luminosité par une carte de **différences** (carte rétinotopique).
+
+## Organisation centre-entourage
+
+- **ON-center / OFF-surround** : activé par lumière au centre, inhibé en périphérie
+- **OFF-center / ON-surround** : inverse
+
+**Pourquoi ?** Les objets sont identifiés par leurs *différences* avec le fond, pas par leur luminosité absolue → permet une amplification sans saturation.
+
+## Cellules M vs P
+
+| | **M (Magnocellulaires)** | **P (Parvocellulaires)** |
+|---|---|---|
+| Taille | Grandes | Petites |
+| Vitesse | Rapides | Lentes |
+| Résolution spatiale | Basse | **Haute** |
+| Résolution temporelle | **Haute** | Basse |
+| Couleur | Non | **Oui** |
+| Rôle | Mouvement, stimuli soudains | Couleur, texture, formes |
+| Alimentation LGN | Couches magnocellulaires | Couches parvocellulaires |
+
+---
+
+# Voies Visuelles & Cortex
+
+## Chaîne de traitement complète
+
+```{.mermaid}
+graph TD
+    R[Rétine\nPhotorécepteurs → Ganglionnaires] --> OC[Chiasma optique\nDécussation fibres nasales]
+    OC --> LGN[LGN\n2 couches M + 4 couches P]
+    LGN --> V1[V1 Cortex visuel primaire\nCellules simples + complexes]
+    V1 --> D[Flux DORSAL\nWHERE — Mouvement, localisation]
+    V1 --> V[Flux VENTRAL\nWHAT — Reconnaissance objets]
+    D --> CP[Cortex pariétal]
+    V --> CT[Cortex temporal\nFFA, PPA...]
+```
+
+## LGN — à retenir
+
+- **1 LGN par hémisphère**
+- **6 couches** : 2 magnocellulaires (M) + 4 parvocellulaires (P)
+- **Rétinotopie préservée** dans toutes les couches
+- Tous les neurones : organisation **centre-entourage**
+
+## V1 — 3 types de cellules (Hubel & Wiesel, Prix Nobel)
+
+1. **Centre-entourage** : identiques au LGN
+
+2. **Cellules simples** :
+   - Champs récepteurs allongés (excitateur + inhibiteur)
+   - Répondent à des **contours à orientation et position précises**
+   - Construites à partir de plusieurs champs centre-entourage alignés
+
+3. **Cellules complexes** :
+   - Plus abstraites, **partiellement invariantes à la position**
+   - Répondent à des contours orientés sur une *plage* de positions
+
+## Hiérarchie feedforward
+
+$$\text{Centre-entourage} \rightarrow \text{Simple} \rightarrow \text{Complexe}$$
+
+- Spécificité croissante à la **forme**
+- Généralité croissante aux **conditions d'observation**
+- ⇒ Base de la **reconnaissance d'objets**
+
+## Hypercolonnes dans V1
+
+Organisation spatiale minimisant la distance entre neurones pour des stimuli similaires selon :
+
+- **Œil d'origine** (gauche / droit)
+- **Orientation préférée**
+- **Localisation rétinotopique**
+
+> *Règle de Hebb : « Neurons that fire together, wire together. »*
+
+## Contrast Sensitivity Function (CSF)
+
+- Pic de sensibilité : $\approx 4$–$6$ cycles par degré (cpd)
+- Limite supérieure : $\approx 60$ cpd (densité de paquement des cônes)
+- La courbe **se déplace** avec la distance d'observation
+
+## Flux ventral — progression
+
+| Niveau | Champ récepteur | Latence | Spécialité |
+|---|---|---|---|
+| LGN | $1°$ | — | Centre-entourage |
+| V1 | $1°$ | 40–60 ms | Orientation |
+| V2 | $1{,}3°$ | 50–70 ms | — |
+| V4 | $4{,}8°$ | 60–80 ms | Couleur, formes |
+| TEO | $5{,}8°$ | 70–90 ms | Combinaisons de features |
+| TE | $12°$ | 80–100 ms | Indépendance de vue |
+
+---
+
+# Lien avec la Vision Computationnelle
+
+## Inspirations biologiques → algorithmes
+
+| Biologie | Algorithme / Modèle |
+|---|---|
+| Sélectivité d'orientation V1 | **SIFT**, **HOG** |
+| Cellules simples (filtres orientés) | Couches de **convolution** |
+| Cellules complexes (invariance locale) | Couches de **pooling** |
+| Hiérarchie flux ventral | **Neocognitron** → **CNN** |
+
+## Neocognitron (Fukushima, 1980)
+
+$$U_0 \rightarrow U_{S1} \rightarrow U_{C1} \rightarrow U_{S2} \rightarrow U_{C2} \rightarrow U_{S3} \rightarrow U_{C3}$$
+
+- Couches $U_S$ (type simple) : synapses **modifiables**
+- Couches $U_C$ (type complexe) : synapses **fixes**, invariance position
+
+## LeNet (LeCun et al., 1998)
+
+$$\text{Image} \rightarrow \text{Conv} \rightarrow \text{Pool} \rightarrow \text{Conv} \rightarrow \text{Pool} \rightarrow \text{Dense} \rightarrow \text{Sortie}$$
+
+---
+
+# Applications — Affichages 3D & VR
+
+## Principe de la stéréoscopie
+
+Deux images légèrement décalées (disparité binoculaire) → chaque œil reçoit son image → le cerveau perçoit la **profondeur**.
+
+## Conflit Vergence-Accommodation (VAC)
+
+⚠️ **Problème central des affichages stéréoscopiques** :
+
+| | Monde réel | Affichage stéréo classique |
+|---|---|---|
+| **Vergence** | Distance de l'objet | Distance virtuelle (disparité) |
+| **Accommodation** | Distance de l'objet | Distance physique de l'écran (fixe) |
+| **Couplage** | ✅ Toujours couplés | ❌ Découplés → **conflit** |
+
+**Effets du VAC :**
+
+- Inconfort visuel, fatigue, nausées
+- Vision dédoublée (*diplopic vision*)
+- Dégradation de la qualité d'image perçue
+- Risque de pathologies (systèmes visuels en développement)
+
+## Solutions au VAC
+
+- **Gaze-contingent Focus Displays** : eye tracking + déplacement mécanique du plan focal
+- **Near-eye Light Field Displays** : simulation de plusieurs plans focaux simultanément
+- **Affichages holographiques** : reconstruction complète du front d'onde → accommodation naturelle
+
+## Zone de Confort
+
+Plus la **distance d'observation est grande**, plus la zone de confort s'élargit :
+
+$$\text{Mobile} < \text{Desktop} < \text{TV} < \text{Cinéma}$$
+
+---
+
+# Points Clés Absolus à Retenir
+
+- **Bâtonnets** → sensibilité, mouvement, nuit — **Cônes** → résolution, couleur, jour
+- **Cellules M** → temporel (mouvement) — **Cellules P** → spatial (couleur, forme)
+- **Flux dorsal** → *Where* — **Flux ventral** → *What*
+- **V1** : cellules simples (orientation précise) → complexes (invariance partielle)
+- **CSF** peak : $4$–$6$ cpd
+- **VAC** = problème fondamental des affichages 3D
+- **CNN** = implémentation computationnelle de la hiérarchie flux ventral

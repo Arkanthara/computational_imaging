@@ -86,7 +86,7 @@ En revanche, l'imagerie traditionnelle vise à **traiter des images déjà recon
 
 #### Imagerie traditionnelle
 
-```{.mermaid}
+```{mermaid}
 flowchart LR
     A[Monde réel] --> B[Optique]
     B --> C[Image capturée]
@@ -99,7 +99,7 @@ flowchart LR
 
 #### Computational Imaging
 
-```{.mermaid}
+```{mermaid}
 flowchart LR
     A[Monde réel] --> B["Optique\ngénéralisée (?)"]
     B --> C["Représentation\ncodée (?)"]
@@ -116,7 +116,7 @@ flowchart LR
 
 Le *computational imaging* se situe à l'intersection de trois domaines :
 
-```{.mermaid}
+```{mermaid}
 flowchart TD
     subgraph Monde_physique["Monde physique/analogique"]
         M[Mathématiques]
@@ -142,7 +142,7 @@ Deux caractéristiques essentielles :
 
 Le *computational imaging* se situe principalement au niveau de l'**optique géométrique**, enrichie par le traitement du signal moderne :
 
-```{.mermaid}
+```{mermaid}
 flowchart LR
     EM["Électromagnétisme\n(E&M)"]
     WO["Optique ondulatoire\n(Wave Optics)"]
@@ -178,7 +178,7 @@ Cela implique :
 
 #### Exemple : Computational Displays
 
-```{.mermaid}
+```{mermaid}
 flowchart LR
     CPU[Calcul] --> OE["Optique &\nÉlectronique"]
     OE --> HVS["Système visuel\nhumain"]
@@ -187,7 +187,7 @@ flowchart LR
 
 #### Exemple : Computational Imaging (caméra)
 
-```{.mermaid}
+```{mermaid}
 flowchart LR
     O[Optique] --> S[Capteur]
     S --> C[Calcul]
@@ -221,7 +221,7 @@ Le *computational imaging* s'applique dans de nombreux domaines :
 
 Le pipeline complet d'une caméra numérique illustre le *computational imaging* :
 
-```{.mermaid}
+```{mermaid}
 flowchart TD
     A["Projection lumineuse\n(Light Projection)"]
     B["Amplification et quantification\nde l'énergie"]
@@ -407,7 +407,7 @@ Le concept de **Deep Optics** consiste à **optimiser conjointement** les compos
 
 #### Principe général
 
-```{.mermaid}
+```{mermaid}
 flowchart LR
     subgraph Physical["Couche physique"]
         L["Optique\n(lentille)"]
@@ -450,7 +450,7 @@ L'imagerie computationnelle permet d'analyser de manière **non invasive** la st
 
 Une peinture est une structure multicouche :
 
-```{.mermaid}
+```{mermaid}
 flowchart TD
     V["Vernis / Glacis\n(Varnish/Glazes)"]
     P["Couches de peinture\n(Paint layers)"]
@@ -524,7 +524,7 @@ Le **NLOS** (*Non-Line-Of-Sight*) imaging permet de **reconstruire des objets ca
 
 #### Principe
 
-```{.mermaid}
+```{mermaid}
 flowchart LR
     L["Laser picoseconde\n(pulsé)"]
     M["Miroirs galvanométriques\n(2 axes)"]
@@ -572,7 +572,7 @@ La profondeur est récupérée grâce au **temps de vol** de la lumière :
 - Conflits dans les affichages (*displays*)
 - Erreurs réfractives
 
-```{.mermaid}
+```{mermaid}
 flowchart LR
     E["Œil\n(capteurs)"] --> N["Nerf optique\n(réseau)"] --> B["Cortex visuel\n(calcul)"]
 ```

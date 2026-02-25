@@ -28,11 +28,18 @@ website:
         contents:
           - section: "Introduction"
             contents:
-              - section: "Details"
-                contents: ch1c.qmd
+              - text: "Details"
+                href: ch1c.qmd
               - ch1.qmd
-              - section: "Synthese"
-                contents: ch1r.qmd
+              - text: "Synthese"
+                href: ch1r.qmd
+          - section: "Human Visual System"
+            contents:
+              - text: "Details"
+                href: ch2c.qmd
+              - ch2.qmd
+              - text: "Synthese"
+                href: ch2r.qmd
 
 
 format:

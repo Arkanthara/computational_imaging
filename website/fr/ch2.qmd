@@ -1,0 +1,286 @@
+# Human Visual System
+
+## Introduction
+
+### Biological imaging systems
+L’être humain possède un système visuel complexe, fruit d’une longue évolution. L’œil humain en est le composant principal, mais le traitement de l’information visuelle se poursuit dans le cortex visuel primaire. Ce cours explore les différentes facettes de ce système, de son anatomie à ses applications technologiques.
+
+### Échelle de temps géologique
+L’apparition des systèmes d’imagerie biologiques s’étend sur des centaines de millions d’années. Voici quelques jalons :
+
+- **Nautilus belauensis** (450 millions d’années) – œil primitif sans cristallin.
+- **Reptiles** (200 millions d’années) – vision évoluée avec des cônes pour la couleur.
+- **Oiseaux** (155 millions d’années) – acuité visuelle exceptionnelle, parfois double fovéa.
+- **Mammifères** (125 millions d’années) – vision adaptée à différents environnements.
+- **Hominidés** (Australopithecus, Homo habilis, erectus, neanderthalensis, sapiens) – évolution récente (3 millions d’années) avec une vision stéréoscopique et une grande acuité.
+
+### Évolution de l’œil
+L’œil s’est perfectionné progressivement : apparition de la cornée, du cristallin, de la rétine, et de la fovéa. Cette évolution illustre l’adaptation aux besoins de survie (chasse, reconnaissance des prédateurs, etc.).
+
+## Interprétation du système visuel humain à travers l’histoire
+
+### Théories extramissives
+- **Platon (350 av. J.-C.)** : une lumière sort de nos yeux, semblable à celle du soleil, et va « éclairer » les objets.
+- **Chalcidius (Moyen Âge)** : la vision résulte de trois lumières – celle de l’œil, celle extérieure, et celle des corps visibles.
+- Autres croyances non matérielles (vision spirituelle, « mauvais œil »).
+
+### Difficultés des théories extramissives
+- Pourquoi voit‑on instantanément des objets éloignés en ouvrant les yeux ?
+- Pourquoi les systèmes visuels de plusieurs personnes regardant le même objet n’interfèrent‑ils pas ?
+- Que se passe‑t‑il si les yeux sont fermés au retour de l’esprit visuel ?
+- Les objets émettent‑ils des « images matérielles » (Aristote) ? Comment une grande montagne pourrait‑elle entrer dans l’œil ?
+
+### Alhazen (Abu Ali al-Hasan ibn al-Hasan ibn al-Haytham, 1040)
+- Plus grand opticien du Moyen Âge.
+- Les corps lumineux (Soleil, Lune) émettent de la lumière qui se propage en ligne droite.
+- Lorsqu’elle frappe un objet, la lumière est irradiée dans toutes les directions.
+- Notion de milieu transparent ou opaque.
+- Théorie pointilliste : nous voyons une collection de points à la surface des objets.
+- Première explication géométrique de la correspondance un‑à‑un entre le monde et l’image formée dans l’œil.
+
+### Formation de l’image selon Alhazen
+- Un rayon lumineux part de la source et voyage en ligne droite.
+- Il frappe un objet, puis est réfléchi et/ou réfracté.
+- Si l’objet est notre cristallin, la lumière utile pour la vision est celle qui est réfractée.
+
+### Réfraction : Ptolémée et Alhazen
+- Ptolémée (150 av. J.-C.) connaissait les phénomènes de réfraction.
+- Problème d’Alhazen : puisque la lumière d’un point de surface atteint toute la surface de l’œil, comment voyons‑nous une seule image de ce point ?
+    - Il supposa que seul le rayon perpendiculaire à l’œil affecte la vision, les autres étant trop réfractés donc « affaiblis ».
+    - En réalité, les propriétés optiques du cristallin concentrent tous ces rayons en un seul point focal (dans des conditions favorables).
+
+### Johannes Kepler (1571–1630)
+- Fondateur des théories modernes de l’optique.
+- La lumière s’écoule ou est émise par sa source vers un lieu éloigné.
+- Depuis un point, la lumière se propage selon une infinité de lignes droites.
+- La lumière peut aller jusqu’à l’infini.
+- Les lignes d’émission sont droites et appelées **rayons**.
+
+**Théorie rétinienne de Kepler** : bien que des rayons provenant de plusieurs points de la surface frappent le même point du cristallin, ils arrivent sous des directions différentes. Ils sont donc réfractés dans des directions différentes, séparés par le cristallin, et forment une image inversée sur la rétine.
+
+### Théories modernes de la vision
+Trois courants principaux contribuent à notre compréhension :
+
+- **Psychologie de la perception** : fonctionnalités.
+- **Neurophysiologie** : explications des mécanismes.
+- **Vision par ordinateur** : modélisation et problèmes.
+
+**Partition actuelle** :
+
+- **Vision bas niveau (précoce)** : parallélisme, multiplexage, partitionnement.
+- **Vision haut niveau** : modularité.
+
+## Résumé des caractéristiques du système visuel humain
+
+### Acuité visuelle
+- Une vision 20/20 correspond environ à **1 minute d’arc**.
+
+### Champ visuel
+- Horizontal : environ **200°** (dont 120° binoculaire et 40° monoculaire pour chaque œil).
+- Vertical : environ **135°**.
+
+### Résolution temporelle
+- Environ **60 Hz** (dépend du contraste et de la luminance).
+
+### Plage dynamique
+- Instantanée : **6,5 diaphragmes (f‑stops)**.
+- Adaptative : jusqu’à **46,5 diaphragmes** (grâce à l’adaptation à la lumière).
+
+### Couleur
+- Représentée dans le diagramme CIE xy ; les distances perçues sont linéaires dans l’espace CIE Lab.
+
+### Accommodation
+- Distance de mise au point : d’environ **8 cm à l’infini**, diminue avec l’âge.
+
+## Anatomie de l’œil humain
+
+### Structure générale
+L’œil est un organe complexe composé de :
+
+- Cornée
+- Humeur aqueuse
+- Iris
+- Cristallin
+- Humeur vitrée
+- Rétine
+- Nerf optique
+
+### La rétine
+La rétine est une fine couche de tissu nerveux tapissant le fond de l’œil. Elle contient trois couches de cellules :
+
+1. **Cellules photoréceptrices** (cônes et bâtonnets).
+2. **Cellules collectrices** (cellules bipolaires, cellules horizontales, cellules amacrines).
+3. **Cellules ganglionnaires** rétiniennes.
+
+#### Compromis sensibilité / résolution spatiale
+Deux systèmes parallèles :
+
+- **Bâtonnets** : dédiés à la sensibilité à la lumière (vision scotopique, basse lumière). Convergence importante vers les cellules collectrices et ganglionnaires → image basse résolution mais persistante en faible éclairage.
+- **Cônes** : dédiés à la résolution spatiale (vision photopique, bonne lumière). Convergence limitée → image haute résolution.
+
+## Mosaïque des photorécepteurs
+
+### Types de photorécepteurs
+- **Cônes** (environ 7 millions) : vision des couleurs.
+    - Trois types : S (bleu, courte longueur d’onde), M (vert, moyenne), L (rouge, longue).
+- **Bâtonnets** (environ 120 millions) : vision en niveaux de gris, sensibles à la lumière.
+
+### Répartition sur la rétine
+```{.mermaid}
+xychart-beta
+    title "Densité des photorécepteurs en fonction de l’excentricité"
+    x-axis ["Nasale", "Fovéa", "Temporelle"]
+    y-axis "Densité (x1000/mm²)" 0 --> 200
+    line "Cônes" [10, 150, 10]
+    line "Bâtonnets" [100, 0, 100]
+```
+- **Fovéa** : concentre les cônes, responsable de la vision fine.
+- **Périphérie** : dominée par les bâtonnets.
+- **Point aveugle** : absence de photorécepteurs (sortie du nerf optique).
+
+### Sensibilité lumineuse
+Après adaptation à l’obscurité, un seul bâtonnet peut répondre à **un unique photon**.
+
+### Limitations de la vision humaine
+- Présence de vaisseaux sanguins et d’autres cellules devant les photorécepteurs (ombres portées).
+- Luminosité non uniforme.
+- Image inversée sur la rétine (corrigée par le cerveau).
+- Haute résolution uniquement dans la fovéa.
+- Un seul point de fovéa chez l’homme (contrairement à certains oiseaux ou guépards qui en ont deux).
+- Point aveugle.
+
+### Comparaison œil / appareil photo
+- L’œil est comparable à un appareil photo avec une lentille (cornée + cristallin), un diaphragme (iris), et un capteur (rétine).
+- La mise au point se fait par déformation du cristallin (accommodation), alors qu’un objectif se déplace.
+- La rétine a une résolution variable (fovéa haute, périphérie basse), tandis qu’un capteur numérique a une résolution uniforme.
+
+## Cellules ganglionnaires rétiniennes
+
+### Première étape de traitement visuel
+Les cellules ganglionnaires remplacent les niveaux d’illumination absolus par une carte rétinotopique de **différences**.
+
+#### Organisation centre‑pourtour des champs récepteurs
+- Cellules **on‑centre / off‑pourtour** : excitées par la lumière au centre, inhibées par la lumière à la périphérie.
+- Cellules **off‑centre / on‑pourtour** : inhibées par la lumière au centre, excitées par la lumière à la périphérie.
+
+**Pourquoi ?** Les objets ne sont pas associés à une luminosité absolue, mais à des différences de luminosité avec le fond. Amplifier les différences évite de devoir représenter toute la plage dynamique. C’est la base de la perception des objets.
+
+### Cellules M et P
+Deux types principaux de cellules ganglionnaires, qui alimentent les voies magnocellulaires (M) et parvocellulaires (P) du corps genouillé latéral (LGN).
+
+| Type | Entrée | Sensibilité temporelle | Sensibilité spatiale | Rôle |
+|------|--------|------------------------|----------------------|------|
+| **M** | Grand nombre de photorécepteurs | Élevée (réponses transitoires) | Basse | Perception du mouvement, stimuli soudains |
+| **P** | Petit nombre de photorécepteurs | Faible | Élevée | Couleur, texture, formes (perception des objets) |
+
+- Les cellules M sont plus grandes, avec des vitesses de conduction nerveuse plus rapides.
+- Les cellules P montrent une sensibilité aux couleurs, pas les M.
+
+## Cortex visuel primaire (V1)
+
+### Anatomie des voies visuelles
+- Les axones des cellules ganglionnaires forment le **nerf optique**.
+- Au niveau du chiasma optique, une partie des fibres croise, puis le tractus optique projette vers différentes structures, principalement le **corps genouillé latéral (LGN)**.
+
+### Corps genouillé latéral (LGN)
+- Un LGN dans chaque hémisphère cérébral.
+- Composé de couches :
+    - **Couches magnocellulaires** (deux) : entrée des cellules M → meilleure résolution temporelle.
+    - **Couches parvocellulaires** (quatre) : entrée des cellules P → meilleure résolution spatiale, sensibilité aux longueurs d’onde.
+- Les neurones de toutes les couches présentent une organisation centre‑pourtour.
+- Rétinotopie préservée : l’image projetée sur la rétine est maintenue dans le LGN et au‑delà.
+
+### Aire visuelle primaire V1
+- Prix Nobel à David H. Hubel et Torsten N. Wiesel (1962) pour la découverte des propriétés des cellules de V1.
+- Trois types de cellules :
+
+1. **Centre‑pourtour** (similaires aux cellules ganglionnaires).
+2. **Cellules simples** :
+    - Zones excitatrices et inhibitrices allongées.
+    - Répondent à des contours orientés à une position et une orientation spécifiques.
+3. **Cellules complexes** :
+    - Répondent à des contours orientés, mais de manière plus abstraite, partiellement indépendante de la position dans le champ visuel.
+
+### Modélisation des cellules simples
+Les cellules simples peuvent être modélisées par une convolution avec un noyau linéaire (ex. filtres de Gabor) suivi d’une non‑linéarité.
+
+### Hiérarchie et spécificité
+Les réponses des cellules deviennent de plus en plus spécifiques quant à la forme du stimulus (ex. contours orientés, formes complexes) et de plus en plus générales quant aux conditions de vision (position, échelle, etc.). Cette double tendance est essentielle pour la reconnaissance d’objets.
+
+### Hypercolonnes dans le cortex visuel
+Organisation spatiale des neurones pour minimiser la distance entre ceux qui représentent des stimuli similaires selon trois dimensions :
+
+- Œil d’origine (dominance oculaire).
+- Orientation.
+- Position rétinotopique.
+
+**Règle de Hebb** : les neurones qui déchargent ensemble se connectent ensemble.
+
+### Voies dorsale et ventrale
+- **Voie dorsale** (occipito‑parétale) : traitement du mouvement et de la localisation (« où »).
+- **Voie ventrale** (occipito‑temporale) : traitement de la forme et de l’identité (« quoi »).
+
+```{.mermaid}
+graph TD
+    A[Rétine] --> B[LGN]
+    B --> C[V1]
+    C --> D[V2]
+    D --> E{V2 / V4 / etc.}
+    E --> F[Voie dorsale]
+    E --> G[Voie ventrale]
+    F --> H[Cortex pariétal]
+    G --> I[Cortex temporal inférieur]
+    I --> J[Reconnaissance d'objets]
+```
+
+### Connectivité intrinsèque et extrinsèque de la voie ventrale
+De nombreuses connexions bidirectionnelles et feedback existent, mais les modèles computationnels actuels sont encore largement feedforward.
+
+### Inspiration pour la vision par ordinateur
+- La sélectivité à l’orientation dans V1 a inspiré des descripteurs comme **SIFT** et **HOG**.
+- La vision hiérarchique feedforward a conduit au **néocognitron** (Fukushima) puis aux **réseaux convolutifs** (LeCun et al.).
+- Aujourd’hui, on sait que la voie ventrale est plus complexe (boucles de rétroaction), ce qui n’a pas encore été pleinement exploité en vision par ordinateur.
+
+## Modèles de réseaux inspirés du système visuel humain
+
+### Néocognitron (Kunihiko Fukushima)
+- Modèle de réseau de neurones auto‑organisé pour la reconnaissance de formes insensible aux décalages.
+- S’inspire directement de la hiérarchie de Hubel et Wiesel (cellules simples et complexes).
+
+### Gradient‑Based Learning Applied to Document Recognition (LeCun et al.)
+- Introduction des réseaux convolutifs (LeNet) pour la reconnaissance de documents.
+- Architecture en couches alternant convolution et pooling, inspirée des cellules simples et complexes.
+
+## Applications
+
+### Affichages stéréoscopiques
+- Le stéréoscope de Charles Wheatstone (1841) utilisait deux images légèrement décalées pour créer une illusion de relief.
+- Utilisé pour des portraits stéréoscopiques (ex. Abraham Lincoln, 1865).
+
+### Réalité virtuelle (VR) et augmentée (AR)
+Les casques VR/AR modernes tentent de reproduire la vision binoculaire avec des écrans distincts pour chaque œil.
+
+### Problème de conflit vergence‑accommodation
+- Dans le monde réel, la vergence (rotation des yeux pour fixer un objet) et l’accommodation (mise au point du cristallin) sont **couplées** : elles agissent à la même distance.
+- Dans les affichages stéréoscopiques actuels, l’accommodation est fixée sur l’écran, tandis que la vergence change avec la distance virtuelle. Ce conflit entraîne :
+    - Fatigue visuelle
+    - Gêne
+    - Nausées
+    - Vision double (diplopie)
+    - Baisse de qualité d’image
+    - Risques pour le développement visuel chez l’enfant
+
+```{.mermaid}
+graph LR
+    A[Monde réel] --> B[Vergence = Accommodation]
+    C[Écran stéréo] --> D[Vergence ≠ Accommodation]
+    D --> E[Conflit]
+    E --> F[Inconfort]
+```
+
+### Zone de confort
+Pour éviter ce conflit, les ingénieurs cherchent à concevoir des affichages où la distance d’accommodation peut varier en fonction de la distance virtuelle (affichages multiplans, holographiques, etc.).
+
+---
+
+Ce cours a présenté une vue d’ensemble du système visuel humain, de son anatomie à son fonctionnement, en passant par son histoire et ses applications. La compréhension de ces mécanismes est essentielle pour la conception de systèmes d’imagerie computationnelle et de réalité virtuelle/augmentée.

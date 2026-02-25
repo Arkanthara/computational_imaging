@@ -29,7 +29,7 @@ L’imagerie computationnelle se distingue de l’imagerie classique par le fait
 
 L’imagerie computationnelle peut être définie comme le processus consistant à former indirectement des images à partir de mesures, en utilisant des algorithmes qui reposent sur une quantité importante de calcul. Elle représente une rupture avec la chaîne traditionnelle où la physique du dispositif, le traitement d’image et l’application finale sont considérés séparément. Il s’agit désormais de considérer l’imagerie comme un modèle intégré de perception et d’inférence, faisant le pont entre le monde physique/analogique et le monde numérique.
 
-```{.mermaid}
+```{mermaid}
 graph TD
     A[Monde physique] --> B[Encodage optique<br/>Nouvelles optiques, capteurs, éclairages]
     B --> C[Représentation intermédiaire<br/>Mesures brutes]
