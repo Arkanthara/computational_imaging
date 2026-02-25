@@ -1,2 +1,6 @@
 *.venv
 *python*
+*_files
+*_cache
+*ipynb
+*website

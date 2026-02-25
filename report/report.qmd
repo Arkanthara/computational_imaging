@@ -1,0 +1,67 @@
+---
+format: typst
+execute:
+  echo: false
+  cache: true
+---
+
+```{=typst}
+// Main report file
+#import "template.typ": make-report, report-footnote
+#import "metadata.typ": my-report
+#import "@preview/theofig:0.1.0": definition
+
+// Main content
+#show: make-report.with(my-report)
+```
+
+# Introduction
+
+
+# Methodology <methodology>
+
+
+# Implementation <impl>
+
+
+# Results
+
+```{python}
+#| label: fig-task11
+#| fig-cap: "Low Pass Filter"
+import sys
+sys.path.append("../code")
+from tp1 import tasks
+
+tasks(1, 1)
+```
+
+```{python}
+#| label: fig-task12
+#| fig-cap: "High Pass Filter"
+
+tasks(1, 2)
+```
+
+```{python}
+#| label: fig-task21
+#| fig-cap: "Inverse Filter"
+
+tasks(2, 1)
+```
+
+```{python}
+#| label: fig-task22
+#| fig-cap: "Wiener Filter"
+
+tasks(2, 2)
+```
+
+```{=typst}
+= Discussion
+```
+
+Blabla
+Blabla
+
+# Conclusion

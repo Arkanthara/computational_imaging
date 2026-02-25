@@ -204,27 +204,18 @@ def run_sgd(
     return x, losses, time_list
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="TP1 of computational imaging")
-    parser.add_argument(
-        "-t",
-        "--task",
-        type=int,
-        default=3,
-        help="Enter the number of the task to execute",
+def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8)):
+    cameraman = sk.io.imread(
+        "/home/fitzwilliam/Documents/computational_imaging/code/img/cameraman.jpg",
+        as_gray=True,
     )
-
-    args = parser.parse_args()
-
-    cameraman = sk.io.imread("img/cameraman.jpg", as_gray=True)
     cameraman = sk.util.img_as_float(cameraman)
     print_range(cameraman)
-
     # TASK 1
     # 1.1 Low-pass filtering in frequency domain (using np.convolve2d !)
-    if args.task == 1:
+    if task == 1 and subtask == 1:
         index = 1
-        plt.figure()
+        plt.figure(figsize=figsize)
         plt.suptitle("Gaussian blur")
         for i in [0.1, 1, 10]:
             # Create filter
@@ -252,9 +243,10 @@ if __name__ == "__main__":
             index += 1
         plt.show()
 
+    elif task == 1 and subtask == 2:
         # 1.2 High-pass filtering (HighPass = Img - LowPass(Img))
         index = 1
-        plt.figure()
+        plt.figure(figsize=figsize)
         for i in [0.1, 1, 10]:
             # Create filter
             plt.subplot(3, 3, index)
@@ -284,12 +276,10 @@ if __name__ == "__main__":
 
     # TASK 2
     # Blur image
-    elif args.task == 2:
+    elif task == 2 and subtask == 1:
         cameraman_blured = filterFT(cameraman, gaussianKernel(5))
-
-        # 2.1
         index = 1
-        plt.figure()
+        plt.figure(figsize=figsize)
         for i in [0, 0.001, 0.01, 0.1]:
             plt.subplot(2, 2, index)
             # Add noise
@@ -304,8 +294,10 @@ if __name__ == "__main__":
             index += 1
         plt.show()
 
+    elif task == 2 and subtask == 2:
+        cameraman_blured = filterFT(cameraman, gaussianKernel(5))
         index = 1
-        plt.figure()
+        plt.figure(figsize=figsize)
         for i in [0, 0.001, 0.01, 0.1]:
             plt.subplot(2, 2, index)
 
@@ -324,7 +316,7 @@ if __name__ == "__main__":
         plt.show()
 
     # TASK 3: Gradient descent
-    elif args.task == 3:
+    elif task == 3:
         # Classical gradient descent
         A = np.random.rand(500, 100)
         b = np.random.rand(500, 1)
@@ -358,3 +350,18 @@ if __name__ == "__main__":
         plt.xlabel("step")
         plt.ylabel("time")
         plt.show()
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="TP1 of computational imaging")
+    parser.add_argument(
+        "-t",
+        "--task",
+        type=int,
+        default=3,
+        help="Enter the number of the task to execute",
+    )
+
+    args = parser.parse_args()
+
+    tasks(args.task)
