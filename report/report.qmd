@@ -2,7 +2,7 @@
 format: typst
 execute:
   echo: false
-  cache: true
+  cache: false
 ---
 
 ```{=typst}
@@ -45,16 +45,14 @@ tasks(1, 2)
 
 ```{python}
 #| label: fig-task21
-#| fig-cap: "Inverse Filter"
 
-tasks(2, 1)
+tasks(2, 1, (6, 6))
 ```
 
 ```{python}
 #| label: fig-task22
-#| fig-cap: "Wiener Filter"
 
-tasks(2, 2)
+tasks(2, 2, (6, 6))
 ```
 
 ```{=typst}

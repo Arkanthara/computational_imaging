@@ -278,6 +278,16 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8)):
     # Blur image
     elif task == 2 and subtask == 1:
         cameraman_blured = filterFT(cameraman, gaussianKernel(5))
+        plt.figure()
+        plt.subplot(1, 2, 1)
+        plt.imshow(cameraman, cmap="gray")
+        plt.axis("off")
+        plt.title("Original image")
+        plt.subplot(1, 2, 2)
+        plt.imshow(cameraman_blured, cmap="gray")
+        plt.axis("off")
+        plt.title("Blured image")
+        plt.show()
         index = 1
         plt.figure(figsize=figsize)
         for i in [0, 0.001, 0.01, 0.1]:
@@ -296,6 +306,16 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8)):
 
     elif task == 2 and subtask == 2:
         cameraman_blured = filterFT(cameraman, gaussianKernel(5))
+        plt.figure()
+        plt.subplot(1, 2, 1)
+        plt.imshow(cameraman, cmap="gray")
+        plt.axis("off")
+        plt.title("Original image")
+        plt.subplot(1, 2, 2)
+        plt.imshow(cameraman_blured, cmap="gray")
+        plt.axis("off")
+        plt.title("Blured image")
+        plt.show()
         index = 1
         plt.figure(figsize=figsize)
         for i in [0, 0.001, 0.01, 0.1]:
