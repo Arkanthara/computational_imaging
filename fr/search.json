@@ -1,185 +1,1054 @@
 [
   {
+    "objectID": "ch2c.html",
+    "href": "ch2c.html",
+    "title": "Système Visuel Humain",
+    "section": "",
+    "text": "Cours 14X062 — Computational Imaging Taras Holotyak — Université de Genève, Département d’Informatique",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#chronologie-géologique",
+    "href": "ch2c.html#chronologie-géologique",
+    "title": "Système Visuel Humain",
+    "section": "Chronologie géologique",
+    "text": "Chronologie géologique\nLa vision est le résultat d’une longue évolution biologique s’étendant sur des centaines de millions d’années. Voici les grandes étapes de l’apparition des systèmes d’imagerie dans le règne animal :\n\n\n\n\n\n\n\n\nÉpoque\nCréature\nÂge approximatif\n\n\n\n\nPaléozoïque\nNautilus belauensis\n~450 millions d’années\n\n\nMésozoïque\nOctopus\n~200 millions d’années\n\n\nMésozoïque\nReptiles\n~200 millions d’années\n\n\nMésozoïque\nOiseaux\n~155 millions d’années\n\n\nCrétacé\nAraignées\n~130 millions d’années\n\n\nCrétacé\nMammifères\n~125 millions d’années\n\n\nQuaternaire\nHomo sapiens (via Australopithecus → Homo habilis → Homo erectus → Homo neanderthalensis)\n~3 millions d’années",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#évolution-de-lœil",
+    "href": "ch2c.html#évolution-de-lœil",
+    "title": "Système Visuel Humain",
+    "section": "Évolution de l’œil",
+    "text": "Évolution de l’œil\nL’œil a évolué de manière progressive à travers six étapes fonctionnelles clés :\n\nRégion de cellules photosensibles — présence de photorécepteurs et de fibres nerveuses sans structure directionnelle\nZone déprimée/repliée — permet une sensibilité directionnelle limitée\nŒil à sténopé (pinhole) — chambre remplie d’eau, sensibilité directionnelle fine, imagerie limitée\nDéveloppement d’une humeur transparente — la chambre se ferme, une rétine apparaît avec une humeur transparente\nDéveloppement d’un cristallin distinct — apparition de la cornée et d’un cristallin, focalisation améliorée\nDéveloppement de l’iris et de la cornée séparée — structure finale avec : cristallin, humeur aqueuse, cornée, iris, nerf optique, rétine, humeur vitrée",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#interprétations-historiques",
+    "href": "ch2c.html#interprétations-historiques",
+    "title": "Système Visuel Humain",
+    "section": "Interprétations historiques",
+    "text": "Interprétations historiques\n\nThéories extromissives\nLes premières théories sur la vision supposaient que l’œil émettait quelque chose vers les objets.\nPlaton (~350 av. J.-C.) proposait que de nos yeux s’écoule une lumière similaire à celle du soleil. Chalcidius (Moyen Âge) résumait cette vision tripartite :\n\n« La cause de la vision est triple : la lumière de la chaleur innée traversant les yeux, la lumière extérieure congénère à notre propre lumière, et la lumière qui s’écoule des corps visibles. »\n\nD’autres théories non matérielles (spirituelles, le « mauvais œil ») relevaient du même paradigme extromissif.\n\n\nDifficultés des théories extromissives\nCes théories se heurtaient à de nombreux problèmes :\n\nPourquoi voyons-nous des objets lointains instantanément à l’ouverture des yeux ?\nPourquoi les systèmes visuels de plusieurs personnes regardant le même objet ne s’interfèrent-ils pas ?\nQue se passe-t-il si les yeux sont fermés quand l’esprit visuel revient ?\nAristote (~330 av. J.-C.) proposait que les objets créent des « images matérielles » transportées dans l’atmosphère et entrant dans l’œil — mais comment les images d’objets grands peuvent-elles entrer dans l’œil ?\n\n\n\nAlhazen et la théorie intromissive\nAbu Ali al-Hassan ibn al-Hasan ibn al-Haytham (Alhazen, ~1040) — considéré comme le plus grand scientifique en optique du Moyen Âge — rompt avec les théories extromissives :\n\nCorps auto-lumineux : le soleil, la lune, les flammes émettent de la lumière\nLa lumière voyage en ligne droite\nQuand la lumière frappe un objet, elle irradie en tous sens\nConcept de milieu : transparent vs opaque\nThéorie pointilliste de la vision : on perçoit une collection de points à la surface des objets\nThéorie géométrique expliquant la correspondance biunivoque entre le monde et l’image formée dans nos yeux\n\n\n\nFormation des images\nLe mécanisme physique de formation d’image repose sur deux phénomènes :\n\nUn rayon lumineux quitte la source et voyage en ligne droite\nEn frappant un objet, la lumière est :\n\nréfléchie (angle de réflexion = angle d’incidence par rapport à la normale)\nréfractée (déviation à l’interface de deux milieux)\n\nSi l’objet est une lentille, la lumière réfractée est celle utile pour l’imagerie\n\ngraph LR\n    S[Source lumineuse] --&gt; R[Rayon incident]\n    R --&gt; O[Surface]\n    O --&gt; Refl[Rayon réfléchi]\n    O --&gt; Refr[Rayon réfracté]\n\n\nPtolémée, Alhazen et la réfraction\nPtolémée (~150 av. J.-C.) connaissait déjà la réfraction. Alhazen souleva un problème fondamental :\n\nPuisque la lumière d’un point de surface atteint la totalité de la surface de l’œil, comment se fait-il que nous voyions une seule image d’un point ?\n\n\nSa réponse (incorrecte) : seul le rayon entrant perpendiculairement à l’œil affecte la vision ; les autres sont trop réfractés, donc « affaiblis »\nLa réalité : les propriétés optiques du cristallin combinent tous ces rayons en un seul point focalisé dans des conditions favorables\n\n\n\nJohannes Kepler (1571–1630)\nKepler fonde les théories modernes de l’optique :\n\nLa lumière a la propriété de s’écouler depuis sa source vers un point distant\nDepuis tout point, l’écoulement lumineux suit une infinité de lignes droites\nLa lumière est capable de se propager à l’infini\nCes lignes sont appelées rayons\n\nThéorie rétinienne de Kepler :\nBien que des rayons de nombreux points de surface atteignent le même point du cristallin, ils l’approchent depuis des directions différentes. Ils sont donc réfractés dans des directions différentes et séparés par le cristallin — c’est la base de la formation d’image.\n\n\nThéories modernes de la vision\nTrois grands courants contribuent à notre compréhension contemporaine de la vision :\n\nPsychologie de la perception → fonctionnalités et comportements\nNeurophysiologie → mécanismes explicatifs\nVision computationnelle → modèles formels (et nouveaux problèmes)\n\nPartition moderne de la vision humaine :\n\nVision bas niveau (précoce) : parallélisme, multiplexage, partitionnement\nVision haut niveau : modularité, reconnaissance d’objets",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#résumé-du-système-visuel-humain-hvs",
+    "href": "ch2c.html#résumé-du-système-visuel-humain-hvs",
+    "title": "Système Visuel Humain",
+    "section": "Résumé du Système Visuel Humain (HVS)",
+    "text": "Résumé du Système Visuel Humain (HVS)\nLe HVS est caractérisé par les paramètres suivants :\n\nAcuité visuelle\n\nL’acuité 20/20 correspond à une résolution d’environ \\(1\\) minute d’arc\nLa charte de Snellen permet de mesurer cette acuité (de 20/200 à 20/20 et au-delà)\n\n\n\nChamp de vision\n\nHorizontal : \\(\\approx 200°\\) (\\(\\approx 120°\\) binoculaire + \\(\\approx 40°\\) monoculaire par œil)\nVertical : \\(\\approx 135°\\)\n\nVision centrale : \\(60°\\)\nPériphérie supérieure : \\(30°\\)\nPériphérie inférieure : \\(40\\)–\\(45°\\)\n\n\n\n\nRésolution temporelle\n\nFréquence critique de fusion : \\(\\approx 60\\) Hz (dépend du contraste et de la luminance)\n\n\n\nPlage dynamique\n\nInstantanée : 6,5 stops (\\(f\\)-stops)\nAprès adaptation : 46,5 stops (soit \\(\\approx 14\\) ordres de grandeur au total)\nÀ titre comparatif : les écrans actuels couvrent environ 3 ordres de grandeur\n\n\n\nCouleur\n\nTout ce qui se trouve dans le diagramme CIE xy est perceptible\nLes distances perceptuelles sont linéaires dans l’espace CIE Lab\n\n\n\nAccommodation\n\nPlage : \\(\\approx 8\\) cm jusqu’à \\(\\infty\\)\nSe dégrade avec l’âge (vers 50 ans : \\(\\approx 50\\) cm jusqu’à \\(\\infty\\))",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#vue-densemble-du-système-visuel-humain",
+    "href": "ch2c.html#vue-densemble-du-système-visuel-humain",
+    "title": "Système Visuel Humain",
+    "section": "Vue d’ensemble du Système Visuel Humain",
+    "text": "Vue d’ensemble du Système Visuel Humain\nLe HVS peut se décomposer en une chaîne de traitement :\ngraph LR\n    A[Yeux\\ncapteurs] --&gt; B[Réseau nerveux\\nNGC / LGN]\n    B --&gt; C[Cortex visuel\\ncalcul]\n    A:::low\n    B:::low\n    C:::high\n    classDef low fill:#aef,stroke:#333\n    classDef high fill:#fad,stroke:#333\n\nTraitement bas niveau : capteurs (œil) + réseau (nerf optique, LGN)\nTraitement haut niveau : cortex visuel (reconnaissance, interprétation)",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#anatomie-de-lœil-humain",
+    "href": "ch2c.html#anatomie-de-lœil-humain",
+    "title": "Système Visuel Humain",
+    "section": "Anatomie de l’œil humain",
+    "text": "Anatomie de l’œil humain\nL’œil est une structure optique complexe composée des éléments suivants (de l’avant vers l’arrière) :\nStructures antérieures :\n\nCornée — surface transparente, principale interface réfractive (\\(\\approx 2/3\\) de la puissance dioptrique totale)\nHumeur aqueuse — chambre antérieure remplie de liquide\nIris — diaphragme musculaire contrôlant l’ouverture de la pupille\nPupille — ouverture variable (\\(\\varnothing \\approx 2\\)–\\(8\\) mm)\nCristallin — lentille flexible, ajustement de la mise au point par les muscles ciliaires\nFibres zonulaires — relient le cristallin aux muscles ciliaires\nChambre postérieure\n\nStructures postérieures :\n\nHumeur vitrée — gel transparent remplissant la cavité postérieure\nCanal hyaloïde\nRétine — couche de photorécepteurs (surface de détection)\nChoroïde — couche vasculaire nourrissant la rétine\nSclère — couche externe blanche et résistante\nDisque optique (tache aveugle) — point d’émergence du nerf optique, sans photorécepteurs\nFovéa — zone de haute résolution au centre de la rétine\nVaisseaux sanguins rétiniens\nNerf optique — transmet les signaux visuels au cerveau",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#rétine",
+    "href": "ch2c.html#rétine",
+    "title": "Système Visuel Humain",
+    "section": "Rétine",
+    "text": "Rétine\n\nStructure en trois couches\nLa rétine contient trois couches fonctionnelles :\n\nCellules réceptrices (couche externe) — cônes et bâtonnets : conversion lumière → signal électrique\nCellules collectrices (couche intermédiaire) — cellules bipolaires, horizontales, amacrines : intégration locale\nCellules ganglionnaires rétiniennes (couche interne) — axones formant le nerf optique\n\nParadoxe : la lumière traverse les couches internes avant d’atteindre les photorécepteurs en couche externe.\n\n\nCompromis fondamental : sensibilité vs résolution spatiale\nLa rétine implémente deux systèmes parallèles :\nSystème des bâtonnets (rods) — vision scotopique :\n\nHaute sensibilité (niveaux de lumière faibles)\nConvergence extensive vers les cellules collectrices et ganglionnaires\n⇒ Image basse résolution persistant même en faible luminosité\n\nSystème des cônes (cones) — vision photopique :\n\nSensibles aux niveaux de lumière élevés\nConvergence très limitée\n⇒ Image haute résolution en bonne luminosité",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#mosaïque-de-photorécepteurs",
+    "href": "ch2c.html#mosaïque-de-photorécepteurs",
+    "title": "Système Visuel Humain",
+    "section": "Mosaïque de Photorécepteurs",
+    "text": "Mosaïque de Photorécepteurs\n\nCônes et bâtonnets\n\nBâtonnets : \\(\\approx 10^8\\) — détection de la luminosité (niveaux de gris), vision scotopique\nCônes : \\(\\approx 10^7\\) — perception des couleurs, vision photopique\n\nLes cônes se déclinent en trois types selon leur sensibilité spectrale :\n\nS (Short) — courtes longueurs d’onde (~419 nm) → bleu\nM (Medium) — longueurs d’onde moyennes (~531 nm) → vert\nL (Long) — longues longueurs d’onde (~559 nm) → rouge\n\nLa bande passante insuffisante du nerf optique (\\(\\approx 10^6\\) fibres pour \\(\\approx 10^8\\) photorécepteurs) implique nécessairement un codage/compression du signal visuel.\n\n\nDistribution spatiale (densités)\n\nAucun capteur sur le disque optique (tache aveugle)\nConcentration maximale de cônes sur la fovéa (centre de la rétine)\nBâtonnets dominants en périphérie\n\n\n\nSensibilité maximale\nAprès adaptation à l’obscurité, un bâtonnet unique peut répondre à un seul photon — c’est la limite physique ultime de détection lumineuse.\n\n\nRéponse spectrale\nLa réponse globale de l’œil résulte de la combinaison des trois types de cônes S, M, L :\n\nRéponse bleue (S) : faible amplitude\nRéponse verte (M) : dominante\nRéponse rouge (L) : décalée vers les grandes longueurs d’onde (proche infrarouge thermique)\nRéponse totale (noir) : courbe en cloche couvrant le spectre visible (\\(\\approx 380\\)–\\(700\\) nm)\n\n\n\nLimites de la vision humaine\nLa conception de l’œil humain présente plusieurs imperfections notables :\n\nVaisseaux sanguins et autres cellules placés devant les photorécepteurs (œil inversé)\nOmbres projetées sur les photorécepteurs par ces structures\nLuminosité non uniforme sur la rétine\nImage inversée sur la rétine (le cerveau corrige)\nHaute résolution uniquement dans la fovéa (zone très petite) — contrairement à certains oiseaux ou guépards qui ont des organisations fovéales différentes\nTache aveugle au niveau du disque optique\n\n\n\nŒil vs caméra numérique\n\n\n\n\n\n\n\n\nParamètre\nŒil humain\nCaméra numérique\n\n\n\n\nPhotodétecteurs\nCônes (S, M, L) + bâtonnets\nCapteur CMOS/CCD avec filtre Bayer\n\n\nRésolution\nNon uniforme (fovéa : haute, périphérie : basse)\nUniforme\n\n\nPlage dynamique\n\\(\\approx 46{,}5\\) stops (avec adaptation)\n\\(\\approx 12\\)–\\(15\\) stops\n\n\nTraitement\nRétine + cortex\nDSP + post-traitement",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#cellules-ganglionnaires-de-la-rétine",
+    "href": "ch2c.html#cellules-ganglionnaires-de-la-rétine",
+    "title": "Système Visuel Humain",
+    "section": "Cellules Ganglionnaires de la Rétine",
+    "text": "Cellules Ganglionnaires de la Rétine\n\nFonction générale\nLes cellules ganglionnaires constituent le premier étage de traitement visuel. Leur rôle fondamental est de remplacer les niveaux absolus de luminosité par une carte rétinotopique de différences.\n\n\nOrganisation centre-entourage (center-surround)\nLes champs récepteurs des cellules ganglionnaires sont organisés en deux zones concentriques antagonistes :\n\nCellules ON-center (OFF-surround) : activées par la lumière au centre, inhibées en périphérie\nCellules OFF-center (ON-surround) : inhibées au centre, activées en périphérie\n\nPourquoi cette organisation ?\nLes objets ne sont pas associés à un niveau absolu de luminosité, mais aux différences de luminosité entre eux et leur fond. Ces différences peuvent être amplifiées sans avoir à représenter l’énorme plage de valeurs absolues.\n⇒ Fondement de la perception des objets indépendante des conditions d’éclairage absolu.\n\n\nCellules M et P\nUn second niveau de partition distingue les cellules M (Magnocellulaires) et P (Parvocellulaires) :\nCellules M :\n\nReçoivent des signaux d’un grand nombre de photorécepteurs\n⇒ Bonne sensibilité lumineuse, haute résolution temporelle, faible résolution spatiale\nPlus grandes, vitesses de conduction nerveuse plus rapides, réponses plus transitoires\nSpécialisées : perception du mouvement, réponse aux stimuli soudains\nPas de sensibilité chromatique\n\nCellules P :\n\nReçoivent des signaux d’un petit nombre de photorécepteurs\n⇒ Haute résolution spatiale, faible résolution temporelle\nSensibilité chromatique\nSpécialisées : couleur, texture, motifs (rôle majeur dans la perception des objets)\n\nCes deux types alimentent respectivement les couches magnocellulaires et parvocellulaires du Noyau Géniculé Latéral (LGN).",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#processus-oculomoteurs",
+    "href": "ch2c.html#processus-oculomoteurs",
+    "title": "Système Visuel Humain",
+    "section": "Processus Oculomoteurs",
+    "text": "Processus Oculomoteurs\n\nAccommodation\nLe cristallin adapte sa courbure (et donc sa puissance dioptrique) pour maintenir la mise au point :\n\nVision de loin : muscles ciliaires relâchés, fibres zonulaires tendues → cristallin aplati\nVision de près : muscles ciliaires contractés, fibres zonulaires relâchées → cristallin bombé\n\nPlages typiques :\n\nÀ 16 ans : \\(\\approx 8\\) cm jusqu’à \\(\\infty\\)\nÀ 50 ans : \\(\\approx 50\\) cm jusqu’à \\(\\infty\\) (presbytie)\n\n\n\nVergence et indices de profondeur\nDeux grands types d’indices de profondeur :\nBinoculaire (stéréopsie) :\n\nVergence (oculomoteur) : angle de convergence/divergence des deux yeux\nDisparité binoculaire (visuel) : différence entre les deux images rétiniennes\n\nMonoculaire :\n\nAccommodation (oculomoteur) : état de tension des muscles ciliaires\nFlou rétinien (Retinal Blur) (visuel) : degré de netteté selon la distance\n\n\n\nErreurs réfractives\n\n\n\n\n\n\n\n\nCondition\nDescription\nCorrection\n\n\n\n\nEmmétrope\nVision normale, rayons focalisés sur la rétine\nAucune\n\n\nMyopie\nRayons focalisés devant la rétine\nLentille concave (divergente)\n\n\nHypermétropie\nRayons focalisés derrière la rétine\nLentille convexe (convergente)\n\n\nAstigmatisme\nRayons ne convergent pas en un point unique\nLentille cylindrique",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#voies-visuelles",
+    "href": "ch2c.html#voies-visuelles",
+    "title": "Système Visuel Humain",
+    "section": "Voies Visuelles",
+    "text": "Voies Visuelles\nLe signal visuel quitte l’œil via le nerf optique (faisceau d’axones des cellules ganglionnaires) et se divise en plusieurs voies :\ngraph TD\n    OG[Œil gauche] --&gt; OC[Chiasma optique]\n    OD[Œil droit] --&gt; OC\n    OC --&gt; LGN_G[LGN hémisphère gauche]\n    OC --&gt; LGN_D[LGN hémisphère droit]\n    LGN_G --&gt; V1_G[Cortex visuel primaire V1\\nhémisphère gauche]\n    LGN_D --&gt; V1_D[Cortex visuel primaire V1\\nhémisphère droit]\n    OC --&gt; CS[Colliculus supérieur]\n    OC --&gt; PN[Noyau pulvinar]\nDécussation au chiasma optique : les fibres nasales (champ temporel) se croisent, les fibres temporales (champ nasal) restent ipsilatérales. ⇒ Chaque hémisphère traite le champ visuel controlatéral.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#le-noyau-géniculé-latéral-lgn",
+    "href": "ch2c.html#le-noyau-géniculé-latéral-lgn",
+    "title": "Système Visuel Humain",
+    "section": "Le Noyau Géniculé Latéral (LGN)",
+    "text": "Le Noyau Géniculé Latéral (LGN)\nStructure de relai entre la rétine et le cortex visuel :\n\nUn LGN par hémisphère cérébral\nOrganisé en 6 couches :\n\n2 couches magnocellulaires : reçoivent les signaux des cellules M → meilleure résolution temporelle\n4 couches parvocellulaires : reçoivent les signaux des cellules P → meilleure résolution spatiale + sensibilité spectrale\n\n\nPropriétés importantes :\n\nLes neurones de toutes les couches montrent une organisation centre-entourage\nRétinotopie maintenue dans toutes les couches : l’organisation spatiale de la rétine est préservée\n\n⇒ Nouvel exemple de division du travail et de multiplexage",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#zones-de-traitement-visuel-v1-et-au-delà",
+    "href": "ch2c.html#zones-de-traitement-visuel-v1-et-au-delà",
+    "title": "Système Visuel Humain",
+    "section": "Zones de Traitement Visuel (V1 et au-delà)",
+    "text": "Zones de Traitement Visuel (V1 et au-delà)\n\nDécouverte de Hubel et Wiesel (Prix Nobel)\nDavid H. Hubel & Torsten N. Wiesel (1962) ont identifié trois types de cellules dans le cortex visuel primaire (V1) :\nCellules à organisation centre-entourage :\n\nSimilaires à celles du LGN\n\nCellules simples (Simple cells) :\n\nSimilaires aux cellules centre-entourage mais avec des régions excitatrices/inhibitrices allongées\nRépondent à des contours à une orientation et une position spécifiques\nRéceptive field = combinaison de plusieurs champs centre-entourage alignés\n\nCellules complexes (Complex cells) :\n\nTraitent une information visuelle plus abstraite\nPartiellement indépendantes de la localisation dans le champ visuel\nRépondent à des contours orientés sur une plage de positions\n\n\n\nSensibilité à l’orientation dans V1\nLes cellules simples et complexes de V1 présentent une sélectivité d’orientation : elles répondent fortement à un stimulus présentant une orientation particulière, et peu (ou pas) aux autres orientations.\n\n\nHiérarchie de traitement\nLe traitement visuel suit une hiérarchie feedforward :\n\\[\\text{Centre-entourage} \\rightarrow \\text{Cellules simples} \\rightarrow \\text{Cellules complexes}\\]\nPropriétés émergentes à chaque niveau :\n\nLes réponses deviennent de plus en plus spécifiques à la forme du stimulus (contours orientés, barres)\nMais de plus en plus générales par rapport aux conditions d’observation (d’une seule position à une plage de positions)\nCes deux tendances combinées sont essentielles pour la reconnaissance d’objets\n\nRecherches récentes (Gilbert, 1992) : les interactions latérales jouent un rôle important (pas seulement feedforward).\n\n\nHypercolonnes dans le cortex visuel\nV1 est organisé en hypercolonnes, dont la structure spatiale minimise la distance entre neurones représentant des stimuli similaires selon trois dimensions :\n\nŒil d’origine (gauche ou droit)\nOrientation\nLocalisation rétinotopique\n\nPrincipe de Hebb : &gt; « Les neurones qui s’activent ensemble se connectent ensemble. »\n\n\nSensibilité aux contrastes : la CSF\nLa Contrast Sensitivity Function (CSF) décrit la sensibilité du système visuel aux différentes fréquences spatiales :\n\nLe pic de sensibilité se situe autour de \\(4\\)–\\(6\\) cycles par degré (cpd)\nAu-delà de \\(\\approx 60\\) cpd : limite de la densité de paquement des cônes\nLa courbe se déplace selon la distance d’observation\n\n\n\nZones spécialisées du cortex visuel\nAu-delà de V1, plusieurs aires spécialisées sont identifiées :\n\nV2, V3, V3A, V4 : traitement hiérarchique des formes, couleurs, orientations\nMT/V5 : mouvement\nFFA (Fusiform Face Area) : reconnaissance des visages / expertise visuelle\nPPA (Parahippocampal Place Area) : reconnaissance des lieux\n\n\n\nVoies dorsale et ventrale\nDeux voies principales émergent de V1 :\ngraph LR\n    V1[V1\\nCortex strié] --&gt; Dorsal[Flux dorsal\\nVers cortex pariétal]\n    V1 --&gt; Ventral[Flux ventral\\nVers cortex temporal]\n    Dorsal --&gt; Where[Où ?\\nLocalisation, mouvement]\n    Ventral --&gt; What[Quoi ?\\nReconnaissance d'objets]\nFlux dorsal (Where pathway) :\n\nDirection : V1 → V2 → V3 → MT/MST → cortex pariétal\nFonction : localisation spatiale, perception du mouvement, contrôle visuo-moteur\n\nFlux ventral (What pathway) :\n\nDirection : V1 → V2 → V4 → TEO → TE → cortex temporal inférieur\nFonction : reconnaissance des formes, des couleurs, des objets, des visages\n\n\n\nModèle du flux ventral\nÀ mesure qu’on monte dans la hiérarchie du flux ventral :\n\n\n\nNiveau\nTaille du champ récepteur\nLatence\nPropriété\n\n\n\n\nLGN\n\\(\\approx 1°\\)\n—\nOrientations simples\n\n\nV1\n\\(1°\\)\n40–60 ms\nSélectivité d’orientation\n\n\nV2\n\\(1{,}3°\\)\n50–70 ms\n—\n\n\nV4\n\\(4{,}8°\\)\n60–80 ms\nCouleur, formes\n\n\nTEO\n\\(5{,}8°\\)\n70–90 ms\nConfigurations de features\n\n\nTE\n\\(\\approx 12°\\)\n80–100 ms\nIndépendance de vue\n\n\n\n\n\nConnectivité intrinsèque et extrinsèque du flux ventral\nLe flux ventral ne se limite pas à une chaîne feedforward simple. Il comprend :\n\nDes sous-réseaux récurrents à plusieurs échelles\nDes connexions bidirectionnelles étendues entre sous-réseaux\nDes connexions extrinsèques vers : le striatum ventral, le néostriatum, l’amygdale, le cortex orbitofrontal, le cortex préfrontal ventrolatéral\n\n(Kravitz, Saleem, Baker, Ungerleinder, Mishkin, TICS 2013)\n\n\nSynthèse neurosciences et vision computationnelle\nLeçons clés :\n\nLes neurones montrent une spécificité croissante plus haut dans la voie visuelle\nLes cellules simples et complexes de V1 sont sélectives en orientation\nLa convolution avec un noyau linéaire suivie de non-linéarités simples est un bon modèle pour la rétine, le LGN et V1 — mais pas au-delà (pas encore de modèles satisfaisants)\nLes bons systèmes de vision sont probablement hiérarchiques et « principalement » feedforward\n\nLiens avec la vision computationnelle :\n\nLa sélectivité d’orientation des cellules simples/complexes de V1 a inspiré les descripteurs SIFT et HOG\nLa vision feedforward du flux ventral avec couches de cellules simples/complexes a conduit au Neocognitron, puis aux réseaux de convolution (CNN)\nOn sait aujourd’hui que le flux ventral est bien plus complexe, avec connexions bidirectionnelles et feedback — encore peu exploité en vision computationnelle",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#le-neocognitron-fukushima-1980",
+    "href": "ch2c.html#le-neocognitron-fukushima-1980",
+    "title": "Système Visuel Humain",
+    "section": "Le Neocognitron (Fukushima, 1980)",
+    "text": "Le Neocognitron (Fukushima, 1980)\nLe Neocognitron est un réseau de neurones auto-organisé pour la reconnaissance de formes, insensible aux translations.\nIl établit une correspondance directe avec la hiérarchie de Hubel et Wiesel :\n\\[\\text{Rétine} \\rightarrow \\text{LGB} \\rightarrow \\text{Simple} \\rightarrow \\text{Complexe} \\rightarrow \\text{Hypercomplexe inf.} \\rightarrow \\text{Hypercomplexe sup.} \\rightarrow \\text{Cellule grand-mère ?}\\]\nStructure :\n\nAlternance de couches \\(U_S\\) (type simple, synapses modifiables) et \\(U_C\\) (type complexe, synapses fixes)\nChaque couche \\(U_S\\) extrait des features de plus en plus abstraites\nChaque couche \\(U_C\\) apporte une invariance partielle à la position",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#les-réseaux-de-convolution-lecun-et-al.-1998",
+    "href": "ch2c.html#les-réseaux-de-convolution-lecun-et-al.-1998",
+    "title": "Système Visuel Humain",
+    "section": "Les Réseaux de Convolution (LeCun et al., 1998)",
+    "text": "Les Réseaux de Convolution (LeCun et al., 1998)\n« Gradient-Based Learning Applied to Document Recognition » (Yann LeCun, Léon Bottou, Yoshua Bengio, Patrick Haffner)\nArchitecture LeNet pour la reconnaissance de caractères manuscrits (MNIST, \\(28 \\times 28\\) pixels) :\ngraph LR\n    I[Image\\n28×28] --&gt; C1[Convolution C1\\n6@28×28]\n    C1 --&gt; S2[Pooling S2\\n6@14×14]\n    S2 --&gt; C3[Convolution C3\\n16@10×10]\n    C3 --&gt; S4[Pooling S4\\n16@5×5]\n    S4 --&gt; F5[Dense F5\\n120]\n    F5 --&gt; F6[Dense F6\\n84]\n    F6 --&gt; Out[Sortie\\n10 classes]\n\nLes opérations de convolution modélisent les cellules simples de V1 (filtres orientés)\nLes opérations de pooling modélisent les cellules complexes (invariance locale à la position)\nL’empilement hiérarchique reflète la hiérarchie ventrale V1 → V2 → V4 → TE",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#affichages-stéréoscopiques",
+    "href": "ch2c.html#affichages-stéréoscopiques",
+    "title": "Système Visuel Humain",
+    "section": "Affichages Stéréoscopiques",
+    "text": "Affichages Stéréoscopiques\n\nHistorique\nL’exploitation de la disparité binoculaire pour créer une illusion de profondeur remonte à Charles Wheatstone (1838) avec l’invention du stéréoscope.\nÉvolution sur 176 ans :\n\n1838 : Stéréoscope de Wheatstone (deux miroirs avec deux images légèrement décalées)\n1865 : Usage courant pour des photographies stéréo (ex. : portrait d’Abraham Lincoln)\n2014+ : Lunettes polarisées / à cristaux liquides pour cinéma et TV 3D\n\n\n\nPrincipe\nDeux images légèrement décalées (disparité binoculaire) sont présentées séparément à chaque œil. Le cerveau fusionne ces images en percevant une profondeur tridimensionnelle.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#réalité-virtuelle-vr-et-réalité-augmentée-ar",
+    "href": "ch2c.html#réalité-virtuelle-vr-et-réalité-augmentée-ar",
+    "title": "Système Visuel Humain",
+    "section": "Réalité Virtuelle (VR) et Réalité Augmentée (AR)",
+    "text": "Réalité Virtuelle (VR) et Réalité Augmentée (AR)\n\nChronologie\n\n\n\nÉpoque\nTechnologie\nReprésentants\n\n\n\n\n1838\nStéréoscopes\nWheatstone, Brewster…\n\n\n1968\nPremier casque VR/AR\nIvan Sutherland\n\n\n2012–présent\nExplosion VR\nMeta (Oculus), Apple, Sony…\n\n\n\n\n\nTechnologies d’affichage avancées pour VR\nGaze-contingent Focus Displays :\n\nUtilisation du eye tracking pour déplacer mécaniquement le plan focal\nAdapte la netteté selon où l’utilisateur regarde\n\nNear-eye Light Field Displays :\n\nReproduit un champ de lumière (light field) simulant plusieurs plans focaux simultanément\nPermet une accommodation naturelle\n\nAffichages Holographiques :\n\nReconstruction holographique du front d’onde lumineux\nSolution ultime pour résoudre le conflit vergence-accommodation",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2c.html#conflit-vergence-accommodation",
+    "href": "ch2c.html#conflit-vergence-accommodation",
+    "title": "Système Visuel Humain",
+    "section": "Conflit Vergence-Accommodation",
+    "text": "Conflit Vergence-Accommodation\n\nProblème fondamental\nDans le monde réel, vergence et accommodation sont couplées : quand les yeux convergent sur un objet à distance \\(d\\), le cristallin accommode automatiquement pour \\(d\\).\nDans un affichage stéréoscopique classique :\n\nLa vergence est déterminée par la disparité de l’image (position virtuelle de l’objet)\nL’accommodation est déterminée par la distance physique de l’écran (fixe)\n\n⇒ Conflit Vergence-Accommodation (VAC) : les deux signaux sont en désaccord.\n\n\nEffets du conflit vergence-accommodation\n\nInconfort visuel\nFatigue oculaire (visual fatigue)\nNausées\nVision dédoublée (diplopic vision)\nFatigue des yeux (eyestrain)\nDégradation de la qualité d’image perçue\nPathologies potentielles dans les systèmes visuels en développement (enfants)\n\n\n\nZone de Confort\nLa Zone de Confort définit la plage de disparité acceptable sans inconfort significatif, en fonction de la distance d’observation et du contexte :\n\n\n\nDispositif\nDistance typique\nZone de confort\n\n\n\n\nMobile\n\\(\\approx 0{,}3\\) m\nTrès étroite\n\n\nDesktop\n\\(\\approx 0{,}6\\) m\nÉtroite\n\n\nTélévision\n\\(\\approx 3\\) m\nModérée\n\n\nCinéma\n\\(\\approx 10\\)–\\(20\\) m\nLarge\n\n\n\nLa zone de confort est délimitée par deux courbes (near et far) dans l’espace (distance de vergence, distance d’accommodation). Plus la distance d’observation est grande, plus la zone de confort s’élargit.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Details"
+    ]
+  },
+  {
     "objectID": "ch1c.html",
     "href": "ch1c.html",
     "title": "Computational Imaging",
     "section": "",
-    "text": "Taras Holotyak — Université de Genève, Département d’Informatique\nCours 14X062 — Stochastic Information Processing (SIP)"
+    "text": "Taras Holotyak — Université de Genève, Département d’Informatique\nCours 14X062 — Stochastic Information Processing (SIP)",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#contenu-du-cours",
     "href": "ch1c.html#contenu-du-cours",
     "title": "Computational Imaging",
     "section": "Contenu du cours",
-    "text": "Contenu du cours\nL’objectif du cours est d’introduire le domaine du computational imaging tout en développant des compétences pratiques.\nLe cours couvre les thématiques suivantes :\n\nPrincipes du computational imaging\nÉtat de l’art du computational imaging moderne\nAnalyse approfondie des applications du computational imaging"
+    "text": "Contenu du cours\nL’objectif du cours est d’introduire le domaine du computational imaging tout en développant des compétences pratiques.\nLe cours couvre les thématiques suivantes :\n\nPrincipes du computational imaging\nÉtat de l’art du computational imaging moderne\nAnalyse approfondie des applications du computational imaging",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#évaluation",
     "href": "ch1c.html#évaluation",
     "title": "Computational Imaging",
     "section": "Évaluation",
-    "text": "Évaluation\n\n\n\nComposante\nPoids\n\n\n\n\nPartie théorique (2 CC ou examen oral)\n40%\n\n\nTPs\n25%\n\n\nMini-projet (rapport + présentation)\n35%\n\n\n\nPoints importants :\n\nLa partie théorique est évaluée sur la base de 2 contrôles continus ou d’un examen oral\nLa partie pratique combine :\n\nLa moyenne des notes de TPs\nLa moyenne des notes du mini-projet (rapport et présentation)\n\n\n\n⚠️ Important : Toutes les composantes (théorie, TPs, mini-projet) doivent avoir une note positive ≥ 4.0/6.0"
+    "text": "Évaluation\n\n\n\nComposante\nPoids\n\n\n\n\nPartie théorique (2 CC ou examen oral)\n40%\n\n\nTPs\n25%\n\n\nMini-projet (rapport + présentation)\n35%\n\n\n\nPoints importants :\n\nLa partie théorique est évaluée sur la base de 2 contrôles continus ou d’un examen oral\nLa partie pratique combine :\n\nLa moyenne des notes de TPs\nLa moyenne des notes du mini-projet (rapport et présentation)\n\n\n\n⚠️ Important : Toutes les composantes (théorie, TPs, mini-projet) doivent avoir une note positive ≥ 4.0/6.0",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#livres-recommandés",
     "href": "ch1c.html#livres-recommandés",
     "title": "Computational Imaging",
     "section": "Livres recommandés",
-    "text": "Livres recommandés\n\nComputer Vision: Algorithms and Applications — Richard Szeliski\nFoundations of Computational Imaging: A Model-Based Approach — Charles A. Bouman (SIAM)\nComputational Imaging — Ayush Bhandari, Achuta Kadambi, Ramesh Raskar (MIT Press)\nComputational Photography: Mastering New Techniques for Lenses, Lighting, and Sensors — Ramesh Raskar & Jack Tumblin\nComputational Optical Imaging: Principle and Technology — Zhengjun Liu et al. (Springer)\nComputational Methods for Inverse Problems in Imaging — Marco Donatelli & Stefano Serra-Capizzano (Springer)\nComputational Imaging Through Atmospheric Turbulence — Stanley H. Chan & Nicholas Chimitt\nComputational Optical Phase Imaging — Cheng Liu, Shouyu Wang, Suhas P. Veetil (Springer)\nFourier Optics and Computational Imaging — Kedar Khare (Wiley)\nComputational Imaging VIII — Bouman, Charles A.\nMedical Imaging Technology — Khin Wee Lai & Dyah Ekashanty Octorina Dewi (Springer)\nBiomedical Imaging and Computational Modeling in Biomechanics — Ugo Andreaus & Daniela Iacoviello (Springer)"
+    "text": "Livres recommandés\n\nComputer Vision: Algorithms and Applications — Richard Szeliski\nFoundations of Computational Imaging: A Model-Based Approach — Charles A. Bouman (SIAM)\nComputational Imaging — Ayush Bhandari, Achuta Kadambi, Ramesh Raskar (MIT Press)\nComputational Photography: Mastering New Techniques for Lenses, Lighting, and Sensors — Ramesh Raskar & Jack Tumblin\nComputational Optical Imaging: Principle and Technology — Zhengjun Liu et al. (Springer)\nComputational Methods for Inverse Problems in Imaging — Marco Donatelli & Stefano Serra-Capizzano (Springer)\nComputational Imaging Through Atmospheric Turbulence — Stanley H. Chan & Nicholas Chimitt\nComputational Optical Phase Imaging — Cheng Liu, Shouyu Wang, Suhas P. Veetil (Springer)\nFourier Optics and Computational Imaging — Kedar Khare (Wiley)\nComputational Imaging VIII — Bouman, Charles A.\nMedical Imaging Technology — Khin Wee Lai & Dyah Ekashanty Octorina Dewi (Springer)\nBiomedical Imaging and Computational Modeling in Biomechanics — Ugo Andreaus & Daniela Iacoviello (Springer)",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#pourquoi-imaging",
     "href": "ch1c.html#pourquoi-imaging",
     "title": "Computational Imaging",
     "section": "Pourquoi « imaging » ?",
-    "text": "Pourquoi « imaging » ?\nLe terme imaging (imagerie) est justifié par l’importance centrale de la vision dans la perception humaine :\n\n\n\nSens\nPart de l’information\n\n\n\n\nVue (Sight)\n75%\n\n\nOuïe (Hearing)\n13%\n\n\nToucher (Touch)\n6%\n\n\nGoût (Taste)\n3%\n\n\nOdorat (Smell)\n3%\n\n\n\n\nEnviron 75% de l’information que nous percevons passe par le canal visuel humain."
+    "text": "Pourquoi « imaging » ?\nLe terme imaging (imagerie) est justifié par l’importance centrale de la vision dans la perception humaine :\n\n\n\nSens\nPart de l’information\n\n\n\n\nVue (Sight)\n75%\n\n\nOuïe (Hearing)\n13%\n\n\nToucher (Touch)\n6%\n\n\nGoût (Taste)\n3%\n\n\nOdorat (Smell)\n3%\n\n\n\n\nEnviron 75% de l’information que nous percevons passe par le canal visuel humain.",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#pourquoi-computational",
     "href": "ch1c.html#pourquoi-computational",
     "title": "Computational Imaging",
     "section": "Pourquoi « computational » ?",
-    "text": "Pourquoi « computational » ?\n\nDéfinition\nLe computational imaging est le processus de formation indirecte d’images à partir de mesures, en utilisant des algorithmes nécessitant une quantité significative de calcul.\nContrairement à l’imagerie traditionnelle, les systèmes de computational imaging impliquent une intégration étroite entre le système de capture et le calcul.\nL’objectif principal du computational imaging est de reconstruire des images reconnaissables par l’humain à partir de données mesurées, grâce à des algorithmes avancés.\nEn revanche, l’imagerie traditionnelle vise à traiter des images déjà reconnaissables pour en améliorer la qualité ou en extraire des informations.\n\n\n\nImagerie traditionnelle vs Computational Imaging\n\nImagerie traditionnelle\nflowchart LR\n    A[Monde réel] --&gt; B[Optique]\n    B --&gt; C[Image capturée]\n    C --&gt; D[Calcul]\n    D --&gt; E[Image améliorée]\n\nL’optique capture quelque chose de proche de l’image finale\nLe calcul améliore principalement l’image capturée (ex. : défloutage)\n\n\n\nComputational Imaging\nflowchart LR\n    A[Monde réel] --&gt; B[\"Optique\\ngénéralisée (?)\"]\n    B --&gt; C[\"Représentation\\ncodée (?)\"]\n    C --&gt; D[\"Calcul\\ngénéralisé (?)\"]\n    D --&gt; E[\"Image(s)\\nfinale(s)\"]\n\nL’optique généralisée encode le monde dans une représentation intermédiaire\nLe calcul généralisé décode cette représentation en une ou plusieurs images finales\n\n\n\n\n\nComposantes du Computational Imaging\nLe computational imaging se situe à l’intersection de trois domaines :\nflowchart TD\n    subgraph Monde_physique[\"Monde physique/analogique\"]\n        M[Mathématiques]\n        P[Physique]\n    end\n    subgraph Monde_numerique[\"Monde numérique\"]\n        C[Calcul / Computation]\n    end\n    CI[\"⬤ Computational Imaging\"]\n    M --- CI\n    P --- CI\n    C --- CI\nDeux caractéristiques essentielles :\n\nAccès aux mondes physique/analogique et numérique\nConsidération de l’imagerie comme un modèle intégré de capture et d’inférence\n\n\n\n\nPositionnement dans la physique optique\nLe computational imaging se situe principalement au niveau de l’optique géométrique, enrichie par le traitement du signal moderne :\nflowchart LR\n    EM[\"Électromagnétisme\\n(E&M)\"]\n    WO[\"Optique ondulatoire\\n(Wave Optics)\"]\n    GO[\"Optique géométrique\\n(Geometric Optics)\"]\n    SP[\"Traitement du signal moderne,\\nOptimisation et IA\"]\n\n    EM --&gt; WO --&gt; GO\n    GO &lt;--&gt; SP\nPropriétés de la lumière en optique géométrique :\n\nLumière modélisée comme des rayons\nUnité : radiance (spectrale)\nPropriétés : longueur d’onde, polarisation, direction…\nL’optique ondulatoire n’est introduite que brièvement\n\n\n\n\nSchéma général du Computational Imaging\nLe computational imaging repose sur deux étapes fondamentales :\n\nEncoder optiquement l’information de la scène\nRécupérer computationnellement l’information\n\nCela implique :\n\nDe nouveaux types d’optiques\nDe nouveaux capteurs\nDe nouveaux systèmes d’éclairage\nDe nouveaux algorithmes\n\n\nExemple : Computational Displays\nflowchart LR\n    CPU[Calcul] --&gt; OE[\"Optique &\\nÉlectronique\"]\n    OE --&gt; HVS[\"Système visuel\\nhumain\"]\n    HVS -.-&gt;|interaction| CPU\n\n\nExemple : Computational Imaging (caméra)\nflowchart LR\n    O[Optique] --&gt; S[Capteur]\n    S --&gt; C[Calcul]"
+    "text": "Pourquoi « computational » ?\n\nDéfinition\nLe computational imaging est le processus de formation indirecte d’images à partir de mesures, en utilisant des algorithmes nécessitant une quantité significative de calcul.\nContrairement à l’imagerie traditionnelle, les systèmes de computational imaging impliquent une intégration étroite entre le système de capture et le calcul.\nL’objectif principal du computational imaging est de reconstruire des images reconnaissables par l’humain à partir de données mesurées, grâce à des algorithmes avancés.\nEn revanche, l’imagerie traditionnelle vise à traiter des images déjà reconnaissables pour en améliorer la qualité ou en extraire des informations.\n\n\n\nImagerie traditionnelle vs Computational Imaging\n\nImagerie traditionnelle\n\n\n\n\n\nflowchart LR\n    A[Monde réel] --&gt; B[Optique]\n    B --&gt; C[Image capturée]\n    C --&gt; D[Calcul]\n    D --&gt; E[Image améliorée]\n\n\n\n\n\n\n\nL’optique capture quelque chose de proche de l’image finale\nLe calcul améliore principalement l’image capturée (ex. : défloutage)\n\n\n\nComputational Imaging\n\n\n\n\n\nflowchart LR\n    A[Monde réel] --&gt; B[\"Optique\\ngénéralisée (?)\"]\n    B --&gt; C[\"Représentation\\ncodée (?)\"]\n    C --&gt; D[\"Calcul\\ngénéralisé (?)\"]\n    D --&gt; E[\"Image(s)\\nfinale(s)\"]\n\n\n\n\n\n\n\nL’optique généralisée encode le monde dans une représentation intermédiaire\nLe calcul généralisé décode cette représentation en une ou plusieurs images finales\n\n\n\n\n\nComposantes du Computational Imaging\nLe computational imaging se situe à l’intersection de trois domaines :\n\n\n\n\n\nflowchart TD\n    subgraph Monde_physique[\"Monde physique/analogique\"]\n        M[Mathématiques]\n        P[Physique]\n    end\n    subgraph Monde_numerique[\"Monde numérique\"]\n        C[Calcul / Computation]\n    end\n    CI[\"⬤ Computational Imaging\"]\n    M --- CI\n    P --- CI\n    C --- CI\n\n\n\n\n\n\nDeux caractéristiques essentielles :\n\nAccès aux mondes physique/analogique et numérique\nConsidération de l’imagerie comme un modèle intégré de capture et d’inférence\n\n\n\n\nPositionnement dans la physique optique\nLe computational imaging se situe principalement au niveau de l’optique géométrique, enrichie par le traitement du signal moderne :\n\n\n\n\n\nflowchart LR\n    EM[\"Électromagnétisme\\n(E&M)\"]\n    WO[\"Optique ondulatoire\\n(Wave Optics)\"]\n    GO[\"Optique géométrique\\n(Geometric Optics)\"]\n    SP[\"Traitement du signal moderne,\\nOptimisation et IA\"]\n\n    EM --&gt; WO --&gt; GO\n    GO &lt;--&gt; SP\n\n\n\n\n\n\nPropriétés de la lumière en optique géométrique :\n\nLumière modélisée comme des rayons\nUnité : radiance (spectrale)\nPropriétés : longueur d’onde, polarisation, direction…\nL’optique ondulatoire n’est introduite que brièvement\n\n\n\n\nSchéma général du Computational Imaging\nLe computational imaging repose sur deux étapes fondamentales :\n\nEncoder optiquement l’information de la scène\nRécupérer computationnellement l’information\n\nCela implique :\n\nDe nouveaux types d’optiques\nDe nouveaux capteurs\nDe nouveaux systèmes d’éclairage\nDe nouveaux algorithmes\n\n\nExemple : Computational Displays\n\n\n\n\n\nflowchart LR\n    CPU[Calcul] --&gt; OE[\"Optique &\\nÉlectronique\"]\n    OE --&gt; HVS[\"Système visuel\\nhumain\"]\n    HVS -.-&gt;|interaction| CPU\n\n\n\n\n\n\n\n\nExemple : Computational Imaging (caméra)\n\n\n\n\n\nflowchart LR\n    O[Optique] --&gt; S[Capteur]\n    S --&gt; C[Calcul]",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#exemple-biologique-lœil-de-la-crevette-mante",
     "href": "ch1c.html#exemple-biologique-lœil-de-la-crevette-mante",
     "title": "Computational Imaging",
     "section": "Exemple biologique : l’œil de la crevette-mante",
-    "text": "Exemple biologique : l’œil de la crevette-mante\nLa crevette-mante (mantis shrimp) est un exemple remarquable de computational imaging biologique.\nSes yeux composés possèdent des propriétés extraordinaires qui illustrent parfaitement la philosophie du computational imaging : une intégration profonde entre le système de capture optique et le traitement neuronal de l’information."
+    "text": "Exemple biologique : l’œil de la crevette-mante\nLa crevette-mante (mantis shrimp) est un exemple remarquable de computational imaging biologique.\nSes yeux composés possèdent des propriétés extraordinaires qui illustrent parfaitement la philosophie du computational imaging : une intégration profonde entre le système de capture optique et le traitement neuronal de l’information.",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#domaines-dapplication",
     "href": "ch1c.html#domaines-dapplication",
     "title": "Computational Imaging",
     "section": "Domaines d’application",
-    "text": "Domaines d’application\nLe computational imaging s’applique dans de nombreux domaines :\n\nPhotographie numérique — traitement d’image, démosaïquage, HDR\nVéhicules autonomes — caméras, LIDARs, radars\nEndoscopie — imagerie médicale miniaturisée\nImagerie médicale — CT, IRM, PET, échographie 3D\nAstronomie — télescopes, radio-interférométrie\nVision nocturne / thermique — caméras infrarouges\nLunettes connectées / AR/VR — computational displays"
+    "text": "Domaines d’application\nLe computational imaging s’applique dans de nombreux domaines :\n\nPhotographie numérique — traitement d’image, démosaïquage, HDR\nVéhicules autonomes — caméras, LIDARs, radars\nEndoscopie — imagerie médicale miniaturisée\nImagerie médicale — CT, IRM, PET, échographie 3D\nAstronomie — télescopes, radio-interférométrie\nVision nocturne / thermique — caméras infrarouges\nLunettes connectées / AR/VR — computational displays",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#exemple-photographie-numérique-comme-ci",
     "href": "ch1c.html#exemple-photographie-numérique-comme-ci",
     "title": "Computational Imaging",
     "section": "Exemple : photographie numérique comme CI",
-    "text": "Exemple : photographie numérique comme CI\nLe pipeline complet d’une caméra numérique illustre le computational imaging :\nflowchart TD\n    A[\"Projection lumineuse\\n(Light Projection)\"]\n    B[\"Amplification et quantification\\nde l'énergie\"]\n    C[\"Ajustement du signal\\n(Signal Adjusting)\"]\n    D[\"Couleurs (Colors)\"]\n    E[\"Interpolation et\\ndémosaïquage\"]\n    F[\"Correction couleur\\net gamma\"]\n    G[\"Amélioration\\n(Sharpening)\"]\n    H[\"Stockage\\n(Storing)\"]\n    I[\"Image finale\"]\n\n    A --&gt; B --&gt; C --&gt; D --&gt; E --&gt; F --&gt; G --&gt; H --&gt; I"
+    "text": "Exemple : photographie numérique comme CI\nLe pipeline complet d’une caméra numérique illustre le computational imaging :\n\n\n\n\n\nflowchart TD\n    A[\"Projection lumineuse\\n(Light Projection)\"]\n    B[\"Amplification et quantification\\nde l'énergie\"]\n    C[\"Ajustement du signal\\n(Signal Adjusting)\"]\n    D[\"Couleurs (Colors)\"]\n    E[\"Interpolation et\\ndémosaïquage\"]\n    F[\"Correction couleur\\net gamma\"]\n    G[\"Amélioration\\n(Sharpening)\"]\n    H[\"Stockage\\n(Storing)\"]\n    I[\"Image finale\"]\n\n    A --&gt; B --&gt; C --&gt; D --&gt; E --&gt; F --&gt; G --&gt; H --&gt; I",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#microscopie-à-léchelle-nanométrique",
     "href": "ch1c.html#microscopie-à-léchelle-nanométrique",
     "title": "Computational Imaging",
     "section": "Microscopie à l’échelle nanométrique",
-    "text": "Microscopie à l’échelle nanométrique\n\nSTM et AFM : imagerie de spin à l’échelle atomique\nDeux méthodes compatibles permettent d’atteindre une résolution atomique pour la détection de spin :\n\nSP-STM (Spin-Polarised Scanning Tunnelling Microscopy) — détection locale d’une composante de spin du courant tunnel\nnc-AFM (Non-Contact Atom Force Microscopy) — détection de forces locales liées à l’échange magnétique\n\n\n\nIRM nanométrique\nLa MRFM (Magnetic Resonance Force Microscopy) repose sur des capteurs de force mécaniques pour détecter le signal magnétique faible de spins nucléaires individuels.\nTrois approches complémentaires (mesure basée sur le champ magnétique) :\n\n(a) MRFM — résonateur nanomécanique + aimant à l’échelle nano → force sur les spins de l’échantillon (antenne microstrip pour pulses RF)\n(b) NV-NanoMRI — défaut de spin électronique dans le diamant (centre NV) à quelques nanomètres de la surface\n(c) ESR-STM — courant tunnel entre une pointe de balayage et un substrat conducteur\n\n\n\n\nMéthode\nGamme\nRésolution\n\n\n\n\nMRFM\n100 nm\n1 nm\n\n\nNV-NanoMRI\n10 nm\n0.1 nm\n\n\nESR-STM\n1 nm\n&lt; 0.1 nm\n\n\n\n\n\nImagerie X cohérente de systèmes magnétiques\nL’imagerie magnétique aux rayons X cohérents est une approche sans lentille pour la microscopie magnétique.\nPoints forts :\n\nAccès simultané aux contrastes de phase et d’absorption spécifiques à chaque élément\nRésolution spatiale limitée par la longueur d’onde : 5 nm en 2D, 10 nm en 3D\n\nJalons historiques :\n\n2004 — Magnetic FTH\n2011 — Magnetic Ptychography\n2015 — Suivi de la dynamique des skyrmions\n2017 — Cartographie des textures de spin 3D\n2021 — Filmage de la dynamique de spin en femtosecondes\n2023 — Capture des fluctuations magnétiques\nFutur — Imagerie à l’échelle naturelle, application généralisée"
+    "text": "Microscopie à l’échelle nanométrique\n\nSTM et AFM : imagerie de spin à l’échelle atomique\nDeux méthodes compatibles permettent d’atteindre une résolution atomique pour la détection de spin :\n\nSP-STM (Spin-Polarised Scanning Tunnelling Microscopy) — détection locale d’une composante de spin du courant tunnel\nnc-AFM (Non-Contact Atom Force Microscopy) — détection de forces locales liées à l’échange magnétique\n\n\n\nIRM nanométrique\nLa MRFM (Magnetic Resonance Force Microscopy) repose sur des capteurs de force mécaniques pour détecter le signal magnétique faible de spins nucléaires individuels.\nTrois approches complémentaires (mesure basée sur le champ magnétique) :\n\n(a) MRFM — résonateur nanomécanique + aimant à l’échelle nano → force sur les spins de l’échantillon (antenne microstrip pour pulses RF)\n(b) NV-NanoMRI — défaut de spin électronique dans le diamant (centre NV) à quelques nanomètres de la surface\n(c) ESR-STM — courant tunnel entre une pointe de balayage et un substrat conducteur\n\n\n\n\nMéthode\nGamme\nRésolution\n\n\n\n\nMRFM\n100 nm\n1 nm\n\n\nNV-NanoMRI\n10 nm\n0.1 nm\n\n\nESR-STM\n1 nm\n&lt; 0.1 nm\n\n\n\n\n\nImagerie X cohérente de systèmes magnétiques\nL’imagerie magnétique aux rayons X cohérents est une approche sans lentille pour la microscopie magnétique.\nPoints forts :\n\nAccès simultané aux contrastes de phase et d’absorption spécifiques à chaque élément\nRésolution spatiale limitée par la longueur d’onde : 5 nm en 2D, 10 nm en 3D\n\nJalons historiques :\n\n2004 — Magnetic FTH\n2011 — Magnetic Ptychography\n2015 — Suivi de la dynamique des skyrmions\n2017 — Cartographie des textures de spin 3D\n2021 — Filmage de la dynamique de spin en femtosecondes\n2023 — Capture des fluctuations magnétiques\nFutur — Imagerie à l’échelle naturelle, application généralisée",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#applications-astronomiques",
     "href": "ch1c.html#applications-astronomiques",
     "title": "Computational Imaging",
     "section": "Applications astronomiques",
-    "text": "Applications astronomiques\n\nQuestions ouvertes : comprendre l’Univers\nLes grandes questions de la cosmologie moderne nécessitent des instruments de mesure extrêmement puissants :\n\nOrigine de l’Univers et inflation\nMatière noire et énergie sombre\nFormation des galaxies et des planètes\nCosmologie à grande échelle\n\n\n\nLe réseau SKA (Square Kilometre Array)\n\nCapteurs d’acquisition\nSKA1-Low (Australie, Murchison) :\n\n131 072 antennes basse fréquence\n512 stations de 256 dipôles chacune\nFréquences : 50–350 MHz\nLignes de base : 65 km\n\nSKA1-Mid (Afrique du Sud, Karoo) :\n\n197 antennes paraboliques (\\(133 \\times 15\\text{m} + 64 \\times 13.5\\text{m}\\))\nFréquences : 0.35–15.4 GHz\nLignes de base : 150 km\n\n\n\nVolume de données généré\n\nDébit brut : \\(\\sim 2\\) Pb/s (SKA1-Low), \\(\\sim 9\\) Tb/s (SKA1-Mid)\nAprès traitement central : \\(\\sim 7\\) Tb/s → \\(\\sim 5\\) Tb/s\nStockage annuel : 300 PB/an par instrument\nPuissance de calcul requise : \\(\\sim 130\\) PFlops par instrument\nProblème non dans l’acquisition, mais dans le traitement de l’information !"
+    "text": "Applications astronomiques\n\nQuestions ouvertes : comprendre l’Univers\nLes grandes questions de la cosmologie moderne nécessitent des instruments de mesure extrêmement puissants :\n\nOrigine de l’Univers et inflation\nMatière noire et énergie sombre\nFormation des galaxies et des planètes\nCosmologie à grande échelle\n\n\n\nLe réseau SKA (Square Kilometre Array)\n\nCapteurs d’acquisition\nSKA1-Low (Australie, Murchison) :\n\n131 072 antennes basse fréquence\n512 stations de 256 dipôles chacune\nFréquences : 50–350 MHz\nLignes de base : 65 km\n\nSKA1-Mid (Afrique du Sud, Karoo) :\n\n197 antennes paraboliques (\\(133 \\times 15\\text{m} + 64 \\times 13.5\\text{m}\\))\nFréquences : 0.35–15.4 GHz\nLignes de base : 150 km\n\n\n\nVolume de données généré\n\nDébit brut : \\(\\sim 2\\) Pb/s (SKA1-Low), \\(\\sim 9\\) Tb/s (SKA1-Mid)\nAprès traitement central : \\(\\sim 7\\) Tb/s → \\(\\sim 5\\) Tb/s\nStockage annuel : 300 PB/an par instrument\nPuissance de calcul requise : \\(\\sim 130\\) PFlops par instrument\nProblème non dans l’acquisition, mais dans le traitement de l’information !",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#imagerie-médicale",
     "href": "ch1c.html#imagerie-médicale",
     "title": "Computational Imaging",
     "section": "Imagerie médicale",
-    "text": "Imagerie médicale\n\nClassification des méthodes d’imagerie médicale\n\n\n\n\n\n\n\n\nMéthode\nVecteur d’information\nNote\n\n\n\n\nÉchographie\nOndes de pression haute fréquence\nImagerie par rétrodiffusion/réflexion\n\n\nRadiographie (projection)\nRayonnement ionisant\nImagerie par transmission\n\n\nTomodensitométrie CT / C-arm\nRayonnement ionisant\nImagerie par transmission\n\n\nImagerie nucléaire (SPECT, PET)\nRayonnement ionisant\nImagerie par émission\n\n\nIRM\nPrécession de spin nucléaire\nImagerie par résonance magnétique\n\n\n\nPipeline de traitement général :\n\nAcquisition de multiples signaux 1D et 2D\nReconstruction de l’objet 3D\n\n\n\nExemples d’images médicales\n\nÉchographie 3D — visualisation fœtale\nRadiographie projetée — transmission de rayons X\nCT (Computed Tomography) — reconstruction 3D du corps\nPET (Positron Emission Tomography) — imagerie fonctionnelle\n\n\n\nIRM : modalités avancées\n\nMRI structurelle — anatomie\nMRA (MR Angiography) — vaisseaux sanguins\nMRS (Magnetic Resonance Spectroscopy) — composition chimique locale\nfMRI (Functional MRI) — activité cérébrale\nCDI (Current Density Imaging) — cartographie des courants cérébraux"
+    "text": "Imagerie médicale\n\nClassification des méthodes d’imagerie médicale\n\n\n\n\n\n\n\n\nMéthode\nVecteur d’information\nNote\n\n\n\n\nÉchographie\nOndes de pression haute fréquence\nImagerie par rétrodiffusion/réflexion\n\n\nRadiographie (projection)\nRayonnement ionisant\nImagerie par transmission\n\n\nTomodensitométrie CT / C-arm\nRayonnement ionisant\nImagerie par transmission\n\n\nImagerie nucléaire (SPECT, PET)\nRayonnement ionisant\nImagerie par émission\n\n\nIRM\nPrécession de spin nucléaire\nImagerie par résonance magnétique\n\n\n\nPipeline de traitement général :\n\nAcquisition de multiples signaux 1D et 2D\nReconstruction de l’objet 3D\n\n\n\nExemples d’images médicales\n\nÉchographie 3D — visualisation fœtale\nRadiographie projetée — transmission de rayons X\nCT (Computed Tomography) — reconstruction 3D du corps\nPET (Positron Emission Tomography) — imagerie fonctionnelle\n\n\n\nIRM : modalités avancées\n\nMRI structurelle — anatomie\nMRA (MR Angiography) — vaisseaux sanguins\nMRS (Magnetic Resonance Spectroscopy) — composition chimique locale\nfMRI (Functional MRI) — activité cérébrale\nCDI (Current Density Imaging) — cartographie des courants cérébraux",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#photographie-computationnelle",
     "href": "ch1c.html#photographie-computationnelle",
     "title": "Computational Imaging",
     "section": "Photographie computationnelle",
-    "text": "Photographie computationnelle\n\nImagerie par appareils mobiles\nLes smartphones modernes intègrent plusieurs capteurs et objectifs pour mettre en œuvre des algorithmes de computational photography :\n\nFusion multi-capteurs\nHDR (High Dynamic Range)\nMode nuit (Night Mode)\nPortrait avec flou d’arrière-plan artificiel\n\n\n\nImagerie multi-capteurs / hyperspectrale\nDes caméras équipées de multiples objectifs (ex. : Light L16) permettent de capturer simultanément plusieurs perspectives et longueurs d’onde."
+    "text": "Photographie computationnelle\n\nImagerie par appareils mobiles\nLes smartphones modernes intègrent plusieurs capteurs et objectifs pour mettre en œuvre des algorithmes de computational photography :\n\nFusion multi-capteurs\nHDR (High Dynamic Range)\nMode nuit (Night Mode)\nPortrait avec flou d’arrière-plan artificiel\n\n\n\nImagerie multi-capteurs / hyperspectrale\nDes caméras équipées de multiples objectifs (ex. : Light L16) permettent de capturer simultanément plusieurs perspectives et longueurs d’onde.",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#industrie-automobile",
     "href": "ch1c.html#industrie-automobile",
     "title": "Computational Imaging",
     "section": "Industrie automobile",
-    "text": "Industrie automobile\n\nVéhicules autonomes\nUn véhicule autonome intègre de nombreux systèmes de computational imaging :\n\n\n\n\n\n\n\nCapteur\nRôle\n\n\n\n\nCaméras\nDétection de piétons, cyclistes, feux de signalisation, espace libre\n\n\nLIDARs\nCapteurs laser haute précision, détection d’objets fixes et mobiles\n\n\nRadars longue portée\nDétection des véhicules et mesure de vitesse\n\n\nRadars courte portée\nDétection des obstacles autour du véhicule\n\n\nRadars articulés\nDétection des véhicules en mouvement à longue portée\n\n\n\n\n\nImagerie 3D pour véhicules autonomes\nLe LIDAR (Light Detection and Ranging) est un capteur clé :\n\nExemple : Velodyne VLS-128\nGénère des nuages de points 3D en temps réel\nPermet la perception de l’environnement à 360°"
+    "text": "Industrie automobile\n\nVéhicules autonomes\nUn véhicule autonome intègre de nombreux systèmes de computational imaging :\n\n\n\n\n\n\n\nCapteur\nRôle\n\n\n\n\nCaméras\nDétection de piétons, cyclistes, feux de signalisation, espace libre\n\n\nLIDARs\nCapteurs laser haute précision, détection d’objets fixes et mobiles\n\n\nRadars longue portée\nDétection des véhicules et mesure de vitesse\n\n\nRadars courte portée\nDétection des obstacles autour du véhicule\n\n\nRadars articulés\nDétection des véhicules en mouvement à longue portée\n\n\n\n\n\nImagerie 3D pour véhicules autonomes\nLe LIDAR (Light Detection and Ranging) est un capteur clé :\n\nExemple : Velodyne VLS-128\nGénère des nuages de points 3D en temps réel\nPermet la perception de l’environnement à 360°",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#solutions-basées-sur-lia",
     "href": "ch1c.html#solutions-basées-sur-lia",
     "title": "Computational Imaging",
     "section": "Solutions basées sur l’IA",
-    "text": "Solutions basées sur l’IA\n\nDeep Optics\nLe concept de Deep Optics consiste à optimiser conjointement les composants optiques et le traitement d’image de bout en bout (end-to-end).\n\nPrincipe général\nflowchart LR\n    subgraph Physical[\"Couche physique\"]\n        L[\"Optique\\n(lentille)\"]\n    end\n    subgraph Digital[\"Couche numérique\"]\n        N[\"Réseau de neurones\"]\n    end\n    Loss[\"Loss\"]\n\n    L --&gt; N --&gt; Loss\n    Loss -.-&gt;|\"rétropropagation\\n(backpropagation)\"| L\n    Loss -.-&gt;|\"rétropropagation\"| N\n\n\nPhase d’entraînement (Training)\n\nOptimisation end-to-end en simulation\nLa lentille est modélisée différentiablement\nLe réseau et les paramètres optiques sont co-optimisés via une fonction de perte (loss)\n\n\n\nPhase d’inférence (Inference)\n\nFabrication de la lentille ou d’autres composants physiques obtenus par optimisation\nExécution du réseau numérique\n\nDeux interprétations possibles :\n\nSystème encodeur optique / décodeur électronique\nRéseau de neurones hybride optique-électronique"
+    "text": "Solutions basées sur l’IA\n\nDeep Optics\nLe concept de Deep Optics consiste à optimiser conjointement les composants optiques et le traitement d’image de bout en bout (end-to-end).\n\nPrincipe général\n\n\n\n\n\nflowchart LR\n    subgraph Physical[\"Couche physique\"]\n        L[\"Optique\\n(lentille)\"]\n    end\n    subgraph Digital[\"Couche numérique\"]\n        N[\"Réseau de neurones\"]\n    end\n    Loss[\"Loss\"]\n\n    L --&gt; N --&gt; Loss\n    Loss -.-&gt;|\"rétropropagation\\n(backpropagation)\"| L\n    Loss -.-&gt;|\"rétropropagation\"| N\n\n\n\n\n\n\n\n\nPhase d’entraînement (Training)\n\nOptimisation end-to-end en simulation\nLa lentille est modélisée différentiablement\nLe réseau et les paramètres optiques sont co-optimisés via une fonction de perte (loss)\n\n\n\nPhase d’inférence (Inference)\n\nFabrication de la lentille ou d’autres composants physiques obtenus par optimisation\nExécution du réseau numérique\n\nDeux interprétations possibles :\n\nSystème encodeur optique / décodeur électronique\nRéseau de neurones hybride optique-électronique",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#analyse-dœuvres-dart",
     "href": "ch1c.html#analyse-dœuvres-dart",
     "title": "Computational Imaging",
     "section": "Analyse d’œuvres d’art",
-    "text": "Analyse d’œuvres d’art\n\nExamen de peintures anciennes\nL’imagerie computationnelle permet d’analyser de manière non invasive la structure interne des peintures.\n\n\nStructure d’une peinture (stratigraphy)\nUne peinture est une structure multicouche :\nflowchart TD\n    V[\"Vernis / Glacis\\n(Varnish/Glazes)\"]\n    P[\"Couches de peinture\\n(Paint layers)\"]\n    S[\"Esquisse\\n(Sketches)\"]\n    G[\"Couche de préparation\\n(Ground Layer)\"]\n    C[\"Toile / Support\\n(Canvas)\"]\n    V --&gt; P --&gt; S --&gt; G --&gt; C\n\n\nImagerie non-invasive traditionnelle\nQuatre modalités complémentaires pour une même œuvre (ex. : La Vierge aux rochers de Léonard de Vinci) :\n\n\n\nModalité\nCe qu’on voit\n\n\n\n\nInfrarouge\nCouches profondes, esquisses\n\n\nVisible\nSurface de la peinture\n\n\nUltraviolet\nRestaurations, vernis\n\n\nRayons X\nStructure générale, couches denses\n\n\n\n\n\nMA-XRF (Macro X-Ray Fluorescence)\nLa MA-XRF est une technique d’imagerie élémentaire basée sur la fluorescence X.\n\nPrincipe physique\nLorsqu’un faisceau de rayons X primaire frappe l’échantillon :\n\nDes électrons sont éjectés de couches internes (couche K, L, M)\nDes électrons de couches externes comblent les lacunes\nL’énergie libérée est émise sous forme de rayonnement de fluorescence X\nL’énergie caractéristique identifie l’élément chimique présent\n\n\n\nDatacube MA-XRF\nLa MA-XRF génère un cube de données 3D :\n\nDimensions \\(x, y\\) : position spatiale sur la peinture\nDimension énergie : 0–40 keV, 4096 canaux\n\nCe cube permet de créer des cartes de distribution élémentaire (Calcium, Manganèse, Fer, Cuivre, Mercure, Plomb…)\n\n\nDéconvolution XRF\nÀ partir du datacube, un algorithme de déconvolution XRF extrait les cartes individuelles par élément chimique.\nExemple (Van Gogh — Les Tournesols) :\n\nCarte Cuivre (Cu K-alpha)\nCarte Zinc\nCarte Fer\nCarte Plomb\n\n\n\n\nExtraction d’une peinture sous-jacente par ML\nUne approche d’apprentissage automatique permet de séparer la peinture visible de la peinture cachée (recouverte) à partir des images X.\nExemple : Francisco de Goya — Doña Isabel de Porcel (NG1473, avant 1805)\n\n(a) Image RGB (peinture visible)\n(b) Image radiographique X (mélange des deux peintures)\nRésultat : séparation en \\(\\hat{x}_1\\) (peinture originale) et \\(\\hat{x}_2\\) (peinture sous-jacente)"
+    "text": "Analyse d’œuvres d’art\n\nExamen de peintures anciennes\nL’imagerie computationnelle permet d’analyser de manière non invasive la structure interne des peintures.\n\n\nStructure d’une peinture (stratigraphy)\nUne peinture est une structure multicouche :\n\n\n\n\n\nflowchart TD\n    V[\"Vernis / Glacis\\n(Varnish/Glazes)\"]\n    P[\"Couches de peinture\\n(Paint layers)\"]\n    S[\"Esquisse\\n(Sketches)\"]\n    G[\"Couche de préparation\\n(Ground Layer)\"]\n    C[\"Toile / Support\\n(Canvas)\"]\n    V --&gt; P --&gt; S --&gt; G --&gt; C\n\n\n\n\n\n\n\n\nImagerie non-invasive traditionnelle\nQuatre modalités complémentaires pour une même œuvre (ex. : La Vierge aux rochers de Léonard de Vinci) :\n\n\n\nModalité\nCe qu’on voit\n\n\n\n\nInfrarouge\nCouches profondes, esquisses\n\n\nVisible\nSurface de la peinture\n\n\nUltraviolet\nRestaurations, vernis\n\n\nRayons X\nStructure générale, couches denses\n\n\n\n\n\nMA-XRF (Macro X-Ray Fluorescence)\nLa MA-XRF est une technique d’imagerie élémentaire basée sur la fluorescence X.\n\nPrincipe physique\nLorsqu’un faisceau de rayons X primaire frappe l’échantillon :\n\nDes électrons sont éjectés de couches internes (couche K, L, M)\nDes électrons de couches externes comblent les lacunes\nL’énergie libérée est émise sous forme de rayonnement de fluorescence X\nL’énergie caractéristique identifie l’élément chimique présent\n\n\n\nDatacube MA-XRF\nLa MA-XRF génère un cube de données 3D :\n\nDimensions \\(x, y\\) : position spatiale sur la peinture\nDimension énergie : 0–40 keV, 4096 canaux\n\nCe cube permet de créer des cartes de distribution élémentaire (Calcium, Manganèse, Fer, Cuivre, Mercure, Plomb…)\n\n\nDéconvolution XRF\nÀ partir du datacube, un algorithme de déconvolution XRF extrait les cartes individuelles par élément chimique.\nExemple (Van Gogh — Les Tournesols) :\n\nCarte Cuivre (Cu K-alpha)\nCarte Zinc\nCarte Fer\nCarte Plomb\n\n\n\n\nExtraction d’une peinture sous-jacente par ML\nUne approche d’apprentissage automatique permet de séparer la peinture visible de la peinture cachée (recouverte) à partir des images X.\nExemple : Francisco de Goya — Doña Isabel de Porcel (NG1473, avant 1805)\n\n(a) Image RGB (peinture visible)\n(b) Image radiographique X (mélange des deux peintures)\nRésultat : séparation en \\(\\hat{x}_1\\) (peinture originale) et \\(\\hat{x}_2\\) (peinture sous-jacente)",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#applications-non-triviales",
     "href": "ch1c.html#applications-non-triviales",
     "title": "Computational Imaging",
     "section": "Applications non triviales",
-    "text": "Applications non triviales\n\nImagerie en dehors de la ligne de visée (NLOS)\nLe NLOS (Non-Line-Of-Sight) imaging permet de reconstruire des objets cachés, non visibles directement par la caméra.\n\nPrincipe\nflowchart LR\n    L[\"Laser picoseconde\\n(pulsé)\"]\n    M[\"Miroirs galvanométriques\\n(2 axes)\"]\n    W[\"Mur (diffuseur)\"]\n    O[\"Objet caché\\n(hidden object)\"]\n    D[\"Capteur SPAD\"]\n\n    L --&gt; M --&gt; W\n    W --&gt;|\"lumière diffusée\"| O\n    O --&gt;|\"lumière réfléchie\"| W\n    W --&gt; D\n\n\nMécanisme de mesure temporelle\nLa profondeur est récupérée grâce au temps de vol de la lumière :\n\n1er rebond (laser → mur) : mesure de référence, ex. \\(2.7\\text{ ns}\\) → \\(40\\text{ cm}\\)\n3ème rebond (mur → objet → mur) : contient l’info sur l’objet, ex. \\(4.3\\text{ ns}\\)\nLa différence \\(\\Delta t = 4.3 - 2.7 = 1.6\\text{ ns}\\) correspond à \\(\\sim 24\\text{ cm}\\)\n\n\n\nPipeline de reconstruction\n\nAcquisition des mesures temporelles résolues (datacube 3D)\nApplication d’un algorithme de reconstruction 3D (inversion du problème)\nObtention d’une image volumétrique de l’objet caché\n\n\n\nRésultats expérimentaux\n\nSystème réel : laser pulsé + capteur SPAD + miroirs galvos + occulteur\nScène cachée : statue + plante\nRésultat : reconstruction 3D identifiable de la scène derrière l’occulteur"
+    "text": "Applications non triviales\n\nImagerie en dehors de la ligne de visée (NLOS)\nLe NLOS (Non-Line-Of-Sight) imaging permet de reconstruire des objets cachés, non visibles directement par la caméra.\n\nPrincipe\n\n\n\n\n\nflowchart LR\n    L[\"Laser picoseconde\\n(pulsé)\"]\n    M[\"Miroirs galvanométriques\\n(2 axes)\"]\n    W[\"Mur (diffuseur)\"]\n    O[\"Objet caché\\n(hidden object)\"]\n    D[\"Capteur SPAD\"]\n\n    L --&gt; M --&gt; W\n    W --&gt;|\"lumière diffusée\"| O\n    O --&gt;|\"lumière réfléchie\"| W\n    W --&gt; D\n\n\n\n\n\n\n\n\nMécanisme de mesure temporelle\nLa profondeur est récupérée grâce au temps de vol de la lumière :\n\n1er rebond (laser → mur) : mesure de référence, ex. \\(2.7\\text{ ns}\\) → \\(40\\text{ cm}\\)\n3ème rebond (mur → objet → mur) : contient l’info sur l’objet, ex. \\(4.3\\text{ ns}\\)\nLa différence \\(\\Delta t = 4.3 - 2.7 = 1.6\\text{ ns}\\) correspond à \\(\\sim 24\\text{ cm}\\)\n\n\n\nPipeline de reconstruction\n\nAcquisition des mesures temporelles résolues (datacube 3D)\nApplication d’un algorithme de reconstruction 3D (inversion du problème)\nObtention d’une image volumétrique de l’objet caché\n\n\n\nRésultats expérimentaux\n\nSystème réel : laser pulsé + capteur SPAD + miroirs galvos + occulteur\nScène cachée : statue + plante\nRésultat : reconstruction 3D identifiable de la scène derrière l’occulteur",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#système-visuel-humain",
     "href": "ch1c.html#système-visuel-humain",
     "title": "Computational Imaging",
     "section": "Système visuel humain",
-    "text": "Système visuel humain\nÉtude du canal visuel biologique comme référence :\n\nAnatomie de l’œil\nAcuité visuelle, vision des couleurs, vision 3D\nSensibilité au contraste\nConflits dans les affichages (displays)\nErreurs réfractives\n\nflowchart LR\n    E[\"Œil\\n(capteurs)\"] --&gt; N[\"Nerf optique\\n(réseau)\"] --&gt; B[\"Cortex visuel\\n(calcul)\"]"
+    "text": "Système visuel humain\nÉtude du canal visuel biologique comme référence :\n\nAnatomie de l’œil\nAcuité visuelle, vision des couleurs, vision 3D\nSensibilité au contraste\nConflits dans les affichages (displays)\nErreurs réfractives\n\n\n\n\n\n\nflowchart LR\n    E[\"Œil\\n(capteurs)\"] --&gt; N[\"Nerf optique\\n(réseau)\"] --&gt; B[\"Cortex visuel\\n(calcul)\"]",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#photographie-numérique",
     "href": "ch1c.html#photographie-numérique",
     "title": "Computational Imaging",
     "section": "Photographie numérique",
-    "text": "Photographie numérique\nÉtude des composantes d’un appareil photo numérique :\n\nOptiques et lentilles\nOuverture (aperture)\nProfondeur de champ (depth of field)\nChamp de vision (field of view)\nExposition (exposure)\nBruit (noise)\nTableaux de filtres colorés (color filter arrays, CFA)\nPipeline de traitement d’image (imaging processing pipeline)"
+    "text": "Photographie numérique\nÉtude des composantes d’un appareil photo numérique :\n\nOptiques et lentilles\nOuverture (aperture)\nProfondeur de champ (depth of field)\nChamp de vision (field of view)\nExposition (exposure)\nBruit (noise)\nTableaux de filtres colorés (color filter arrays, CFA)\nPipeline de traitement d’image (imaging processing pipeline)",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#photographie-computationnelle-1",
     "href": "ch1c.html#photographie-computationnelle-1",
     "title": "Computational Imaging",
     "section": "Photographie computationnelle",
-    "text": "Photographie computationnelle\nTechniques avancées de capture et traitement :\n\nHDR (High Dynamic Range Imaging)\nTone mapping\nPhotographie en rafale et mode nuit (Burst photography & Night Sight)\nOuvertures codées (Coded apertures)\nEt bien d’autres…"
+    "text": "Photographie computationnelle\nTechniques avancées de capture et traitement :\n\nHDR (High Dynamic Range Imaging)\nTone mapping\nPhotographie en rafale et mode nuit (Burst photography & Night Sight)\nOuvertures codées (Coded apertures)\nEt bien d’autres…",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#apprentissage-profond-pour-le-ci",
     "href": "ch1c.html#apprentissage-profond-pour-le-ci",
     "title": "Computational Imaging",
     "section": "Apprentissage profond pour le CI",
-    "text": "Apprentissage profond pour le CI\nArchitectures de réseaux de neurones appliquées à l’imagerie :\n\nRéseaux de neurones convolutifs (CNN — Convolutional Neural Networks)\nDnCNN — débruitage par réseau profond\nU-Net — segmentation et reconstruction\nEt autres architectures…"
+    "text": "Apprentissage profond pour le CI\nArchitectures de réseaux de neurones appliquées à l’imagerie :\n\nRéseaux de neurones convolutifs (CNN — Convolutional Neural Networks)\nDnCNN — débruitage par réseau profond\nU-Net — segmentation et reconstruction\nEt autres architectures…",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#optimisation-et-apprentissage-profond",
     "href": "ch1c.html#optimisation-et-apprentissage-profond",
     "title": "Computational Imaging",
     "section": "Optimisation et apprentissage profond",
-    "text": "Optimisation et apprentissage profond\nMéthodes algorithmiques pour la résolution de problèmes inverses :\n\nMéthodes de gradient proximal (Proximal gradient methods)\nOptimisation itérative avec des priors profonds\nRésolution de problèmes inverses généraux en imagerie"
+    "text": "Optimisation et apprentissage profond\nMéthodes algorithmiques pour la résolution de problèmes inverses :\n\nMéthodes de gradient proximal (Proximal gradient methods)\nOptimisation itérative avec des priors profonds\nRésolution de problèmes inverses généraux en imagerie",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#imagerie-compressive-compressive-imaging",
     "href": "ch1c.html#imagerie-compressive-compressive-imaging",
     "title": "Computational Imaging",
     "section": "Imagerie compressive (Compressive Imaging)",
-    "text": "Imagerie compressive (Compressive Imaging)\nAcquisition sous-échantillonnée avec reconstruction :\n\nCaméra à pixel unique (single pixel camera)\nImagerie hyperspectrale compressive\nImagerie compressive de champ lumineux (light field)"
+    "text": "Imagerie compressive (Compressive Imaging)\nAcquisition sous-échantillonnée avec reconstruction :\n\nCaméra à pixel unique (single pixel camera)\nImagerie hyperspectrale compressive\nImagerie compressive de champ lumineux (light field)",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#introduction-à-loptique-ondulatoire-et-au-deep-optics",
     "href": "ch1c.html#introduction-à-loptique-ondulatoire-et-au-deep-optics",
     "title": "Computational Imaging",
     "section": "Introduction à l’optique ondulatoire et au Deep Optics",
-    "text": "Introduction à l’optique ondulatoire et au Deep Optics\n\nDiffraction et interférence\nLa limite de diffraction\nOptimisation conjointe optique & traitement d’image (end-to-end)\nRécupération de phase (phase retrieval)\nHolographie générée par ordinateur (computer-generated holography)"
+    "text": "Introduction à l’optique ondulatoire et au Deep Optics\n\nDiffraction et interférence\nLa limite de diffraction\nOptimisation conjointe optique & traitement d’image (end-to-end)\nRécupération de phase (phase retrieval)\nHolographie générée par ordinateur (computer-generated holography)",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
   },
   {
     "objectID": "ch1c.html#affichages-computationnels-computational-displays",
     "href": "ch1c.html#affichages-computationnels-computational-displays",
     "title": "Computational Imaging",
     "section": "Affichages computationnels (Computational Displays)",
-    "text": "Affichages computationnels (Computational Displays)\n\nGaze-Contingent Focus Displays — affichages adaptatifs au regard\nNear-Eye Light Field Displays — affichages à champ lumineux proche de l’œil\nHolographic Displays — affichages holographiques"
+    "text": "Affichages computationnels (Computational Displays)\n\nGaze-Contingent Focus Displays — affichages adaptatifs au regard\nNear-Eye Light Field Displays — affichages à champ lumineux proche de l’œil\nHolographic Displays — affichages holographiques",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Details"
+    ]
+  },
+  {
+    "objectID": "ch2r.html",
+    "href": "ch2r.html",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "",
+    "text": "Révision rapide — 14X062 Computational Imaging",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#ce-quil-faut-retenir",
+    "href": "ch2r.html#ce-quil-faut-retenir",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Ce qu’il faut retenir",
+    "text": "Ce qu’il faut retenir\nL’œil est le résultat de ~450 millions d’années d’évolution, depuis les simples cellules photosensibles jusqu’à l’œil vertébré complexe.\nLes 6 étapes clés de l’évolution de l’œil :\n\nCellules photosensibles planes (pas de directionnalité)\nZone déprimée → sensibilité directionnelle limitée\nŒil à sténopé (pinhole) → imagerie rudimentaire\nChambre close avec humeur transparente → rétine distincte\nApparition d’un cristallin → focalisation\nIris + cornée séparée → œil moderne complet",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#les-grandes-étapes",
+    "href": "ch2r.html#les-grandes-étapes",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Les grandes étapes",
+    "text": "Les grandes étapes\n\n\n\n\n\n\n\n\n\nÉpoque\nAuteur\nIdée clé\nStatut\n\n\n\n\n~350 av. J.-C.\nPlaton\nLumière émise par les yeux\n❌ Faux\n\n\n~330 av. J.-C.\nAristote\nImages matérielles entrant dans l’œil\n❌ Incomplet\n\n\n~1040\nAlhazen\nLumière voyageant vers l’œil, pointillisme\n✅ Fondateur\n\n\n~1600\nKepler\nThéorie rétinienne, séparation par réfraction\n✅ Correct\n\n\nModerne\n—\nPsychologie + neurophysiologie + vision computationnelle\n✅",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#alhazen-points-clés-à-retenir",
+    "href": "ch2r.html#alhazen-points-clés-à-retenir",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Alhazen — points clés à retenir",
+    "text": "Alhazen — points clés à retenir\n\nLumière voyage en ligne droite\nCorps auto-lumineux → irradiation dans toutes les directions\nVision = collection de points sur les surfaces des objets\nCorrespondance géométrique monde ↔︎ image rétinienne",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#kepler-point-clé-à-retenir",
+    "href": "ch2r.html#kepler-point-clé-à-retenir",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Kepler — point clé à retenir",
+    "text": "Kepler — point clé à retenir\n\nLes rayons d’un même point de surface arrivent sur le cristallin depuis des directions différentes → réfractés différemment → focalisés en un point unique sur la rétine.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#chiffres-essentiels-à-mémoriser",
+    "href": "ch2r.html#chiffres-essentiels-à-mémoriser",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Chiffres essentiels à mémoriser",
+    "text": "Chiffres essentiels à mémoriser\n\n\n\n\n\n\n\nParamètre\nValeur\n\n\n\n\nAcuité visuelle (20/20)\n\\(\\approx 1\\) minute d’arc\n\n\nChamp horizontal\n\\(\\approx 200°\\) (\\(120°\\) binoculaire + \\(2 \\times 40°\\) monoculaire)\n\n\nChamp vertical\n\\(\\approx 135°\\)\n\n\nRésolution temporelle\n\\(\\approx 60\\) Hz\n\n\nPlage dynamique instantanée\n\\(6{,}5\\) stops\n\n\nPlage dynamique adaptée\n\\(46{,}5\\) stops (\\(\\approx 14\\) ordres de magnitude)\n\n\nAccommodation (jeune)\n\\(\\approx 8\\) cm → \\(\\infty\\)\n\n\nAccommodation (50 ans)\n\\(\\approx 50\\) cm → \\(\\infty\\)\n\n\nBâtonnets\n\\(\\approx 10^8\\)\n\n\nCônes\n\\(\\approx 10^7\\)\n\n\nFibres du nerf optique\n\\(\\approx 10^6\\)\n\n\n\n⚠️ Le rapport \\(10^8\\) photorécepteurs / \\(10^6\\) fibres nerveuses impose un codage/compression obligatoire du signal visuel.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#structure-de-lavant-vers-larrière",
+    "href": "ch2r.html#structure-de-lavant-vers-larrière",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Structure de l’avant vers l’arrière",
+    "text": "Structure de l’avant vers l’arrière\ngraph LR\n    A[Cornée\\n~2/3 puissance dioptrique] --&gt; B[Humeur aqueuse]\n    B --&gt; C[Iris + Pupille\\nØ 2–8 mm]\n    C --&gt; D[Cristallin\\naccommodation]\n    D --&gt; E[Humeur vitrée]\n    E --&gt; F[Rétine\\nphotorécepteurs]\n    F --&gt; G[Nerf optique]\nPoints critiques :\n\nCornée : principale surface réfractive\nPupille : contrôle la quantité de lumière (comme le diaphragme d’un appareil photo)\nFovéa : zone de haute résolution, riche en cônes\nTache aveugle (disque optique) : aucun photorécepteur → point aveugle dans le champ visuel",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#deux-systèmes-parallèles",
+    "href": "ch2r.html#deux-systèmes-parallèles",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Deux systèmes parallèles",
+    "text": "Deux systèmes parallèles\n\n\n\n\nBâtonnets (Rods)\nCônes (Cones)\n\n\n\n\nVision\nScotopique (faible lumière)\nPhotopique (bonne lumière)\n\n\nRésolution\nBasse\nHaute\n\n\nSensibilité\nHaute\nBasse\n\n\nCouleur\nNon (niveaux de gris)\nOui (S, M, L)\n\n\nConvergence\nForte (↓ résolution)\nFaible (↑ résolution)\n\n\nLocalisation\nPériphérie\nFovéa",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#les-3-types-de-cônes",
+    "href": "ch2r.html#les-3-types-de-cônes",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Les 3 types de cônes",
+    "text": "Les 3 types de cônes\n\nS (Short) → \\(\\approx 419\\) nm → bleu (réponse faible)\nM (Medium) → \\(\\approx 531\\) nm → vert (réponse dominante)\nL (Long) → \\(\\approx 559\\) nm → rouge (proche infrarouge)",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#limites-de-lœil-humain",
+    "href": "ch2r.html#limites-de-lœil-humain",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Limites de l’œil humain",
+    "text": "Limites de l’œil humain\n\nVaisseaux sanguins devant les photorécepteurs (œil inversé)\nImage renversée sur la rétine\nHaute résolution uniquement dans la fovéa\nTache aveugle au niveau du disque optique\nLuminosité non uniforme sur la rétine",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#rôle-fondamental",
+    "href": "ch2r.html#rôle-fondamental",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Rôle fondamental",
+    "text": "Rôle fondamental\n\nRemplacer les niveaux absolus de luminosité par une carte de différences (carte rétinotopique).",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#organisation-centre-entourage",
+    "href": "ch2r.html#organisation-centre-entourage",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Organisation centre-entourage",
+    "text": "Organisation centre-entourage\n\nON-center / OFF-surround : activé par lumière au centre, inhibé en périphérie\nOFF-center / ON-surround : inverse\n\nPourquoi ? Les objets sont identifiés par leurs différences avec le fond, pas par leur luminosité absolue → permet une amplification sans saturation.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#cellules-m-vs-p",
+    "href": "ch2r.html#cellules-m-vs-p",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Cellules M vs P",
+    "text": "Cellules M vs P\n\n\n\n\n\n\n\n\n\nM (Magnocellulaires)\nP (Parvocellulaires)\n\n\n\n\nTaille\nGrandes\nPetites\n\n\nVitesse\nRapides\nLentes\n\n\nRésolution spatiale\nBasse\nHaute\n\n\nRésolution temporelle\nHaute\nBasse\n\n\nCouleur\nNon\nOui\n\n\nRôle\nMouvement, stimuli soudains\nCouleur, texture, formes\n\n\nAlimentation LGN\nCouches magnocellulaires\nCouches parvocellulaires",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#chaîne-de-traitement-complète",
+    "href": "ch2r.html#chaîne-de-traitement-complète",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Chaîne de traitement complète",
+    "text": "Chaîne de traitement complète\ngraph TD\n    R[Rétine\\nPhotorécepteurs → Ganglionnaires] --&gt; OC[Chiasma optique\\nDécussation fibres nasales]\n    OC --&gt; LGN[LGN\\n2 couches M + 4 couches P]\n    LGN --&gt; V1[V1 Cortex visuel primaire\\nCellules simples + complexes]\n    V1 --&gt; D[Flux DORSAL\\nWHERE — Mouvement, localisation]\n    V1 --&gt; V[Flux VENTRAL\\nWHAT — Reconnaissance objets]\n    D --&gt; CP[Cortex pariétal]\n    V --&gt; CT[Cortex temporal\\nFFA, PPA...]",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#lgn-à-retenir",
+    "href": "ch2r.html#lgn-à-retenir",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "LGN — à retenir",
+    "text": "LGN — à retenir\n\n1 LGN par hémisphère\n6 couches : 2 magnocellulaires (M) + 4 parvocellulaires (P)\nRétinotopie préservée dans toutes les couches\nTous les neurones : organisation centre-entourage",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#v1-3-types-de-cellules-hubel-wiesel-prix-nobel",
+    "href": "ch2r.html#v1-3-types-de-cellules-hubel-wiesel-prix-nobel",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "V1 — 3 types de cellules (Hubel & Wiesel, Prix Nobel)",
+    "text": "V1 — 3 types de cellules (Hubel & Wiesel, Prix Nobel)\n\nCentre-entourage : identiques au LGN\nCellules simples :\n\nChamps récepteurs allongés (excitateur + inhibiteur)\nRépondent à des contours à orientation et position précises\nConstruites à partir de plusieurs champs centre-entourage alignés\n\nCellules complexes :\n\nPlus abstraites, partiellement invariantes à la position\nRépondent à des contours orientés sur une plage de positions",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#hiérarchie-feedforward",
+    "href": "ch2r.html#hiérarchie-feedforward",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Hiérarchie feedforward",
+    "text": "Hiérarchie feedforward\n\\[\\text{Centre-entourage} \\rightarrow \\text{Simple} \\rightarrow \\text{Complexe}\\]\n\nSpécificité croissante à la forme\nGénéralité croissante aux conditions d’observation\n⇒ Base de la reconnaissance d’objets",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#hypercolonnes-dans-v1",
+    "href": "ch2r.html#hypercolonnes-dans-v1",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Hypercolonnes dans V1",
+    "text": "Hypercolonnes dans V1\nOrganisation spatiale minimisant la distance entre neurones pour des stimuli similaires selon :\n\nŒil d’origine (gauche / droit)\nOrientation préférée\nLocalisation rétinotopique\n\n\nRègle de Hebb : « Neurons that fire together, wire together. »",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#contrast-sensitivity-function-csf",
+    "href": "ch2r.html#contrast-sensitivity-function-csf",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Contrast Sensitivity Function (CSF)",
+    "text": "Contrast Sensitivity Function (CSF)\n\nPic de sensibilité : \\(\\approx 4\\)–\\(6\\) cycles par degré (cpd)\nLimite supérieure : \\(\\approx 60\\) cpd (densité de paquement des cônes)\nLa courbe se déplace avec la distance d’observation",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#flux-ventral-progression",
+    "href": "ch2r.html#flux-ventral-progression",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Flux ventral — progression",
+    "text": "Flux ventral — progression\n\n\n\nNiveau\nChamp récepteur\nLatence\nSpécialité\n\n\n\n\nLGN\n\\(1°\\)\n—\nCentre-entourage\n\n\nV1\n\\(1°\\)\n40–60 ms\nOrientation\n\n\nV2\n\\(1{,}3°\\)\n50–70 ms\n—\n\n\nV4\n\\(4{,}8°\\)\n60–80 ms\nCouleur, formes\n\n\nTEO\n\\(5{,}8°\\)\n70–90 ms\nCombinaisons de features\n\n\nTE\n\\(12°\\)\n80–100 ms\nIndépendance de vue",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#inspirations-biologiques-algorithmes",
+    "href": "ch2r.html#inspirations-biologiques-algorithmes",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Inspirations biologiques → algorithmes",
+    "text": "Inspirations biologiques → algorithmes\n\n\n\nBiologie\nAlgorithme / Modèle\n\n\n\n\nSélectivité d’orientation V1\nSIFT, HOG\n\n\nCellules simples (filtres orientés)\nCouches de convolution\n\n\nCellules complexes (invariance locale)\nCouches de pooling\n\n\nHiérarchie flux ventral\nNeocognitron → CNN",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#neocognitron-fukushima-1980",
+    "href": "ch2r.html#neocognitron-fukushima-1980",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Neocognitron (Fukushima, 1980)",
+    "text": "Neocognitron (Fukushima, 1980)\n\\[U_0 \\rightarrow U_{S1} \\rightarrow U_{C1} \\rightarrow U_{S2} \\rightarrow U_{C2} \\rightarrow U_{S3} \\rightarrow U_{C3}\\]\n\nCouches \\(U_S\\) (type simple) : synapses modifiables\nCouches \\(U_C\\) (type complexe) : synapses fixes, invariance position",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#lenet-lecun-et-al.-1998",
+    "href": "ch2r.html#lenet-lecun-et-al.-1998",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "LeNet (LeCun et al., 1998)",
+    "text": "LeNet (LeCun et al., 1998)\n\\[\\text{Image} \\rightarrow \\text{Conv} \\rightarrow \\text{Pool} \\rightarrow \\text{Conv} \\rightarrow \\text{Pool} \\rightarrow \\text{Dense} \\rightarrow \\text{Sortie}\\]",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#principe-de-la-stéréoscopie",
+    "href": "ch2r.html#principe-de-la-stéréoscopie",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Principe de la stéréoscopie",
+    "text": "Principe de la stéréoscopie\nDeux images légèrement décalées (disparité binoculaire) → chaque œil reçoit son image → le cerveau perçoit la profondeur.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#conflit-vergence-accommodation-vac",
+    "href": "ch2r.html#conflit-vergence-accommodation-vac",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Conflit Vergence-Accommodation (VAC)",
+    "text": "Conflit Vergence-Accommodation (VAC)\n⚠️ Problème central des affichages stéréoscopiques :\n\n\n\n\n\n\n\n\n\nMonde réel\nAffichage stéréo classique\n\n\n\n\nVergence\nDistance de l’objet\nDistance virtuelle (disparité)\n\n\nAccommodation\nDistance de l’objet\nDistance physique de l’écran (fixe)\n\n\nCouplage\n✅ Toujours couplés\n❌ Découplés → conflit\n\n\n\nEffets du VAC :\n\nInconfort visuel, fatigue, nausées\nVision dédoublée (diplopic vision)\nDégradation de la qualité d’image perçue\nRisque de pathologies (systèmes visuels en développement)",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#solutions-au-vac",
+    "href": "ch2r.html#solutions-au-vac",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Solutions au VAC",
+    "text": "Solutions au VAC\n\nGaze-contingent Focus Displays : eye tracking + déplacement mécanique du plan focal\nNear-eye Light Field Displays : simulation de plusieurs plans focaux simultanément\nAffichages holographiques : reconstruction complète du front d’onde → accommodation naturelle",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2r.html#zone-de-confort",
+    "href": "ch2r.html#zone-de-confort",
+    "title": "Résumé — Système Visuel Humain",
+    "section": "Zone de Confort",
+    "text": "Zone de Confort\nPlus la distance d’observation est grande, plus la zone de confort s’élargit :\n\\[\\text{Mobile} &lt; \\text{Desktop} &lt; \\text{TV} &lt; \\text{Cinéma}\\]",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch1r.html",
+    "href": "ch1r.html",
+    "title": "Computational Imaging",
+    "section": "",
+    "text": "L’imagerie computationnelle forme indirectement des images à partir de mesures en utilisant des algorithmes sophistiqués. Elle intègre étroitement le système de capture et le calcul, contrairement à l’imagerie traditionnelle.\n\nImagerie traditionnelle : l’optique forme une image proche de l’image finale ; le calcul intervient a posteriori pour améliorer (débrutage, déconvolution).\nImagerie computationnelle : l’optique encode la scène en représentation intermédiaire ; le calcul décode pour reconstruire une ou plusieurs images.\n\ngraph LR\n    A[Monde physique] --&gt; B[Encodage optique]\n    B --&gt; C[Représentation intermédiaire]\n    C --&gt; D[Décodage algorithmique]\n    D --&gt; E[Image(s) reconstruite(s)]\n\n\n\n\n\n\nPartie\nPondération\nDétails\n\n\n\n\nThéorique\n40%\n2 CCs ou examen oral\n\n\nTPs\n25%\nMoyenne des TPs\n\n\nMini‑projet\n35%\nRapport + présentation\n\n\n\nCondition : chaque partie ≥ 4.0/6.\n\n\n\n\n\n\n\nSP‑STM / nc‑AFM : détection de spin à l’échelle atomique.\nMRFM : résonance magnétique sur spin unique.\nImagerie X cohérente : magnétisme sans lentille, résolution 5‑10 nm.\n\n\n\n\n\nSynthèse d’ouverture, déconvolution.\nVolumes de données massifs (SKA : exaoctets).\nReconstruction de cartes du ciel, étude matière noire.\n\n\n\n\n\n\n\n\n\n\n\n\nMéthode\nPorteur d’info\nPrincipe\n\n\n\n\nÉchographie\nOndes pression\nRétrodiffusion\n\n\nRadiographie/CT\nRayonnements ionisants\nTransmission / reconstruction 3D\n\n\nSPECT/PET\nÉmission traceurs\nImagerie fonctionnelle\n\n\nIRM\nPrécession spin\nContraste multidimensionnel\n\n\n\nÉtapes : acquisition signaux 1D/2D → reconstruction 3D.\n\n\n\n\nHDR, mode nuit, fusion d’images, bokeh.\n\n\n\n\n\nVoitures autonomes : caméras, lidar, fusion, imagerie 3D temps réel.\n\n\n\n\n\nOptimisation conjointe optique‑traitement (simulation bout en bout).\nRéseau hybride opto‑électronique : optique codeur + réseau décodeur.\n\n\n\n\n\nMA‑XRF : cube (x, y, énergie) → cartes élémentaires des pigments.\nApprentissage pour séparation des couches picturales (ex. Goya).\n\n\n\n\n\nReconstruction scène cachée par analyse lumière diffusée.\nApplications : sécurité, robotique, secours.\n\n\n\n\n\n\n\n\n\nAnatomie œil, acuité, vision couleurs/3D.\nSensibilité contraste, conflits d’affichage, défauts réfraction.\n\n\n\n\n\nOptique, ouverture, profondeur champ, exposition, bruit.\nFiltres Bayer, pipeline traitement.\n\n\n\n\n\nHDR, tone mapping, burst mode, coded apertures.\n\n\n\n\n\nCNN, DnCNN (débruitage), U‑Net (segmentation/reconstruction).\n\n\n\n\n\nMéthodes gradient proximal, priors profonds.\nRésolution problèmes inverses.\n\n\n\n\n\nCaméra pixel unique, hyperspectral, light field compressif.\n\n\n\n\n\nDiffraction, interférences, limite diffraction.\nOptimisation conjointe, reconstruction phase, holographie.\n\n\n\n\n\nLight field displays (VR/AR), holographie dynamique.\n\n\n\n\n\n\n\nProblème inverse : reconstruction à partir de mesures indirectes.\nEncodage‑décodage : l’optique code l’information, le calcul la décode.\nOptimisation conjointe : conception simultanée optique et algorithmes.\nPriors : connaissances a priori (ex. régularisation, réseaux profonds).",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch1r.html#introduction",
+    "href": "ch1r.html#introduction",
+    "title": "Computational Imaging",
+    "section": "",
+    "text": "L’imagerie computationnelle forme indirectement des images à partir de mesures en utilisant des algorithmes sophistiqués. Elle intègre étroitement le système de capture et le calcul, contrairement à l’imagerie traditionnelle.\n\nImagerie traditionnelle : l’optique forme une image proche de l’image finale ; le calcul intervient a posteriori pour améliorer (débrutage, déconvolution).\nImagerie computationnelle : l’optique encode la scène en représentation intermédiaire ; le calcul décode pour reconstruire une ou plusieurs images.\n\ngraph LR\n    A[Monde physique] --&gt; B[Encodage optique]\n    B --&gt; C[Représentation intermédiaire]\n    C --&gt; D[Décodage algorithmique]\n    D --&gt; E[Image(s) reconstruite(s)]",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch1r.html#objectifs-et-évaluation",
+    "href": "ch1r.html#objectifs-et-évaluation",
+    "title": "Computational Imaging",
+    "section": "",
+    "text": "Partie\nPondération\nDétails\n\n\n\n\nThéorique\n40%\n2 CCs ou examen oral\n\n\nTPs\n25%\nMoyenne des TPs\n\n\nMini‑projet\n35%\nRapport + présentation\n\n\n\nCondition : chaque partie ≥ 4.0/6.",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch1r.html#exemples-clés-par-domaine",
+    "href": "ch1r.html#exemples-clés-par-domaine",
+    "title": "Computational Imaging",
+    "section": "",
+    "text": "SP‑STM / nc‑AFM : détection de spin à l’échelle atomique.\nMRFM : résonance magnétique sur spin unique.\nImagerie X cohérente : magnétisme sans lentille, résolution 5‑10 nm.\n\n\n\n\n\nSynthèse d’ouverture, déconvolution.\nVolumes de données massifs (SKA : exaoctets).\nReconstruction de cartes du ciel, étude matière noire.\n\n\n\n\n\n\n\n\n\n\n\n\nMéthode\nPorteur d’info\nPrincipe\n\n\n\n\nÉchographie\nOndes pression\nRétrodiffusion\n\n\nRadiographie/CT\nRayonnements ionisants\nTransmission / reconstruction 3D\n\n\nSPECT/PET\nÉmission traceurs\nImagerie fonctionnelle\n\n\nIRM\nPrécession spin\nContraste multidimensionnel\n\n\n\nÉtapes : acquisition signaux 1D/2D → reconstruction 3D.\n\n\n\n\nHDR, mode nuit, fusion d’images, bokeh.\n\n\n\n\n\nVoitures autonomes : caméras, lidar, fusion, imagerie 3D temps réel.\n\n\n\n\n\nOptimisation conjointe optique‑traitement (simulation bout en bout).\nRéseau hybride opto‑électronique : optique codeur + réseau décodeur.\n\n\n\n\n\nMA‑XRF : cube (x, y, énergie) → cartes élémentaires des pigments.\nApprentissage pour séparation des couches picturales (ex. Goya).\n\n\n\n\n\nReconstruction scène cachée par analyse lumière diffusée.\nApplications : sécurité, robotique, secours.",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch1r.html#principaux-sujets",
+    "href": "ch1r.html#principaux-sujets",
+    "title": "Computational Imaging",
+    "section": "",
+    "text": "Anatomie œil, acuité, vision couleurs/3D.\nSensibilité contraste, conflits d’affichage, défauts réfraction.\n\n\n\n\n\nOptique, ouverture, profondeur champ, exposition, bruit.\nFiltres Bayer, pipeline traitement.\n\n\n\n\n\nHDR, tone mapping, burst mode, coded apertures.\n\n\n\n\n\nCNN, DnCNN (débruitage), U‑Net (segmentation/reconstruction).\n\n\n\n\n\nMéthodes gradient proximal, priors profonds.\nRésolution problèmes inverses.\n\n\n\n\n\nCaméra pixel unique, hyperspectral, light field compressif.\n\n\n\n\n\nDiffraction, interférences, limite diffraction.\nOptimisation conjointe, reconstruction phase, holographie.\n\n\n\n\n\nLight field displays (VR/AR), holographie dynamique.",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch1r.html#concepts-fondamentaux",
+    "href": "ch1r.html#concepts-fondamentaux",
+    "title": "Computational Imaging",
+    "section": "",
+    "text": "Problème inverse : reconstruction à partir de mesures indirectes.\nEncodage‑décodage : l’optique code l’information, le calcul la décode.\nOptimisation conjointe : conception simultanée optique et algorithmes.\nPriors : connaissances a priori (ex. régularisation, réseaux profonds).",
+    "crumbs": [
+      "Cours",
+      "Introduction",
+      "Synthese"
+    ]
+  },
+  {
+    "objectID": "ch2.html",
+    "href": "ch2.html",
+    "title": "Human Visual System",
+    "section": "",
+    "text": "L’être humain possède un système visuel complexe, fruit d’une longue évolution. L’œil humain en est le composant principal, mais le traitement de l’information visuelle se poursuit dans le cortex visuel primaire. Ce cours explore les différentes facettes de ce système, de son anatomie à ses applications technologiques.\n\n\n\nL’apparition des systèmes d’imagerie biologiques s’étend sur des centaines de millions d’années. Voici quelques jalons :\n\nNautilus belauensis (450 millions d’années) – œil primitif sans cristallin.\nReptiles (200 millions d’années) – vision évoluée avec des cônes pour la couleur.\nOiseaux (155 millions d’années) – acuité visuelle exceptionnelle, parfois double fovéa.\nMammifères (125 millions d’années) – vision adaptée à différents environnements.\nHominidés (Australopithecus, Homo habilis, erectus, neanderthalensis, sapiens) – évolution récente (3 millions d’années) avec une vision stéréoscopique et une grande acuité.\n\n\n\n\nL’œil s’est perfectionné progressivement : apparition de la cornée, du cristallin, de la rétine, et de la fovéa. Cette évolution illustre l’adaptation aux besoins de survie (chasse, reconnaissance des prédateurs, etc.).\n\n\n\n\n\n\n\nPlaton (350 av. J.-C.) : une lumière sort de nos yeux, semblable à celle du soleil, et va « éclairer » les objets.\nChalcidius (Moyen Âge) : la vision résulte de trois lumières – celle de l’œil, celle extérieure, et celle des corps visibles.\nAutres croyances non matérielles (vision spirituelle, « mauvais œil »).\n\n\n\n\n\nPourquoi voit‑on instantanément des objets éloignés en ouvrant les yeux ?\nPourquoi les systèmes visuels de plusieurs personnes regardant le même objet n’interfèrent‑ils pas ?\nQue se passe‑t‑il si les yeux sont fermés au retour de l’esprit visuel ?\nLes objets émettent‑ils des « images matérielles » (Aristote) ? Comment une grande montagne pourrait‑elle entrer dans l’œil ?\n\n\n\n\n\nPlus grand opticien du Moyen Âge.\nLes corps lumineux (Soleil, Lune) émettent de la lumière qui se propage en ligne droite.\nLorsqu’elle frappe un objet, la lumière est irradiée dans toutes les directions.\nNotion de milieu transparent ou opaque.\nThéorie pointilliste : nous voyons une collection de points à la surface des objets.\nPremière explication géométrique de la correspondance un‑à‑un entre le monde et l’image formée dans l’œil.\n\n\n\n\n\nUn rayon lumineux part de la source et voyage en ligne droite.\nIl frappe un objet, puis est réfléchi et/ou réfracté.\nSi l’objet est notre cristallin, la lumière utile pour la vision est celle qui est réfractée.\n\n\n\n\n\nPtolémée (150 av. J.-C.) connaissait les phénomènes de réfraction.\nProblème d’Alhazen : puisque la lumière d’un point de surface atteint toute la surface de l’œil, comment voyons‑nous une seule image de ce point ?\n\nIl supposa que seul le rayon perpendiculaire à l’œil affecte la vision, les autres étant trop réfractés donc « affaiblis ».\nEn réalité, les propriétés optiques du cristallin concentrent tous ces rayons en un seul point focal (dans des conditions favorables).\n\n\n\n\n\n\nFondateur des théories modernes de l’optique.\nLa lumière s’écoule ou est émise par sa source vers un lieu éloigné.\nDepuis un point, la lumière se propage selon une infinité de lignes droites.\nLa lumière peut aller jusqu’à l’infini.\nLes lignes d’émission sont droites et appelées rayons.\n\nThéorie rétinienne de Kepler : bien que des rayons provenant de plusieurs points de la surface frappent le même point du cristallin, ils arrivent sous des directions différentes. Ils sont donc réfractés dans des directions différentes, séparés par le cristallin, et forment une image inversée sur la rétine.\n\n\n\nTrois courants principaux contribuent à notre compréhension :\n\nPsychologie de la perception : fonctionnalités.\nNeurophysiologie : explications des mécanismes.\nVision par ordinateur : modélisation et problèmes.\n\nPartition actuelle :\n\nVision bas niveau (précoce) : parallélisme, multiplexage, partitionnement.\nVision haut niveau : modularité.\n\n\n\n\n\n\n\n\nUne vision 20/20 correspond environ à 1 minute d’arc.\n\n\n\n\n\nHorizontal : environ 200° (dont 120° binoculaire et 40° monoculaire pour chaque œil).\nVertical : environ 135°.\n\n\n\n\n\nEnviron 60 Hz (dépend du contraste et de la luminance).\n\n\n\n\n\nInstantanée : 6,5 diaphragmes (f‑stops).\nAdaptative : jusqu’à 46,5 diaphragmes (grâce à l’adaptation à la lumière).\n\n\n\n\n\nReprésentée dans le diagramme CIE xy ; les distances perçues sont linéaires dans l’espace CIE Lab.\n\n\n\n\n\nDistance de mise au point : d’environ 8 cm à l’infini, diminue avec l’âge.\n\n\n\n\n\n\n\nL’œil est un organe complexe composé de :\n\nCornée\nHumeur aqueuse\nIris\nCristallin\nHumeur vitrée\nRétine\nNerf optique\n\n\n\n\nLa rétine est une fine couche de tissu nerveux tapissant le fond de l’œil. Elle contient trois couches de cellules :\n\nCellules photoréceptrices (cônes et bâtonnets).\nCellules collectrices (cellules bipolaires, cellules horizontales, cellules amacrines).\nCellules ganglionnaires rétiniennes.\n\n\n\nDeux systèmes parallèles :\n\nBâtonnets : dédiés à la sensibilité à la lumière (vision scotopique, basse lumière). Convergence importante vers les cellules collectrices et ganglionnaires → image basse résolution mais persistante en faible éclairage.\nCônes : dédiés à la résolution spatiale (vision photopique, bonne lumière). Convergence limitée → image haute résolution.\n\n\n\n\n\n\n\n\n\nCônes (environ 7 millions) : vision des couleurs.\n\nTrois types : S (bleu, courte longueur d’onde), M (vert, moyenne), L (rouge, longue).\n\nBâtonnets (environ 120 millions) : vision en niveaux de gris, sensibles à la lumière.\n\n\n\n\nxychart-beta\n    title \"Densité des photorécepteurs en fonction de l’excentricité\"\n    x-axis [\"Nasale\", \"Fovéa\", \"Temporelle\"]\n    y-axis \"Densité (x1000/mm²)\" 0 --&gt; 200\n    line \"Cônes\" [10, 150, 10]\n    line \"Bâtonnets\" [100, 0, 100]\n\nFovéa : concentre les cônes, responsable de la vision fine.\nPériphérie : dominée par les bâtonnets.\nPoint aveugle : absence de photorécepteurs (sortie du nerf optique).\n\n\n\n\nAprès adaptation à l’obscurité, un seul bâtonnet peut répondre à un unique photon.\n\n\n\n\nPrésence de vaisseaux sanguins et d’autres cellules devant les photorécepteurs (ombres portées).\nLuminosité non uniforme.\nImage inversée sur la rétine (corrigée par le cerveau).\nHaute résolution uniquement dans la fovéa.\nUn seul point de fovéa chez l’homme (contrairement à certains oiseaux ou guépards qui en ont deux).\nPoint aveugle.\n\n\n\n\n\nL’œil est comparable à un appareil photo avec une lentille (cornée + cristallin), un diaphragme (iris), et un capteur (rétine).\nLa mise au point se fait par déformation du cristallin (accommodation), alors qu’un objectif se déplace.\nLa rétine a une résolution variable (fovéa haute, périphérie basse), tandis qu’un capteur numérique a une résolution uniforme.\n\n\n\n\n\n\n\nLes cellules ganglionnaires remplacent les niveaux d’illumination absolus par une carte rétinotopique de différences.\n\n\n\nCellules on‑centre / off‑pourtour : excitées par la lumière au centre, inhibées par la lumière à la périphérie.\nCellules off‑centre / on‑pourtour : inhibées par la lumière au centre, excitées par la lumière à la périphérie.\n\nPourquoi ? Les objets ne sont pas associés à une luminosité absolue, mais à des différences de luminosité avec le fond. Amplifier les différences évite de devoir représenter toute la plage dynamique. C’est la base de la perception des objets.\n\n\n\n\nDeux types principaux de cellules ganglionnaires, qui alimentent les voies magnocellulaires (M) et parvocellulaires (P) du corps genouillé latéral (LGN).\n\n\n\n\n\n\n\n\n\n\nType\nEntrée\nSensibilité temporelle\nSensibilité spatiale\nRôle\n\n\n\n\nM\nGrand nombre de photorécepteurs\nÉlevée (réponses transitoires)\nBasse\nPerception du mouvement, stimuli soudains\n\n\nP\nPetit nombre de photorécepteurs\nFaible\nÉlevée\nCouleur, texture, formes (perception des objets)\n\n\n\n\nLes cellules M sont plus grandes, avec des vitesses de conduction nerveuse plus rapides.\nLes cellules P montrent une sensibilité aux couleurs, pas les M.\n\n\n\n\n\n\n\n\nLes axones des cellules ganglionnaires forment le nerf optique.\nAu niveau du chiasma optique, une partie des fibres croise, puis le tractus optique projette vers différentes structures, principalement le corps genouillé latéral (LGN).\n\n\n\n\n\nUn LGN dans chaque hémisphère cérébral.\nComposé de couches :\n\nCouches magnocellulaires (deux) : entrée des cellules M → meilleure résolution temporelle.\nCouches parvocellulaires (quatre) : entrée des cellules P → meilleure résolution spatiale, sensibilité aux longueurs d’onde.\n\nLes neurones de toutes les couches présentent une organisation centre‑pourtour.\nRétinotopie préservée : l’image projetée sur la rétine est maintenue dans le LGN et au‑delà.\n\n\n\n\n\nPrix Nobel à David H. Hubel et Torsten N. Wiesel (1962) pour la découverte des propriétés des cellules de V1.\nTrois types de cellules :\n\n\nCentre‑pourtour (similaires aux cellules ganglionnaires).\nCellules simples :\n\nZones excitatrices et inhibitrices allongées.\nRépondent à des contours orientés à une position et une orientation spécifiques.\n\nCellules complexes :\n\nRépondent à des contours orientés, mais de manière plus abstraite, partiellement indépendante de la position dans le champ visuel.\n\n\n\n\n\nLes cellules simples peuvent être modélisées par une convolution avec un noyau linéaire (ex. filtres de Gabor) suivi d’une non‑linéarité.\n\n\n\nLes réponses des cellules deviennent de plus en plus spécifiques quant à la forme du stimulus (ex. contours orientés, formes complexes) et de plus en plus générales quant aux conditions de vision (position, échelle, etc.). Cette double tendance est essentielle pour la reconnaissance d’objets.\n\n\n\nOrganisation spatiale des neurones pour minimiser la distance entre ceux qui représentent des stimuli similaires selon trois dimensions :\n\nŒil d’origine (dominance oculaire).\nOrientation.\nPosition rétinotopique.\n\nRègle de Hebb : les neurones qui déchargent ensemble se connectent ensemble.\n\n\n\n\nVoie dorsale (occipito‑parétale) : traitement du mouvement et de la localisation (« où »).\nVoie ventrale (occipito‑temporale) : traitement de la forme et de l’identité (« quoi »).\n\ngraph TD\n    A[Rétine] --&gt; B[LGN]\n    B --&gt; C[V1]\n    C --&gt; D[V2]\n    D --&gt; E{V2 / V4 / etc.}\n    E --&gt; F[Voie dorsale]\n    E --&gt; G[Voie ventrale]\n    F --&gt; H[Cortex pariétal]\n    G --&gt; I[Cortex temporal inférieur]\n    I --&gt; J[Reconnaissance d'objets]\n\n\n\nDe nombreuses connexions bidirectionnelles et feedback existent, mais les modèles computationnels actuels sont encore largement feedforward.\n\n\n\n\nLa sélectivité à l’orientation dans V1 a inspiré des descripteurs comme SIFT et HOG.\nLa vision hiérarchique feedforward a conduit au néocognitron (Fukushima) puis aux réseaux convolutifs (LeCun et al.).\nAujourd’hui, on sait que la voie ventrale est plus complexe (boucles de rétroaction), ce qui n’a pas encore été pleinement exploité en vision par ordinateur.\n\n\n\n\n\n\n\n\nModèle de réseau de neurones auto‑organisé pour la reconnaissance de formes insensible aux décalages.\nS’inspire directement de la hiérarchie de Hubel et Wiesel (cellules simples et complexes).\n\n\n\n\n\nIntroduction des réseaux convolutifs (LeNet) pour la reconnaissance de documents.\nArchitecture en couches alternant convolution et pooling, inspirée des cellules simples et complexes.\n\n\n\n\n\n\n\n\nLe stéréoscope de Charles Wheatstone (1841) utilisait deux images légèrement décalées pour créer une illusion de relief.\nUtilisé pour des portraits stéréoscopiques (ex. Abraham Lincoln, 1865).\n\n\n\n\nLes casques VR/AR modernes tentent de reproduire la vision binoculaire avec des écrans distincts pour chaque œil.\n\n\n\n\nDans le monde réel, la vergence (rotation des yeux pour fixer un objet) et l’accommodation (mise au point du cristallin) sont couplées : elles agissent à la même distance.\nDans les affichages stéréoscopiques actuels, l’accommodation est fixée sur l’écran, tandis que la vergence change avec la distance virtuelle. Ce conflit entraîne :\n\nFatigue visuelle\nGêne\nNausées\nVision double (diplopie)\nBaisse de qualité d’image\nRisques pour le développement visuel chez l’enfant\n\n\ngraph LR\n    A[Monde réel] --&gt; B[Vergence = Accommodation]\n    C[Écran stéréo] --&gt; D[Vergence ≠ Accommodation]\n    D --&gt; E[Conflit]\n    E --&gt; F[Inconfort]\n\n\n\nPour éviter ce conflit, les ingénieurs cherchent à concevoir des affichages où la distance d’accommodation peut varier en fonction de la distance virtuelle (affichages multiplans, holographiques, etc.).\n\nCe cours a présenté une vue d’ensemble du système visuel humain, de son anatomie à son fonctionnement, en passant par son histoire et ses applications. La compréhension de ces mécanismes est essentielle pour la conception de systèmes d’imagerie computationnelle et de réalité virtuelle/augmentée.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Human Visual System"
+    ]
+  },
+  {
+    "objectID": "ch2.html#introduction",
+    "href": "ch2.html#introduction",
+    "title": "Human Visual System",
+    "section": "",
+    "text": "L’être humain possède un système visuel complexe, fruit d’une longue évolution. L’œil humain en est le composant principal, mais le traitement de l’information visuelle se poursuit dans le cortex visuel primaire. Ce cours explore les différentes facettes de ce système, de son anatomie à ses applications technologiques.\n\n\n\nL’apparition des systèmes d’imagerie biologiques s’étend sur des centaines de millions d’années. Voici quelques jalons :\n\nNautilus belauensis (450 millions d’années) – œil primitif sans cristallin.\nReptiles (200 millions d’années) – vision évoluée avec des cônes pour la couleur.\nOiseaux (155 millions d’années) – acuité visuelle exceptionnelle, parfois double fovéa.\nMammifères (125 millions d’années) – vision adaptée à différents environnements.\nHominidés (Australopithecus, Homo habilis, erectus, neanderthalensis, sapiens) – évolution récente (3 millions d’années) avec une vision stéréoscopique et une grande acuité.\n\n\n\n\nL’œil s’est perfectionné progressivement : apparition de la cornée, du cristallin, de la rétine, et de la fovéa. Cette évolution illustre l’adaptation aux besoins de survie (chasse, reconnaissance des prédateurs, etc.).",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Human Visual System"
+    ]
+  },
+  {
+    "objectID": "ch2.html#interprétation-du-système-visuel-humain-à-travers-lhistoire",
+    "href": "ch2.html#interprétation-du-système-visuel-humain-à-travers-lhistoire",
+    "title": "Human Visual System",
+    "section": "",
+    "text": "Platon (350 av. J.-C.) : une lumière sort de nos yeux, semblable à celle du soleil, et va « éclairer » les objets.\nChalcidius (Moyen Âge) : la vision résulte de trois lumières – celle de l’œil, celle extérieure, et celle des corps visibles.\nAutres croyances non matérielles (vision spirituelle, « mauvais œil »).\n\n\n\n\n\nPourquoi voit‑on instantanément des objets éloignés en ouvrant les yeux ?\nPourquoi les systèmes visuels de plusieurs personnes regardant le même objet n’interfèrent‑ils pas ?\nQue se passe‑t‑il si les yeux sont fermés au retour de l’esprit visuel ?\nLes objets émettent‑ils des « images matérielles » (Aristote) ? Comment une grande montagne pourrait‑elle entrer dans l’œil ?\n\n\n\n\n\nPlus grand opticien du Moyen Âge.\nLes corps lumineux (Soleil, Lune) émettent de la lumière qui se propage en ligne droite.\nLorsqu’elle frappe un objet, la lumière est irradiée dans toutes les directions.\nNotion de milieu transparent ou opaque.\nThéorie pointilliste : nous voyons une collection de points à la surface des objets.\nPremière explication géométrique de la correspondance un‑à‑un entre le monde et l’image formée dans l’œil.\n\n\n\n\n\nUn rayon lumineux part de la source et voyage en ligne droite.\nIl frappe un objet, puis est réfléchi et/ou réfracté.\nSi l’objet est notre cristallin, la lumière utile pour la vision est celle qui est réfractée.\n\n\n\n\n\nPtolémée (150 av. J.-C.) connaissait les phénomènes de réfraction.\nProblème d’Alhazen : puisque la lumière d’un point de surface atteint toute la surface de l’œil, comment voyons‑nous une seule image de ce point ?\n\nIl supposa que seul le rayon perpendiculaire à l’œil affecte la vision, les autres étant trop réfractés donc « affaiblis ».\nEn réalité, les propriétés optiques du cristallin concentrent tous ces rayons en un seul point focal (dans des conditions favorables).\n\n\n\n\n\n\nFondateur des théories modernes de l’optique.\nLa lumière s’écoule ou est émise par sa source vers un lieu éloigné.\nDepuis un point, la lumière se propage selon une infinité de lignes droites.\nLa lumière peut aller jusqu’à l’infini.\nLes lignes d’émission sont droites et appelées rayons.\n\nThéorie rétinienne de Kepler : bien que des rayons provenant de plusieurs points de la surface frappent le même point du cristallin, ils arrivent sous des directions différentes. Ils sont donc réfractés dans des directions différentes, séparés par le cristallin, et forment une image inversée sur la rétine.\n\n\n\nTrois courants principaux contribuent à notre compréhension :\n\nPsychologie de la perception : fonctionnalités.\nNeurophysiologie : explications des mécanismes.\nVision par ordinateur : modélisation et problèmes.\n\nPartition actuelle :\n\nVision bas niveau (précoce) : parallélisme, multiplexage, partitionnement.\nVision haut niveau : modularité.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Human Visual System"
+    ]
+  },
+  {
+    "objectID": "ch2.html#résumé-des-caractéristiques-du-système-visuel-humain",
+    "href": "ch2.html#résumé-des-caractéristiques-du-système-visuel-humain",
+    "title": "Human Visual System",
+    "section": "",
+    "text": "Une vision 20/20 correspond environ à 1 minute d’arc.\n\n\n\n\n\nHorizontal : environ 200° (dont 120° binoculaire et 40° monoculaire pour chaque œil).\nVertical : environ 135°.\n\n\n\n\n\nEnviron 60 Hz (dépend du contraste et de la luminance).\n\n\n\n\n\nInstantanée : 6,5 diaphragmes (f‑stops).\nAdaptative : jusqu’à 46,5 diaphragmes (grâce à l’adaptation à la lumière).\n\n\n\n\n\nReprésentée dans le diagramme CIE xy ; les distances perçues sont linéaires dans l’espace CIE Lab.\n\n\n\n\n\nDistance de mise au point : d’environ 8 cm à l’infini, diminue avec l’âge.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Human Visual System"
+    ]
+  },
+  {
+    "objectID": "ch2.html#anatomie-de-lœil-humain",
+    "href": "ch2.html#anatomie-de-lœil-humain",
+    "title": "Human Visual System",
+    "section": "",
+    "text": "L’œil est un organe complexe composé de :\n\nCornée\nHumeur aqueuse\nIris\nCristallin\nHumeur vitrée\nRétine\nNerf optique\n\n\n\n\nLa rétine est une fine couche de tissu nerveux tapissant le fond de l’œil. Elle contient trois couches de cellules :\n\nCellules photoréceptrices (cônes et bâtonnets).\nCellules collectrices (cellules bipolaires, cellules horizontales, cellules amacrines).\nCellules ganglionnaires rétiniennes.\n\n\n\nDeux systèmes parallèles :\n\nBâtonnets : dédiés à la sensibilité à la lumière (vision scotopique, basse lumière). Convergence importante vers les cellules collectrices et ganglionnaires → image basse résolution mais persistante en faible éclairage.\nCônes : dédiés à la résolution spatiale (vision photopique, bonne lumière). Convergence limitée → image haute résolution.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Human Visual System"
+    ]
+  },
+  {
+    "objectID": "ch2.html#mosaïque-des-photorécepteurs",
+    "href": "ch2.html#mosaïque-des-photorécepteurs",
+    "title": "Human Visual System",
+    "section": "",
+    "text": "Cônes (environ 7 millions) : vision des couleurs.\n\nTrois types : S (bleu, courte longueur d’onde), M (vert, moyenne), L (rouge, longue).\n\nBâtonnets (environ 120 millions) : vision en niveaux de gris, sensibles à la lumière.\n\n\n\n\nxychart-beta\n    title \"Densité des photorécepteurs en fonction de l’excentricité\"\n    x-axis [\"Nasale\", \"Fovéa\", \"Temporelle\"]\n    y-axis \"Densité (x1000/mm²)\" 0 --&gt; 200\n    line \"Cônes\" [10, 150, 10]\n    line \"Bâtonnets\" [100, 0, 100]\n\nFovéa : concentre les cônes, responsable de la vision fine.\nPériphérie : dominée par les bâtonnets.\nPoint aveugle : absence de photorécepteurs (sortie du nerf optique).\n\n\n\n\nAprès adaptation à l’obscurité, un seul bâtonnet peut répondre à un unique photon.\n\n\n\n\nPrésence de vaisseaux sanguins et d’autres cellules devant les photorécepteurs (ombres portées).\nLuminosité non uniforme.\nImage inversée sur la rétine (corrigée par le cerveau).\nHaute résolution uniquement dans la fovéa.\nUn seul point de fovéa chez l’homme (contrairement à certains oiseaux ou guépards qui en ont deux).\nPoint aveugle.\n\n\n\n\n\nL’œil est comparable à un appareil photo avec une lentille (cornée + cristallin), un diaphragme (iris), et un capteur (rétine).\nLa mise au point se fait par déformation du cristallin (accommodation), alors qu’un objectif se déplace.\nLa rétine a une résolution variable (fovéa haute, périphérie basse), tandis qu’un capteur numérique a une résolution uniforme.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Human Visual System"
+    ]
+  },
+  {
+    "objectID": "ch2.html#cellules-ganglionnaires-rétiniennes",
+    "href": "ch2.html#cellules-ganglionnaires-rétiniennes",
+    "title": "Human Visual System",
+    "section": "",
+    "text": "Les cellules ganglionnaires remplacent les niveaux d’illumination absolus par une carte rétinotopique de différences.\n\n\n\nCellules on‑centre / off‑pourtour : excitées par la lumière au centre, inhibées par la lumière à la périphérie.\nCellules off‑centre / on‑pourtour : inhibées par la lumière au centre, excitées par la lumière à la périphérie.\n\nPourquoi ? Les objets ne sont pas associés à une luminosité absolue, mais à des différences de luminosité avec le fond. Amplifier les différences évite de devoir représenter toute la plage dynamique. C’est la base de la perception des objets.\n\n\n\n\nDeux types principaux de cellules ganglionnaires, qui alimentent les voies magnocellulaires (M) et parvocellulaires (P) du corps genouillé latéral (LGN).\n\n\n\n\n\n\n\n\n\n\nType\nEntrée\nSensibilité temporelle\nSensibilité spatiale\nRôle\n\n\n\n\nM\nGrand nombre de photorécepteurs\nÉlevée (réponses transitoires)\nBasse\nPerception du mouvement, stimuli soudains\n\n\nP\nPetit nombre de photorécepteurs\nFaible\nÉlevée\nCouleur, texture, formes (perception des objets)\n\n\n\n\nLes cellules M sont plus grandes, avec des vitesses de conduction nerveuse plus rapides.\nLes cellules P montrent une sensibilité aux couleurs, pas les M.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Human Visual System"
+    ]
+  },
+  {
+    "objectID": "ch2.html#cortex-visuel-primaire-v1",
+    "href": "ch2.html#cortex-visuel-primaire-v1",
+    "title": "Human Visual System",
+    "section": "",
+    "text": "Les axones des cellules ganglionnaires forment le nerf optique.\nAu niveau du chiasma optique, une partie des fibres croise, puis le tractus optique projette vers différentes structures, principalement le corps genouillé latéral (LGN).\n\n\n\n\n\nUn LGN dans chaque hémisphère cérébral.\nComposé de couches :\n\nCouches magnocellulaires (deux) : entrée des cellules M → meilleure résolution temporelle.\nCouches parvocellulaires (quatre) : entrée des cellules P → meilleure résolution spatiale, sensibilité aux longueurs d’onde.\n\nLes neurones de toutes les couches présentent une organisation centre‑pourtour.\nRétinotopie préservée : l’image projetée sur la rétine est maintenue dans le LGN et au‑delà.\n\n\n\n\n\nPrix Nobel à David H. Hubel et Torsten N. Wiesel (1962) pour la découverte des propriétés des cellules de V1.\nTrois types de cellules :\n\n\nCentre‑pourtour (similaires aux cellules ganglionnaires).\nCellules simples :\n\nZones excitatrices et inhibitrices allongées.\nRépondent à des contours orientés à une position et une orientation spécifiques.\n\nCellules complexes :\n\nRépondent à des contours orientés, mais de manière plus abstraite, partiellement indépendante de la position dans le champ visuel.\n\n\n\n\n\nLes cellules simples peuvent être modélisées par une convolution avec un noyau linéaire (ex. filtres de Gabor) suivi d’une non‑linéarité.\n\n\n\nLes réponses des cellules deviennent de plus en plus spécifiques quant à la forme du stimulus (ex. contours orientés, formes complexes) et de plus en plus générales quant aux conditions de vision (position, échelle, etc.). Cette double tendance est essentielle pour la reconnaissance d’objets.\n\n\n\nOrganisation spatiale des neurones pour minimiser la distance entre ceux qui représentent des stimuli similaires selon trois dimensions :\n\nŒil d’origine (dominance oculaire).\nOrientation.\nPosition rétinotopique.\n\nRègle de Hebb : les neurones qui déchargent ensemble se connectent ensemble.\n\n\n\n\nVoie dorsale (occipito‑parétale) : traitement du mouvement et de la localisation (« où »).\nVoie ventrale (occipito‑temporale) : traitement de la forme et de l’identité (« quoi »).\n\ngraph TD\n    A[Rétine] --&gt; B[LGN]\n    B --&gt; C[V1]\n    C --&gt; D[V2]\n    D --&gt; E{V2 / V4 / etc.}\n    E --&gt; F[Voie dorsale]\n    E --&gt; G[Voie ventrale]\n    F --&gt; H[Cortex pariétal]\n    G --&gt; I[Cortex temporal inférieur]\n    I --&gt; J[Reconnaissance d'objets]\n\n\n\nDe nombreuses connexions bidirectionnelles et feedback existent, mais les modèles computationnels actuels sont encore largement feedforward.\n\n\n\n\nLa sélectivité à l’orientation dans V1 a inspiré des descripteurs comme SIFT et HOG.\nLa vision hiérarchique feedforward a conduit au néocognitron (Fukushima) puis aux réseaux convolutifs (LeCun et al.).\nAujourd’hui, on sait que la voie ventrale est plus complexe (boucles de rétroaction), ce qui n’a pas encore été pleinement exploité en vision par ordinateur.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Human Visual System"
+    ]
+  },
+  {
+    "objectID": "ch2.html#modèles-de-réseaux-inspirés-du-système-visuel-humain",
+    "href": "ch2.html#modèles-de-réseaux-inspirés-du-système-visuel-humain",
+    "title": "Human Visual System",
+    "section": "",
+    "text": "Modèle de réseau de neurones auto‑organisé pour la reconnaissance de formes insensible aux décalages.\nS’inspire directement de la hiérarchie de Hubel et Wiesel (cellules simples et complexes).\n\n\n\n\n\nIntroduction des réseaux convolutifs (LeNet) pour la reconnaissance de documents.\nArchitecture en couches alternant convolution et pooling, inspirée des cellules simples et complexes.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Human Visual System"
+    ]
+  },
+  {
+    "objectID": "ch2.html#applications",
+    "href": "ch2.html#applications",
+    "title": "Human Visual System",
+    "section": "",
+    "text": "Le stéréoscope de Charles Wheatstone (1841) utilisait deux images légèrement décalées pour créer une illusion de relief.\nUtilisé pour des portraits stéréoscopiques (ex. Abraham Lincoln, 1865).\n\n\n\n\nLes casques VR/AR modernes tentent de reproduire la vision binoculaire avec des écrans distincts pour chaque œil.\n\n\n\n\nDans le monde réel, la vergence (rotation des yeux pour fixer un objet) et l’accommodation (mise au point du cristallin) sont couplées : elles agissent à la même distance.\nDans les affichages stéréoscopiques actuels, l’accommodation est fixée sur l’écran, tandis que la vergence change avec la distance virtuelle. Ce conflit entraîne :\n\nFatigue visuelle\nGêne\nNausées\nVision double (diplopie)\nBaisse de qualité d’image\nRisques pour le développement visuel chez l’enfant\n\n\ngraph LR\n    A[Monde réel] --&gt; B[Vergence = Accommodation]\n    C[Écran stéréo] --&gt; D[Vergence ≠ Accommodation]\n    D --&gt; E[Conflit]\n    E --&gt; F[Inconfort]\n\n\n\nPour éviter ce conflit, les ingénieurs cherchent à concevoir des affichages où la distance d’accommodation peut varier en fonction de la distance virtuelle (affichages multiplans, holographiques, etc.).\n\nCe cours a présenté une vue d’ensemble du système visuel humain, de son anatomie à son fonctionnement, en passant par son histoire et ses applications. La compréhension de ces mécanismes est essentielle pour la conception de systèmes d’imagerie computationnelle et de réalité virtuelle/augmentée.",
+    "crumbs": [
+      "Cours",
+      "Human Visual System",
+      "Human Visual System"
+    ]
   },
   {
     "objectID": "ch1.html",
     "href": "ch1.html",
     "title": "Computational Imaging",
     "section": "",
-    "text": "L’imagerie computationnelle est un domaine en pleine expansion qui intègre étroitement le système de capture et le calcul pour former des images à partir de mesures, en utilisant des algorithmes sophistiqués. L’objectif de ce cours est d’introduire les principes fondamentaux, de fournir une vue d’ensemble des techniques modernes et de développer des compétences pratiques à travers des travaux pratiques et un mini-projet.\nEnviron 75 % des informations que nous percevons du monde extérieur passent par le canal visuel humain. L’imagerie a donc toujours été essentielle. Cependant, l’imagerie traditionnelle se contente de capturer une scène pour obtenir une image directement exploitable, le calcul ne servant qu’à améliorer la qualité (débrutage, déconvolution). L’imagerie computationnelle, au contraire, repense la chaîne complète : l’optique code l’information de la scène sous une forme intermédiaire, et le calcul décode cette représentation pour reconstruire une ou plusieurs images interprétables par l’humain.\n\n\nL’être humain est un être visuel. L’imagerie vise à étendre nos capacités de perception, que ce soit pour voir l’invisible (microscopie, astrophysique), analyser des œuvres d’art ou encore guider des véhicules autonomes.\n\n\n\nL’imagerie computationnelle se distingue de l’imagerie classique par le fait que l’image finale n’est pas directement accessible par le capteur. Elle doit être reconstruite grâce à des algorithmes qui résolvent un problème inverse. La conception du système optique et du traitement numérique est conjointe et optimisée pour une tâche donnée.\n\n\n\nL’optique forme une image proche de l’image finale (souvent sur un capteur plan).\nLe calcul intervient a posteriori pour améliorer l’image (défloutage, réduction du bruit, réhaussement).\n\n\n\n\n\nL’optique est conçue pour encoder la scène d’une manière spécifique (par exemple en codant l’information de profondeur, la polarisation, la phase, etc.).\nLe calcul décode cette représentation pour reconstruire une ou plusieurs images (par exemple, une carte de profondeur, une image multispectrale, une scène 3D).\nLes possibilités incluent de nouvelles optiques, de nouveaux capteurs, de nouveaux éclairages et de nouveaux algorithmes.\n\n\n\n\n\nL’imagerie computationnelle peut être définie comme le processus consistant à former indirectement des images à partir de mesures, en utilisant des algorithmes qui reposent sur une quantité importante de calcul. Elle représente une rupture avec la chaîne traditionnelle où la physique du dispositif, le traitement d’image et l’application finale sont considérés séparément. Il s’agit désormais de considérer l’imagerie comme un modèle intégré de perception et d’inférence, faisant le pont entre le monde physique/analogique et le monde numérique.\ngraph TD\n    A[Monde physique] --&gt; B[Encodage optique&lt;br/&gt;Nouvelles optiques, capteurs, éclairages]\n    B --&gt; C[Représentation intermédiaire&lt;br/&gt;Mesures brutes]\n    C --&gt; D[Décodage algorithmique&lt;br/&gt;Problème inverse, IA]\n    D --&gt; E[Image(s) reconstruite(s)&lt;br/&gt;Exploitation par l'humain ou la machine]\n\n\n\nLa photographie numérique classique (appareil photo ou smartphone) est déjà un exemple simple d’imagerie computationnelle : le capteur enregistre une matrice de pixels, puis un pipeline de traitement (dématriçage, balance des blancs, réduction de bruit, compression) produit une image JPEG. Les smartphones modernes poussent ce concept beaucoup plus loin en combinant plusieurs expositions (HDR), en fusionnant plusieurs images (mode nuit) ou en utilisant l’IA pour améliorer les détails.\n\n\n\n\n\n\n\n\nPartie\nPondération\nDétails\n\n\n\n\nPartie théorique\n40 %\n2 contrôles continus ou examen oral\n\n\nTravaux pratiques\n25 %\nNote moyenne des TPs\n\n\nMini‑projet\n35 %\nNote moyenne (rapport + présentation)\n\n\n\nCondition de validation : chaque partie (théorique, TP, mini‑projet) doit avoir une note ≥ 4.0 / 6.\n\n\n\n\n(La diapositive n’énumère pas de titres précis. Nous recommandons de consulter la bibliographie fournie en cours.)\n\n\n\n\n\n\n\n\nLa détection de spin à la surface avec une résolution atomique est réalisée par microscopie à effet tunnel polarisée en spin (SP‑STM) ou par microscopie à force atomique sans contact (nc‑AFM). Ces méthodes exploitent soit le courant tunnel, soit les forces d’échange magnétique.\n\n\n\nLa microscopie à force de résonance magnétique (MRFM) utilise un résonateur mécanique pour détecter le signal magnétique de spins nucléaires uniques. D’autres approches reposent sur des défauts de spin NV dans le diamant ou sur le courant tunnel combiné à la résonance de spin électronique (ESR‑STM).\n\n\n\nL’imagerie magnétique par rayons X cohérents est une méthode sans lentille qui donne accès au contraste de phase et d’absorption spécifique à un élément chimique, avec une résolution potentielle de 5 nm en 2D et 10 nm en 3D.\n\n\n\n\nL’imagerie computationnelle est cruciale pour répondre aux grandes questions sur l’univers. Les capteurs embarqués sur les télescopes et satellites génèrent des volumes de données colossaux, et les algorithmes de reconstruction permettent d’extraire des images exploitables à partir de mesures partielles ou bruitées.\n\n\nLes instruments modernes (radiotélescopes, interféromètres, caméras à comptage de photons) produisent des données qui doivent être traitées par des algorithmes spécifiques (synthèse d’ouverture, déconvolution, etc.).\n\n\n\nLes futurs instruments comme le Square Kilometre Array (SKA) produiront des exaoctets de données, nécessitant des méthodes de traitement et de compression avancées.\n\n\n\nCartes du ciel, détection d’exoplanètes, étude de la matière noire, etc.\n\n\n\n\n\n\n\n\n\n\n\n\nMéthode\nPorteur d’information\nRemarque\n\n\n\n\nÉchographie\nOndes pression haute fréquence\nImagerie par rétrodiffusion / réflexion\n\n\nRadiographie (projection)\nRayonnements ionisants\nImagerie par transmission\n\n\nTomodensitométrie (CT, C‑arm)\nRayonnements ionisants\nReconstruction 3D à partir de projections\n\n\nImagerie nucléaire (SPECT, PET)\nÉmission de particules\nDétection de traceurs radioactifs\n\n\nImagerie par résonance magnétique (IRM)\nPrécession de spin nucléaire\nContraste multidimensionnel\n\n\n\nÉtapes de traitement : 1. Acquisition de multiples signaux 1D et 2D. 2. Reconstruction d’un objet 3D.\nL’imagerie médicale utilise intensivement l’imagerie computationnelle pour reconstruire des volumes (CT, IRM, échographie 3D) et pour extraire des informations spectrales (spectroscopie par résonance magnétique).\n\n\n\nLes appareils mobiles modernes intègrent de nombreuses fonctionnalités d’imagerie computationnelle : HDR, mode nuit, fusion d’images, portraits avec effet bokeh, etc. Ces techniques combinent plusieurs acquisitions et traitements pour dépasser les limites physiques du capteur et de l’optique.\n\n\n\nLes voitures autonomes utilisent une multitude de capteurs (caméras, lidar, radar) et des algorithmes de fusion et d’interprétation pour percevoir l’environnement. L’imagerie 3D temps réel est essentielle pour la détection d’obstacles, la localisation et la prise de décision.\n\n\n\n\n\nDes approches récentes consistent à optimiser conjointement la conception optique et le réseau de neurones de traitement, en simulant l’ensemble du système de bout en bout. Cela permet de trouver des configurations optiques non intuitives qui, associées à un algorithme d’IA, donnent les meilleures performances pour une tâche donnée (par exemple, la reconstruction d’image ou l’estimation de profondeur).\n\n\n\n\nEntraînement : simulation complète du système (optique + capteur + algorithme) pour apprendre les paramètres optimaux.\nInférence : le système physique (optique codeur) est suivi d’un réseau de neurones (décodeur). On peut interpréter l’ensemble comme un réseau de neurones hybride optique‑électronique.\n\n\n\n\n\nL’imagerie computationnelle permet d’étudier les peintures de manière non invasive.\n\nImagerie traditionnelle : photographie en lumière visible, infrarouge, ultraviolet, radiographie.\nMacro fluorescence X (MA‑XRF) : fournit un cube de données volumétrique où chaque point (x,y) possède un spectre de fluorescence. La position des pics en énergie est caractéristique des éléments chimiques présents. On peut ainsi créer des cartes de répartition des pigments.\nExtraction de dessins sous‑jacents : des algorithmes d’apprentissage (par exemple, séparation de sources) permettent de révéler des esquisses cachées sous la couche picturale, comme pour le tableau de Goya Dona Isabel de Porcel.\n\n\n\n\nL’imagerie NLOS vise à reconstruire une scène cachée (par exemple, derrière un coin) en analysant la lumière diffusée par une surface visible. On éclaire une surface (mur, sol) et on mesure le temps de vol ou l’intensité de la lumière réfléchie par l’objet caché vers cette surface. Des algorithmes de reconstruction (retournement temporel, inversion de la propagation) permettent de former une image de la scène cachée. Cette technologie a des applications en sécurité, robotique, secours.\n\n\n\n\n\n\n\n\nAnatomie de l’œil\nAcuité, vision des couleurs, vision 3D\nSensibilité au contraste\nConflits en affichage (vergence‑accommodation)\nDéfauts de réfraction\n\n\n\n\n\nOptique : lentilles, diaphragme\nOuverture et profondeur de champ\nChamp de vision\nExposition et temps de pose\nBruit électronique et photonique\nMatrices de filtres colorés (Bayer, etc.)\nPipeline de traitement d’image\n\n\n\n\n\nImagerie à grande dynamique (HDR)\nTone mapping (mappage de tons)\nPhotographie multi‑images et mode nuit\nOuvertures codées (coded apertures)\n\n\n\n\n\nRéseaux de neurones convolutifs (CNN)\nDnCNN (débruitage)\nU‑Net (segmentation, reconstruction)\n\n\n\n\n\nMéthodes de gradient proximal\nOptimisation itérative avec priors profonds\nRésolution de problèmes inverses généraux en imagerie\n\n\n\n\n\nCaméra à pixel unique\nImagerie hyperspectrale compressive\nImagerie de champ de lumière compressive\n\n\n\n\n\nDiffraction et interférences\nLimite de diffraction\nOptimisation conjointe optique‑traitement de bout en bout\nReconstruction de phase\nHolographie générée par ordinateur\n\n\n\n\n\nAffichages lumière‑field pour la réalité virtuelle et augmentée (permettant de recréer le focus naturel)\nAffichages holographiques (holographie dynamique, correction des aberrations)\nExemples : Konrad et al. (SIGCHI 2016), Padmanaban et al. (PNAS 2017, SIGGRAPH Asia 2019), Huang et al. (SIGGRAPH 2015), Wetzstein et al. (SIGGRAPH 2011, 2012), Peng et al. (SIGGRAPH Asia 2020), Choi et al. (Optica 2021)",
+    "text": "L’imagerie computationnelle est un domaine en pleine expansion qui intègre étroitement le système de capture et le calcul pour former des images à partir de mesures, en utilisant des algorithmes sophistiqués. L’objectif de ce cours est d’introduire les principes fondamentaux, de fournir une vue d’ensemble des techniques modernes et de développer des compétences pratiques à travers des travaux pratiques et un mini-projet.\nEnviron 75 % des informations que nous percevons du monde extérieur passent par le canal visuel humain. L’imagerie a donc toujours été essentielle. Cependant, l’imagerie traditionnelle se contente de capturer une scène pour obtenir une image directement exploitable, le calcul ne servant qu’à améliorer la qualité (débrutage, déconvolution). L’imagerie computationnelle, au contraire, repense la chaîne complète : l’optique code l’information de la scène sous une forme intermédiaire, et le calcul décode cette représentation pour reconstruire une ou plusieurs images interprétables par l’humain.\n\n\nL’être humain est un être visuel. L’imagerie vise à étendre nos capacités de perception, que ce soit pour voir l’invisible (microscopie, astrophysique), analyser des œuvres d’art ou encore guider des véhicules autonomes.\n\n\n\nL’imagerie computationnelle se distingue de l’imagerie classique par le fait que l’image finale n’est pas directement accessible par le capteur. Elle doit être reconstruite grâce à des algorithmes qui résolvent un problème inverse. La conception du système optique et du traitement numérique est conjointe et optimisée pour une tâche donnée.\n\n\n\nL’optique forme une image proche de l’image finale (souvent sur un capteur plan).\nLe calcul intervient a posteriori pour améliorer l’image (défloutage, réduction du bruit, réhaussement).\n\n\n\n\n\nL’optique est conçue pour encoder la scène d’une manière spécifique (par exemple en codant l’information de profondeur, la polarisation, la phase, etc.).\nLe calcul décode cette représentation pour reconstruire une ou plusieurs images (par exemple, une carte de profondeur, une image multispectrale, une scène 3D).\nLes possibilités incluent de nouvelles optiques, de nouveaux capteurs, de nouveaux éclairages et de nouveaux algorithmes.\n\n\n\n\n\nL’imagerie computationnelle peut être définie comme le processus consistant à former indirectement des images à partir de mesures, en utilisant des algorithmes qui reposent sur une quantité importante de calcul. Elle représente une rupture avec la chaîne traditionnelle où la physique du dispositif, le traitement d’image et l’application finale sont considérés séparément. Il s’agit désormais de considérer l’imagerie comme un modèle intégré de perception et d’inférence, faisant le pont entre le monde physique/analogique et le monde numérique.\n\n\n\n\n\ngraph TD\n    A[Monde physique] --&gt; B[Encodage optique&lt;br/&gt;Nouvelles optiques, capteurs, éclairages]\n    B --&gt; C[Représentation intermédiaire&lt;br/&gt;Mesures brutes]\n    C --&gt; D[Décodage algorithmique&lt;br/&gt;Problème inverse, IA]\n    D --&gt; E[Image(s) reconstruite(s)&lt;br/&gt;Exploitation par l'humain ou la machine]\n\n\n\n\n\n\n\n\n\nLa photographie numérique classique (appareil photo ou smartphone) est déjà un exemple simple d’imagerie computationnelle : le capteur enregistre une matrice de pixels, puis un pipeline de traitement (dématriçage, balance des blancs, réduction de bruit, compression) produit une image JPEG. Les smartphones modernes poussent ce concept beaucoup plus loin en combinant plusieurs expositions (HDR), en fusionnant plusieurs images (mode nuit) ou en utilisant l’IA pour améliorer les détails.\n\n\n\n\n\n\n\n\nPartie\nPondération\nDétails\n\n\n\n\nPartie théorique\n40 %\n2 contrôles continus ou examen oral\n\n\nTravaux pratiques\n25 %\nNote moyenne des TPs\n\n\nMini‑projet\n35 %\nNote moyenne (rapport + présentation)\n\n\n\nCondition de validation : chaque partie (théorique, TP, mini‑projet) doit avoir une note ≥ 4.0 / 6.\n\n\n\n\n(La diapositive n’énumère pas de titres précis. Nous recommandons de consulter la bibliographie fournie en cours.)\n\n\n\n\n\n\n\n\nLa détection de spin à la surface avec une résolution atomique est réalisée par microscopie à effet tunnel polarisée en spin (SP‑STM) ou par microscopie à force atomique sans contact (nc‑AFM). Ces méthodes exploitent soit le courant tunnel, soit les forces d’échange magnétique.\n\n\n\nLa microscopie à force de résonance magnétique (MRFM) utilise un résonateur mécanique pour détecter le signal magnétique de spins nucléaires uniques. D’autres approches reposent sur des défauts de spin NV dans le diamant ou sur le courant tunnel combiné à la résonance de spin électronique (ESR‑STM).\n\n\n\nL’imagerie magnétique par rayons X cohérents est une méthode sans lentille qui donne accès au contraste de phase et d’absorption spécifique à un élément chimique, avec une résolution potentielle de 5 nm en 2D et 10 nm en 3D.\n\n\n\n\nL’imagerie computationnelle est cruciale pour répondre aux grandes questions sur l’univers. Les capteurs embarqués sur les télescopes et satellites génèrent des volumes de données colossaux, et les algorithmes de reconstruction permettent d’extraire des images exploitables à partir de mesures partielles ou bruitées.\n\n\nLes instruments modernes (radiotélescopes, interféromètres, caméras à comptage de photons) produisent des données qui doivent être traitées par des algorithmes spécifiques (synthèse d’ouverture, déconvolution, etc.).\n\n\n\nLes futurs instruments comme le Square Kilometre Array (SKA) produiront des exaoctets de données, nécessitant des méthodes de traitement et de compression avancées.\n\n\n\nCartes du ciel, détection d’exoplanètes, étude de la matière noire, etc.\n\n\n\n\n\n\n\n\n\n\n\n\nMéthode\nPorteur d’information\nRemarque\n\n\n\n\nÉchographie\nOndes pression haute fréquence\nImagerie par rétrodiffusion / réflexion\n\n\nRadiographie (projection)\nRayonnements ionisants\nImagerie par transmission\n\n\nTomodensitométrie (CT, C‑arm)\nRayonnements ionisants\nReconstruction 3D à partir de projections\n\n\nImagerie nucléaire (SPECT, PET)\nÉmission de particules\nDétection de traceurs radioactifs\n\n\nImagerie par résonance magnétique (IRM)\nPrécession de spin nucléaire\nContraste multidimensionnel\n\n\n\nÉtapes de traitement : 1. Acquisition de multiples signaux 1D et 2D. 2. Reconstruction d’un objet 3D.\nL’imagerie médicale utilise intensivement l’imagerie computationnelle pour reconstruire des volumes (CT, IRM, échographie 3D) et pour extraire des informations spectrales (spectroscopie par résonance magnétique).\n\n\n\nLes appareils mobiles modernes intègrent de nombreuses fonctionnalités d’imagerie computationnelle : HDR, mode nuit, fusion d’images, portraits avec effet bokeh, etc. Ces techniques combinent plusieurs acquisitions et traitements pour dépasser les limites physiques du capteur et de l’optique.\n\n\n\nLes voitures autonomes utilisent une multitude de capteurs (caméras, lidar, radar) et des algorithmes de fusion et d’interprétation pour percevoir l’environnement. L’imagerie 3D temps réel est essentielle pour la détection d’obstacles, la localisation et la prise de décision.\n\n\n\n\n\nDes approches récentes consistent à optimiser conjointement la conception optique et le réseau de neurones de traitement, en simulant l’ensemble du système de bout en bout. Cela permet de trouver des configurations optiques non intuitives qui, associées à un algorithme d’IA, donnent les meilleures performances pour une tâche donnée (par exemple, la reconstruction d’image ou l’estimation de profondeur).\n\n\n\n\nEntraînement : simulation complète du système (optique + capteur + algorithme) pour apprendre les paramètres optimaux.\nInférence : le système physique (optique codeur) est suivi d’un réseau de neurones (décodeur). On peut interpréter l’ensemble comme un réseau de neurones hybride optique‑électronique.\n\n\n\n\n\nL’imagerie computationnelle permet d’étudier les peintures de manière non invasive.\n\nImagerie traditionnelle : photographie en lumière visible, infrarouge, ultraviolet, radiographie.\nMacro fluorescence X (MA‑XRF) : fournit un cube de données volumétrique où chaque point (x,y) possède un spectre de fluorescence. La position des pics en énergie est caractéristique des éléments chimiques présents. On peut ainsi créer des cartes de répartition des pigments.\nExtraction de dessins sous‑jacents : des algorithmes d’apprentissage (par exemple, séparation de sources) permettent de révéler des esquisses cachées sous la couche picturale, comme pour le tableau de Goya Dona Isabel de Porcel.\n\n\n\n\nL’imagerie NLOS vise à reconstruire une scène cachée (par exemple, derrière un coin) en analysant la lumière diffusée par une surface visible. On éclaire une surface (mur, sol) et on mesure le temps de vol ou l’intensité de la lumière réfléchie par l’objet caché vers cette surface. Des algorithmes de reconstruction (retournement temporel, inversion de la propagation) permettent de former une image de la scène cachée. Cette technologie a des applications en sécurité, robotique, secours.\n\n\n\n\n\n\n\n\nAnatomie de l’œil\nAcuité, vision des couleurs, vision 3D\nSensibilité au contraste\nConflits en affichage (vergence‑accommodation)\nDéfauts de réfraction\n\n\n\n\n\nOptique : lentilles, diaphragme\nOuverture et profondeur de champ\nChamp de vision\nExposition et temps de pose\nBruit électronique et photonique\nMatrices de filtres colorés (Bayer, etc.)\nPipeline de traitement d’image\n\n\n\n\n\nImagerie à grande dynamique (HDR)\nTone mapping (mappage de tons)\nPhotographie multi‑images et mode nuit\nOuvertures codées (coded apertures)\n\n\n\n\n\nRéseaux de neurones convolutifs (CNN)\nDnCNN (débruitage)\nU‑Net (segmentation, reconstruction)\n\n\n\n\n\nMéthodes de gradient proximal\nOptimisation itérative avec priors profonds\nRésolution de problèmes inverses généraux en imagerie\n\n\n\n\n\nCaméra à pixel unique\nImagerie hyperspectrale compressive\nImagerie de champ de lumière compressive\n\n\n\n\n\nDiffraction et interférences\nLimite de diffraction\nOptimisation conjointe optique‑traitement de bout en bout\nReconstruction de phase\nHolographie générée par ordinateur\n\n\n\n\n\nAffichages lumière‑field pour la réalité virtuelle et augmentée (permettant de recréer le focus naturel)\nAffichages holographiques (holographie dynamique, correction des aberrations)\nExemples : Konrad et al. (SIGCHI 2016), Padmanaban et al. (PNAS 2017, SIGGRAPH Asia 2019), Huang et al. (SIGGRAPH 2015), Wetzstein et al. (SIGGRAPH 2011, 2012), Peng et al. (SIGGRAPH Asia 2020), Choi et al. (Optica 2021)",
     "crumbs": [
       "Cours",
       "Introduction",
@@ -191,7 +1060,7 @@
     "href": "ch1.html#introduction",
     "title": "Computational Imaging",
     "section": "",
-    "text": "L’imagerie computationnelle est un domaine en pleine expansion qui intègre étroitement le système de capture et le calcul pour former des images à partir de mesures, en utilisant des algorithmes sophistiqués. L’objectif de ce cours est d’introduire les principes fondamentaux, de fournir une vue d’ensemble des techniques modernes et de développer des compétences pratiques à travers des travaux pratiques et un mini-projet.\nEnviron 75 % des informations que nous percevons du monde extérieur passent par le canal visuel humain. L’imagerie a donc toujours été essentielle. Cependant, l’imagerie traditionnelle se contente de capturer une scène pour obtenir une image directement exploitable, le calcul ne servant qu’à améliorer la qualité (débrutage, déconvolution). L’imagerie computationnelle, au contraire, repense la chaîne complète : l’optique code l’information de la scène sous une forme intermédiaire, et le calcul décode cette représentation pour reconstruire une ou plusieurs images interprétables par l’humain.\n\n\nL’être humain est un être visuel. L’imagerie vise à étendre nos capacités de perception, que ce soit pour voir l’invisible (microscopie, astrophysique), analyser des œuvres d’art ou encore guider des véhicules autonomes.\n\n\n\nL’imagerie computationnelle se distingue de l’imagerie classique par le fait que l’image finale n’est pas directement accessible par le capteur. Elle doit être reconstruite grâce à des algorithmes qui résolvent un problème inverse. La conception du système optique et du traitement numérique est conjointe et optimisée pour une tâche donnée.\n\n\n\nL’optique forme une image proche de l’image finale (souvent sur un capteur plan).\nLe calcul intervient a posteriori pour améliorer l’image (défloutage, réduction du bruit, réhaussement).\n\n\n\n\n\nL’optique est conçue pour encoder la scène d’une manière spécifique (par exemple en codant l’information de profondeur, la polarisation, la phase, etc.).\nLe calcul décode cette représentation pour reconstruire une ou plusieurs images (par exemple, une carte de profondeur, une image multispectrale, une scène 3D).\nLes possibilités incluent de nouvelles optiques, de nouveaux capteurs, de nouveaux éclairages et de nouveaux algorithmes.\n\n\n\n\n\nL’imagerie computationnelle peut être définie comme le processus consistant à former indirectement des images à partir de mesures, en utilisant des algorithmes qui reposent sur une quantité importante de calcul. Elle représente une rupture avec la chaîne traditionnelle où la physique du dispositif, le traitement d’image et l’application finale sont considérés séparément. Il s’agit désormais de considérer l’imagerie comme un modèle intégré de perception et d’inférence, faisant le pont entre le monde physique/analogique et le monde numérique.\ngraph TD\n    A[Monde physique] --&gt; B[Encodage optique&lt;br/&gt;Nouvelles optiques, capteurs, éclairages]\n    B --&gt; C[Représentation intermédiaire&lt;br/&gt;Mesures brutes]\n    C --&gt; D[Décodage algorithmique&lt;br/&gt;Problème inverse, IA]\n    D --&gt; E[Image(s) reconstruite(s)&lt;br/&gt;Exploitation par l'humain ou la machine]\n\n\n\nLa photographie numérique classique (appareil photo ou smartphone) est déjà un exemple simple d’imagerie computationnelle : le capteur enregistre une matrice de pixels, puis un pipeline de traitement (dématriçage, balance des blancs, réduction de bruit, compression) produit une image JPEG. Les smartphones modernes poussent ce concept beaucoup plus loin en combinant plusieurs expositions (HDR), en fusionnant plusieurs images (mode nuit) ou en utilisant l’IA pour améliorer les détails.",
+    "text": "L’imagerie computationnelle est un domaine en pleine expansion qui intègre étroitement le système de capture et le calcul pour former des images à partir de mesures, en utilisant des algorithmes sophistiqués. L’objectif de ce cours est d’introduire les principes fondamentaux, de fournir une vue d’ensemble des techniques modernes et de développer des compétences pratiques à travers des travaux pratiques et un mini-projet.\nEnviron 75 % des informations que nous percevons du monde extérieur passent par le canal visuel humain. L’imagerie a donc toujours été essentielle. Cependant, l’imagerie traditionnelle se contente de capturer une scène pour obtenir une image directement exploitable, le calcul ne servant qu’à améliorer la qualité (débrutage, déconvolution). L’imagerie computationnelle, au contraire, repense la chaîne complète : l’optique code l’information de la scène sous une forme intermédiaire, et le calcul décode cette représentation pour reconstruire une ou plusieurs images interprétables par l’humain.\n\n\nL’être humain est un être visuel. L’imagerie vise à étendre nos capacités de perception, que ce soit pour voir l’invisible (microscopie, astrophysique), analyser des œuvres d’art ou encore guider des véhicules autonomes.\n\n\n\nL’imagerie computationnelle se distingue de l’imagerie classique par le fait que l’image finale n’est pas directement accessible par le capteur. Elle doit être reconstruite grâce à des algorithmes qui résolvent un problème inverse. La conception du système optique et du traitement numérique est conjointe et optimisée pour une tâche donnée.\n\n\n\nL’optique forme une image proche de l’image finale (souvent sur un capteur plan).\nLe calcul intervient a posteriori pour améliorer l’image (défloutage, réduction du bruit, réhaussement).\n\n\n\n\n\nL’optique est conçue pour encoder la scène d’une manière spécifique (par exemple en codant l’information de profondeur, la polarisation, la phase, etc.).\nLe calcul décode cette représentation pour reconstruire une ou plusieurs images (par exemple, une carte de profondeur, une image multispectrale, une scène 3D).\nLes possibilités incluent de nouvelles optiques, de nouveaux capteurs, de nouveaux éclairages et de nouveaux algorithmes.\n\n\n\n\n\nL’imagerie computationnelle peut être définie comme le processus consistant à former indirectement des images à partir de mesures, en utilisant des algorithmes qui reposent sur une quantité importante de calcul. Elle représente une rupture avec la chaîne traditionnelle où la physique du dispositif, le traitement d’image et l’application finale sont considérés séparément. Il s’agit désormais de considérer l’imagerie comme un modèle intégré de perception et d’inférence, faisant le pont entre le monde physique/analogique et le monde numérique.\n\n\n\n\n\ngraph TD\n    A[Monde physique] --&gt; B[Encodage optique&lt;br/&gt;Nouvelles optiques, capteurs, éclairages]\n    B --&gt; C[Représentation intermédiaire&lt;br/&gt;Mesures brutes]\n    C --&gt; D[Décodage algorithmique&lt;br/&gt;Problème inverse, IA]\n    D --&gt; E[Image(s) reconstruite(s)&lt;br/&gt;Exploitation par l'humain ou la machine]\n\n\n\n\n\n\n\n\n\nLa photographie numérique classique (appareil photo ou smartphone) est déjà un exemple simple d’imagerie computationnelle : le capteur enregistre une matrice de pixels, puis un pipeline de traitement (dématriçage, balance des blancs, réduction de bruit, compression) produit une image JPEG. Les smartphones modernes poussent ce concept beaucoup plus loin en combinant plusieurs expositions (HDR), en fusionnant plusieurs images (mode nuit) ou en utilisant l’IA pour améliorer les détails.",
     "crumbs": [
       "Cours",
       "Introduction",
@@ -245,47 +1114,5 @@
       "Introduction",
       "Computational Imaging"
     ]
-  },
-  {
-    "objectID": "ch1r.html",
-    "href": "ch1r.html",
-    "title": "Computational Imaging",
-    "section": "",
-    "text": "L’imagerie computationnelle forme indirectement des images à partir de mesures en utilisant des algorithmes sophistiqués. Elle intègre étroitement le système de capture et le calcul, contrairement à l’imagerie traditionnelle.\n\nImagerie traditionnelle : l’optique forme une image proche de l’image finale ; le calcul intervient a posteriori pour améliorer (débrutage, déconvolution).\nImagerie computationnelle : l’optique encode la scène en représentation intermédiaire ; le calcul décode pour reconstruire une ou plusieurs images.\n\ngraph LR\n    A[Monde physique] --&gt; B[Encodage optique]\n    B --&gt; C[Représentation intermédiaire]\n    C --&gt; D[Décodage algorithmique]\n    D --&gt; E[Image(s) reconstruite(s)]\n\n\n\n\n\n\nPartie\nPondération\nDétails\n\n\n\n\nThéorique\n40%\n2 CCs ou examen oral\n\n\nTPs\n25%\nMoyenne des TPs\n\n\nMini‑projet\n35%\nRapport + présentation\n\n\n\nCondition : chaque partie ≥ 4.0/6.\n\n\n\n\n\n\n\nSP‑STM / nc‑AFM : détection de spin à l’échelle atomique.\nMRFM : résonance magnétique sur spin unique.\nImagerie X cohérente : magnétisme sans lentille, résolution 5‑10 nm.\n\n\n\n\n\nSynthèse d’ouverture, déconvolution.\nVolumes de données massifs (SKA : exaoctets).\nReconstruction de cartes du ciel, étude matière noire.\n\n\n\n\n\n\n\n\n\n\n\n\nMéthode\nPorteur d’info\nPrincipe\n\n\n\n\nÉchographie\nOndes pression\nRétrodiffusion\n\n\nRadiographie/CT\nRayonnements ionisants\nTransmission / reconstruction 3D\n\n\nSPECT/PET\nÉmission traceurs\nImagerie fonctionnelle\n\n\nIRM\nPrécession spin\nContraste multidimensionnel\n\n\n\nÉtapes : acquisition signaux 1D/2D → reconstruction 3D.\n\n\n\n\nHDR, mode nuit, fusion d’images, bokeh.\n\n\n\n\n\nVoitures autonomes : caméras, lidar, fusion, imagerie 3D temps réel.\n\n\n\n\n\nOptimisation conjointe optique‑traitement (simulation bout en bout).\nRéseau hybride opto‑électronique : optique codeur + réseau décodeur.\n\n\n\n\n\nMA‑XRF : cube (x, y, énergie) → cartes élémentaires des pigments.\nApprentissage pour séparation des couches picturales (ex. Goya).\n\n\n\n\n\nReconstruction scène cachée par analyse lumière diffusée.\nApplications : sécurité, robotique, secours.\n\n\n\n\n\n\n\n\n\nAnatomie œil, acuité, vision couleurs/3D.\nSensibilité contraste, conflits d’affichage, défauts réfraction.\n\n\n\n\n\nOptique, ouverture, profondeur champ, exposition, bruit.\nFiltres Bayer, pipeline traitement.\n\n\n\n\n\nHDR, tone mapping, burst mode, coded apertures.\n\n\n\n\n\nCNN, DnCNN (débruitage), U‑Net (segmentation/reconstruction).\n\n\n\n\n\nMéthodes gradient proximal, priors profonds.\nRésolution problèmes inverses.\n\n\n\n\n\nCaméra pixel unique, hyperspectral, light field compressif.\n\n\n\n\n\nDiffraction, interférences, limite diffraction.\nOptimisation conjointe, reconstruction phase, holographie.\n\n\n\n\n\nLight field displays (VR/AR), holographie dynamique.\n\n\n\n\n\n\n\nProblème inverse : reconstruction à partir de mesures indirectes.\nEncodage‑décodage : l’optique code l’information, le calcul la décode.\nOptimisation conjointe : conception simultanée optique et algorithmes.\nPriors : connaissances a priori (ex. régularisation, réseaux profonds)."
-  },
-  {
-    "objectID": "ch1r.html#introduction",
-    "href": "ch1r.html#introduction",
-    "title": "Computational Imaging",
-    "section": "",
-    "text": "L’imagerie computationnelle forme indirectement des images à partir de mesures en utilisant des algorithmes sophistiqués. Elle intègre étroitement le système de capture et le calcul, contrairement à l’imagerie traditionnelle.\n\nImagerie traditionnelle : l’optique forme une image proche de l’image finale ; le calcul intervient a posteriori pour améliorer (débrutage, déconvolution).\nImagerie computationnelle : l’optique encode la scène en représentation intermédiaire ; le calcul décode pour reconstruire une ou plusieurs images.\n\ngraph LR\n    A[Monde physique] --&gt; B[Encodage optique]\n    B --&gt; C[Représentation intermédiaire]\n    C --&gt; D[Décodage algorithmique]\n    D --&gt; E[Image(s) reconstruite(s)]"
-  },
-  {
-    "objectID": "ch1r.html#objectifs-et-évaluation",
-    "href": "ch1r.html#objectifs-et-évaluation",
-    "title": "Computational Imaging",
-    "section": "",
-    "text": "Partie\nPondération\nDétails\n\n\n\n\nThéorique\n40%\n2 CCs ou examen oral\n\n\nTPs\n25%\nMoyenne des TPs\n\n\nMini‑projet\n35%\nRapport + présentation\n\n\n\nCondition : chaque partie ≥ 4.0/6."
-  },
-  {
-    "objectID": "ch1r.html#exemples-clés-par-domaine",
-    "href": "ch1r.html#exemples-clés-par-domaine",
-    "title": "Computational Imaging",
-    "section": "",
-    "text": "SP‑STM / nc‑AFM : détection de spin à l’échelle atomique.\nMRFM : résonance magnétique sur spin unique.\nImagerie X cohérente : magnétisme sans lentille, résolution 5‑10 nm.\n\n\n\n\n\nSynthèse d’ouverture, déconvolution.\nVolumes de données massifs (SKA : exaoctets).\nReconstruction de cartes du ciel, étude matière noire.\n\n\n\n\n\n\n\n\n\n\n\n\nMéthode\nPorteur d’info\nPrincipe\n\n\n\n\nÉchographie\nOndes pression\nRétrodiffusion\n\n\nRadiographie/CT\nRayonnements ionisants\nTransmission / reconstruction 3D\n\n\nSPECT/PET\nÉmission traceurs\nImagerie fonctionnelle\n\n\nIRM\nPrécession spin\nContraste multidimensionnel\n\n\n\nÉtapes : acquisition signaux 1D/2D → reconstruction 3D.\n\n\n\n\nHDR, mode nuit, fusion d’images, bokeh.\n\n\n\n\n\nVoitures autonomes : caméras, lidar, fusion, imagerie 3D temps réel.\n\n\n\n\n\nOptimisation conjointe optique‑traitement (simulation bout en bout).\nRéseau hybride opto‑électronique : optique codeur + réseau décodeur.\n\n\n\n\n\nMA‑XRF : cube (x, y, énergie) → cartes élémentaires des pigments.\nApprentissage pour séparation des couches picturales (ex. Goya).\n\n\n\n\n\nReconstruction scène cachée par analyse lumière diffusée.\nApplications : sécurité, robotique, secours."
-  },
-  {
-    "objectID": "ch1r.html#principaux-sujets",
-    "href": "ch1r.html#principaux-sujets",
-    "title": "Computational Imaging",
-    "section": "",
-    "text": "Anatomie œil, acuité, vision couleurs/3D.\nSensibilité contraste, conflits d’affichage, défauts réfraction.\n\n\n\n\n\nOptique, ouverture, profondeur champ, exposition, bruit.\nFiltres Bayer, pipeline traitement.\n\n\n\n\n\nHDR, tone mapping, burst mode, coded apertures.\n\n\n\n\n\nCNN, DnCNN (débruitage), U‑Net (segmentation/reconstruction).\n\n\n\n\n\nMéthodes gradient proximal, priors profonds.\nRésolution problèmes inverses.\n\n\n\n\n\nCaméra pixel unique, hyperspectral, light field compressif.\n\n\n\n\n\nDiffraction, interférences, limite diffraction.\nOptimisation conjointe, reconstruction phase, holographie.\n\n\n\n\n\nLight field displays (VR/AR), holographie dynamique."
-  },
-  {
-    "objectID": "ch1r.html#concepts-fondamentaux",
-    "href": "ch1r.html#concepts-fondamentaux",
-    "title": "Computational Imaging",
-    "section": "",
-    "text": "Problème inverse : reconstruction à partir de mesures indirectes.\nEncodage‑décodage : l’optique code l’information, le calcul la décode.\nOptimisation conjointe : conception simultanée optique et algorithmes.\nPriors : connaissances a priori (ex. régularisation, réseaux profonds)."
   }
 ]
