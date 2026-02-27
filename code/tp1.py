@@ -216,7 +216,6 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8)):
     if task == 1 and subtask == 1:
         index = 1
         plt.figure(figsize=figsize)
-        plt.suptitle("Gaussian blur")
         for i in [0.1, 1, 10]:
             # Create filter
             plt.subplot(3, 3, index)
@@ -241,7 +240,7 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8)):
             plt.title(f"$\\sigma = {i}$, Fourier domain")
             plt.axis("off")
             index += 1
-        plt.show()
+        return plt.gcf()
 
     elif task == 1 and subtask == 2:
         # 1.2 High-pass filtering (HighPass = Img - LowPass(Img))
@@ -272,7 +271,7 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8)):
             plt.title(f"$\\sigma = {i}$, Fourier domain")
             plt.axis("off")
             index += 1
-        plt.show()
+        return plt.gcf()
 
     # TASK 2
     # Blur image
@@ -302,7 +301,7 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8)):
             plt.title(f"Inverse filtering with noise $\\sigma = {i}$")
             plt.axis("off")
             index += 1
-        plt.show()
+        return plt.gcf()
 
     elif task == 2 and subtask == 2:
         cameraman_blured = filterFT(cameraman, gaussianKernel(5))
@@ -333,7 +332,7 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8)):
             plt.axis("off")
             index += 1
 
-        plt.show()
+        return plt.gcf()
 
     # TASK 3: Gradient descent
     elif task == 3:
