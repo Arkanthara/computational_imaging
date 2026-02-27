@@ -1,7 +1,0 @@
-numpy
-matplotlib
-scipy
-pypher
-scikit-image
-jupyter
-jupyter-cache
