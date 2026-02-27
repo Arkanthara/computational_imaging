@@ -4,3 +4,5 @@
 *_cache
 *ipynb
 *website
+*.typst_pyimage
+*.lock
