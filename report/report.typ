@@ -45,20 +45,20 @@ For instance, a laplacian filter gives the gradient of the image.
 = Results
 
 #pyinit("
+import os
 import sys
-sys.path.append('../code')
+os.chdir(os.path.dirname(os.path.abspath(__file__)) + '/../code')
+sys.path.append(os.getcwd())
 from tp1 import tasks
 ")
 
 #figure(
-pyimage("tasks(1, 1)"),
-caption: "Low-Pass filter: Gaussian Blur")
+pyimage("tasks(1, 1)"), caption: "Low-Pass filter: Gaussian Blur")
 #figure(
 pyimage("tasks(1, 2)"),
 caption: "High-Pass filter: Unsharp Mask")
-#pyimage("tasks(1, 2)")
-#pyimage("tasks(2, 1)")
-#pyimage("tasks(2, 2)")
+#figure(grid(rows: 2, pyimage("tasks(2, 1, original=True)", width: 85%), pyimage("tasks(2, 1)")), caption: "Inverse filtering on blured image")
+#figure(grid(rows: 2, pyimage("tasks(2, 2, original=True)", width: 85%), pyimage("tasks(2, 2)")), caption: "Wiener filter on blured image")
 
 = Discussion
 
