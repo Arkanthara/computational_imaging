@@ -3,11 +3,12 @@ import matplotlib.pyplot as plt
 from pypher.pypher import psf2otf
 from scipy.signal import convolve2d
 import argparse
+import scipy
 import skimage as sk
 import time
 
 
-def read_image(name: str = "img/cameraman.jpg") -> np.ndarray:
+def read_image(name: str = "img/img.jpg") -> np.ndarray:
     img = sk.io.imread(name, as_gray=True)
     return img
 
@@ -153,13 +154,45 @@ def gaussianKernel(std: float, size: int = 101) -> np.ndarray:
     return kernel
 
 
-def grad_l2(A, x, b):
-    return A.T @ A @ x - A.T @ b
+def grad_l2_fourier(h, x, b):
+    H = psf2otf(h, shape=x.shape)
+    X = np.fft.fft2(x)
+    B = np.fft.fft2(b)
+    return np.fft.ifft2(np.conj(H) * (H * X - B)).real
 
+
+def residual_l2_fourier(h, x, b):
+    return sk.metrics.mean_squared_error(filterFT(x, h), b)
+
+def grad_l2(A, x, b):
+    return A.T @ (A @ x - b)
 
 def residual_l2(A, x, b):
-    return 0.5 * np.linalg.norm(A @ x - b) ** 2
+    return 1/2 * np.linalg.norm(A @ x - b) ** 2
 
+def run_gd_fourier(
+    h,
+    b,
+    step_size: float = 1e-5,
+    num_iters: int = 6000,
+    grad_fn=grad_l2_fourier,
+    residual=residual_l2_fourier,
+):
+    # Create x near the damaged image to speed up the convergence
+    # x = b.copy()
+    x = np.zeros_like(b)
+    # Noise reduction by blur the image
+    # x = filterFT(x, h)
+    losses = []
+    time_list = []
+    init_time = time.time()
+    for i in range(num_iters):
+        grad = grad_fn(h, x, b)
+        x = x - step_size * grad
+        x = np.clip(x, 0, 1)
+        losses.append(residual(h, x, b))
+        time_list.append(time.time() - init_time)
+    return x, losses, time_list
 
 def run_gd(
     A,
@@ -169,15 +202,15 @@ def run_gd(
     grad_fn=grad_l2,
     residual=residual_l2,
 ):
-    # Create random x
     x = np.random.rand(A.shape[1], 1)
     losses = []
     time_list = []
+    init_time = time.time()
     for i in range(num_iters):
         grad = grad_fn(A, x, b)
         x = x - step_size * grad
         losses.append(residual(A, x, b))
-        time_list.append(time.time())
+        time_list.append(time.time() - init_time)
     return x, losses, time_list
 
 
@@ -193,6 +226,7 @@ def run_sgd(
     x = np.random.rand(A.shape[1], 1)
     losses = []
     time_list = []
+    init_time = time.time()
     for i in range(num_iters):
         idx = np.random.choice(A.shape[0], batch_size, replace=False)
         A_batch = A[idx]
@@ -200,17 +234,17 @@ def run_sgd(
         grad = grad_fn(A_batch, x, b_batch)
         x = x - step_size * grad
         losses.append(residual(A, x, b))
-        time_list.append(time.time())
+        time_list.append(time.time() - init_time)
     return x, losses, time_list
 
 
-def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8), original: bool = False):
-    cameraman = sk.io.imread(
+def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8), original: bool = False, test: bool = False):
+    img = sk.io.imread(
         "img/tangled_small.jpg",
         as_gray=True,
     )
-    cameraman = sk.util.img_as_float(cameraman)
-    print_range(cameraman)
+    img = sk.util.img_as_float(img)
+    print_range(img)
     # TASK 1
     # 1.1 Low-pass filtering in frequency domain (using np.convolve2d !)
     if task == 1 and subtask == 1:
@@ -227,16 +261,16 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8), or
 
             # Apply filter in frequency domain -> 2D convolution
             plt.subplot(3, 3, index)
-            cameraman_gaussian_blur = filter(cameraman, h)
-            plt.imshow(cameraman_gaussian_blur, cmap="gray")
+            img_gaussian_blur = filter(img, h)
+            plt.imshow(img_gaussian_blur, cmap="gray")
             plt.title(f"$\\sigma = {i}$, frequency domain")
             plt.axis("off")
             index += 1
 
             # Apply filter in fourier domain -> multiplication
             plt.subplot(3, 3, index)
-            cameraman_gaussian_blur_ft = filterFT(cameraman, h)
-            plt.imshow(cameraman_gaussian_blur_ft, cmap="gray")
+            img_gaussian_blur_ft = filterFT(img, h)
+            plt.imshow(img_gaussian_blur_ft, cmap="gray")
             plt.title(f"$\\sigma = {i}$, Fourier domain")
             plt.axis("off")
             index += 1
@@ -257,120 +291,146 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8), or
 
             # Apply filter in frequency domain -> 2D convolution
             plt.subplot(3, 3, index)
-            cameraman_gaussian_blur = filter(cameraman, h)
-            print_range(cameraman_gaussian_blur)
-            plt.imshow(cameraman - cameraman_gaussian_blur, cmap="gray")
+            img_gaussian_blur = filter(img, h)
+            print_range(img_gaussian_blur)
+            plt.imshow(img - img_gaussian_blur, cmap="gray")
             plt.title(f"$\\sigma = {i}$, frequency domain")
             plt.axis("off")
             index += 1
 
             # Apply filter in fourier domain -> multiplication
             plt.subplot(3, 3, index)
-            cameraman_gaussian_blur_ft = filterFT(cameraman, h)
-            plt.imshow(cameraman - cameraman_gaussian_blur_ft, cmap="gray")
+            img_gaussian_blur_ft = filterFT(img, h)
+            plt.imshow(img - img_gaussian_blur_ft, cmap="gray")
             plt.title(f"$\\sigma = {i}$, Fourier domain")
             plt.axis("off")
             index += 1
         return plt.gcf()
 
-    # TASK 2
-    # Blur image
-    elif task == 2 and subtask == 1:
-        cameraman_blured = filterFT(cameraman, gaussianKernel(5))
+    # TASK 2: Inverse filtering and Wiener filtering
+    elif task == 2:
+        img_blured = filterFT(img, gaussianKernel(5))
         if original:
             plt.figure()
             plt.subplot(1, 2, 1)
-            plt.imshow(cameraman, cmap="gray")
+            plt.imshow(img, cmap="gray")
             plt.axis("off")
             plt.title("Original image")
             plt.subplot(1, 2, 2)
-            plt.imshow(cameraman_blured, cmap="gray")
+            plt.imshow(img_blured, cmap="gray")
             plt.axis("off")
             plt.title("Blured image")
             return plt.gcf()
-        index = 1
-        plt.figure(figsize=figsize)
-        for i in [0, 0.001, 0.01, 0.1]:
-            plt.subplot(2, 2, index)
-            # Add noise
-            cameraman_noised = add_noise(cameraman_blured, std=i)
-
-            # Inverse filter in Fourrier domain
-            h = gaussianKernel(5)
-            cameraman_inv_filter = filterFT(cameraman_noised, h, inv_filter=True)
-            plt.imshow(cameraman_inv_filter, cmap="gray")
-            plt.title(f"Inverse filtering with noise $\\sigma = {i}$")
-            plt.axis("off")
-            index += 1
-        return plt.gcf()
-
-    elif task == 2 and subtask == 2:
-        cameraman_blured = filterFT(cameraman, gaussianKernel(5))
-        if original:
-            plt.figure()
-            plt.subplot(1, 2, 1)
-            plt.imshow(cameraman, cmap="gray")
-            plt.axis("off")
-            plt.title("Original image")
-            plt.subplot(1, 2, 2)
-            plt.imshow(cameraman_blured, cmap="gray")
-            plt.axis("off")
-            plt.title("Blured image")
+        if subtask == 1:
+            index = 1
+            plt.figure(figsize=figsize)
+            for i in [0, 0.001, 0.01, 0.1]:
+                plt.subplot(2, 2, index)
+                # Add noise
+                img_noised = add_noise(img_blured, std=i)
+                # Inverse filter in Fourrier domain
+                h = gaussianKernel(5)
+                img_inv_filter = filterFT(img_noised, h, inv_filter=True)
+                plt.imshow(img_inv_filter, cmap="gray")
+                plt.title(f"Inverse filtering with noise $\\sigma = {i}$")
+                plt.axis("off")
+                index += 1
             return plt.gcf()
-        index = 1
-        plt.figure(figsize=figsize)
-        for i in [0, 0.001, 0.01, 0.1]:
-            plt.subplot(2, 2, index)
-
-            # Add noise
-            cameraman_noised = add_noise(cameraman_blured, std=i)
-            # Wiener filter in Fourrier domain
-            h = gaussianKernel(5)
-            cameraman_inv_filter = filterFT(
-                cameraman_noised, h, wiener=True, K=i / np.mean(cameraman_noised)
-            )
-            plt.imshow(cameraman_inv_filter, cmap="gray")
-            plt.title(f"Wiener filtering with noise $\\sigma = {i}$")
-            plt.axis("off")
-            index += 1
-
-        return plt.gcf()
+        if subtask == 2:
+            index = 1
+            plt.figure(figsize=figsize)
+            for i in [0, 0.001, 0.01, 0.1]:
+                plt.subplot(2, 2, index)
+                # Add noise
+                img_noised = add_noise(img_blured, std=i)
+                # Wiener filter in Fourrier domain
+                h = gaussianKernel(5)
+                img_inv_filter = filterFT(
+                    img_noised, h, wiener=True, K=i / np.mean(img_noised)
+                )
+                plt.imshow(img_inv_filter, cmap="gray")
+                plt.title(f"Wiener filtering with noise $\\sigma = {i}$")
+                plt.axis("off")
+                index += 1
+            return plt.gcf()
 
     # TASK 3: Gradient descent
     elif task == 3:
         # Classical gradient descent
-        A = np.random.rand(500, 100)
-        b = np.random.rand(500, 1)
-        x, losses, time_list = run_gd(A, b)
-        plt.figure()
-        plt.plot(losses)
-        plt.title("Gradient Descent Loss")
-        plt.xlabel("Iteration")
-        plt.ylabel("Loss")
-        plt.show()
-        plt.figure()
-        plt.plot(time_list)
-        plt.title("Time taken for gradient descent step")
-        plt.xlabel("step")
-        plt.ylabel("time")
-        plt.show()
-
-        # Stochastic gradient descent
-        A = np.random.rand(500, 100)
-        b = np.random.rand(500, 1)
-        x, losses, time_list = run_sgd(A, b)
-        plt.figure()
-        plt.plot(losses)
-        plt.title("Stochastic Gradient Descent Loss")
-        plt.xlabel("Iteration")
-        plt.ylabel("Loss")
-        plt.show()
-        plt.figure()
-        plt.plot(time_list)
-        plt.title("Time taken for stochastic gradient descent step")
-        plt.xlabel("step")
-        plt.ylabel("time")
-        plt.show()
+        downsampled_img = img[::2, ::2]
+        kernel_size = min(downsampled_img.shape)
+        h = gaussianKernel(5, size=kernel_size)
+        b = filterFT(downsampled_img, h)
+        b = add_noise(b, std=0.01)
+        if original:
+            plt.figure()
+            plt.subplot(1, 2, 1)
+            plt.imshow(downsampled_img, cmap="gray")
+            plt.axis("off")
+            plt.title("Original image")
+            plt.subplot(1, 2, 2)
+            plt.imshow(b, cmap="gray")
+            plt.axis("off")
+            plt.title("Damaged image")
+            return plt.gcf()
+        if test:
+            x, losses, time_list = run_gd_fourier(h, b)
+            plt.figure()
+            plt.subplot(1, 3, 1)
+            plt.imshow(x, cmap="gray")
+            plt.title("Recovered image")
+            plt.axis("off")
+            plt.subplot(1, 3, 2)
+            plt.plot(losses)
+            plt.title("Gradient Descent Loss")
+            plt.xlabel("Iteration")
+            plt.ylabel("Loss")
+            plt.subplot(1, 3, 3)
+            plt.plot(time_list)
+            plt.title("Time taken for gradient descent step")
+            plt.xlabel("step")
+            plt.ylabel("time")
+            return plt.gcf()
+        if subtask == 1:
+            b = b.reshape(-1, 1)
+            A = scipy.linalg.convolution_matrix(h, downsampled_img.shape)
+            x, losses, time_list = run_gd(A, b)
+            plt.figure()
+            plt.subplot(1, 3, 1)
+            plt.imshow(x.reshape(downsampled_img.shape), cmap="gray")
+            plt.title("Recovered image")
+            plt.axis("off")
+            plt.subplot(1, 3, 2)
+            plt.plot(losses)
+            plt.title("Gradient Descent Loss")
+            plt.xlabel("Iteration")
+            plt.ylabel("Loss")
+            plt.subplot(1, 3, 3)
+            plt.plot(time_list)
+            plt.title("Time taken for a step")
+            plt.xlabel("step")
+            plt.ylabel("time")
+            return plt.gcf()
+        if subtask == 2:
+            b = b.reshape(-1, 1)
+            A = scipy.linalg.convolution_matrix(h, downsampled_img.shape)
+            x, losses, time_list = run_sgd(A, b)
+            plt.figure()
+            plt.subplot(1, 3, 1)
+            plt.imshow(x.reshape(downsampled_img.shape), cmap="gray")
+            plt.title("Recovered image")
+            plt.axis("off")
+            plt.subplot(1, 3, 2)
+            plt.plot(losses)
+            plt.title("Stochastic Gradient Descent Loss")
+            plt.xlabel("Iteration")
+            plt.ylabel("Loss")
+            plt.subplot(1, 3, 3)
+            plt.plot(time_list)
+            plt.title("Time taken for a step")
+            plt.xlabel("step")
+            plt.ylabel("time")
+            return plt.gcf()
 
 
 if __name__ == "__main__":
@@ -382,7 +442,29 @@ if __name__ == "__main__":
         default=3,
         help="Enter the number of the task to execute",
     )
+    parser.add_argument("-i", "--image", type=str, default="img/tangled_small.jpg", help="Path to the input image")
 
     args = parser.parse_args()
 
-    tasks(args.task)
+    figsize = (8, 8)
+
+    img = sk.io.imread(
+        args.image,
+        as_gray=True,
+    )
+    img = sk.util.img_as_float(img)
+    print_range(img)
+    # TASK 1
+    # 1.1 Low-pass filtering in frequency domain (using np.convolve2d !)
+    if args.task == 1:
+        tasks(1, 1, figsize).show()
+        tasks(1, 2, figsize).show()
+    elif args.task == 2:
+        tasks(2, original=True, figsize=figsize).show()
+        tasks(2, 1, figsize).show()
+        tasks(2, 2, figsize).show()
+    elif args.task == 3:
+        tasks(3, original=True, figsize=figsize).show()
+        tasks(3, 1, figsize).show()
+        tasks(3, test=True, figsize=figsize).show()
+        tasks(3, 2, figsize).show()

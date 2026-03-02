@@ -104,6 +104,8 @@ The gradient $gradient_x f$ can be defined as follows:
 
 In our work, the numnber of iterations is used as stopping criterion for the gradient descent algorithm.
 
+Note that as $A$ is a convolution matrix, the transpose of $A$ is the convolution with the flipped version of the filter.
+
 ==== Stochastic gradient descent
 
 The stochastic gradient descent is based on the gradient descent method.
@@ -112,6 +114,18 @@ This variation is faster than the classical gradient descent thanks to the compu
 However, as the gradient is not computed for the whole image, the result is less accurate than the classical gradient descent.
 
 = Implementation <impl>
+
+The code can be executed in command line and follows the documentation below:
+
+
+#set block(fill: luma(240), inset: 1em, radius: 0.5em, width: 100%)
+#raw("TP1 of computational imaging
+
+options:
+  -h, --help         show this help message and exit
+  -t, --task TASK    Enter the number of the task to execute
+  -i, --image IMAGE  Path to the input image
+", lang: "raw", block: true)
 
 
 = Results
