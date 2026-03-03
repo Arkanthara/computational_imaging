@@ -173,20 +173,20 @@ def residual_l2(A, x, b):
 def run_gd_fourier(
     h,
     b,
-    step_size: float = 1e-5,
-    num_iters: int = 6000,
+    step_size: float = 1e-4,
+    num_iters: int = 1500,
     grad_fn=grad_l2_fourier,
     residual=residual_l2_fourier,
 ):
     # Create x near the damaged image to speed up the convergence
     # x = b.copy()
-    x = np.zeros_like(b)
+    x = np.random.rand(*b.shape)
     # Noise reduction by blur the image
     # x = filterFT(x, h)
     losses = []
     time_list = []
-    init_time = time.time()
     for i in range(num_iters):
+        init_time = time.time()
         grad = grad_fn(h, x, b)
         x = x - step_size * grad
         x = np.clip(x, 0, 1)
@@ -194,24 +194,51 @@ def run_gd_fourier(
         time_list.append(time.time() - init_time)
     return x, losses, time_list
 
-def run_gd(
-    A,
+def run_sgd_fourier(
+    h,
     b,
     step_size: float = 1e-4,
     num_iters: int = 1500,
-    grad_fn=grad_l2,
-    residual=residual_l2,
+    batch_size: int = 32,
+    grad_fn=grad_l2_fourier,
+    residual=residual_l2_fourier,
 ):
-    x = np.random.rand(A.shape[1], 1)
+    # Create x near the damaged image to speed up the convergence
+    x = np.random.rand(*b.shape)
+    # x = b.copy()
     losses = []
-    time_list = []
-    init_time = time.time()
+    time_list = [] 
     for i in range(num_iters):
-        grad = grad_fn(A, x, b)
-        x = x - step_size * grad
-        losses.append(residual(A, x, b))
+        init_time = time.time()
+        idx = np.random.randint(0, b.shape[0] - batch_size)
+        idy = np.random.randint(0, b.shape[1] - batch_size)
+        b_batch = b[idx:idx+batch_size, idy:idy+batch_size]
+        x_batch = x[idx:idx+batch_size, idy:idy+batch_size]
+        grad = grad_fn(h, x_batch, b_batch)
+        x[idx:idx+batch_size, idy:idy+batch_size] -= step_size * grad
+        x = np.clip(x, 0, 1)
+        losses.append(residual(h, x, b))
         time_list.append(time.time() - init_time)
     return x, losses, time_list
+
+# def run_gd(
+#     A,
+#     b,
+#     step_size: float = 1e-4,
+#     num_iters: int = 1500,
+#     grad_fn=grad_l2,
+#     residual=residual_l2,
+# ):
+#     x = np.random.rand(A.shape[1], 1)
+#     losses = []
+#     time_list = []
+#     init_time = time.time()
+#     for i in range(num_iters):
+#         grad = grad_fn(A, x, b)
+#         x = x - step_size * grad
+#         losses.append(residual(A, x, b))
+#         time_list.append(time.time() - init_time)
+#     return x, losses, time_list
 
 
 def run_sgd(
@@ -238,13 +265,12 @@ def run_sgd(
     return x, losses, time_list
 
 
-def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8), original: bool = False, test: bool = False):
+def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jpg", figsize: tuple[int, int] = (10, 10), original: bool = False, test: bool = False):
     img = sk.io.imread(
-        "img/tangled_small.jpg",
+        img_path,
         as_gray=True,
     )
     img = sk.util.img_as_float(img)
-    print_range(img)
     # TASK 1
     # 1.1 Low-pass filtering in frequency domain (using np.convolve2d !)
     if task == 1 and subtask == 1:
@@ -292,7 +318,6 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8), or
             # Apply filter in frequency domain -> 2D convolution
             plt.subplot(3, 3, index)
             img_gaussian_blur = filter(img, h)
-            print_range(img_gaussian_blur)
             plt.imshow(img - img_gaussian_blur, cmap="gray")
             plt.title(f"$\\sigma = {i}$, frequency domain")
             plt.axis("off")
@@ -311,7 +336,7 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8), or
     elif task == 2:
         img_blured = filterFT(img, gaussianKernel(5))
         if original:
-            plt.figure()
+            plt.figure(figsize=figsize)
             plt.subplot(1, 2, 1)
             plt.imshow(img, cmap="gray")
             plt.axis("off")
@@ -358,12 +383,13 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8), or
     elif task == 3:
         # Classical gradient descent
         downsampled_img = img[::2, ::2]
-        kernel_size = min(downsampled_img.shape)
-        h = gaussianKernel(5, size=kernel_size)
+        h = gaussianKernel(3, size=31)
         b = filterFT(downsampled_img, h)
-        b = add_noise(b, std=0.01)
+        b = add_noise(b, std=0.1)
+        step_size = 1e-4
+        num_iters = 10000
         if original:
-            plt.figure()
+            plt.figure(figsize=figsize)
             plt.subplot(1, 2, 1)
             plt.imshow(downsampled_img, cmap="gray")
             plt.axis("off")
@@ -373,59 +399,66 @@ def tasks(task: int = 1, subtask: int = 1, figsize: tuple[int, int] = (8, 8), or
             plt.axis("off")
             plt.title("Damaged image")
             return plt.gcf()
-        if test:
-            x, losses, time_list = run_gd_fourier(h, b)
-            plt.figure()
-            plt.subplot(1, 3, 1)
-            plt.imshow(x, cmap="gray")
-            plt.title("Recovered image")
+        if subtask == 1:
+            x, losses, time_list = run_gd_fourier(h, b, step_size=step_size, num_iters=num_iters)
+            plt.figure(figsize=figsize)
+            plt.subplot(2, 2, 1)
+            plt.imshow(b, cmap="gray")
+            plt.title("Damaged image")
             plt.axis("off")
-            plt.subplot(1, 3, 2)
+            plt.subplot(2, 2, 2)
+            plt.imshow(x, cmap="gray")
+            plt.title("Reconstructed image")
+            plt.axis("off")
+            plt.subplot(2, 2, 3)
             plt.plot(losses)
             plt.title("Gradient Descent Loss")
             plt.xlabel("Iteration")
             plt.ylabel("Loss")
-            plt.subplot(1, 3, 3)
+            plt.subplot(2, 2, 4)
             plt.plot(time_list)
             plt.title("Time taken for gradient descent step")
             plt.xlabel("step")
             plt.ylabel("time")
             return plt.gcf()
-        if subtask == 1:
-            b = b.reshape(-1, 1)
-            A = scipy.linalg.convolution_matrix(h, downsampled_img.shape)
-            x, losses, time_list = run_gd(A, b)
-            plt.figure()
-            plt.subplot(1, 3, 1)
-            plt.imshow(x.reshape(downsampled_img.shape), cmap="gray")
-            plt.title("Recovered image")
-            plt.axis("off")
-            plt.subplot(1, 3, 2)
-            plt.plot(losses)
-            plt.title("Gradient Descent Loss")
-            plt.xlabel("Iteration")
-            plt.ylabel("Loss")
-            plt.subplot(1, 3, 3)
-            plt.plot(time_list)
-            plt.title("Time taken for a step")
-            plt.xlabel("step")
-            plt.ylabel("time")
-            return plt.gcf()
+        # if subtask == 1:
+        #     b = b.reshape(-1, 1)
+        #     A = scipy.linalg.convolution_matrix(h, b.shape[0])
+        #     x, losses, time_list = run_gd(A, b)
+        #     plt.figure()
+        #     plt.subplot(1, 3, 1)
+        #     plt.imshow(x.reshape(downsampled_img.shape), cmap="gray")
+        #     plt.title("Recovered image")
+        #     plt.axis("off")
+        #     plt.subplot(1, 3, 2)
+        #     plt.plot(losses)
+        #     plt.title("Gradient Descent Loss")
+        #     plt.xlabel("Iteration")
+        #     plt.ylabel("Loss")
+        #     plt.subplot(1, 3, 3)
+        #     plt.plot(time_list)
+        #     plt.title("Time taken for a step")
+        #     plt.xlabel("step")
+        #     plt.ylabel("time")
+        #     return plt.gcf()
         if subtask == 2:
-            b = b.reshape(-1, 1)
-            A = scipy.linalg.convolution_matrix(h, downsampled_img.shape)
-            x, losses, time_list = run_sgd(A, b)
-            plt.figure()
-            plt.subplot(1, 3, 1)
-            plt.imshow(x.reshape(downsampled_img.shape), cmap="gray")
-            plt.title("Recovered image")
+            batch_size = h.shape[0]
+            x, losses, time_list = run_sgd_fourier(h, b, step_size=step_size, num_iters=num_iters,batch_size=batch_size)
+            plt.figure(figsize=figsize)
+            plt.subplot(2, 2, 1)
+            plt.imshow(b, cmap="gray")
+            plt.title("Damaged image")
             plt.axis("off")
-            plt.subplot(1, 3, 2)
+            plt.subplot(2, 2, 2)
+            plt.imshow(x, cmap="gray")
+            plt.title("Reconstructed image")
+            plt.axis("off")
+            plt.subplot(2, 2, 3)
             plt.plot(losses)
             plt.title("Stochastic Gradient Descent Loss")
             plt.xlabel("Iteration")
             plt.ylabel("Loss")
-            plt.subplot(1, 3, 3)
+            plt.subplot(2, 2, 4)
             plt.plot(time_list)
             plt.title("Time taken for a step")
             plt.xlabel("step")

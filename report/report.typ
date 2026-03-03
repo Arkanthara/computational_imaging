@@ -126,6 +126,12 @@ options:
   -t, --task TASK    Enter the number of the task to execute
   -i, --image IMAGE  Path to the input image
 ", lang: "raw", block: true)
+#set block(fill: none)
+
+For the gradient descent and the stochastic gradient descent, to avoid allocation of hudge convolution matrix, I try to filter the image in Fourier domain. Indeed, if the image is of size $64 times 64$, it means that the flat version of the image is of size $4096$ and then the convolution matrix needed is of size $4096 times 4096 = 16777216$. If we consider that each element of the matrix is an integer of 1 octet, it means that the matrix uses $16 "Mo"$. So due to memory usage, I make another implementation:
+we know that convolution gives multiplication in Fourier domain.
+So instead of working with convolution matrix of the filter with the image, I use multiplication in Fourier domain. And the flipped version of the filter gives the conjugate in Fourier domain.
+So for instance the gradient $gradient_x f$ becomes $G(H x - b)$ with $G$ the conjugate of the filter in Fourier domain and $H$ the filter in Fourier domain.
 
 
 = Results
@@ -138,13 +144,23 @@ sys.path.append(os.getcwd())
 from tp1 import tasks
 ")
 
+== Image filtering
+
 #figure(
 pyimage("tasks(1, 1)"), caption: "Low-Pass filter: Gaussian Blur")
 #figure(
 pyimage("tasks(1, 2)"),
 caption: "High-Pass filter: Unsharp Mask")
-#figure(grid(rows: 2, pyimage("tasks(2, 1, original=True)", width: 85%), pyimage("tasks(2, 1)")), caption: "Inverse filtering on blured image")
-#figure(grid(rows: 2, pyimage("tasks(2, 2, original=True)", width: 85%), pyimage("tasks(2, 2)")), caption: "Wiener filter on blured image")
+
+== Image restoration
+
+#figure(pyimage("tasks(2, 1)"), caption: "Inverse filtering on blured image")
+#figure(pyimage("tasks(2, 2)"), caption: "Wiener filter on blured image")
+
+== Gradient-based image restoration
+
+#figure(pyimage("tasks(3, 1)"), caption: "Image restoration using gradient descent in Fourier domain")
+#figure(pyimage("tasks(3, 2)"), caption: "Image restoration using stochastic gradient descent in Fourier domain")
 
 = Discussion
 
