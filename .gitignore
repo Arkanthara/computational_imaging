@@ -1,0 +1,8 @@
+*.venv
+*python*
+*_files
+*_cache
+*ipynb
+*website
+*result.jpg
+*__pycache__*
