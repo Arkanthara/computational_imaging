@@ -275,21 +275,20 @@
   } else {
     set heading(numbering: none)
   }
-  set heading(numbering: "1.1")
 
-  show heading.where(level: 1): it => {
-    set text(size: 24pt)
-    set block(above: 1.2em, below: 1.2em)
-    if it.numbering != none {
-      let num = numbering(it.numbering, ..counter(heading).at(it.location()))
-      let prefix = num + h(0.5em)
-      context {
-        pad(left: -measure(prefix).width, prefix + it.body)
-      }
-    } else {
-      it
-    }
-  }
+  // show heading.where(level: 1): it => {
+  //   set text(size: 24pt)
+  //   set block(above: 1.2em, below: 1.2em)
+  //   if it.numbering != none {
+  //     let num = numbering(it.numbering, ..counter(heading).at(it.location()))
+  //     let prefix = num + h(0.5em)
+  //     context {
+  //       pad(left: -measure(prefix).width, prefix + it.body)
+  //     }
+  //   } else {
+  //     it
+  //   }
+  // }
 
   // show heading.where(level: 2): it => {
   //   if it.numbering != none {

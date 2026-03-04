@@ -90,10 +90,11 @@ So the magnitude could be responsible of the brightness and the phase could be r
 
 The @fig-2 shows a mixture of the two phases: 3/4 from the phase of image 1 and 1/4 from the phase of image 2.
 In both cases, changing the magnitude of the image with that of image 1 or image 2 changes approximately nothing.
-Thus, only the structure of the strongest phase is visible.
-This confirms that the phase is responsible for the structure of the image. 
-
-
-
+Indeed, only the structure of the strongest phase is visible.
+This confirms that the phase is responsible for the structure of the image.
 
 = Conclusion
+
+So the phase of the Fourier transform is responsible for the structure of the image, while the magnitude is responsible for the brightness of the image.
+
+That's why the most important part of the Fourier transform resides in the phase.
