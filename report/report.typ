@@ -58,22 +58,42 @@ mixture = Mixture('img/tangled.jpg', 'img/tangled_2.jpg')
   pyimage("mixture.switchPhase(0)
   mixture.printMixture()"),
   caption: [Phase mixture with $phi = phi_"img_1"$],
-)
+) <fig-1>
 #figure(
   pyimage("mixture.switchPhase(0.25)
   mixture.printMixture()"),
   caption: [Phase mixture with $phi = 3/4 phi_"img_1" + 1/4 phi_"img_2"$],
-)
+) <fig-2>
 #figure(
   pyimage("mixture.switchPhase(1.0)
   mixture.printMixture()"),
   caption: [Phase mixture with $phi = phi_"img_2"$],
-)
+) <fig-3>
 
 
 = Discussion
 
-Blabla
-Blabla
+We can see in @fig-1 that when the phase is preserved intact, the image looks like the original.
+In fact, the image obtained by reconstructing the amplitude and phase of image 1 is exactly similar to image 1.
+
+However, if we look at image 2, we can see that when the phase of image 2 is replaced by the phase of image 1, the result looks like a damaged image 1.
+In fact, even if we try to zoom in on the image, only the structure of image 1 is visible and we cannot see anything from image 2.
+
+The case is similar in @fig-3 when the phase of image 1 is replaced by the phase of image 2: the result appears as a damaged version of image 2.
+
+Nevertheless, we can observe that in @fig-3, the reconstructed image 1 is “brighter” than the original image 2.
+This is because the magnitude of image 1 is greater than that of image 2.
+Magnitude describes the amount of energy contained in the image, and the more energy an image contains, the brighter it is.
+Thus, by combining the magnitude of image 1 with the phase of image 2, we obtain a brighter version of image 2 thanks to the magnitude of image 1.
+
+So the magnitude could be responsible of the brightness and the phase could be responsible of the structure of the image.
+
+The @fig-2 shows a mixture of the two phases: 3/4 from the phase of image 1 and 1/4 from the phase of image 2.
+In both cases, changing the magnitude of the image with that of image 1 or image 2 changes approximately nothing.
+Thus, only the structure of the strongest phase is visible.
+This confirms that the phase is responsible for the structure of the image. 
+
+
+
 
 = Conclusion

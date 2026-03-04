@@ -37,7 +37,7 @@ class Mixture:
         self.mixture_1 = np.fft.ifft2(self.mixture_1)
         self.mixture_2 = np.fft.ifft2(self.mixture_2)
 
-    def printMixture(self, figsize: tuple = (8, 8)):
+    def printMixture(self, figsize: tuple = (10, 10)):
         plt.figure(figsize=figsize)
         plt.subplot(2, 2, 1)
         plt.title("Image 1")
