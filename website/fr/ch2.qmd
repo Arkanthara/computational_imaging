@@ -126,7 +126,7 @@ Deux systèmes parallèles :
 - **Bâtonnets** (environ 120 millions) : vision en niveaux de gris, sensibles à la lumière.
 
 ### Répartition sur la rétine
-```{.mermaid}
+```{mermaid}
 xychart-beta
     title "Densité des photorécepteurs en fonction de l’excentricité"
     x-axis ["Nasale", "Fovéa", "Temporelle"]
@@ -220,7 +220,7 @@ Organisation spatiale des neurones pour minimiser la distance entre ceux qui rep
 - **Voie dorsale** (occipito‑parétale) : traitement du mouvement et de la localisation (« où »).
 - **Voie ventrale** (occipito‑temporale) : traitement de la forme et de l’identité (« quoi »).
 
-```{.mermaid}
+```{mermaid}
 graph TD
     A[Rétine] --> B[LGN]
     B --> C[V1]
@@ -270,7 +270,7 @@ Les casques VR/AR modernes tentent de reproduire la vision binoculaire avec des 
     - Baisse de qualité d’image
     - Risques pour le développement visuel chez l’enfant
 
-```{.mermaid}
+```{mermaid}
 graph LR
     A[Monde réel] --> B[Vergence = Accommodation]
     C[Écran stéréo] --> D[Vergence ≠ Accommodation]

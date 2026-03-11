@@ -1,0 +1,133 @@
+# Résumé — Computational Imaging Lecture 3
+
+---
+
+# Computational Photography
+
+## Pipeline
+
+**Conventionnel** : `Monde réel → Optique → Image → Calcul (amélioration)`
+
+**Computationnel** : `Monde réel → Optique généralisée → Représentation codée → Calcul → Images(s)`
+
+> **Idée centrale** : déplacer la complexité vers le calcul pour gagner en flexibilité.
+
+---
+
+## Focal Stack — À retenir
+
+**But** : image entièrement nette (*all-in-focus*) depuis plusieurs images focalisées.
+
+**Pipeline** :
+
+1. Changer la bague de mise au point (→ modifie $D'$, pas le zoom)
+2. Aligner (corriger le changement de grandissement)
+3. Peser chaque pixel selon sa netteté (Laplacien + Gaussien)
+4. Fusionner : $I_{\text{fused}} = \frac{\sum_k w_k I_k}{\sum_k w_k}$
+
+---
+
+## Techniques de profondeur — Comparatif rapide
+
+| Technique | Entrée | Granularité | Remarque |
+|---|---|---|---|
+| Depth from focus | Pile focale | Patch | Standard |
+| Depth from defocus | **2 images** | Patch | Minimal |
+| Confocal stereo | Pile + ouverture | **Pixel** | Plus précis |
+| Focal flow | Pile dense | Patch | Très rapide, zones texturées seulement |
+
+---
+
+# Light Field Photography
+
+## Concepts clés
+
+- **Fonction plénotique** : $L(x,y,z,\theta,\phi)$ — **5D** (3D position + 2D direction)
+- **Paramétrage** : plan $st$ (lentille) × plan $uv$ (capteur) → 4D en pratique
+
+## 3 façons de capturer
+
+1. **Tableau de caméras** (Stanford Array) — haute qualité, encombrant
+2. **Caméra déplacée** — simple, scène statique obligatoire
+3. **Caméra plénoptique** ← approche principale (lentille + microlens array + capteur)
+
+## Opérations numériques (post-capture)
+
+- **Stopping-down** : sommer la partie centrale des microlentilles → ouverture virtuelle plus petite
+- **Déplacement observateur** : déplacer la fenêtre d'extraction → autre point de vue
+- **Refocalisation** : sommer des fenêtres décalées de plusieurs microlentilles → mise au point virtuelle
+
+## Lytro — Chiffres clés
+
+- $4000 \times 4000$ pixels, $292 \times 292$ microlentilles, **$14 \times 14$ px/lentille**
+- Microlentilles de $125\ \mu m$
+
+## Avantages / Inconvénients Lytro
+
+| ✅ | ❌ |
+|---|---|
+| Portable | Résolution réduite |
+| Refocalisation post-capture | Ouverture fixe |
+
+---
+
+# Caméra avec ouverture codée
+
+## Problème fondamental
+
+$$y = f \otimes x + \text{bruit}$$
+
+→ Inversion **mal posée** (ill-posed) : infinité de solutions possibles.
+
+**Problème fréquentiel** : si $F(u,v)$ a des zéros → perte irréversible d'information.
+
+## Solution 1 : Prior sur gradients épars
+
+$$\hat{x} = \arg\min_x \underbrace{\| f \otimes x - y \|^2}_{\text{fidélité}} + \lambda \underbrace{P(\nabla x)}_{\text{régularisation}}$$
+
+| Prior | Effet | Qualité |
+|---|---|---|
+| Aucun (Richardson-Lucy) | — | Ringing fort |
+| $\|\nabla x\|^2$ (gaussien) | Étale les gradients | Moyen |
+| $\|\nabla x\|$ (épars) | Localise les gradients | ✅ Meilleur |
+
+## Solution 2 : Ouverture codée
+
+- Masque binaire dans l'ouverture → PSF codée ≠ image naturelle
+- Conçu pour **éviter les zéros fréquentiels** → déconvolution possible
+- Critère de conception : **maximiser la discrimination entre échelles** (divergence KL)
+
+## Pipeline complet
+
+1. Déconvoluer avec **10 échelles** de noyau calibré
+2. Sélectionner l'échelle à erreur minimale par fenêtre locale
+3. Régulariser la carte de profondeur
+4. Déconvoluer → image nette
+
+**Résultat** : profondeur + image nette depuis **une seule image**, sans perte de résolution.
+
+---
+
+# Caméra avec optique généralisée
+
+## Wavefront Coding
+
+- Remplace la lentille par une **plaque à phase cubique**
+- PSF **approximativement invariante en profondeur** → une seule déconvolution suffit
+
+## Lattice Lens
+
+- Réseau de lentillons à focale variable devant la lentille
+- Capture un sous-ensemble utile du champ lumineux 4D
+- PSF **non** invariante → déconvolution locale (comme ouverture codée)
+
+$$\dim(\text{spectre utile}) = 3 \quad \text{sur 4D total}$$
+
+## Comparaison finale des approches
+
+| Approche | Invariance PSF | Profondeur de champ |
+|---|---|---|
+| Lentille standard | ❌ | Faible |
+| Ouverture codée | ❌ | Étendue |
+| Wavefront coding | ✅ (approx.) | Étendue |
+| Lattice lens | ❌ | Étendue |

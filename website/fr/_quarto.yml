@@ -40,6 +40,13 @@ website:
               - ch2.qmd
               - text: "Synthese"
                 href: ch2r.qmd
+          - section: "Human Visual System"
+            contents:
+              - text: "Details"
+                href: ch3c.qmd
+              - ch3.qmd
+              - text: "Synthese"
+                href: ch3r.qmd
 
 
 format:

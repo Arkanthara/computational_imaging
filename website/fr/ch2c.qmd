@@ -83,7 +83,7 @@ Le mécanisme physique de formation d'image repose sur deux phénomènes :
   - **réfractée** (déviation à l'interface de deux milieux)
 - Si l'objet est une lentille, la lumière **réfractée** est celle utile pour l'imagerie
 
-```{.mermaid}
+```{mermaid}
 graph LR
     S[Source lumineuse] --> R[Rayon incident]
     R --> O[Surface]
@@ -171,7 +171,7 @@ Le HVS est caractérisé par les paramètres suivants :
 
 Le HVS peut se décomposer en une chaîne de traitement :
 
-```{.mermaid}
+```{mermaid}
 graph LR
     A[Yeux\ncapteurs] --> B[Réseau nerveux\nNGC / LGN]
     B --> C[Cortex visuel\ncalcul]
@@ -388,7 +388,7 @@ Deux grands types d'indices de profondeur :
 
 Le signal visuel quitte l'œil via le **nerf optique** (faisceau d'axones des cellules ganglionnaires) et se divise en plusieurs voies :
 
-```{.mermaid}
+```{mermaid}
 graph TD
     OG[Œil gauche] --> OC[Chiasma optique]
     OD[Œil droit] --> OC
@@ -490,7 +490,7 @@ Au-delà de V1, plusieurs aires spécialisées sont identifiées :
 
 Deux voies principales émergent de V1 :
 
-```{.mermaid}
+```{mermaid}
 graph LR
     V1[V1\nCortex strié] --> Dorsal[Flux dorsal\nVers cortex pariétal]
     V1 --> Ventral[Flux ventral\nVers cortex temporal]
@@ -571,7 +571,7 @@ Structure :
 
 Architecture **LeNet** pour la reconnaissance de caractères manuscrits (MNIST, $28 \times 28$ pixels) :
 
-```{.mermaid}
+```{mermaid}
 graph LR
     I[Image\n28×28] --> C1[Convolution C1\n6@28×28]
     C1 --> S2[Pooling S2\n6@14×14]

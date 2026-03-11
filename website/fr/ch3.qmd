@@ -1,0 +1,243 @@
+# Computational imaging
+
+## Introduction
+
+Ce cours présente les principes de l’imagerie computationnelle, une discipline qui combine l’optique et le traitement numérique pour repousser les limites des systèmes d’imagerie traditionnels. Nous explorerons trois domaines clés : la photographie computationnelle, la photographie de champ lumineux (light field) et les caméras à ouverture codée.
+
+---
+
+# 1. Photographie computationnelle
+
+La photographie computationnelle désigne l’ensemble des techniques où l’optique et le calcul numérique travaillent ensemble pour produire des images qui seraient impossibles à obtenir avec un système purement optique.
+
+## Approche classique vs. approche computationnelle
+
+Dans une caméra traditionnelle :
+
+- L’optique capture une image qui est (presque) l’image finale.
+- Le calcul ne fait qu’« améliorer » l’image capturée (par exemple, défloutage).
+
+Avec une approche computationnelle :
+
+- L’optique généralisée **encode** la scène dans une représentation intermédiaire.
+- Le calcul généralisé **décode** cette représentation pour produire une ou plusieurs images finales.
+
+## Éléments d’un système d’imagerie
+
+Les paramètres fondamentaux qui influencent la formation de l’image sont :
+
+- l’optique (lentilles)
+- l’ouverture (diaphragme)
+- la profondeur de champ
+- le champ de vue
+- l’exposition
+- le bruit
+- les matrices de filtres colorés (CFA)
+- la chaîne de traitement d’image (pipeline)
+
+## Exemple : matrice de filtres colorés (CFA)
+
+La plupart des capteurs numériques sont monochromes. Pour obtenir une image couleur, on place devant le capteur une matrice de filtres (généralement Bayer) qui encode l’information couleur en une mosaïque de pixels rouges, verts et bleus.
+
+- L’optique **encode** la couleur dans cette mosaïque.
+- Le calcul (démosaïçage) **décode** la mosaïque pour reconstruire une image RGB complète.
+
+## Profondeur de champ et mise au point
+
+### Problème du tout net
+
+Si l’on règle l’optique pour que tout soit net (très petite ouverture), on perd énormément de lumière (inefficacité lumineuse).
+
+### Solution classique : une seule profondeur nette
+
+En ouvrant le diaphragme, seule une fine tranche de l’espace est nette. C’est efficace en lumière, mais on perd l’information des autres plans.
+
+**Question :** Comment obtenir une image entièrement nette (tout-net) tout en conservant une bonne efficacité lumineuse ?
+
+## Prise de vue par empilement de mises au point (focal stack)
+
+Une solution consiste à capturer plusieurs images avec des distances de mise au point différentes, puis à les fusionner en une seule image où tout est net.
+
+### 1. Acquisition d’un empilement focal
+
+Pour capturer un empilement focal, on modifie la distance de mise au point (par exemple en déplaçant l’objectif ou en changeant la distance focale). Attention : en modifiant la mise au point, on change aussi le grandissement (champ de vue). Les images ne sont donc pas parfaitement alignées.
+
+### 2. Alignement des images
+
+Il faut aligner les images pour compenser les variations de grandissement. Si l’on connaît la distance focale $f$ et les distances de mise au point $D$, on peut calculer les transformations géométriques nécessaires (homothéties). Dans la pratique, on utilise souvent des algorithmes de recalage d’images.
+
+### 3. Pondération des pixels
+
+Pour fusionner les images, on attribue à chaque pixel un poids représentant son degré de netteté. On mesure la netteté locale par des opérateurs de dérivée seconde, comme le Laplacien, éventuellement suivi d’un flou gaussien pour lisser la carte de poids.
+
+### 4. Fusion
+
+L’image finale tout-net est obtenue par une moyenne pondérée des images alignées.
+
+---
+
+## Techniques d’inférence de profondeur
+
+L’empilement focal peut également servir à estimer la profondeur des objets dans la scène. Plusieurs méthodes existent.
+
+### Stéréo confocale
+
+- On capture un empilement 2D en faisant varier à la fois la mise au point et l’ouverture.
+- On analyse pour chaque pixel son « image focus-ouverture » pour en déduire la profondeur réelle.
+
+### Profondeur par flou de défocalisation (depth from defocus)
+
+- Nécessite seulement deux images prises avec des ouvertures ou des mises au point différentes.
+- On modélise le flou comme une convolution par un noyau gaussien dont l’écart-type $\sigma$ dépend de la profondeur.
+- En estimant la différence de flou entre les deux images, on remonte à la profondeur.
+
+### Flux focal (focal flow)
+
+- On utilise un empilement focal dense (par exemple, toutes les images produites lors d’une mise au point automatique).
+- On suppose que le flou de défocalisation est modélisable par un noyau gaussien de variance variable.
+- On estime le flot optique entre images successives de l’empilement.
+- La variation du flot optique est reliée à la profondeur.
+- Méthode très efficace (pas de convolution coûteuse) mais ne fonctionne que sur des zones texturées (pourquoi ? Parce que le flot optique nécessite des motifs discriminables).
+
+### Profondeur par mise au point (depth from focus)
+
+- Nécessite un empilement focal.
+- Pour chaque patch, on cherche l’image où la netteté est maximale ; la profondeur correspondante est celle du patch.
+
+### Résumé comparatif
+
+| Technique       | Données nécessaires         | Résolution spatiale |
+|-----------------|------------------------------|----------------------|
+| Stéréo confocale | Empilement focus-ouverture   | Par pixel            |
+| Flux focal       | Empilement focal dense       | Par patch (texture)  |
+| Profondeur par focus | Empilement focal           | Par patch            |
+| Profondeur par defocus | Deux images seulement    | Par patch            |
+
+---
+
+# 2. Photographie de champ lumineux (light field photography)
+
+Les photographies traditionnelles n’enregistrent qu’une infime partie de l’information contenue dans la lumière qui entre dans l’appareil. La photographie de champ lumineux vise à capturer la distribution géométrique complète des rayons lumineux.
+
+## Théorie du champ lumineux
+
+La fonction plénoptique décrit la lumière en tout point de l’espace et dans toute direction. C’est une fonction à 5 dimensions : 3 coordonnées spatiales $(x, y, z)$ et 2 angles de direction $(\theta, \phi)$. On la note $L(x, y, z, \theta, \phi)$.
+
+Dans un appareil photo, on peut simplifier en considérant que la lumière est captée sur un plan (le capteur) et que les directions sont échantillonnées par la pupille de l’objectif. On aboutit à une représentation à 4 dimensions : deux coordonnées sur le plan de l’image $(u, v)$ et deux coordonnées sur le plan de la pupille $(s, t)$. C’est le **light field** $L(u, v, s, t)$.
+
+## Comment capturer un champ lumineux ?
+
+### Option 1 : utiliser plusieurs caméras
+
+On place un réseau de caméras (par exemple, le « Stanford camera array »). Chaque caméra voit la scène sous un angle légèrement différent. L’ensemble des images forme un light field échantillonné.
+
+### Option 2 : déplacer une seule caméra
+
+On monte une caméra sur un système motorisé (par exemple, un moteur LEGO) et on prend des photos depuis différentes positions. On obtient ainsi un light field, mais l’acquisition est lente.
+
+### Option 3 : utiliser une caméra plénoptique
+
+Une caméra plénoptique (ou « plenoptic camera ») place un réseau de microlentilles devant le capteur. Chaque microlentille sépare les rayons provenant de différentes parties de la pupille, ce qui permet d’enregistrer à la fois l’information spatiale et angulaire en une seule exposition.
+
+- Principe conceptualisé par Gabriel Lippmann au début du XXe siècle sous le nom de « photographie intégrale ».
+- L’optique **encode** la scène en un light field (4D).
+- Le calcul **décode** ce light field pour produire des images refocalisées ou des vues multiples.
+
+## Exemple : caméra Lytro
+
+La caméra Lytro est un exemple commercial de caméra plénoptique portable.
+
+- Elle contient un objectif principal, un réseau de microlentilles et un capteur CMOS.
+- Le réseau de microlentilles divise les pixels du capteur en zones, chacune enregistrant une vue sous un angle différent.
+- Le « Light Field Engine » (processeur) traite les données brutes pour permettre la refocalisation a posteriori.
+- Spécifications typiques : un capteur de 16 mégapixels peut être divisé, par exemple, en $292 \times 292$ microlentilles, chacune couvrant $14 \times 14$ pixels. On obtient ainsi une résolution spatiale réduite mais une haute résolution angulaire.
+
+### Avantages et inconvénients
+
+**Avantages :**
+
+- Appareil portable.
+- Possibilité de refocaliser après la prise de vue (digital refocusing).
+
+**Inconvénients :**
+
+- Résolution spatiale réduite (car les pixels sont partagés entre vues angulaires).
+- Ouverture fixe (pas de contrôle direct de la profondeur de champ).
+
+## Caméras plénoptiques industrielles
+
+Des modèles plus sophistiqués existent pour la recherche et l’industrie :
+
+- Résolution spatiale et angulaire beaucoup plus élevée.
+- Objectifs interchangeables.
+- Possibilité de vidéo.
+- Coût très élevé.
+
+---
+
+# 3. Caméra conventionnelle à ouverture codée
+
+L’ouverture codée est une technique qui consiste à placer un masque (motif) dans le diaphragme de l’objectif pour modifier la forme du flou de défocalisation. Cela permet d’améliorer l’estimation de la profondeur et la déconvolution.
+
+## Problèmes liés au flou de défocalisation
+
+- Il est difficile de distinguer une scène lisse (peu texturée) d’un flou de défocalisation.
+- Il est difficile d’inverser le flou (déconvolution) à cause des artefacts (ringing) et de l’amplification du bruit.
+
+## Solutions possibles
+
+1. **Exploiter les caractéristiques statistiques des images naturelles** (priors) pour régulariser la déconvolution.
+2. **Améliorer la discrimination en profondeur** en rendant le flou plus « reconnaissable ».
+
+L’ouverture codée agit sur le second point : en remplaçant l’ouverture circulaire par un motif connu (par exemple, un code binaire), la forme du flou varie avec la profondeur de manière plus discriminante. On peut ainsi :
+
+- Mieux estimer la profondeur à partir d’une seule image.
+- Améliorer la déconvolution car le noyau de flou (PSF) est plus facile à identifier.
+
+## Principe
+
+- On place un masque (coded aperture) à l’intérieur de l’objectif.
+- La PSF (Point Spread Function) de l’appareil dépend de la profondeur de l’objet et du motif du masque.
+- En connaissant le motif, on peut, par déconvolution aveugle ou semi-aveugle, estimer à la fois la profondeur et l’image nette.
+
+### Exemple de défis
+
+- Une scène uniforme reste difficile car il n’y a pas d’information de texture.
+- Les algorithmes de déconvolution classiques produisent des artefacts (ringing) si le noyau est mal estimé.
+
+---
+
+# 4. Caméras à optique généralisée
+
+Au-delà de l’ouverture codée, on peut modifier l’optique elle-même pour obtenir des propriétés intéressantes.
+
+## Codage par front d’onde (wavefront coding)
+
+- On remplace la lentille conventionnelle par une **plaque de phase cubique**.
+- Les rayons ne convergent plus en un point unique.
+- La PSF devient **approximativement invariante en profondeur** sur une certaine plage.
+- Cela facilite la déconvolution (un seul noyau à utiliser pour toute la scène).
+
+## Réseau de microlentilles à focales variables
+
+- On place un réseau de microlentilles devant l’objectif principal, chaque microlentille ayant une focale légèrement différente.
+- Cela permet de capturer simultanément des images avec différentes mises au point.
+- Principe proche de la caméra plénoptique, mais avec une organisation différente.
+
+## Lentille en treillis (lattice lens)
+
+- Ce dispositif capture seulement un sous-ensemble « utile » du champ lumineux 4D.
+- La PSF n’est pas invariante en profondeur, mais on peut appliquer des déconvolutions locales comme en ouverture codée.
+
+---
+
+# Conclusion
+
+L’imagerie computationnelle offre des possibilités extraordinaires en repoussant les limites des systèmes optiques traditionnels. À travers l’empilement focal, le champ lumineux, l’ouverture codée et les optiques généralisées, on peut :
+
+- Obtenir des images tout-nettes avec une bonne luminosité.
+- Estimer la profondeur des scènes.
+- Refocaliser après la prise de vue.
+- Améliorer la qualité des images dégradées par le flou.
+
+Ces techniques sont aujourd’hui utilisées dans des domaines variés : photographie grand public, imagerie scientifique, robotique, réalité virtuelle, etc.
