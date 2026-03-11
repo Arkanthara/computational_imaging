@@ -154,15 +154,7 @@ def gaussianKernel(std: float, size: int = 101) -> np.ndarray:
     return kernel
 
 
-def grad_l2_fourier(h, x, b):
-    H = psf2otf(h, shape=x.shape)
-    X = np.fft.fft2(x)
-    B = np.fft.fft2(b)
-    return np.fft.ifft2(np.conj(H) * (H * X - B)).real
 
-
-def residual_l2_fourier(h, x, b):
-    return sk.metrics.mean_squared_error(filterFT(x, h), b)
 
 def grad_l2(A, x, b):
     return A.T @ (A @ x - b)
@@ -170,29 +162,55 @@ def grad_l2(A, x, b):
 def residual_l2(A, x, b):
     return 1/2 * np.linalg.norm(A @ x - b) ** 2
 
+def grad_l2_fourier(H, F, B):
+    return 2 * H * (H * F - B)
+
+def residual_l2_fourier(H, F, B):
+    return np.linalg.norm(H * F - B) ** 2
+
 def run_gd_fourier(
-    h,
-    b,
-    step_size: float = 1e-4,
-    num_iters: int = 1500,
+    H,
+    B,
+    step_size: float = 1e-1,
+    num_iters: int = 3000,
     grad_fn=grad_l2_fourier,
     residual=residual_l2_fourier,
 ):
-    # Create x near the damaged image to speed up the convergence
-    # x = b.copy()
-    x = np.random.rand(*b.shape)
-    # Noise reduction by blur the image
-    # x = filterFT(x, h)
+    F = B.copy()
     losses = []
     time_list = []
     for i in range(num_iters):
         init_time = time.time()
-        grad = grad_fn(h, x, b)
-        x = x - step_size * grad
-        x = np.clip(x, 0, 1)
-        losses.append(residual(h, x, b))
+        grad = grad_l2_fourier(H, F, B)
+        F = F - step_size * grad
+        # F = np.clip(F, 0, 1)
+        losses.append(residual_l2_fourier(H, F, B))
         time_list.append(time.time() - init_time)
-    return x, losses, time_list
+    return F, losses, time_list
+
+# def run_gd_fourier(
+#     h,
+#     b,
+#     step_size: float = 1e-4,
+#     num_iters: int = 1500,
+#     grad_fn=grad_l2_fourier,
+#     residual=residual_l2_fourier,
+# ):
+#     # Create x near the damaged image to speed up the convergence
+#     # x = b.copy()
+#     x = np.random.rand(*b.shape)
+#     # Noise reduction by blur the image
+#     # x = filterFT(x, h)
+#     losses = []
+#     time_list = []
+#     for i in range(num_iters):
+#         init_time = time.time()
+#         grad = grad_fn(h, x, b)
+#         x = x - step_size * grad
+#         x = np.clip(x, 0, 1)
+#         losses.append(residual(h, x, b))
+#         time_list.append(time.time() - init_time)
+#     return x, losses, time_list
 
 def run_sgd_fourier(
     h,
@@ -289,7 +307,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(3, 3, index)
             img_gaussian_blur = filter(img, h)
             plt.imshow(img_gaussian_blur, cmap="gray")
-            plt.title(f"$\\sigma = {i}$, frequency domain")
+            plt.title(f"frequency domain, $\\sigma = {i}$")
             plt.axis("off")
             index += 1
 
@@ -297,7 +315,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(3, 3, index)
             img_gaussian_blur_ft = filterFT(img, h)
             plt.imshow(img_gaussian_blur_ft, cmap="gray")
-            plt.title(f"$\\sigma = {i}$, Fourier domain")
+            plt.title(f"Fourier domain, $\\sigma = {i}$")
             plt.axis("off")
             index += 1
         return plt.gcf()
@@ -319,7 +337,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(3, 3, index)
             img_gaussian_blur = filter(img, h)
             plt.imshow(img - img_gaussian_blur, cmap="gray")
-            plt.title(f"$\\sigma = {i}$, frequency domain")
+            plt.title(f"frequency domain, $\\sigma = {i}$")
             plt.axis("off")
             index += 1
 
@@ -327,7 +345,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(3, 3, index)
             img_gaussian_blur_ft = filterFT(img, h)
             plt.imshow(img - img_gaussian_blur_ft, cmap="gray")
-            plt.title(f"$\\sigma = {i}$, Fourier domain")
+            plt.title(f"Fourier domain, $\\sigma = {i}$")
             plt.axis("off")
             index += 1
         return plt.gcf()
@@ -385,9 +403,11 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
         downsampled_img = img[::2, ::2]
         h = gaussianKernel(3, size=31)
         b = filterFT(downsampled_img, h)
-        b = add_noise(b, std=0.1)
-        step_size = 1e-4
-        num_iters = 10000
+        # b = add_noise(b, std=0.1)
+        B = np.fft.fft2(b)
+        H = psf2otf(h, shape=b.shape)
+        step_size = 1e-2
+        num_iters = 1500
         if original:
             plt.figure(figsize=figsize)
             plt.subplot(1, 2, 1)
@@ -400,14 +420,15 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.title("Damaged image")
             return plt.gcf()
         if subtask == 1:
-            x, losses, time_list = run_gd_fourier(h, b, step_size=step_size, num_iters=num_iters)
+            F, losses, time_list = run_gd_fourier(H, B, step_size=step_size, num_iters=num_iters)
+            f = np.fft.ifft2(F).real
             plt.figure(figsize=figsize)
             plt.subplot(2, 2, 1)
             plt.imshow(b, cmap="gray")
             plt.title("Damaged image")
             plt.axis("off")
             plt.subplot(2, 2, 2)
-            plt.imshow(x, cmap="gray")
+            plt.imshow(f, cmap="gray")
             plt.title("Reconstructed image")
             plt.axis("off")
             plt.subplot(2, 2, 3)
@@ -441,29 +462,29 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
         #     plt.xlabel("step")
         #     plt.ylabel("time")
         #     return plt.gcf()
-        if subtask == 2:
-            batch_size = h.shape[0]
-            x, losses, time_list = run_sgd_fourier(h, b, step_size=step_size, num_iters=num_iters,batch_size=batch_size)
-            plt.figure(figsize=figsize)
-            plt.subplot(2, 2, 1)
-            plt.imshow(b, cmap="gray")
-            plt.title("Damaged image")
-            plt.axis("off")
-            plt.subplot(2, 2, 2)
-            plt.imshow(x, cmap="gray")
-            plt.title("Reconstructed image")
-            plt.axis("off")
-            plt.subplot(2, 2, 3)
-            plt.plot(losses)
-            plt.title("Stochastic Gradient Descent Loss")
-            plt.xlabel("Iteration")
-            plt.ylabel("Loss")
-            plt.subplot(2, 2, 4)
-            plt.plot(time_list)
-            plt.title("Time taken for a step")
-            plt.xlabel("step")
-            plt.ylabel("time")
-            return plt.gcf()
+        # if subtask == 2:
+        #     batch_size = h.shape[0]
+        #     x, losses, time_list = run_sgd_fourier(h, b, step_size=step_size, num_iters=num_iters,batch_size=batch_size)
+        #     plt.figure(figsize=figsize)
+        #     plt.subplot(2, 2, 1)
+        #     plt.imshow(b, cmap="gray")
+        #     plt.title("Damaged image")
+        #     plt.axis("off")
+        #     plt.subplot(2, 2, 2)
+        #     plt.imshow(x, cmap="gray")
+        #     plt.title("Reconstructed image")
+        #     plt.axis("off")
+        #     plt.subplot(2, 2, 3)
+        #     plt.plot(losses)
+        #     plt.title("Stochastic Gradient Descent Loss")
+        #     plt.xlabel("Iteration")
+        #     plt.ylabel("Loss")
+        #     plt.subplot(2, 2, 4)
+        #     plt.plot(time_list)
+        #     plt.title("Time taken for a step")
+        #     plt.xlabel("step")
+        #     plt.ylabel("time")
+        #     return plt.gcf()
 
 
 if __name__ == "__main__":
@@ -498,6 +519,7 @@ if __name__ == "__main__":
         tasks(2, 2, figsize).show()
     elif args.task == 3:
         tasks(3, original=True, figsize=figsize).show()
-        tasks(3, 1, figsize).show()
-        tasks(3, test=True, figsize=figsize).show()
-        tasks(3, 2, figsize).show()
+        tasks(3, 1, figsize=figsize).show()
+        # tasks(3, test=True, figsize=figsize).show()
+        # tasks(3, 2, figsize).show()
+        input("Press Enter to continue...")

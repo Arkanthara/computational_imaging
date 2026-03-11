@@ -307,6 +307,25 @@
     size: 11pt,
   )
 
+  show figure.where(kind: "subfigure"): set figure(supplement: "Figure")
+
+  show figure.where(kind: image): outer => {
+    counter(figure.where(kind: "subfigure")).update(0)
+    set figure(numbering: (..nums) => {
+      let outer-nums = counter(figure.where(kind: image)).at(outer.location())
+      std.numbering("1a", ..outer-nums, ..nums)
+    })
+    show figure.where(kind: "subfigure"): inner => {
+      show figure.caption: it => context {
+        std.numbering("(a)", it.counter.at(inner.location()).last())
+        [ ]
+        it.body
+      }
+      inner
+    }
+    outer
+  }
+
   // Main body styling
   set par(justify: true)
 

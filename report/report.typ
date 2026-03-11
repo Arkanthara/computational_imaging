@@ -3,7 +3,6 @@
 #import "metadata.typ": my-report
 #import "@preview/theofig:0.1.0": definition
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
-#import ".typst_pyimage/pyimage.typ": pyimage, pyinit
 
 // Main content
 #show: make-report.with(my-report)
@@ -136,31 +135,72 @@ So for instance the gradient $gradient_x f$ becomes $G(H x - b)$ with $G$ the co
 
 = Results
 
-#pyinit("
+```python
+%| echo: false
 import os
 import sys
-os.chdir(os.path.dirname(os.path.abspath(__file__)) + '/../code')
+os.chdir(os.path.normpath(os.path.join(os.getcwd(), "../code")))
 sys.path.append(os.getcwd())
 from tp1 import tasks
-")
+```
 
 == Image filtering
 
-#figure(
-pyimage("tasks(1, 1)"), caption: "Low-Pass filter: Gaussian Blur")
-#figure(
-pyimage("tasks(1, 2)"),
-caption: "High-Pass filter: Unsharp Mask")
+```python
+%| echo: false
+%| caption: Low-Pass filter: Gaussian Blur
+%| img-width: 80%
+%| grid-align: bottom
+tasks(1, 1)
+```
+
+```python
+%| echo: false
+%| caption: High-Pass filter: Unsharp Mask
+%| img-width: 140%
+%| grid-align: bottom
+tasks(1, 2)
+```
 
 == Image restoration
 
-#figure(pyimage("tasks(2, 1)"), caption: "Inverse filtering on blured image")
-#figure(pyimage("tasks(2, 2)"), caption: "Wiener filter on blured image")
+```python
+%| echo: false
+%| caption: Original and blured image
+%| img-width: 80%
+tasks(2, 1, original=True)
+```
+
+```python
+%| echo: false
+%| caption: Inverse filtering on blured image
+%| img-width: 100%
+tasks(2, 1)
+```
+
+```python
+%| echo: false
+%| caption: Wiener filter on blured image
+%| img-width: 140%
+tasks(2, 2)
+```
 
 == Gradient-based image restoration
 
-#figure(pyimage("tasks(3, 1)"), caption: "Image restoration using gradient descent in Fourier domain")
-#figure(pyimage("tasks(3, 2)"), caption: "Image restoration using stochastic gradient descent in Fourier domain")
+```python
+%| echo: false
+%| caption: Image restoration using gradient descent in Fourier domain
+%| grid-align: bottom
+tasks(3, 1)
+```
+
+```python
+%| echo: false
+%| img-width: 120%
+%| caption: Image restoration using stochastic gradient descent in Fourier domain
+%| grid-align: bottom
+tasks(3, 1)
+```
 
 = Discussion
 

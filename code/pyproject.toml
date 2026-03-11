@@ -3,11 +3,8 @@ name = "code"
 version = "0.1.0"
 requires-python = ">=3.14"
 dependencies = [
-    "jupyter>=1.1.1",
-    "jupyter-cache>=1.0.1",
     "matplotlib>=3.10.8",
     "numpy>=2.4.2",
     "pypher>=0.7.3",
     "scikit-image>=0.26.0",
-    "typst-pyimage>=0.1.1",
 ]
