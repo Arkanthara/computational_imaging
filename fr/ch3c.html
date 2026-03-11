@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>ch2 – Computational Imaging</title>
+<title>ch3c – Computational Imaging</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -6729,6 +6729,145 @@ z-index: 1000;
 }
 </style>
 
+  <script>/*
+ * Polyfill service v3.111.0
+ * Disable minification (remove `.min` from URL path) for more info
+*/
+
+(function(self, undefined) {!function(t){"use strict";function e(t){switch(typeof t){case"undefined":return"undefined";case"boolean":return"boolean";case"number":return"number";case"string":return"string";default:return null===t?"null":"object"}}function r(t){return Object.prototype.toString.call(t).replace(/^\[object *|\]$/g,"")}function n(t){return"function"==typeof t}function o(t){if(null===t||t===B)throw TypeError();return Object(t)}function i(t){return t>>0}function f(t){return t>>>0}function u(e){if(!("TYPED_ARRAY_POLYFILL_NO_ARRAY_ACCESSORS"in t)){if(e.length>N)throw RangeError("Array too large for polyfill");var r;for(r=0;r<e.length;r+=1)!function n(t){try{Object.defineProperty(e,t,{get:function(){return e._getter(t)},set:function(r){e._setter(t,r)},enumerable:!0,configurable:!1})}catch(r){}}(r)}}function a(t,e){var r=32-e;return t<<r>>r}function h(t,e){var r=32-e;return t<<r>>>r}function y(t){return[255&t]}function s(t){return a(t[0],8)}function l(t){return[255&t]}function p(t){return h(t[0],8)}function c(t){return t=x(Number(t)),[t<0?0:t>255?255:255&t]}function b(t){return[255&t,t>>8&255]}function g(t){return a(t[1]<<8|t[0],16)}function E(t){return[255&t,t>>8&255]}function v(t){return h(t[1]<<8|t[0],16)}function _(t){return[255&t,t>>8&255,t>>16&255,t>>24&255]}function O(t){return a(t[3]<<24|t[2]<<16|t[1]<<8|t[0],32)}function d(t){return[255&t,t>>8&255,t>>16&255,t>>24&255]}function j(t){return h(t[3]<<24|t[2]<<16|t[1]<<8|t[0],32)}function P(t,e,r){function n(t){var e=m(t),r=t-e;return r<.5?e:r>.5?e+1:e%2?e+1:e}var o,i,f,u=(1<<e-1)-1;if(t!==t)i=(1<<e)-1,f=F(2,r-1),o=0;else if(t===Infinity||t===-Infinity)i=(1<<e)-1,f=0,o=t<0?1:0;else if(0===t)i=0,f=0,o=1/t==-Infinity?1:0;else if(o=t<0,(t=M(t))>=F(2,1-u)){i=Y(m(I(t)/S),1023);var a=t/F(2,i);a<1&&(i-=1,a*=2),a>=2&&(i+=1,a/=2);var h=F(2,r);f=n(a*h)-h,i+=u,f/h>=1&&(i+=1,f=0),i>2*u&&(i=(1<<e)-1,f=0)}else i=0,f=n(t/F(2,1-u-r));var y,s=[];for(y=r;y;y-=1)s.push(f%2?1:0),f=m(f/2);for(y=e;y;y-=1)s.push(i%2?1:0),i=m(i/2);s.push(o?1:0),s.reverse();for(var l=s.join(""),p=[];l.length;)p.unshift(parseInt(l.substring(0,8),2)),l=l.substring(8);return p}function T(t,e,r){var n,o,i,f,u,a,h,y,s=[];for(n=0;n<t.length;++n)for(i=t[n],o=8;o;o-=1)s.push(i%2?1:0),i>>=1;return s.reverse(),f=s.join(""),u=(1<<e-1)-1,a=parseInt(f.substring(0,1),2)?-1:1,h=parseInt(f.substring(1,1+e),2),y=parseInt(f.substring(1+e),2),h===(1<<e)-1?0!==y?NaN:a*Infinity:h>0?a*F(2,h-u)*(1+y/F(2,r)):0!==y?a*F(2,-(u-1))*(y/F(2,r)):a<0?-0:0}function w(t){return T(t,11,52)}function A(t){return P(t,11,52)}function L(t){return T(t,8,23)}function R(t){return P(t,8,23)}var B=void 0,N=1e5,S=Math.LN2,M=Math.abs,m=Math.floor,I=Math.log,U=Math.max,Y=Math.min,F=Math.pow,x=Math.round;!function(){var t=Object.defineProperty,e=!function(){try{return Object.defineProperty({},"x",{})}catch(t){return!1}}();t&&!e||(Object.defineProperty=function(e,r,n){if(t)try{return t(e,r,n)}catch(o){}if(e!==Object(e))throw TypeError("Object.defineProperty called on non-object");return Object.prototype.__defineGetter__&&"get"in n&&Object.prototype.__defineGetter__.call(e,r,n.get),Object.prototype.__defineSetter__&&"set"in n&&Object.prototype.__defineSetter__.call(e,r,n.set),"value"in n&&(e[r]=n.value),e})}(),function(){function a(t){if((t=i(t))<0)throw RangeError("ArrayBuffer size is not a small enough positive integer.");Object.defineProperty(this,"byteLength",{value:t}),Object.defineProperty(this,"_bytes",{value:Array(t)});for(var e=0;e<t;e+=1)this._bytes[e]=0}function h(){if(!arguments.length||"object"!=typeof arguments[0])return function(t){if((t=i(t))<0)throw RangeError("length is not a small enough positive integer.");Object.defineProperty(this,"length",{value:t}),Object.defineProperty(this,"byteLength",{value:t*this.BYTES_PER_ELEMENT}),Object.defineProperty(this,"buffer",{value:new a(this.byteLength)}),Object.defineProperty(this,"byteOffset",{value:0})}.apply(this,arguments);if(arguments.length>=1&&"object"===e(arguments[0])&&arguments[0]instanceof h)return function(t){if(this.constructor!==t.constructor)throw TypeError();var e=t.length*this.BYTES_PER_ELEMENT;Object.defineProperty(this,"buffer",{value:new a(e)}),Object.defineProperty(this,"byteLength",{value:e}),Object.defineProperty(this,"byteOffset",{value:0}),Object.defineProperty(this,"length",{value:t.length});for(var r=0;r<this.length;r+=1)this._setter(r,t._getter(r))}.apply(this,arguments);if(arguments.length>=1&&"object"===e(arguments[0])&&!(arguments[0]instanceof h)&&!(arguments[0]instanceof a||"ArrayBuffer"===r(arguments[0])))return function(t){var e=t.length*this.BYTES_PER_ELEMENT;Object.defineProperty(this,"buffer",{value:new a(e)}),Object.defineProperty(this,"byteLength",{value:e}),Object.defineProperty(this,"byteOffset",{value:0}),Object.defineProperty(this,"length",{value:t.length});for(var r=0;r<this.length;r+=1){var n=t[r];this._setter(r,Number(n))}}.apply(this,arguments);if(arguments.length>=1&&"object"===e(arguments[0])&&(arguments[0]instanceof a||"ArrayBuffer"===r(arguments[0])))return function(t,e,r){if((e=f(e))>t.byteLength)throw RangeError("byteOffset out of range");if(e%this.BYTES_PER_ELEMENT)throw RangeError("buffer length minus the byteOffset is not a multiple of the element size.");if(r===B){var n=t.byteLength-e;if(n%this.BYTES_PER_ELEMENT)throw RangeError("length of buffer minus byteOffset not a multiple of the element size");r=n/this.BYTES_PER_ELEMENT}else r=f(r),n=r*this.BYTES_PER_ELEMENT;if(e+n>t.byteLength)throw RangeError("byteOffset and length reference an area beyond the end of the buffer");Object.defineProperty(this,"buffer",{value:t}),Object.defineProperty(this,"byteLength",{value:n}),Object.defineProperty(this,"byteOffset",{value:e}),Object.defineProperty(this,"length",{value:r})}.apply(this,arguments);throw TypeError()}function P(t,e,r){var n=function(){Object.defineProperty(this,"constructor",{value:n}),h.apply(this,arguments),u(this)};"__proto__"in n?n.__proto__=h:(n.from=h.from,n.of=h.of),n.BYTES_PER_ELEMENT=t;var o=function(){};return o.prototype=T,n.prototype=new o,Object.defineProperty(n.prototype,"BYTES_PER_ELEMENT",{value:t}),Object.defineProperty(n.prototype,"_pack",{value:e}),Object.defineProperty(n.prototype,"_unpack",{value:r}),n}t.ArrayBuffer=t.ArrayBuffer||a,Object.defineProperty(h,"from",{value:function(t){return new this(t)}}),Object.defineProperty(h,"of",{value:function(){return new this(arguments)}});var T={};h.prototype=T,Object.defineProperty(h.prototype,"_getter",{value:function(t){if(arguments.length<1)throw SyntaxError("Not enough arguments");if((t=f(t))>=this.length)return B;var e,r,n=[];for(e=0,r=this.byteOffset+t*this.BYTES_PER_ELEMENT;e<this.BYTES_PER_ELEMENT;e+=1,r+=1)n.push(this.buffer._bytes[r]);return this._unpack(n)}}),Object.defineProperty(h.prototype,"get",{value:h.prototype._getter}),Object.defineProperty(h.prototype,"_setter",{value:function(t,e){if(arguments.length<2)throw SyntaxError("Not enough arguments");if(!((t=f(t))>=this.length)){var r,n,o=this._pack(e);for(r=0,n=this.byteOffset+t*this.BYTES_PER_ELEMENT;r<this.BYTES_PER_ELEMENT;r+=1,n+=1)this.buffer._bytes[n]=o[r]}}}),Object.defineProperty(h.prototype,"constructor",{value:h}),Object.defineProperty(h.prototype,"copyWithin",{value:function(t,e){var r=arguments[2],n=o(this),u=n.length,a=f(u);a=U(a,0);var h,y=i(t);h=y<0?U(a+y,0):Y(y,a);var s,l=i(e);s=l<0?U(a+l,0):Y(l,a);var p;p=r===B?a:i(r);var c;c=p<0?U(a+p,0):Y(p,a);var b,g=Y(c-s,a-h);for(s<h&&h<s+g?(b=-1,s=s+g-1,h=h+g-1):b=1;g>0;)n._setter(h,n._getter(s)),s+=b,h+=b,g-=1;return n}}),Object.defineProperty(h.prototype,"every",{value:function(t){if(this===B||null===this)throw TypeError();var e=Object(this),r=f(e.length);if(!n(t))throw TypeError();for(var o=arguments[1],i=0;i<r;i++)if(!t.call(o,e._getter(i),i,e))return!1;return!0}}),Object.defineProperty(h.prototype,"fill",{value:function(t){var e=arguments[1],r=arguments[2],n=o(this),u=n.length,a=f(u);a=U(a,0);var h,y=i(e);h=y<0?U(a+y,0):Y(y,a);var s;s=r===B?a:i(r);var l;for(l=s<0?U(a+s,0):Y(s,a);h<l;)n._setter(h,t),h+=1;return n}}),Object.defineProperty(h.prototype,"filter",{value:function(t){if(this===B||null===this)throw TypeError();var e=Object(this),r=f(e.length);if(!n(t))throw TypeError();for(var o=[],i=arguments[1],u=0;u<r;u++){var a=e._getter(u);t.call(i,a,u,e)&&o.push(a)}return new this.constructor(o)}}),Object.defineProperty(h.prototype,"find",{value:function(t){var e=o(this),r=e.length,i=f(r);if(!n(t))throw TypeError();for(var u=arguments.length>1?arguments[1]:B,a=0;a<i;){var h=e._getter(a),y=t.call(u,h,a,e);if(Boolean(y))return h;++a}return B}}),Object.defineProperty(h.prototype,"findIndex",{value:function(t){var e=o(this),r=e.length,i=f(r);if(!n(t))throw TypeError();for(var u=arguments.length>1?arguments[1]:B,a=0;a<i;){var h=e._getter(a),y=t.call(u,h,a,e);if(Boolean(y))return a;++a}return-1}}),Object.defineProperty(h.prototype,"forEach",{value:function(t){if(this===B||null===this)throw TypeError();var e=Object(this),r=f(e.length);if(!n(t))throw TypeError();for(var o=arguments[1],i=0;i<r;i++)t.call(o,e._getter(i),i,e)}}),Object.defineProperty(h.prototype,"indexOf",{value:function(t){if(this===B||null===this)throw TypeError();var e=Object(this),r=f(e.length);if(0===r)return-1;var n=0;if(arguments.length>0&&(n=Number(arguments[1]),n!==n?n=0:0!==n&&n!==1/0&&n!==-1/0&&(n=(n>0||-1)*m(M(n)))),n>=r)return-1;for(var o=n>=0?n:U(r-M(n),0);o<r;o++)if(e._getter(o)===t)return o;return-1}}),Object.defineProperty(h.prototype,"join",{value:function(t){if(this===B||null===this)throw TypeError();for(var e=Object(this),r=f(e.length),n=Array(r),o=0;o<r;++o)n[o]=e._getter(o);return n.join(t===B?",":t)}}),Object.defineProperty(h.prototype,"lastIndexOf",{value:function(t){if(this===B||null===this)throw TypeError();var e=Object(this),r=f(e.length);if(0===r)return-1;var n=r;arguments.length>1&&(n=Number(arguments[1]),n!==n?n=0:0!==n&&n!==1/0&&n!==-1/0&&(n=(n>0||-1)*m(M(n))));for(var o=n>=0?Y(n,r-1):r-M(n);o>=0;o--)if(e._getter(o)===t)return o;return-1}}),Object.defineProperty(h.prototype,"map",{value:function(t){if(this===B||null===this)throw TypeError();var e=Object(this),r=f(e.length);if(!n(t))throw TypeError();var o=[];o.length=r;for(var i=arguments[1],u=0;u<r;u++)o[u]=t.call(i,e._getter(u),u,e);return new this.constructor(o)}}),Object.defineProperty(h.prototype,"reduce",{value:function(t){if(this===B||null===this)throw TypeError();var e=Object(this),r=f(e.length);if(!n(t))throw TypeError();if(0===r&&1===arguments.length)throw TypeError();var o,i=0;for(o=arguments.length>=2?arguments[1]:e._getter(i++);i<r;)o=t.call(B,o,e._getter(i),i,e),i++;return o}}),Object.defineProperty(h.prototype,"reduceRight",{value:function(t){if(this===B||null===this)throw TypeError();var e=Object(this),r=f(e.length);if(!n(t))throw TypeError();if(0===r&&1===arguments.length)throw TypeError();var o,i=r-1;for(o=arguments.length>=2?arguments[1]:e._getter(i--);i>=0;)o=t.call(B,o,e._getter(i),i,e),i--;return o}}),Object.defineProperty(h.prototype,"reverse",{value:function(){if(this===B||null===this)throw TypeError();for(var t=Object(this),e=f(t.length),r=m(e/2),n=0,o=e-1;n<r;++n,--o){var i=t._getter(n);t._setter(n,t._getter(o)),t._setter(o,i)}return t}}),Object.defineProperty(h.prototype,"set",{value:function(t,e){if(arguments.length<1)throw SyntaxError("Not enough arguments");var r,n,o,i,u,a,h,y,s,l;if("object"==typeof arguments[0]&&arguments[0].constructor===this.constructor){if(r=arguments[0],(o=f(arguments[1]))+r.length>this.length)throw RangeError("Offset plus length of array is out of range");if(y=this.byteOffset+o*this.BYTES_PER_ELEMENT,s=r.length*this.BYTES_PER_ELEMENT,r.buffer===this.buffer){for(l=[],u=0,a=r.byteOffset;u<s;u+=1,a+=1)l[u]=r.buffer._bytes[a];for(u=0,h=y;u<s;u+=1,h+=1)this.buffer._bytes[h]=l[u]}else for(u=0,a=r.byteOffset,h=y;u<s;u+=1,a+=1,h+=1)this.buffer._bytes[h]=r.buffer._bytes[a]}else{if("object"!=typeof arguments[0]||"undefined"==typeof arguments[0].length)throw TypeError("Unexpected argument type(s)");if(n=arguments[0],i=f(n.length),(o=f(arguments[1]))+i>this.length)throw RangeError("Offset plus length of array is out of range");for(u=0;u<i;u+=1)a=n[u],this._setter(o+u,Number(a))}}}),Object.defineProperty(h.prototype,"slice",{value:function(t,e){for(var r=o(this),n=r.length,u=f(n),a=i(t),h=a<0?U(u+a,0):Y(a,u),y=e===B?u:i(e),s=y<0?U(u+y,0):Y(y,u),l=s-h,p=r.constructor,c=new p(l),b=0;h<s;){var g=r._getter(h);c._setter(b,g),++h,++b}return c}}),Object.defineProperty(h.prototype,"some",{value:function(t){if(this===B||null===this)throw TypeError();var e=Object(this),r=f(e.length);if(!n(t))throw TypeError();for(var o=arguments[1],i=0;i<r;i++)if(t.call(o,e._getter(i),i,e))return!0;return!1}}),Object.defineProperty(h.prototype,"sort",{value:function(t){function e(e,r){return e!==e&&r!==r?0:e!==e?1:r!==r?-1:t!==B?t(e,r):e<r?-1:e>r?1:0}if(this===B||null===this)throw TypeError();for(var r=Object(this),n=f(r.length),o=Array(n),i=0;i<n;++i)o[i]=r._getter(i);for(o.sort(e),i=0;i<n;++i)r._setter(i,o[i]);return r}}),Object.defineProperty(h.prototype,"subarray",{value:function(t,e){function r(t,e,r){return t<e?e:t>r?r:t}t=i(t),e=i(e),arguments.length<1&&(t=0),arguments.length<2&&(e=this.length),t<0&&(t=this.length+t),e<0&&(e=this.length+e),t=r(t,0,this.length),e=r(e,0,this.length);var n=e-t;return n<0&&(n=0),new this.constructor(this.buffer,this.byteOffset+t*this.BYTES_PER_ELEMENT,n)}});var N=P(1,y,s),S=P(1,l,p),I=P(1,c,p),F=P(2,b,g),x=P(2,E,v),k=P(4,_,O),C=P(4,d,j),z=P(4,R,L),D=P(8,A,w);t.Int8Array=t.Int8Array||N,t.Uint8Array=t.Uint8Array||S,t.Uint8ClampedArray=t.Uint8ClampedArray||I,t.Int16Array=t.Int16Array||F,t.Uint16Array=t.Uint16Array||x,t.Int32Array=t.Int32Array||k,t.Uint32Array=t.Uint32Array||C,t.Float32Array=t.Float32Array||z,t.Float64Array=t.Float64Array||D}(),function(){function e(t,e){return n(t.get)?t.get(e):t[e]}function o(t,e,n){if(!(t instanceof ArrayBuffer||"ArrayBuffer"===r(t)))throw TypeError();if((e=f(e))>t.byteLength)throw RangeError("byteOffset out of range");if(n=n===B?t.byteLength-e:f(n),e+n>t.byteLength)throw RangeError("byteOffset and length reference an area beyond the end of the buffer");Object.defineProperty(this,"buffer",{value:t}),Object.defineProperty(this,"byteLength",{value:n}),Object.defineProperty(this,"byteOffset",{value:e})}function i(t){return function r(n,o){if((n=f(n))+t.BYTES_PER_ELEMENT>this.byteLength)throw RangeError("Array index out of range");n+=this.byteOffset;for(var i=new Uint8Array(this.buffer,n,t.BYTES_PER_ELEMENT),u=[],h=0;h<t.BYTES_PER_ELEMENT;h+=1)u.push(e(i,h));return Boolean(o)===Boolean(a)&&u.reverse(),e(new t(new Uint8Array(u).buffer),0)}}function u(t){return function r(n,o,i){if((n=f(n))+t.BYTES_PER_ELEMENT>this.byteLength)throw RangeError("Array index out of range");var u,h,y=new t([o]),s=new Uint8Array(y.buffer),l=[];for(u=0;u<t.BYTES_PER_ELEMENT;u+=1)l.push(e(s,u));Boolean(i)===Boolean(a)&&l.reverse(),h=new Uint8Array(this.buffer,n,t.BYTES_PER_ELEMENT),h.set(l)}}var a=function(){var t=new Uint16Array([4660]);return 18===e(new Uint8Array(t.buffer),0)}();Object.defineProperty(o.prototype,"getUint8",{value:i(Uint8Array)}),Object.defineProperty(o.prototype,"getInt8",{value:i(Int8Array)}),Object.defineProperty(o.prototype,"getUint16",{value:i(Uint16Array)}),Object.defineProperty(o.prototype,"getInt16",{value:i(Int16Array)}),Object.defineProperty(o.prototype,"getUint32",{value:i(Uint32Array)}),Object.defineProperty(o.prototype,"getInt32",{value:i(Int32Array)}),Object.defineProperty(o.prototype,"getFloat32",{value:i(Float32Array)}),Object.defineProperty(o.prototype,"getFloat64",{value:i(Float64Array)}),Object.defineProperty(o.prototype,"setUint8",{value:u(Uint8Array)}),Object.defineProperty(o.prototype,"setInt8",{value:u(Int8Array)}),Object.defineProperty(o.prototype,"setUint16",{value:u(Uint16Array)}),Object.defineProperty(o.prototype,"setInt16",{value:u(Int16Array)}),Object.defineProperty(o.prototype,"setUint32",{value:u(Uint32Array)}),Object.defineProperty(o.prototype,"setInt32",{value:u(Int32Array)}),Object.defineProperty(o.prototype,"setFloat32",{value:u(Float32Array)}),Object.defineProperty(o.prototype,"setFloat64",{value:u(Float64Array)}),t.DataView=t.DataView||o}()}(self);if (!("defineProperty"in Object&&function(){try{var e={}
+return Object.defineProperty(e,"test",{value:42}),!0}catch(t){return!1}}()
+)) {!function(e){var t=Object.prototype.hasOwnProperty.call(Object.prototype,"__defineGetter__"),r="A property cannot both have accessors and be writable or have a value";Object.defineProperty=function n(o,i,f){if(e&&(o===window||o===document||o===Element.prototype||o instanceof Element))return e(o,i,f);if(null===o||!(o instanceof Object||"object"==typeof o))throw new TypeError("Object.defineProperty called on non-object");if(!(f instanceof Object))throw new TypeError("Property description must be an object");var c=String(i),a="value"in f||"writable"in f,p="get"in f&&typeof f.get,s="set"in f&&typeof f.set;if(p){if(p===undefined)return o;if("function"!==p)throw new TypeError("Getter must be a function");if(!t)throw new TypeError("Getters & setters cannot be defined on this javascript engine");if(a)throw new TypeError(r);Object.__defineGetter__.call(o,c,f.get)}else o[c]=f.value;if(s){if(s===undefined)return o;if("function"!==s)throw new TypeError("Setter must be a function");if(!t)throw new TypeError("Getters & setters cannot be defined on this javascript engine");if(a)throw new TypeError(r);Object.__defineSetter__.call(o,c,f.set)}return"value"in f&&(o[c]=f.value),o}}(Object.defineProperty);}if (!("name"in Function.prototype
+)) {!function(){var n=/^\s*function\s+([^(\s]*)\s*/,t=Function,e=t.prototype,r=e.constructor,o=function(o){var c,u;return o===t||o===r?u="Function":o!==e&&(c=(""+o).match(n),u=c&&c[1]),u||""};Object.defineProperty(e,"name",{get:function c(){var n=this,t=o(n);return n!==e&&Object.defineProperty(n,"name",{value:t,configurable:!0}),t},configurable:!0})}();}if (!("EPSILON"in Number
+)) {Object.defineProperty(Number,"EPSILON",{enumerable:!1,configurable:!1,writable:!1,value:Math.pow(2,-52)});}if (!("MAX_SAFE_INTEGER"in Number
+)) {Object.defineProperty(Number,"MAX_SAFE_INTEGER",{enumerable:!1,configurable:!1,writable:!1,value:Math.pow(2,53)-1});}if (!("MIN_SAFE_INTEGER"in Number
+)) {Object.defineProperty(Number,"MIN_SAFE_INTEGER",{enumerable:!1,configurable:!1,writable:!1,value:-(Math.pow(2,53)-1)});}function ArrayCreate(r){if(1/r==-Infinity&&(r=0),r>Math.pow(2,32)-1)throw new RangeError("Invalid array length");var n=[];return n.length=r,n}function Call(t,l){var n=arguments.length>2?arguments[2]:[];if(!1===IsCallable(t))throw new TypeError(Object.prototype.toString.call(t)+"is not a function.");return t.apply(l,n)}function CreateDataProperty(e,r,t){var a={value:t,writable:!0,enumerable:!0,configurable:!0};try{return Object.defineProperty(e,r,a),!0}catch(n){return!1}}function CreateDataPropertyOrThrow(t,r,o){var e=CreateDataProperty(t,r,o);if(!e)throw new TypeError("Cannot assign value `"+Object.prototype.toString.call(o)+"` to property `"+Object.prototype.toString.call(r)+"` on object `"+Object.prototype.toString.call(t)+"`");return e}function CreateMethodProperty(e,r,t){var a={value:t,writable:!0,enumerable:!1,configurable:!0};Object.defineProperty(e,r,a)}if (!("acosh"in Math
+)) {CreateMethodProperty(Math,"acosh",function t(a){return isNaN(a)?NaN:a<1?NaN:1===a?0:a===Infinity?Infinity:Math.log(a+Math.sqrt(a*a-1))});}if (!("asinh"in Math
+)) {CreateMethodProperty(Math,"asinh",function n(i){return isNaN(i)?NaN:0===i&&1/i===Infinity?0:0===i&&1/i==-Infinity?-0:i===Infinity?Infinity:i===-Infinity?-Infinity:Math.log(i+Math.sqrt(i*i+1))});}if (!("atanh"in Math
+)) {CreateMethodProperty(Math,"atanh",function n(t){return isNaN(t)?NaN:t<-1?NaN:t>1?NaN:-1===t?-Infinity:1===t?Infinity:0===t&&1/t===Infinity?0:0===t&&1/t==-Infinity?-0:Math.log((1+t)/(1-t))/2});}if (!("cbrt"in Math
+)) {CreateMethodProperty(Math,"cbrt",function n(t){if(isNaN(t))return NaN;if(0===t&&1/t===Infinity)return 0;if(0===t&&1/t==-Infinity)return-0;if(t===Infinity)return Infinity;if(t===-Infinity)return-Infinity;var i=Math.pow(Math.abs(t),1/3);return t<0?-i:i});}if (!("cosh"in Math
+)) {CreateMethodProperty(Math,"cosh",function n(t){if(isNaN(t))return NaN;if(0===t&&1/t===Infinity)return 1;if(0===t&&1/t==-Infinity)return 1;if(t===Infinity)return Infinity;if(t===-Infinity)return Infinity;if((t=Math.abs(t))>709){var i=Math.exp(.5*t);return i/2*i}return((i=Math.exp(t))+1/i)/2});}if (!("expm1"in Math
+)) {CreateMethodProperty(Math,"expm1",function n(i){return isNaN(i)?NaN:0===i&&1/i===Infinity?0:0===i&&1/i==-Infinity?-0:i===Infinity?Infinity:i===-Infinity?-1:i>-1e-6&&i<1e-6?i+i*i/2:Math.exp(i)-1});}if (!("fround"in Math
+)) {CreateMethodProperty(Math,"fround",function(n){return isNaN(n)?NaN:1/n==+Infinity||1/n==-Infinity||n===+Infinity||n===-Infinity?n:new Float32Array([n])[0]});}if (!("hypot"in Math
+)) {CreateMethodProperty(Math,"hypot",function t(n,r){if(0===arguments.length)return 0;for(var i=0,e=0,a=0;a<arguments.length;++a){if(arguments[a]===Infinity)return Infinity;if(arguments[a]===-Infinity)return Infinity;var f=Math.abs(Number(arguments[a]));f>e&&(i*=Math.pow(e/f,2),e=f),0===f&&0===e||(i+=Math.pow(f/e,2))}return e*Math.sqrt(i)});}if (!("log10"in Math
+)) {CreateMethodProperty(Math,"log10",function t(e){return Math.log(e)/Math.LN10});}if (!("log1p"in Math
+)) {CreateMethodProperty(Math,"log1p",function r(t){if(-1<(t=Number(t))&&t<1){for(var o=t,e=2;e<=300;e++)o+=Math.pow(-1,e-1)*Math.pow(t,e)/e;return o}return Math.log(1+t)});}if (!("log2"in Math
+)) {CreateMethodProperty(Math,"log2",function t(e){return Math.log(e)/Math.LN2});}if (!("sign"in Math
+)) {CreateMethodProperty(Math,"sign",function i(n){return n=Number(n),isNaN(n)?NaN:1/n==-Infinity?-0:1/n===Infinity?0:n<0?-1:n>0?1:void 0});}if (!("sinh"in Math
+)) {CreateMethodProperty(Math,"sinh",function r(t){var a=t<0?-1:1,e=Math.abs(t);if(e<22){if(e<Math.pow(2,-28))return t;var h=Math.exp(e)-1;return e<1?a*(2*h-h*h/(h+1))/2:a*(h+h/(h+1))/2}if(e<709.7822265625)return a*Math.exp(e)/2;var n=Math.exp(.5*e);return(h=a*n/2)*n});}if (!("tanh"in Math
+)) {CreateMethodProperty(Math,"tanh",function t(n){var e;return n===Infinity?1:n===-Infinity?-1:((e=Math.exp(2*n))-1)/(e+1)});}if (!("trunc"in Math
+)) {CreateMethodProperty(Math,"trunc",function t(r){return r<0?Math.ceil(r):Math.floor(r)});}if (!("freeze"in Object
+)) {CreateMethodProperty(Object,"freeze",function e(r){return r});}if (!("getPrototypeOf"in Object
+)) {CreateMethodProperty(Object,"getPrototypeOf",function t(o){if(o!==Object(o))throw new TypeError("Object.getPrototypeOf called on non-object");var e=o.__proto__;return e||null===e?e:"function"==typeof o.constructor&&o instanceof o.constructor?o.constructor.prototype:o instanceof Object?Object.prototype:null});}if (!("keys"in Object&&function(){return 2===Object.keys(arguments).length}(1,2)&&function(){try{return Object.keys(""),!0}catch(t){return!1}}()
+)) {CreateMethodProperty(Object,"keys",function(){"use strict";function t(){var t;try{t=Object.create({})}catch(r){return!0}return o.call(t,"__proto__")}function r(t){var r=n.call(t),e="[object Arguments]"===r;return e||(e="[object Array]"!==r&&null!==t&&"object"==typeof t&&"number"==typeof t.length&&t.length>=0&&"[object Function]"===n.call(t.callee)),e}var e=Object.prototype.hasOwnProperty,n=Object.prototype.toString,o=Object.prototype.propertyIsEnumerable,c=!o.call({toString:null},"toString"),l=o.call(function(){},"prototype"),i=["toString","toLocaleString","valueOf","hasOwnProperty","isPrototypeOf","propertyIsEnumerable","constructor"],u=function(t){var r=t.constructor;return r&&r.prototype===t},a={$console:!0,$external:!0,$frame:!0,$frameElement:!0,$frames:!0,$innerHeight:!0,$innerWidth:!0,$outerHeight:!0,$outerWidth:!0,$pageXOffset:!0,$pageYOffset:!0,$parent:!0,$scrollLeft:!0,$scrollTop:!0,$scrollX:!0,$scrollY:!0,$self:!0,$webkitIndexedDB:!0,$webkitStorageInfo:!0,$window:!0},f=function(){if("undefined"==typeof window)return!1;for(var t in window)try{if(!a["$"+t]&&e.call(window,t)&&null!==window[t]&&"object"==typeof window[t])try{u(window[t])}catch(r){return!0}}catch(r){return!0}return!1}(),p=function(t){if("undefined"==typeof window||!f)return u(t);try{return u(t)}catch(r){return!1}};return function s(o){var u="[object Function]"===n.call(o),a=r(o),f="[object String]"===n.call(o),s=[];if(o===undefined||null===o)throw new TypeError("Cannot convert undefined or null to object");var y=l&&u;if(f&&o.length>0&&!e.call(o,0))for(var h=0;h<o.length;++h)s.push(String(h));if(a&&o.length>0)for(var g=0;g<o.length;++g)s.push(String(g));else for(var w in o)t()&&"__proto__"===w||y&&"prototype"===w||!e.call(o,w)||s.push(String(w));if(c)for(var d=p(o),$=0;$<i.length;++$)d&&"constructor"===i[$]||!e.call(o,i[$])||s.push(i[$]);return s}}());}function Get(n,t){return n[t]}function HasOwnProperty(r,t){return Object.prototype.hasOwnProperty.call(r,t)}function HasProperty(n,r){return r in n}function IsArray(r){return"[object Array]"===Object.prototype.toString.call(r)}if (!("isArray"in Array
+)) {CreateMethodProperty(Array,"isArray",function r(e){return IsArray(e)});}function IsCallable(n){return"function"==typeof n}if (!("bind"in Function.prototype
+)) {CreateMethodProperty(Function.prototype,"bind",function t(n){var r=Array,o=Object,e=r.prototype,l=function g(){},p=e.slice,a=e.concat,i=e.push,c=Math.max,u=this;if(!IsCallable(u))throw new TypeError("Function.prototype.bind called on incompatible "+u);for(var y,h=p.call(arguments,1),s=function(){if(this instanceof y){var t=u.apply(this,a.call(h,p.call(arguments)));return o(t)===t?t:this}return u.apply(n,a.call(h,p.call(arguments)))},f=c(0,u.length-h.length),b=[],d=0;d<f;d++)i.call(b,"$"+d);return y=Function("binder","return function ("+b.join(",")+"){ return binder.apply(this, arguments); }")(s),u.prototype&&(l.prototype=u.prototype,y.prototype=new l,l.prototype=null),y});}function RequireObjectCoercible(e){if(null===e||e===undefined)throw TypeError(Object.prototype.toString.call(e)+" is not coercible to Object.");return e}function SameValueNonNumber(e,n){return e===n}function ToBoolean(o){return Boolean(o)}function ToNumber(r){return Number(r)}function ToObject(e){if(null===e||e===undefined)throw TypeError();return Object(e)}function GetV(t,e){return ToObject(t)[e]}function GetMethod(e,n){var r=GetV(e,n);if(null===r||r===undefined)return undefined;if(!1===IsCallable(r))throw new TypeError("Method not callable: "+n);return r}function ToUint32(n){var i=Number(n);return isNaN(i)||1/i===Infinity||1/i==-Infinity||i===Infinity||i===-Infinity?0:(i<0?-1:1)*Math.floor(Math.abs(i))>>>0}if (!("clz32"in Math
+)) {CreateMethodProperty(Math,"clz32",function t(r){var e=ToUint32(r);return e?32-e.toString(2).length:32});}if (!("imul"in Math
+)) {CreateMethodProperty(Math,"imul",function t(r,e){var n=ToUint32(r),o=ToUint32(e),i=n>>>16&65535,a=65535&n,u=o>>>16&65535,h=65535&o;return a*h+(i*h+a*u<<16>>>0)|0});}function Type(e){switch(typeof e){case"undefined":return"undefined";case"boolean":return"boolean";case"number":return"number";case"string":return"string";case"symbol":return"symbol";default:return null===e?"null":"Symbol"in self&&(e instanceof self.Symbol||e.constructor===self.Symbol)?"symbol":"object"}}if (!("isFinite"in Number
+)) {!function(){var e=self;CreateMethodProperty(Number,"isFinite",function i(n){return"number"===Type(n)&&e.isFinite(n)})}();}if (!("isNaN"in Number
+)) {!function(){var e=self;CreateMethodProperty(Number,"isNaN",function r(n){return"number"===Type(n)&&!!e.isNaN(n)})}();}if (!("isExtensible"in Object
+)) {!function(e){CreateMethodProperty(Object,"isExtensible",function t(n){return"object"===Type(n)&&(!e||e(n))})}(Object.isExtensible);}if (!("seal"in Object&&function(){try{return Object.seal("1"),!0}catch(t){return!1}}()
+)) {!function(e){CreateMethodProperty(Object,"seal",function t(c){return"object"===Type(c)?c:e?e(c):c})}(Object.seal);}if (!("flags"in RegExp.prototype
+)) {Object.defineProperty(RegExp.prototype,"flags",{configurable:!0,enumerable:!1,get:function(){var e=this;if("object"!==Type(e))throw new TypeError("Method called on incompatible type: must be an object.");var o="";return ToBoolean(Get(e,"global"))&&(o+="g"),ToBoolean(Get(e,"ignoreCase"))&&(o+="i"),ToBoolean(Get(e,"multiline"))&&(o+="m"),ToBoolean(Get(e,"unicode"))&&(o+="u"),ToBoolean(Get(e,"sticky"))&&(o+="y"),o}});}function CreateIterResultObject(e,r){if("boolean"!==Type(r))throw new Error;var t={};return CreateDataProperty(t,"value",e),CreateDataProperty(t,"done",r),t}function GetPrototypeFromConstructor(t,o){var r=Get(t,"prototype");return"object"!==Type(r)&&(r=o),r}function IsConstructor(t){return"object"===Type(t)&&("function"==typeof t&&!!t.prototype)}function IsRegExp(e){if("object"!==Type(e))return!1;var n="Symbol"in self&&"match"in self.Symbol?Get(e,self.Symbol.match):undefined;if(n!==undefined)return ToBoolean(n);try{var t=e.lastIndex;return e.lastIndex=0,RegExp.prototype.exec.call(e),!0}catch(l){}finally{e.lastIndex=t}return!1}function IteratorClose(r,t){if("object"!==Type(r["[[Iterator]]"]))throw new Error(Object.prototype.toString.call(r["[[Iterator]]"])+"is not an Object.");var e=r["[[Iterator]]"],o=GetMethod(e,"return");if(o===undefined)return t;try{var n=Call(o,e)}catch(c){var a=c}if(t)return t;if(a)throw a;if("object"!==Type(n))throw new TypeError("Iterator's return method returned a non-object.");return t}function IteratorComplete(t){if("object"!==Type(t))throw new Error(Object.prototype.toString.call(t)+"is not an Object.");return ToBoolean(Get(t,"done"))}function IteratorNext(t){if(arguments.length<2)var e=Call(t["[[NextMethod]]"],t["[[Iterator]]"]);else e=Call(t["[[NextMethod]]"],t["[[Iterator]]"],[arguments[1]]);if("object"!==Type(e))throw new TypeError("bad iterator");return e}function IteratorStep(t){var r=IteratorNext(t);return!0!==IteratorComplete(r)&&r}function IteratorValue(t){if("object"!==Type(t))throw new Error(Object.prototype.toString.call(t)+"is not an Object.");return Get(t,"value")}function OrdinaryToPrimitive(r,t){if("string"===t)var e=["toString","valueOf"];else e=["valueOf","toString"];for(var i=0;i<e.length;++i){var n=e[i],a=Get(r,n);if(IsCallable(a)){var o=Call(a,r);if("object"!==Type(o))return o}}throw new TypeError("Cannot convert to primitive.")}function SameValue(e,a){return Type(e)===Type(a)&&("number"===Type(e)?!(!isNaN(e)||!isNaN(a))||(0!==e||0!==a||1/e==1/a)&&e===a:SameValueNonNumber(e,a))}if (!("is"in Object
+)) {CreateMethodProperty(Object,"is",function e(t,r){return SameValue(t,r)});}function SameValueZero(n,e){return Type(n)===Type(e)&&("number"===Type(n)?!(!isNaN(n)||!isNaN(e))||(1/n===Infinity&&1/e==-Infinity||(1/n==-Infinity&&1/e===Infinity||n===e)):SameValueNonNumber(n,e))}function ToInteger(n){if("symbol"===Type(n))throw new TypeError("Cannot convert a Symbol value to a number");var t=Number(n);return isNaN(t)?0:1/t===Infinity||1/t==-Infinity||t===Infinity||t===-Infinity?t:(t<0?-1:1)*Math.floor(Math.abs(t))}if (!("copyWithin"in Array.prototype&&function(){try{var t=function n(){}
+t.prototype[0]="foo"
+var o=new t
+o[1]=1,o[2]=2,o.length=3
+var r=Array.prototype.copyWithin.call(o,1,0)
+return!(!r[0]||Object.prototype.hasOwnProperty.call(r,"0")||!Object.prototype.hasOwnProperty.call(r,"1")||"foo"!==r[0]||"foo"!==r[1]||1!==r[2]||3!==r.length)}catch(e){return!1}}()
+)) {CreateMethodProperty(Array.prototype,"copyWithin",function t(r,e){"use strict";var a=arguments[2];if(null===this||this===undefined)throw new TypeError("Cannot call method on "+this);var n=Object(this),i=ToInteger(n.length);i<=0&&(i=0),i=i===Infinity?Math.pow(2,53)-1:Math.min(i,Math.pow(2,53)-1),i=Math.max(i,0);var h,o=ToInteger(r);h=o<0?Math.max(i+o,0):Math.min(o,i);var M,m=ToInteger(e);M=m<0?Math.max(i+m,0):Math.min(m,i);var v;v=a===undefined?i:ToInteger(a);var p;p=v<0?Math.max(i+v,0):Math.min(v,i);var s,d=Math.min(p-M,i-h);for(M<h&&h<M+d?(s=-1,M=M+d-1,h=h+d-1):s=1;d>0;){var f=String(M),g=String(h);if(HasProperty(n,f)){var l=n[f];n[g]=l}else delete n[g];M+=s,h+=s,d-=1}return n});}if (!("isInteger"in Number
+)) {CreateMethodProperty(Number,"isInteger",function e(n){return"number"===Type(n)&&(!isNaN(n)&&n!==Infinity&&n!==-Infinity&&ToInteger(n)===n)});}if (!("isSafeInteger"in Number
+)) {CreateMethodProperty(Number,"isSafeInteger",function e(r){if("number"!==Type(r))return!1;if(isNaN(r)||r===Infinity||r===-Infinity)return!1;var t=ToInteger(r);return t===r&&Math.abs(t)<=Math.pow(2,53)-1});}function ToLength(n){var t=ToInteger(n);return t<=0?0:Math.min(t,Math.pow(2,53)-1)}function ToPrimitive(e){var t=arguments.length>1?arguments[1]:undefined;if("object"===Type(e)){if(arguments.length<2)var i="default";else t===String?i="string":t===Number&&(i="number");var r="function"==typeof self.Symbol&&"symbol"==typeof self.Symbol.toPrimitive?GetMethod(e,self.Symbol.toPrimitive):undefined;if(r!==undefined){var n=Call(r,e,[i]);if("object"!==Type(n))return n;throw new TypeError("Cannot convert exotic object to primitive.")}return"default"===i&&(i="number"),OrdinaryToPrimitive(e,i)}return e}function ToString(t){switch(Type(t)){case"symbol":throw new TypeError("Cannot convert a Symbol value to a string");case"object":return ToString(ToPrimitive(t,String));default:return String(t)}}if (!("fill"in Array.prototype
+)) {CreateMethodProperty(Array.prototype,"fill",function t(e){for(var r=arguments[1],n=arguments[2],o=ToObject(this),a=ToLength(Get(o,"length")),h=ToInteger(r),i=h<0?Math.max(a+h,0):Math.min(h,a),g=n===undefined?a:ToInteger(n),M=g<0?Math.max(a+g,0):Math.min(g,a);i<M;){o[ToString(i)]=e,i+=1}return o});}if (!("find"in Array.prototype
+)) {CreateMethodProperty(Array.prototype,"find",function e(r){var t=ToObject(this),n=ToLength(Get(t,"length"));if(!1===IsCallable(r))throw new TypeError(r+" is not a function");for(var o=arguments.length>1?arguments[1]:undefined,a=0;a<n;){var i=ToString(a),f=Get(t,i);if(ToBoolean(Call(r,o,[f,a,t])))return f;a+=1}return undefined});}if (!("findIndex"in Array.prototype
+)) {CreateMethodProperty(Array.prototype,"findIndex",function e(r){var t=ToObject(this),n=ToLength(Get(t,"length"));if(!1===IsCallable(r))throw new TypeError(r+" is not a function");for(var o=arguments.length>1?arguments[1]:undefined,a=0;a<n;){var i=ToString(a),l=Get(t,i);if(ToBoolean(Call(r,o,[l,a,t])))return a;a+=1}return-1});}if (!("forEach"in Array.prototype
+)) {CreateMethodProperty(Array.prototype,"forEach",function r(t){var e=ToObject(this),n=e instanceof String?e.split(""):e,o=ToLength(Get(e,"length"));if(!1===IsCallable(t))throw new TypeError(t+" is not a function");for(var a=arguments.length>1?arguments[1]:undefined,i=0;i<o;){var f=ToString(i);if(HasProperty(n,f)){var l=Get(n,f);Call(t,a,[l,i,e])}i+=1}return undefined});}if (!("includes"in Array.prototype
+)) {CreateMethodProperty(Array.prototype,"includes",function e(r){"use strict";var t=ToObject(this),o=ToLength(Get(t,"length"));if(0===o)return!1;var n=ToInteger(arguments[1]);if(n>=0)var a=n;else(a=o+n)<0&&(a=0);for(;a<o;){var i=Get(t,ToString(a));if(SameValueZero(r,i))return!0;a+=1}return!1});}if (!("indexOf"in Array.prototype
+)) {CreateMethodProperty(Array.prototype,"indexOf",function r(t){var e=ToObject(this),n=ToLength(Get(e,"length"));if(0===n)return-1;var i=ToInteger(arguments[1]);if(i>=n)return-1;if(i>=0)var o=1/i==-Infinity?0:i;else(o=n+i)<0&&(o=0);for(;o<n;){if(HasProperty(e,ToString(o))){if(t===Get(e,ToString(o)))return o}o+=1}return-1});}if (!("getOwnPropertyNames"in Object&&function(){try{return Object.getOwnPropertyNames(1),!0}catch(t){return!1}}()
+)) {!function(){var t={}.toString,e="".split,r=[].concat,o=Object.prototype.hasOwnProperty,c=Object.getOwnPropertyNames||Object.keys,n="object"==typeof self?c(self):[];CreateMethodProperty(Object,"getOwnPropertyNames",function l(a){var p=ToObject(a);if("[object Window]"===t.call(p))try{return c(p)}catch(j){return r.call([],n)}p="[object String]"==t.call(p)?e.call(p,""):Object(p);for(var i=c(p),s=["length","prototype"],O=0;O<s.length;O++){var b=s[O];o.call(p,b)&&!i.includes(b)&&i.push(b)}if(i.includes("__proto__")){var f=i.indexOf("__proto__");i.splice(f,1)}return i})}();}if (!("endsWith"in String.prototype
+)) {CreateMethodProperty(String.prototype,"endsWith",function e(t){"use strict";var r=arguments.length>1?arguments[1]:undefined,n=RequireObjectCoercible(this),i=ToString(n);if(IsRegExp(t))throw new TypeError("First argument to String.prototype.endsWith must not be a regular expression");var o=ToString(t),s=i.length,g=r===undefined?s:ToInteger(r),h=Math.min(Math.max(g,0),s),u=o.length,a=h-u;return!(a<0)&&i.substr(a,u)===o});}if (!("includes"in String.prototype
+)) {CreateMethodProperty(String.prototype,"includes",function e(t){"use strict";var r=arguments.length>1?arguments[1]:undefined,n=RequireObjectCoercible(this),i=ToString(n);if(IsRegExp(t))throw new TypeError("First argument to String.prototype.includes must not be a regular expression");var o=ToString(t),g=ToInteger(r),a=i.length,p=Math.min(Math.max(g,0),a);return-1!==String.prototype.indexOf.call(i,o,p)});}if (!("repeat"in String.prototype
+)) {CreateMethodProperty(String.prototype,"repeat",function r(e){"use strict";var t=RequireObjectCoercible(this),n=ToString(t),o=ToInteger(e);if(o<0)throw new RangeError("Invalid count value");if(o===Infinity)throw new RangeError("Invalid count value");return 0===o?"":new Array(o+1).join(n)});}if (!("startsWith"in String.prototype
+)) {CreateMethodProperty(String.prototype,"startsWith",function t(e){"use strict";var r=arguments.length>1?arguments[1]:undefined,n=RequireObjectCoercible(this),i=ToString(n);if(IsRegExp(e))throw new TypeError("First argument to String.prototype.startsWith must not be a regular expression");var o=ToString(e),s=ToInteger(r),a=i.length,g=Math.min(Math.max(s,0),a);return!(o.length+g>a)&&0===i.substr(g).indexOf(e)});}function ToPropertyKey(r){var i=ToPrimitive(r,String);return"symbol"===Type(i)?i:ToString(i)}if (!("getOwnPropertyDescriptor"in Object&&"function"==typeof Object.getOwnPropertyDescriptor&&function(){try{return"3"===Object.getOwnPropertyDescriptor("13.7",1).value}catch(t){return!1}}()
+)) {!function(){var e=Object.getOwnPropertyDescriptor,t=function(){try{return 1===Object.defineProperty(document.createElement("div"),"one",{get:function(){return 1}}).one}catch(e){return!1}},r={}.toString,n="".split;CreateMethodProperty(Object,"getOwnPropertyDescriptor",function c(o,i){var a=ToObject(o);a=("string"===Type(a)||a instanceof String)&&"[object String]"==r.call(o)?n.call(o,""):Object(o);var u=ToPropertyKey(i);if(t)try{return e(a,u)}catch(l){}if(HasOwnProperty(a,u))return{enumerable:!0,configurable:!0,writable:!0,value:a[u]}})}();}if (!("assign"in Object
+)) {CreateMethodProperty(Object,"assign",function e(t,r){var n=ToObject(t);if(1===arguments.length)return n;var o,c,a,l,i=Array.prototype.slice.call(arguments,1);for(o=0;o<i.length;o++){var p=i[o];for(p===undefined||null===p?a=[]:(l="[object String]"===Object.prototype.toString.call(p)?String(p).split(""):ToObject(p),a=Object.keys(l)),c=0;c<a.length;c++){var b,y=a[c];try{var g=Object.getOwnPropertyDescriptor(l,y);b=g!==undefined&&!0===g.enumerable}catch(u){b=Object.prototype.propertyIsEnumerable.call(l,y)}if(b){var j=Get(l,y);n[y]=j}}}return n});}if (!("defineProperties"in Object
+)) {CreateMethodProperty(Object,"defineProperties",function e(r,t){if("object"!==Type(r))throw new TypeError("Object.defineProperties called on non-object");for(var o=ToObject(t),n=Object.keys(o),c=[],i=0;i<n.length;i++){var b=n[i],f=Object.getOwnPropertyDescriptor(o,b);if(f!==undefined&&f.enumerable){var p=Get(o,b),a=p;c.push([b,a])}}for(var j=0;j<c.length;j++){var d=c[j][0];a=c[j][1],Object.defineProperty(r,d,a)}return r});}if (!("create"in Object
+)) {!function(){function e(){}if({__proto__:null}instanceof Object)t=function(){var e=document.createElement("iframe");e.style.display="none";var o=document.body||document.documentElement;o.appendChild(e),e.src="javascript:";var n=e.contentWindow.Object.prototype;o.removeChild(e),e=null,delete n.constructor,delete n.hasOwnProperty,delete n.propertyIsEnumerable,delete n.isPrototypeOf,delete n.toLocaleString,delete n.toString,delete n.valueOf;var r=function l(){};return r.prototype=n,t=function(){return new r},new r};else var t=function(){return{__proto__:null}};CreateMethodProperty(Object,"create",function o(n,r){if("object"!==Type(n)&&"null"!==Type(n))throw new TypeError("Object prototype may only be an Object or null");if("null"===Type(n))var l=t();else e.prototype=n,l=new e,l.__proto__=n,l.constructor.prototype=n,l.__proto__=n;return 1 in arguments?Object.defineProperties(l,r):l})}();}function OrdinaryCreateFromConstructor(r,e){var t=arguments[2]||{},o=GetPrototypeFromConstructor(r,e),a=Object.create(o);for(var n in t)Object.prototype.hasOwnProperty.call(t,n)&&Object.defineProperty(a,n,{configurable:!0,enumerable:!1,writable:!0,value:t[n]});return a}function Construct(r){var t=arguments.length>2?arguments[2]:r,o=arguments.length>1?arguments[1]:[];if(!IsConstructor(r))throw new TypeError("F must be a constructor.");if(!IsConstructor(t))throw new TypeError("newTarget must be a constructor.");if(t===r)return new(Function.prototype.bind.apply(r,[null].concat(o)));var n=OrdinaryCreateFromConstructor(t,Object.prototype);return Call(r,n,o)}if (!("of"in Array
+)) {CreateMethodProperty(Array,"of",function r(){var r=arguments.length,t=arguments,e=this;if(IsConstructor(e))var a=Construct(e,[r]);else a=ArrayCreate(r);for(var o=0;o<r;){var n=t[o],h=ToString(o);CreateDataPropertyOrThrow(a,h,n),o+=1}return a.length=r,a});}function ArraySpeciesCreate(e,r){if(0===r&&1/r==-Infinity&&(r=0),!1===IsArray(e))return ArrayCreate(r);var n=Get(e,"constructor");if("object"===Type(n)&&null===(n="Symbol"in self&&"species"in self.Symbol?Get(n,self.Symbol.species):undefined)&&(n=undefined),n===undefined)return ArrayCreate(r);if(!IsConstructor(n))throw new TypeError("C must be a constructor");return Construct(n,[r])}if (!("filter"in Array.prototype
+)) {CreateMethodProperty(Array.prototype,"filter",function r(e){var t=ToObject(this),o=ToLength(Get(t,"length"));if(!1===IsCallable(e))throw new TypeError(e+" is not a function");for(var a=arguments.length>1?arguments[1]:undefined,n=ArraySpeciesCreate(t,0),i=0,l=0;i<o;){var f=ToString(i);if(HasProperty(t,f)){var h=Get(t,f);ToBoolean(Call(e,a,[h,i,t]))&&(CreateDataPropertyOrThrow(n,ToString(l),h),l+=1)}i+=1}return n});}if (!("map"in Array.prototype
+)) {CreateMethodProperty(Array.prototype,"map",function r(e){var t=ToObject(this),a=ToLength(Get(t,"length"));if(!1===IsCallable(e))throw new TypeError(e+" is not a function");for(var o=arguments.length>1?arguments[1]:undefined,n=ArraySpeciesCreate(t,a),i=0;i<a;){var p=ToString(i);if(HasProperty(t,p)){var h=Get(t,p),l=Call(e,o,[h,i,t]);CreateDataPropertyOrThrow(n,p,l)}i+=1}return n});}if (!("sort"in Array.prototype&&function(){var r={length:3,0:2,1:1,2:3}
+return Array.prototype.sort.call(r,function(r,t){return r-t})===r}()
+)) {"use strict";var origSort=Array.prototype.sort;CreateMethodProperty(Array.prototype,"sort",function r(t){if(t!==undefined&&!1===IsCallable(t))throw new TypeError("The comparison function must be either a function or undefined");if(t===undefined)origSort.call(this);else{var e=Array.prototype.map.call(this,function(r,t){return{item:r,index:t}});origSort.call(e,function(r,e){var i=t.call(undefined,r.item,e.item);return 0===i?r.index-e.index:i});for(var i in e)Object.prototype.hasOwnProperty.call(e,i)&&e[i].item!==this[i]&&(this[i]=e[i].item)}return this});}if (!("setPrototypeOf"in Object
+)) {!function(){if(!Object.setPrototypeOf){var t,e,o=Object.getOwnPropertyNames,r=Object.getOwnPropertyDescriptor,n=Object.create,c=Object.defineProperty,_=Object.getPrototypeOf,f=Object.prototype,p=function(t,e){return o(e).forEach(function(o){c(t,o,r(e,o))}),t},O=function i(t,e){return p(n(e),t)};try{t=r(f,"__proto__").set,t.call({},null),e=function a(e,o){return t.call(e,o),e}}catch(u){t={__proto__:null},t instanceof Object?e=O:(t.__proto__=f,e=t instanceof Object?function o(t,e){return t.__proto__=e,t}:function r(t,e){return _(t)?(t.__proto__=e,t):O(t,e)})}CreateMethodProperty(Object,"setPrototypeOf",e)}}();}if (!("Symbol"in self&&0===self.Symbol.length
+)) {!function(e,r,n){"use strict";function t(e){if("symbol"===Type(e))return e;throw TypeError(e+" is not a symbol")}var u,o=function(){try{var r={};return e.defineProperty(r,"t",{configurable:!0,enumerable:!1,get:function(){return!0},set:undefined}),!!r.t}catch(n){return!1}}(),i=0,a=""+Math.random(),c="__symbol:",l=c.length,f="__symbol@@"+a,s={},v="defineProperty",y="defineProperties",b="getOwnPropertyNames",p="getOwnPropertyDescriptor",h="propertyIsEnumerable",m=e.prototype,d=m.hasOwnProperty,g=m[h],w=m.toString,S=Array.prototype.concat,P=e.getOwnPropertyNames?e.getOwnPropertyNames(self):[],O=e[b],j=function $(e){if("[object Window]"===w.call(e))try{return O(e)}catch(r){return S.call([],P)}return O(e)},E=e[p],N=e.create,T=e.keys,_=e.freeze||e,k=e[v],F=e[y],I=E(e,b),x=function(e,r,n){if(!d.call(e,f))try{k(e,f,{enumerable:!1,configurable:!1,writable:!1,value:{}})}catch(t){e[f]={}}e[f]["@@"+r]=n},z=function(e,r){var n=N(e);return j(r).forEach(function(e){q.call(r,e)&&L(n,e,r[e])}),n},A=function(e){var r=N(e);return r.enumerable=!1,r},D=function ee(){},M=function(e){return e!=f&&!d.call(H,e)},W=function(e){return e!=f&&d.call(H,e)},q=function re(e){var r=""+e;return W(r)?d.call(this,r)&&this[f]&&this[f]["@@"+r]:g.call(this,e)},B=function(r){var n={enumerable:!1,configurable:!0,get:D,set:function(e){u(this,r,{enumerable:!1,configurable:!0,writable:!0,value:e}),x(this,r,!0)}};try{k(m,r,n)}catch(o){m[r]=n.value}H[r]=k(e(r),"constructor",J);var t=E(G.prototype,"description");return t&&k(H[r],"description",t),_(H[r])},C=function(e){var r=t(e);if(Y){var n=V(r);if(""!==n)return n.slice(1,-1)}if(s[r]!==undefined)return s[r];var u=r.toString(),o=u.lastIndexOf("0.");return u=u.slice(10,o),""===u?undefined:u},G=function ne(){var r=arguments[0];if(this instanceof ne)throw new TypeError("Symbol is not a constructor");var n=c.concat(r||"",a,++i);r===undefined||null!==r&&!isNaN(r)&&""!==String(r)||(s[n]=String(r));var t=B(n);return o||e.defineProperty(t,"description",{configurable:!0,enumerable:!1,value:C(t)}),t},H=N(null),J={value:G},K=function(e){return H[e]},L=function te(e,r,n){var t=""+r;return W(t)?(u(e,t,n.enumerable?A(n):n),x(e,t,!!n.enumerable)):k(e,r,n),e},Q=function(e){return function(r){return d.call(e,f)&&d.call(e[f],"@@"+r)}},R=function ue(e){return j(e).filter(e===m?Q(e):W).map(K)};I.value=L,k(e,v,I),I.value=R,k(e,"getOwnPropertySymbols",I),I.value=function oe(e){return j(e).filter(M)},k(e,b,I),I.value=function ie(e,r){var n=R(r);return n.length?T(r).concat(n).forEach(function(n){q.call(r,n)&&L(e,n,r[n])}):F(e,r),e},k(e,y,I),I.value=q,k(m,h,I),I.value=G,k(n,"Symbol",I),I.value=function(e){var r=c.concat(c,e,a);return r in m?H[r]:B(r)},k(G,"for",I),I.value=function(e){if(M(e))throw new TypeError(e+" is not a symbol");return d.call(H,e)?e.slice(2*l,-a.length):void 0},k(G,"keyFor",I),I.value=function ae(e,r){var n=E(e,r);return n&&W(r)&&(n.enumerable=q.call(e,r)),n},k(e,p,I),I.value=function ce(e,r){return 1===arguments.length||void 0===r?N(e):z(e,r)},k(e,"create",I);var U=null===function(){return this}.call(null);if(I.value=U?function(){var e=w.call(this);return"[object String]"===e&&W(this)?"[object Symbol]":e}:function(){if(this===window)return"[object Null]";var e=w.call(this);return"[object String]"===e&&W(this)?"[object Symbol]":e},k(m,"toString",I),u=function(e,r,n){var t=E(m,r);delete m[r],k(e,r,n),e!==m&&k(m,r,t)},function(){try{var r={};return e.defineProperty(r,"t",{configurable:!0,enumerable:!1,get:function(){return!0},set:undefined}),!!r.t}catch(n){return!1}}()){var V;try{V=Function("s","var v = s.valueOf(); return { [v]() {} }[v].name;")}catch(Z){}var X=function(){},Y=V&&"inferred"===X.name?V:null;e.defineProperty(n.Symbol.prototype,"description",{configurable:!0,enumerable:!1,get:function(){return C(this)}})}}(Object,0,self);}if (!("Symbol"in self&&"hasInstance"in self.Symbol
+)) {Object.defineProperty(Symbol,"hasInstance",{value:Symbol("hasInstance")});}if (!("Symbol"in self&&"isConcatSpreadable"in self.Symbol
+)) {Object.defineProperty(Symbol,"isConcatSpreadable",{value:Symbol("isConcatSpreadable")});}if (!("Symbol"in self&&"iterator"in self.Symbol
+)) {Object.defineProperty(self.Symbol,"iterator",{value:self.Symbol("iterator")});}function GetIterator(t){var e=arguments.length>1?arguments[1]:GetMethod(t,Symbol.iterator),r=Call(e,t);if("object"!==Type(r))throw new TypeError("bad iterator");var o=GetV(r,"next"),a=Object.create(null);return a["[[Iterator]]"]=r,a["[[NextMethod]]"]=o,a["[[Done]]"]=!1,a}if (!("Symbol"in self&&"match"in self.Symbol
+)) {Object.defineProperty(Symbol,"match",{value:Symbol("match")});}if (!("Symbol"in self&&"replace"in self.Symbol
+)) {Object.defineProperty(Symbol,"replace",{value:Symbol("replace")});}if (!("Symbol"in self&&"search"in self.Symbol
+)) {Object.defineProperty(Symbol,"search",{value:Symbol("search")});}if (!("Symbol"in self&&"species"in self.Symbol
+)) {Object.defineProperty(Symbol,"species",{value:Symbol("species")});}if (!("Map"in self&&function(t){try{var n=new t.Map([[1,1],[2,2]])
+return 0===t.Map.length&&2===n.size&&"Symbol"in t&&"iterator"in t.Symbol&&"function"==typeof n[t.Symbol.iterator]}catch(e){return!1}}(self)
+)) {!function(e){function t(e,t){if("object"!==Type(e))throw new TypeError("createMapIterator called on incompatible receiver "+Object.prototype.toString.call(e));if(!0!==e._es6Map)throw new TypeError("createMapIterator called on incompatible receiver "+Object.prototype.toString.call(e));var r=Object.create(u);return Object.defineProperty(r,"[[Map]]",{configurable:!0,enumerable:!1,writable:!0,value:e}),Object.defineProperty(r,"[[MapNextIndex]]",{configurable:!0,enumerable:!1,writable:!0,value:0}),Object.defineProperty(r,"[[MapIterationKind]]",{configurable:!0,enumerable:!1,writable:!0,value:t}),r}var r=function(){try{var e={};return Object.defineProperty(e,"t",{configurable:!0,enumerable:!1,get:function(){return!0},set:undefined}),!!e.t}catch(t){return!1}}(),o=0,a=Symbol("meta_"+(1e8*Math.random()+"").replace(".","")),n=function(e){if("object"==typeof e?null!==e:"function"==typeof e){if(!Object.isExtensible(e))return!1;if(!Object.prototype.hasOwnProperty.call(e,a)){var t=typeof e+"-"+ ++o;Object.defineProperty(e,a,{configurable:!1,enumerable:!1,writable:!1,value:t})}return e[a]}return""+e},i=function(e,t){var r=n(t);if(!1===r)return p(e,t);var o=e._table[r];return o!==undefined&&o},p=function(e,t){for(var r=0;r<e._keys.length;r++){var o=e._keys[r];if(o!==c&&SameValueZero(o,t))return r}return!1},l=function(e,t,r){var o=n(t);return!1!==o&&(!1===r?delete e._table[o]:e._table[o]=r,!0)},c=Symbol("undef"),y=function f(){if(!(this instanceof f))throw new TypeError('Constructor Map requires "new"');var e=OrdinaryCreateFromConstructor(this,f.prototype,{_table:{},_keys:[],_values:[],_size:0,_es6Map:!0});r||Object.defineProperty(e,"size",{configurable:!0,enumerable:!1,writable:!0,value:0});var t=arguments.length>0?arguments[0]:undefined;if(null===t||t===undefined)return e;var o=e.set;if(!IsCallable(o))throw new TypeError("Map.prototype.set is not a function");try{for(var a=GetIterator(t);;){var n=IteratorStep(a);if(!1===n)return e;var i=IteratorValue(n);if("object"!==Type(i))try{throw new TypeError("Iterator value "+i+" is not an entry object")}catch(u){return IteratorClose(a,u)}try{var p=i[0],l=i[1];o.call(e,p,l)}catch(s){return IteratorClose(a,s)}}}catch(s){if(Array.isArray(t)||"[object Arguments]"===Object.prototype.toString.call(t)||t.callee){var c,y=t.length;for(c=0;c<y;c++)o.call(e,t[c][0],t[c][1])}}return e};Object.defineProperty(y,"prototype",{configurable:!1,enumerable:!1,writable:!1,value:{}}),r?Object.defineProperty(y,Symbol.species,{configurable:!0,enumerable:!1,get:function(){return this},set:undefined}):CreateMethodProperty(y,Symbol.species,y),CreateMethodProperty(y.prototype,"clear",function b(){var e=this;if("object"!==Type(e))throw new TypeError("Method Map.prototype.clear called on incompatible receiver "+Object.prototype.toString.call(e));if(!0!==e._es6Map)throw new TypeError("Method Map.prototype.clear called on incompatible receiver "+Object.prototype.toString.call(e));for(var t=e._keys,o=0;o<t.length;o++)e._keys[o]=c,e._values[o]=c;return this._size=0,r||(this.size=this._size),this._table={},undefined}),CreateMethodProperty(y.prototype,"constructor",y),CreateMethodProperty(y.prototype,"delete",function(e){var t=this;if("object"!==Type(t))throw new TypeError("Method Map.prototype.clear called on incompatible receiver "+Object.prototype.toString.call(t));if(!0!==t._es6Map)throw new TypeError("Method Map.prototype.clear called on incompatible receiver "+Object.prototype.toString.call(t));var o=i(t,e);if(!1!==o){var a=t._keys[o];if(a!==c&&SameValueZero(a,e))return this._keys[o]=c,this._values[o]=c,this._size=--this._size,r||(this.size=this._size),l(this,e,!1),!0}return!1}),CreateMethodProperty(y.prototype,"entries",function h(){return t(this,"key+value")}),CreateMethodProperty(y.prototype,"forEach",function(e){var t=this;if("object"!==Type(t))throw new TypeError("Method Map.prototype.forEach called on incompatible receiver "+Object.prototype.toString.call(t));if(!0!==t._es6Map)throw new TypeError("Method Map.prototype.forEach called on incompatible receiver "+Object.prototype.toString.call(t));if(!IsCallable(e))throw new TypeError(Object.prototype.toString.call(e)+" is not a function.");if(arguments[1])var r=arguments[1];for(var o=t._keys,a=0;a<o.length;a++)t._keys[a]!==c&&t._values[a]!==c&&e.call(r,t._values[a],t._keys[a],t);return undefined}),CreateMethodProperty(y.prototype,"get",function d(e){var t=this;if("object"!==Type(t))throw new TypeError("Method Map.prototype.get called on incompatible receiver "+Object.prototype.toString.call(t));if(!0!==t._es6Map)throw new TypeError("Method Map.prototype.get called on incompatible receiver "+Object.prototype.toString.call(t));var r=i(t,e);if(!1!==r){var o=t._keys[r];if(o!==c&&SameValueZero(o,e))return t._values[r]}return undefined}),CreateMethodProperty(y.prototype,"has",function v(e){var t=this;if("object"!=typeof t)throw new TypeError("Method Map.prototype.has called on incompatible receiver "+Object.prototype.toString.call(t));if(!0!==t._es6Map)throw new TypeError("Method Map.prototype.has called on incompatible receiver "+Object.prototype.toString.call(t));var r=i(t,e);if(!1!==r){var o=t._keys[r];if(o!==c&&SameValueZero(o,e))return!0}return!1}),CreateMethodProperty(y.prototype,"keys",function M(){return t(this,"key")}),CreateMethodProperty(y.prototype,"set",function w(e,t){var o=this;if("object"!==Type(o))throw new TypeError("Method Map.prototype.set called on incompatible receiver "+Object.prototype.toString.call(o));if(!0!==o._es6Map)throw new TypeError("Method Map.prototype.set called on incompatible receiver "+Object.prototype.toString.call(o));var a=i(o,e);if(!1!==a)o._values[a]=t;else{-0===e&&(e=0);var n={"[[Key]]":e,"[[Value]]":t};o._keys.push(n["[[Key]]"]),o._values.push(n["[[Value]]"]),l(o,e,o._keys.length-1),++o._size,r||(o.size=o._size)}return o}),r&&Object.defineProperty(y.prototype,"size",{configurable:!0,enumerable:!1,get:function(){var e=this;if("object"!==Type(e))throw new TypeError("Method Map.prototype.size called on incompatible receiver "+Object.prototype.toString.call(e));if(!0!==e._es6Map)throw new TypeError("Method Map.prototype.size called on incompatible receiver "+Object.prototype.toString.call(e));return this._size},set:undefined}),CreateMethodProperty(y.prototype,"values",function j(){return t(this,"value")}),CreateMethodProperty(y.prototype,Symbol.iterator,y.prototype.entries),"name"in y||Object.defineProperty(y,"name",{configurable:!0,enumerable:!1,writable:!1,value:"Map"});var u={};Object.defineProperty(u,"isMapIterator",{configurable:!1,enumerable:!1,writable:!1,value:!0}),CreateMethodProperty(u,"next",function _(){var e=this;if("object"!==Type(e))throw new TypeError("Method %MapIteratorPrototype%.next called on incompatible receiver "+Object.prototype.toString.call(e));if(!e.isMapIterator)throw new TypeError("Method %MapIteratorPrototype%.next called on incompatible receiver "+Object.prototype.toString.call(e));var t=e["[[Map]]"],r=e["[[MapNextIndex]]"],o=e["[[MapIterationKind]]"];if(t===undefined)return CreateIterResultObject(undefined,!0);if(!t._es6Map)throw new Error(Object.prototype.toString.call(t)+" has a [[MapData]] internal slot.");for(var a=t._keys,n=a.length;r<n;){var i=Object.create(null);if(i["[[Key]]"]=t._keys[r],i["[[Value]]"]=t._values[r],r+=1,e["[[MapNextIndex]]"]=r,i["[[Key]]"]!==c){if("key"===o)var p=i["[[Key]]"];else if("value"===o)p=i["[[Value]]"];else{if("key+value"!==o)throw new Error;p=[i["[[Key]]"],i["[[Value]]"]]}return CreateIterResultObject(p,!1)}}return e["[[Map]]"]=undefined,CreateIterResultObject(undefined,!0)}),CreateMethodProperty(u,Symbol.iterator,function g(){return this});try{CreateMethodProperty(e,"Map",y)}catch(s){e.Map=y}}(self);}if (!("Set"in self&&function(){try{var e=new self.Set([1,2])
+return 0===self.Set.length&&2===e.size&&"Symbol"in self&&"iterator"in self.Symbol&&"function"==typeof e[self.Symbol.iterator]}catch(t){return!1}}()
+)) {!function(e){function t(e,t){if("object"!=typeof e)throw new TypeError("createSetIterator called on incompatible receiver "+Object.prototype.toString.call(e));if(!0!==e._es6Set)throw new TypeError("createSetIterator called on incompatible receiver "+Object.prototype.toString.call(e));var r=Object.create(i);return Object.defineProperty(r,"[[IteratedSet]]",{configurable:!0,enumerable:!1,writable:!0,value:e}),Object.defineProperty(r,"[[SetNextIndex]]",{configurable:!0,enumerable:!1,writable:!0,value:0}),Object.defineProperty(r,"[[SetIterationKind]]",{configurable:!0,enumerable:!1,writable:!0,value:t}),r}var r=function(){try{var e={};return Object.defineProperty(e,"t",{configurable:!0,enumerable:!1,get:function(){return!0},set:undefined}),!!e.t}catch(t){return!1}}(),o=Symbol("undef"),n=function c(){if(!(this instanceof c))throw new TypeError('Constructor Set requires "new"');var e=OrdinaryCreateFromConstructor(this,c.prototype,{_values:[],_size:0,_es6Set:!0});r||Object.defineProperty(e,"size",{configurable:!0,enumerable:!1,writable:!0,value:0});var t=arguments.length>0?arguments[0]:undefined;if(null===t||t===undefined)return e;var o=e.add;if(!IsCallable(o))throw new TypeError("Set.prototype.add is not a function");try{for(var n=GetIterator(t);;){var a=IteratorStep(n);if(!1===a)return e;var i=IteratorValue(a);try{o.call(e,i)}catch(y){return IteratorClose(n,y)}}}catch(y){if(!Array.isArray(t)&&"[object Arguments]"!==Object.prototype.toString.call(t)&&!t.callee)throw y;var l,p=t.length;for(l=0;l<p;l++)o.call(e,t[l])}return e};Object.defineProperty(n,"prototype",{configurable:!1,enumerable:!1,writable:!1,value:{}}),r?Object.defineProperty(n,Symbol.species,{configurable:!0,enumerable:!1,get:function(){return this},set:undefined}):CreateMethodProperty(n,Symbol.species,n),CreateMethodProperty(n.prototype,"add",function p(e){var t=this;if("object"!=typeof t)throw new TypeError("Method Set.prototype.add called on incompatible receiver "+Object.prototype.toString.call(t));if(!0!==t._es6Set)throw new TypeError("Method Set.prototype.add called on incompatible receiver "+Object.prototype.toString.call(t));for(var n=t._values,a=0;a<n.length;a++){var i=n[a];if(i!==o&&SameValueZero(i,e))return t}return 0===e&&1/e==-Infinity&&(e=0),t._values.push(e),this._size=++this._size,r||(this.size=this._size),t}),CreateMethodProperty(n.prototype,"clear",function y(){var e=this;if("object"!=typeof e)throw new TypeError("Method Set.prototype.clear called on incompatible receiver "+Object.prototype.toString.call(e));if(!0!==e._es6Set)throw new TypeError("Method Set.prototype.clear called on incompatible receiver "+Object.prototype.toString.call(e));for(var t=e._values,n=0;n<t.length;n++)t[n]=o;return this._size=0,r||(this.size=this._size),undefined}),CreateMethodProperty(n.prototype,"constructor",n),CreateMethodProperty(n.prototype,"delete",function(e){var t=this;if("object"!=typeof t)throw new TypeError("Method Set.prototype.delete called on incompatible receiver "+Object.prototype.toString.call(t));if(!0!==t._es6Set)throw new TypeError("Method Set.prototype.delete called on incompatible receiver "+Object.prototype.toString.call(t));for(var n=t._values,a=0;a<n.length;a++){var i=n[a];if(i!==o&&SameValueZero(i,e))return n[a]=o,this._size=--this._size,r||(this.size=this._size),!0}return!1}),CreateMethodProperty(n.prototype,"entries",function u(){return t(this,"key+value")}),CreateMethodProperty(n.prototype,"forEach",function f(e){var t=this;if("object"!=typeof t)throw new TypeError("Method Set.prototype.forEach called on incompatible receiver "+Object.prototype.toString.call(t));if(!0!==t._es6Set)throw new TypeError("Method Set.prototype.forEach called on incompatible receiver "+Object.prototype.toString.call(t));if(!IsCallable(e))throw new TypeError(Object.prototype.toString.call(e)+" is not a function.");if(arguments[1])var r=arguments[1];for(var n=t._values,a=0;a<n.length;a++){var i=n[a];i!==o&&e.call(r,i,i,t)}return undefined}),CreateMethodProperty(n.prototype,"has",function d(e){var t=this;if("object"!=typeof t)throw new TypeError("Method Set.prototype.forEach called on incompatible receiver "+Object.prototype.toString.call(t));if(!0!==t._es6Set)throw new TypeError("Method Set.prototype.forEach called on incompatible receiver "+Object.prototype.toString.call(t));for(var r=t._values,n=0;n<r.length;n++){var a=r[n];if(a!==o&&SameValueZero(a,e))return!0}return!1});var a=function h(){return t(this,"value")};CreateMethodProperty(n.prototype,"values",a),CreateMethodProperty(n.prototype,"keys",a),r&&Object.defineProperty(n.prototype,"size",{configurable:!0,enumerable:!1,get:function(){var e=this;if("object"!=typeof e)throw new TypeError("Method Set.prototype.size called on incompatible receiver "+Object.prototype.toString.call(e));if(!0!==e._es6Set)throw new TypeError("Method Set.prototype.size called on incompatible receiver "+Object.prototype.toString.call(e));for(var t=e._values,r=0,n=0;n<t.length;n++){t[n]!==o&&(r+=1)}return r},set:undefined}),CreateMethodProperty(n.prototype,Symbol.iterator,a),"name"in n||Object.defineProperty(n,"name",{configurable:!0,enumerable:!1,writable:!1,value:"Set"});var i={};Object.defineProperty(i,"isSetIterator",{configurable:!1,enumerable:!1,writable:!1,value:!0}),CreateMethodProperty(i,"next",function b(){var e=this;if("object"!=typeof e)throw new TypeError("Method %SetIteratorPrototype%.next called on incompatible receiver "+Object.prototype.toString.call(e));if(!e.isSetIterator)throw new TypeError("Method %SetIteratorPrototype%.next called on incompatible receiver "+Object.prototype.toString.call(e));var t=e["[[IteratedSet]]"],r=e["[[SetNextIndex]]"],n=e["[[SetIterationKind]]"];if(t===undefined)return CreateIterResultObject(undefined,!0);if(!t._es6Set)throw new Error(Object.prototype.toString.call(t)+" does not have [[SetData]] internal slot.");for(var a=t._values,i=a.length;r<i;){var l=a[r];if(r+=1,e["[[SetNextIndex]]"]=r,l!==o)return"key+value"===n?CreateIterResultObject([l,l],!1):CreateIterResultObject(l,!1)}return e["[[IteratedSet]]"]=undefined,CreateIterResultObject(undefined,!0)}),CreateMethodProperty(i,Symbol.iterator,function s(){return this});try{CreateMethodProperty(e,"Set",n)}catch(l){e.Set=n}}(self);}if (!("from"in Array&&function(){try{return Array.from({length:-Infinity}),"a"===Array.from(new self.Set(["a"]))[0]&&"a"===Array.from(new self.Map([["a","one"]]))[0][0]}catch(r){return!1}}()
+)) {!function(){function r(r){return"string"==typeof r||"object"==typeof r&&"[object String]"===t.call(r)}var t=Object.prototype.toString,e=String.prototype.match;CreateMethodProperty(Array,"from",function o(t){var o=this,a=arguments.length>1?arguments[1]:undefined;if(a===undefined)var n=!1;else{if(!1===IsCallable(a))throw new TypeError(Object.prototype.toString.call(a)+" is not a function.");var i=arguments.length>2?arguments[2]:undefined;if(i!==undefined)var l=i;else l=undefined;n=!0}var u=GetMethod(t,Symbol.iterator);if(u!==undefined){if(IsConstructor(o))var f=Construct(o);else f=ArrayCreate(0);for(var c=GetIterator(t,u),s=0;;){if(s>=Math.pow(2,53)-1){var h=new TypeError("Iteration count can not be greater than or equal 9007199254740991.");return IteratorClose(c,h)}var y=ToString(s),C=IteratorStep(c);if(!1===C)return f.length=s,f;var g=IteratorValue(C);if(n)try{var p=Call(a,l,[g,s])}catch(b){return IteratorClose(c,b)}else p=g;try{CreateDataPropertyOrThrow(f,y,p)}catch(b){return IteratorClose(c,b)}s+=1}}if(r(t))var v=e.call(t,/[\uD800-\uDBFF][\uDC00-\uDFFF]?|[^\uD800-\uDFFF]|./g)||[];else v=ToObject(t);var d=ToLength(Get(v,"length"));for(f=IsConstructor(o)?Construct(o,[d]):ArrayCreate(d),s=0;s<d;){y=ToString(s);var I=Get(v,y);p=!0===n?Call(a,l,[I,s]):I,CreateDataPropertyOrThrow(f,y,p),s+=1}return f.length=d,f})}();}if (!("Symbol"in self&&"split"in self.Symbol
+)) {Object.defineProperty(Symbol,"split",{value:Symbol("split")});}if (!("Symbol"in self&&"toPrimitive"in self.Symbol
+)) {Object.defineProperty(Symbol,"toPrimitive",{value:Symbol("toPrimitive")});}if (!("Symbol"in self&&"toStringTag"in self.Symbol
+)) {Object.defineProperty(Symbol,"toStringTag",{value:Symbol("toStringTag")});}if (!("Promise"in self
+)) {!function(){"use strict";function n(){return tn[q][B]||D}function t(n){return n&&"object"==typeof n}function e(n){return"function"==typeof n}function r(n,t){return n instanceof t}function o(n){return r(n,A)}function i(n,t,e){if(!t(n))throw a(e)}function u(){try{return b.apply(R,arguments)}catch(n){return Y.e=n,Y}}function c(n,t){return b=n,R=t,u}function f(n,t){function e(){for(var e=0;e<o;)t(r[e],r[e+1]),r[e++]=T,r[e++]=T;o=0,r.length>n&&(r.length=n)}var r=L(n),o=0;return function(n,t){r[o++]=n,r[o++]=t,2===o&&tn.nextTick(e)}}function s(n,t){var o,i,u,f,s=0;if(!n)throw a(N);var l=n[tn[q][z]];if(e(l))i=l.call(n);else{if(!e(n.next)){if(r(n,L)){for(o=n.length;s<o;)t(n[s],s++);return s}throw a(N)}i=n}for(;!(u=i.next()).done;)if((f=c(t)(u.value,s++))===Y)throw e(i[G])&&i[G](),f.e;return s}function a(n){return new TypeError(n)}function l(n){return(n?"":Q)+(new A).stack}function h(n,t){var e="on"+n.toLowerCase(),r=F[e];E&&E.listeners(n).length?n===X?E.emit(n,t._v,t):E.emit(n,t):r?r({reason:t._v,promise:t}):tn[n](t._v,t)}function v(n){return n&&n._s}function _(n){if(v(n))return new n(Z);var t,r,o;return t=new n(function(n,e){if(t)throw a();r=n,o=e}),i(r,e),i(o,e),t}function d(n,t){var e=!1;return function(r){e||(e=!0,I&&(n[M]=l(!0)),t===U?g(n,r):y(n,t,r))}}function p(n,t,r,o){return e(r)&&(t._onFulfilled=r),e(o)&&(n[J]&&h(W,n),t._onRejected=o),I&&(t._p=n),n[n._c++]=t,n._s!==$&&rn(n,t),t}function m(n){if(n._umark)return!0;n._umark=!0;for(var t,e=0,r=n._c;e<r;)if(t=n[e++],t._onRejected||m(t))return!0}function w(n,t){function e(n){return r.push(n.replace(/^\s+|\s+$/g,""))}var r=[];return I&&(t[M]&&e(t[M]),function o(n){n&&K in n&&(o(n._next),e(n[K]+""),o(n._p))}(t)),(n&&n.stack?n.stack:n)+("\n"+r.join("\n")).replace(nn,"")}function j(n,t){return n(t)}function y(n,t,e){var r=0,i=n._c;if(n._s===$)for(n._s=t,n._v=e,t===O&&(I&&o(e)&&(e.longStack=w(e,n)),on(n));r<i;)rn(n,n[r++]);return n}function g(n,r){if(r===n&&r)return y(n,O,a(V)),n;if(r!==S&&(e(r)||t(r))){var o=c(k)(r);if(o===Y)return y(n,O,o.e),n;e(o)?(I&&v(r)&&(n._next=r),v(r)?x(n,r,o):tn.nextTick(function(){x(n,r,o)})):y(n,U,r)}else y(n,U,r);return n}function k(n){return n.then}function x(n,t,e){var r=c(e,t)(function(e){t&&(t=S,g(n,e))},function(e){t&&(t=S,y(n,O,e))});r===Y&&t&&(y(n,O,r.e),t=S)}var T,b,R,S=null,C="object"==typeof self,F=self,P=F.Promise,E=F.process,H=F.console,I=!0,L=Array,A=Error,O=1,U=2,$=3,q="Symbol",z="iterator",B="species",D=q+"("+B+")",G="return",J="_uh",K="_pt",M="_st",N="Invalid argument",Q="\nFrom previous ",V="Chaining cycle detected for promise",W="rejectionHandled",X="unhandledRejection",Y={e:S},Z=function(){},nn=/^.+\/node_modules\/yaku\/.+\n?/gm,tn=function(n){var r,o=this;if(!t(o)||o._s!==T)throw a("Invalid this");if(o._s=$,I&&(o[K]=l()),n!==Z){if(!e(n))throw a(N);r=c(n)(d(o,U),d(o,O)),r===Y&&y(o,O,r.e)}};tn["default"]=tn,function en(n,t){for(var e in t)n[e]=t[e]}(tn.prototype,{then:function(n,t){if(this._s===undefined)throw a();return p(this,_(tn.speciesConstructor(this,tn)),n,t)},"catch":function(n){return this.then(T,n)},"finally":function(n){return this.then(function(t){return tn.resolve(n()).then(function(){return t})},function(t){return tn.resolve(n()).then(function(){throw t})})},_c:0,_p:S}),tn.resolve=function(n){return v(n)?n:g(_(this),n)},tn.reject=function(n){return y(_(this),O,n)},tn.race=function(n){var t=this,e=_(t),r=function(n){y(e,U,n)},o=function(n){y(e,O,n)},i=c(s)(n,function(n){t.resolve(n).then(r,o)});return i===Y?t.reject(i.e):e},tn.all=function(n){function t(n){y(o,O,n)}var e,r=this,o=_(r),i=[];return(e=c(s)(n,function(n,u){r.resolve(n).then(function(n){i[u]=n,--e||y(o,U,i)},t)}))===Y?r.reject(e.e):(e||y(o,U,[]),o)},tn.Symbol=F[q]||{},c(function(){Object.defineProperty(tn,n(),{get:function(){return this}})})(),tn.speciesConstructor=function(t,e){var r=t.constructor;return r?r[n()]||e:e},tn.unhandledRejection=function(n,t){H&&H.error("Uncaught (in promise)",I?t.longStack:w(n,t))},tn.rejectionHandled=Z,tn.enableLongStackTrace=function(){I=!0},tn.nextTick=C?function(n){P?new P(function(n){n()}).then(n):setTimeout(n)}:E.nextTick,tn._s=1;var rn=f(999,function(n,t){var e,r;return(r=n._s!==O?t._onFulfilled:t._onRejected)===T?void y(t,n._s,n._v):(e=c(j)(r,n._v))===Y?void y(t,O,e.e):void g(t,e)}),on=f(9,function(n){m(n)||(n[J]=1,h(X,n))});F.Promise=tn}();}if (!("Symbol"in self&&"unscopables"in self.Symbol
+)) {Object.defineProperty(Symbol,"unscopables",{value:Symbol("unscopables")});}if (!((function(){try{if("WeakMap"in self&&0===self.WeakMap.length){var e={},t=new self.WeakMap([[e,"test"]])
+return"test"===t.get(e)&&!1===t["delete"](0)}return!1}catch(a){return!1}})()
+)) {!function(e){var t=Symbol("undef"),r=function a(){if(!(this instanceof a))throw new TypeError('Constructor WeakMap requires "new"');var e=OrdinaryCreateFromConstructor(this,a.prototype,{_keys:[],_values:[],_es6WeakMap:!0}),t=arguments.length>0?arguments[0]:undefined;if(null===t||t===undefined)return e;var r=Get(e,"set");if(!IsCallable(r))throw new TypeError("WeakMap.prototype.set is not a function");try{for(var o=GetIterator(t);;){var p=IteratorStep(o);if(!1===p)return e;var n=IteratorValue(p);if("object"!==Type(n))try{throw new TypeError("Iterator value "+n+" is not an entry object")}catch(s){return IteratorClose(o,s)}try{var i=Get(n,"0"),l=Get(n,"1");Call(r,e,[i,l])}catch(u){return IteratorClose(o,u)}}}catch(u){if(Array.isArray(t)||"[object Arguments]"===Object.prototype.toString.call(t)||t.callee){var y,c=t.length;for(y=0;y<c;y++)i=t[y][0],l=t[y][1],Call(r,e,[i,l])}}return e};Object.defineProperty(r,"prototype",{configurable:!1,enumerable:!1,writable:!1,value:{}}),CreateMethodProperty(r.prototype,"constructor",r),CreateMethodProperty(r.prototype,"delete",function(e){var r=this;if("object"!==Type(r))throw new TypeError("Method WeakMap.prototype.clear called on incompatible receiver "+Object.prototype.toString.call(r));if(!0!==r._es6WeakMap)throw new TypeError("Method WeakMap.prototype.clear called on incompatible receiver "+Object.prototype.toString.call(r));var o=r._keys;if("object"!==Type(e))return!1;for(var a=0;a<o.length;a++)if(r._keys[a]!==t&&SameValue(r._keys[a],e))return this._keys[a]=t,this._values[a]=t,this._size=--this._size,!0;return!1}),CreateMethodProperty(r.prototype,"get",function p(e){var r=this;if("object"!==Type(r))throw new TypeError("Method WeakMap.prototype.get called on incompatible receiver "+Object.prototype.toString.call(r));if(!0!==r._es6WeakMap)throw new TypeError("Method WeakMap.prototype.get called on incompatible receiver "+Object.prototype.toString.call(r));var o=r._keys;if("object"!==Type(e))return undefined;for(var a=0;a<o.length;a++)if(r._keys[a]!==t&&SameValue(r._keys[a],e))return r._values[a];return undefined}),CreateMethodProperty(r.prototype,"has",function n(e){var r=this;if("object"!=typeof r)throw new TypeError("Method WeakMap.prototype.has called on incompatible receiver "+Object.prototype.toString.call(r));if(!0!==r._es6WeakMap)throw new TypeError("Method WeakMap.prototype.has called on incompatible receiver "+Object.prototype.toString.call(r));var o=r._keys;if("object"!==Type(e))return!1;for(var a=0;a<o.length;a++)if(r._keys[a]!==t&&SameValue(r._keys[a],e))return!0;return!1}),CreateMethodProperty(r.prototype,"set",function i(e,r){var o=this;if("object"!==Type(o))throw new TypeError("Method WeakMap.prototype.set called on incompatible receiver "+Object.prototype.toString.call(o));if(!0!==o._es6WeakMap)throw new TypeError("Method WeakMap.prototype.set called on incompatible receiver "+Object.prototype.toString.call(o));var a=o._keys;if("object"!==Type(e))throw new TypeError("Invalid value used as weak map key");for(var p=0;p<a.length;p++)if(o._keys[p]!==t&&SameValue(o._keys[p],e))return o._values[p]=r,o;var n={"[[Key]]":e,"[[Value]]":r};return o._keys.push(n["[[Key]]"]),o._values.push(n["[[Value]]"]),o}),Object.defineProperty(r.prototype,Symbol.toStringTag,{configurable:!0,enumerable:!1,writable:!1,value:"WeakMap"}),"name"in r||Object.defineProperty(r,"name",{configurable:!0,enumerable:!1,writable:!1,value:"WeakMap"});try{CreateMethodProperty(e,"WeakMap",r)}catch(o){e.WeakMap=r}}(self);}if (!((function(e){try{if(Object.prototype.hasOwnProperty.call(e,"WeakSet")&&0===e.WeakSet.length){var t={},r=new e.WeakSet([t])
+return r.has(t)&&!1===r["delete"](0)}return!1}catch(a){return!1}})(self)
+)) {!function(e){var t=Symbol("undef"),r=function a(){if(!(this instanceof a))throw new TypeError('Constructor WeakSet requires "new"');var e=OrdinaryCreateFromConstructor(this,a.prototype,{_values:[],_size:0,_es6WeakSet:!0}),t=arguments.length>0?arguments[0]:undefined;if(null===t||t===undefined)return e;var r=Get(e,"add");if(!IsCallable(r))throw new TypeError("WeakSet.prototype.add is not a function");try{for(var o=GetIterator(t);;){var n=IteratorStep(o);if(!1===n)return e;var l=IteratorValue(n);try{Call(r,e,[l])}catch(c){return IteratorClose(o,c)}}}catch(c){if(IsArray(t)||"[object Arguments]"===Object.prototype.toString.call(t)||t.callee){var p,i=t.length;for(p=0;p<i;p++)Call(r,e,[t[p]])}}return e};Object.defineProperty(r,"prototype",{configurable:!1,enumerable:!1,writable:!1,value:{}}),CreateMethodProperty(r.prototype,"add",function n(e){var r=this;if("object"!==Type(r))throw new TypeError("Method WeakSet.prototype.add called on incompatible receiver "+Object.prototype.toString.call(r));if(!0!==r._es6WeakSet)throw new TypeError("Method WeakSet.prototype.add called on incompatible receiver "+Object.prototype.toString.call(r));if("object"!==Type(e))throw new TypeError("Invalid value used in weak set");for(var o=r._values,a=0;a<o.length;a++){var n=o[a];if(n!==t&&SameValueZero(n,e))return r}return r._values.push(e),r}),CreateMethodProperty(r.prototype,"constructor",r),CreateMethodProperty(r.prototype,"delete",function(e){var r=this;if("object"!==Type(r))throw new TypeError("Method WeakSet.prototype.delete called on incompatible receiver "+Object.prototype.toString.call(r));if(!0!==r._es6WeakSet)throw new TypeError("Method WeakSet.prototype.delete called on incompatible receiver "+Object.prototype.toString.call(r));if("object"!==Type(e))return!1;for(var o=r._values,a=0;a<o.length;a++){var n=o[a];if(n!==t&&SameValueZero(n,e))return o[a]=t,!0}return!1}),CreateMethodProperty(r.prototype,"has",function l(e){var r=this;if("object"!==Type(r))throw new TypeError("Method WeakSet.prototype.has called on incompatible receiver "+Object.prototype.toString.call(r));if(!0!==r._es6WeakSet)throw new TypeError("Method WeakSet.prototype.has called on incompatible receiver "+Object.prototype.toString.call(r));var o=r._values;if("object"!==Type(e))return!1;for(var a=0;a<o.length;a++){var n=o[a];if(n!==t&&SameValueZero(n,e))return!0}return!1}),"name"in r||Object.defineProperty(r,"name",{configurable:!0,enumerable:!1,writable:!1,value:"WeakSet"});try{CreateMethodProperty(e,"WeakSet",r)}catch(o){e.WeakSet=r}}(self);}function TrimString(e,u){var r=RequireObjectCoercible(e),t=ToString(r),n=/[\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF]+/.source;if("start"===u)var p=String.prototype.replace.call(t,new RegExp("^"+n,"g"),"");else p="end"===u?String.prototype.replace.call(t,new RegExp(n+"$","g"),""):String.prototype.replace.call(t,new RegExp("^"+n+"|"+n+"$","g"),"");return p}if (!("trim"in String.prototype&&function(){var r="​᠎"
+return!"\t\n\x0B\f\r                　\u2028\u2029\ufeff".trim()&&r.trim()===r}()
+)) {CreateMethodProperty(String.prototype,"trim",function t(){"use strict";var t=this;return TrimString(t,"start+end")});}if (!("parseFloat"in Number&&1/parseFloat("\t\n\x0B\f\r                　\u2028\u2029\ufeff-0")==-Infinity
+)) {!function(r,t){var a=function o(t){var a=String(t).trim(),e=r(a);return 0===e&&"-"==a.charAt(0)?-0:e};try{CreateMethodProperty(t,"parseFloat",a)}catch(e){t.parseFloat=a}CreateMethodProperty(Number,"parseFloat",t.parseFloat)}(parseFloat,this);}if (!("parseInt"in Number&&8===Number.parseInt("08")
+)) {!function(t,r){var e=function a(r,e){var n=String(r).trim();return t(n,e>>>0||(/^[-+]?0[xX]/.test(n)?16:10))};try{CreateMethodProperty(r,"parseInt",e)}catch(n){r.parseInt=e}CreateMethodProperty(Number,"parseInt",r.parseInt)}(parseInt,this);}function UTF16Decode(e,n){return 1024*(e-55296)+(n-56320)+65536}if (!("codePointAt"in String.prototype
+)) {CreateMethodProperty(String.prototype,"codePointAt",function e(t){var r=RequireObjectCoercible(this),o=ToString(r),n=ToInteger(t),i=o.length;if(n<0||n>=i)return undefined;var c=String.prototype.charCodeAt.call(o,n);if(c<55296||c>56319||n+1===i)return c;var a=String.prototype.charCodeAt.call(o,n+1);return a<56320||a>57343?c:UTF16Decode(c,a)});}function UTF16Encoding(n){return n<=65535?n:[Math.floor((n-65536)/1024)+55296,(n-65536)%1024+56320]}if (!("fromCodePoint"in String&&1===String.fromCodePoint.length
+)) {CreateMethodProperty(String,"fromCodePoint",function r(o){for(var t=[],e=arguments,n=arguments.length,a=[],i=0;i<n;){a=[];var l=e[i],p=ToNumber(l);if(!1===SameValue(p,ToInteger(p)))throw new RangeError("Invalid code point "+Object.prototype.toString.call(p));if(p<0||p>1114111)throw new RangeError("Invalid code point "+Object.prototype.toString.call(p));var c=UTF16Encoding(p);IsArray(c)?a=a.concat(c):a.push(c),i+=1,t.push(String.fromCharCode.apply(null,a))}return 0===n?"":t.join("")});}var Iterator=function(){var e=function(){return this.length=0,this},t=function(e){if("function"!=typeof e)throw new TypeError(e+" is not a function");return e},_=function(e,n){if(!(this instanceof _))return new _(e,n);Object.defineProperties(this,{__list__:{writable:!0,value:e},__context__:{writable:!0,value:n},__nextIndex__:{writable:!0,value:0}}),n&&(t(n.on),n.on("_add",this._onAdd.bind(this)),n.on("_delete",this._onDelete.bind(this)),n.on("_clear",this._onClear.bind(this)))};return Object.defineProperties(_.prototype,Object.assign({constructor:{value:_,configurable:!0,enumerable:!1,writable:!0},_next:{value:function(){var e;if(this.__list__)return this.__redo__&&(e=this.__redo__.shift())!==undefined?e:this.__nextIndex__<this.__list__.length?this.__nextIndex__++:void this._unBind()},configurable:!0,enumerable:!1,writable:!0},next:{value:function(){return this._createResult(this._next())},configurable:!0,enumerable:!1,writable:!0},_createResult:{value:function(e){return e===undefined?{done:!0,value:undefined}:{done:!1,value:this._resolve(e)}},configurable:!0,enumerable:!1,writable:!0},_resolve:{value:function(e){return this.__list__[e]},configurable:!0,enumerable:!1,writable:!0},_unBind:{value:function(){this.__list__=null,delete this.__redo__,this.__context__&&(this.__context__.off("_add",this._onAdd.bind(this)),this.__context__.off("_delete",this._onDelete.bind(this)),this.__context__.off("_clear",this._onClear.bind(this)),this.__context__=null)},configurable:!0,enumerable:!1,writable:!0},toString:{value:function(){return"[object Iterator]"},configurable:!0,enumerable:!1,writable:!0}},{_onAdd:{value:function(e){if(!(e>=this.__nextIndex__)){if(++this.__nextIndex__,!this.__redo__)return void Object.defineProperty(this,"__redo__",{value:[e],configurable:!0,enumerable:!1,writable:!1});this.__redo__.forEach(function(t,_){t>=e&&(this.__redo__[_]=++t)},this),this.__redo__.push(e)}},configurable:!0,enumerable:!1,writable:!0},_onDelete:{value:function(e){var t;e>=this.__nextIndex__||(--this.__nextIndex__,this.__redo__&&(t=this.__redo__.indexOf(e),-1!==t&&this.__redo__.splice(t,1),this.__redo__.forEach(function(t,_){t>e&&(this.__redo__[_]=--t)},this)))},configurable:!0,enumerable:!1,writable:!0},_onClear:{value:function(){this.__redo__&&e.call(this.__redo__),this.__nextIndex__=0},configurable:!0,enumerable:!1,writable:!0}})),Object.defineProperty(_.prototype,Symbol.iterator,{value:function(){return this},configurable:!0,enumerable:!1,writable:!0}),Object.defineProperty(_.prototype,Symbol.toStringTag,{value:"Iterator",configurable:!1,enumerable:!1,writable:!0}),_}();var ArrayIterator=function(){var e=function(t,r){if(!(this instanceof e))return new e(t,r);Iterator.call(this,t),r=r?String.prototype.includes.call(r,"key+value")?"key+value":String.prototype.includes.call(r,"key")?"key":"value":"value",Object.defineProperty(this,"__kind__",{value:r,configurable:!1,enumerable:!1,writable:!1})};return Object.setPrototypeOf&&Object.setPrototypeOf(e,Iterator.prototype),e.prototype=Object.create(Iterator.prototype,{constructor:{value:e,configurable:!0,enumerable:!1,writable:!0},_resolve:{value:function(e){return"value"===this.__kind__?this.__list__[e]:"key+value"===this.__kind__?[e,this.__list__[e]]:e},configurable:!0,enumerable:!1,writable:!0},toString:{value:function(){return"[object Array Iterator]"},configurable:!0,enumerable:!1,writable:!0}}),e}();if (!("Symbol"in self&&"iterator"in self.Symbol&&!!Array.prototype.entries
+)) {CreateMethodProperty(Array.prototype,"entries",function r(){var r=ToObject(this);return new ArrayIterator(r,"key+value")});}if (!("Symbol"in self&&"iterator"in self.Symbol&&!!Array.prototype.keys
+)) {CreateMethodProperty(Array.prototype,"keys",function r(){var r=ToObject(this);return new ArrayIterator(r,"key")});}if (!("values"in Array.prototype
+)) {"Symbol"in self&&"iterator"in Symbol&&"function"==typeof Array.prototype[Symbol.iterator]?CreateMethodProperty(Array.prototype,"values",Array.prototype[Symbol.iterator]):CreateMethodProperty(Array.prototype,"values",function r(){var r=ToObject(this);return new ArrayIterator(r,"value")});}if (!("Symbol"in self&&"iterator"in self.Symbol&&!!Array.prototype[self.Symbol.iterator]
+)) {CreateMethodProperty(Array.prototype,Symbol.iterator,Array.prototype.values);}var StringIterator=function(){var t=function(e){if(!(this instanceof t))return new t(e);e=String(e),Iterator.call(this,e),Object.defineProperty(this,"__length__",{value:e.length,configurable:!1,enumerable:!1,writable:!1})};return Object.setPrototypeOf&&Object.setPrototypeOf(t,Iterator),t.prototype=Object.create(Iterator.prototype,{constructor:{value:t,configurable:!0,enumerable:!1,writable:!0},_next:{value:function(){if(this.__list__)return this.__nextIndex__<this.__length__?this.__nextIndex__++:void this._unBind()},configurable:!0,enumerable:!1,writable:!0},_resolve:{value:function(t){var e,r=this.__list__[t];return this.__nextIndex__===this.__length__?r:(e=r.charCodeAt(0),e>=55296&&e<=56319?r+this.__list__[this.__nextIndex__++]:r)},configurable:!0,enumerable:!1,writable:!0},toString:{value:function(){return"[object String Iterator]"},configurable:!0,enumerable:!1,writable:!0}}),t}();if (!("Symbol"in self&&"iterator"in self.Symbol&&!!String.prototype[self.Symbol.iterator]
+)) {CreateMethodProperty(String.prototype,Symbol.iterator,function(){var r=RequireObjectCoercible(this),t=ToString(r);return new StringIterator(t)});}})('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});</script>
+  
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -6940,7 +7079,7 @@ z-index: 1000;
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Cours</li><li class="breadcrumb-item"><a href="./ch2c.html">Human Visual System</a></li><li class="breadcrumb-item"><a href="./ch2.html">Human Visual System</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Cours</li><li class="breadcrumb-item"><a href="./ch3c.html">Human Visual System</a></li><li class="breadcrumb-item"><a href="./ch3c.html">Details</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -7000,13 +7139,13 @@ z-index: 1000;
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Human Visual System</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch2c.html" class="sidebar-item-text sidebar-link">
@@ -7015,7 +7154,7 @@ z-index: 1000;
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch2.html" class="sidebar-item-text sidebar-link active">
+  <a href="./ch2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Human Visual System</span></a>
   </div>
 </li>
@@ -7029,16 +7168,16 @@ z-index: 1000;
   </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
  <span class="menu-text">Human Visual System</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch3c.html" class="sidebar-item-text sidebar-link">
+  <a href="./ch3c.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Details</span></a>
   </div>
 </li>
@@ -7068,284 +7207,144 @@ z-index: 1000;
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#human-visual-system" id="toc-human-visual-system" class="nav-link active" data-scroll-target="#human-visual-system">Human Visual System</a>
+  <li><a href="#computational-imaging-lecture-3" id="toc-computational-imaging-lecture-3" class="nav-link active" data-scroll-target="#computational-imaging-lecture-3">Computational Imaging — Lecture 3</a></li>
+  <li><a href="#computational-photography" id="toc-computational-photography" class="nav-link" data-scroll-target="#computational-photography">Computational Photography</a>
   <ul class="collapse">
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
+  <li><a href="#modèle-dimagerie" id="toc-modèle-dimagerie" class="nav-link" data-scroll-target="#modèle-dimagerie">Modèle d’imagerie</a>
   <ul class="collapse">
-  <li><a href="#biological-imaging-systems" id="toc-biological-imaging-systems" class="nav-link" data-scroll-target="#biological-imaging-systems">Biological imaging systems</a></li>
-  <li><a href="#échelle-de-temps-géologique" id="toc-échelle-de-temps-géologique" class="nav-link" data-scroll-target="#échelle-de-temps-géologique">Échelle de temps géologique</a></li>
-  <li><a href="#évolution-de-lœil" id="toc-évolution-de-lœil" class="nav-link" data-scroll-target="#évolution-de-lœil">Évolution de l’œil</a></li>
+  <li><a href="#photographie-conventionnelle" id="toc-photographie-conventionnelle" class="nav-link" data-scroll-target="#photographie-conventionnelle">Photographie conventionnelle</a></li>
+  <li><a href="#photographie-computationnelle" id="toc-photographie-computationnelle" class="nav-link" data-scroll-target="#photographie-computationnelle">Photographie computationnelle</a></li>
+  <li><a href="#paramètres-optiques-contrôlables" id="toc-paramètres-optiques-contrôlables" class="nav-link" data-scroll-target="#paramètres-optiques-contrôlables">Paramètres optiques contrôlables</a></li>
   </ul></li>
-  <li><a href="#interprétation-du-système-visuel-humain-à-travers-lhistoire" id="toc-interprétation-du-système-visuel-humain-à-travers-lhistoire" class="nav-link" data-scroll-target="#interprétation-du-système-visuel-humain-à-travers-lhistoire">Interprétation du système visuel humain à travers l’histoire</a>
+  <li><a href="#exemple-fondateur-la-mosaïque-cfa-mosaicing" id="toc-exemple-fondateur-la-mosaïque-cfa-mosaicing" class="nav-link" data-scroll-target="#exemple-fondateur-la-mosaïque-cfa-mosaicing">Exemple fondateur : la mosaïque CFA (<em>mosaicing</em>)</a></li>
+  <li><a href="#caméra-à-sténopé-pinhole-camera" id="toc-caméra-à-sténopé-pinhole-camera" class="nav-link" data-scroll-target="#caméra-à-sténopé-pinhole-camera">Caméra à sténopé (<em>Pinhole Camera</em>)</a></li>
+  <li><a href="#caméra-à-lentille-lens-camera" id="toc-caméra-à-lentille-lens-camera" class="nav-link" data-scroll-target="#caméra-à-lentille-lens-camera">Caméra à lentille (<em>Lens Camera</em>)</a></li>
+  <li><a href="#pile-focale-focal-stack" id="toc-pile-focale-focal-stack" class="nav-link" data-scroll-target="#pile-focale-focal-stack">Pile focale (<em>Focal Stack</em>)</a>
   <ul class="collapse">
-  <li><a href="#théories-extramissives" id="toc-théories-extramissives" class="nav-link" data-scroll-target="#théories-extramissives">Théories extramissives</a></li>
-  <li><a href="#difficultés-des-théories-extramissives" id="toc-difficultés-des-théories-extramissives" class="nav-link" data-scroll-target="#difficultés-des-théories-extramissives">Difficultés des théories extramissives</a></li>
-  <li><a href="#alhazen-abu-ali-al-hasan-ibn-al-hasan-ibn-al-haytham-1040" id="toc-alhazen-abu-ali-al-hasan-ibn-al-hasan-ibn-al-haytham-1040" class="nav-link" data-scroll-target="#alhazen-abu-ali-al-hasan-ibn-al-hasan-ibn-al-haytham-1040">Alhazen (Abu Ali al-Hasan ibn al-Hasan ibn al-Haytham, 1040)</a></li>
-  <li><a href="#formation-de-limage-selon-alhazen" id="toc-formation-de-limage-selon-alhazen" class="nav-link" data-scroll-target="#formation-de-limage-selon-alhazen">Formation de l’image selon Alhazen</a></li>
-  <li><a href="#réfraction-ptolémée-et-alhazen" id="toc-réfraction-ptolémée-et-alhazen" class="nav-link" data-scroll-target="#réfraction-ptolémée-et-alhazen">Réfraction : Ptolémée et Alhazen</a></li>
-  <li><a href="#johannes-kepler-15711630" id="toc-johannes-kepler-15711630" class="nav-link" data-scroll-target="#johannes-kepler-15711630">Johannes Kepler (1571–1630)</a></li>
-  <li><a href="#théories-modernes-de-la-vision" id="toc-théories-modernes-de-la-vision" class="nav-link" data-scroll-target="#théories-modernes-de-la-vision">Théories modernes de la vision</a></li>
+  <li><a href="#concept" id="toc-concept" class="nav-link" data-scroll-target="#concept">Concept</a></li>
+  <li><a href="#procédure-de-capture" id="toc-procédure-de-capture" class="nav-link" data-scroll-target="#procédure-de-capture">Procédure de capture</a></li>
+  <li><a href="#fusion-de-la-pile-focale" id="toc-fusion-de-la-pile-focale" class="nav-link" data-scroll-target="#fusion-de-la-pile-focale">Fusion de la pile focale</a></li>
   </ul></li>
-  <li><a href="#résumé-des-caractéristiques-du-système-visuel-humain" id="toc-résumé-des-caractéristiques-du-système-visuel-humain" class="nav-link" data-scroll-target="#résumé-des-caractéristiques-du-système-visuel-humain">Résumé des caractéristiques du système visuel humain</a>
+  <li><a href="#techniques-avancées-de-profondeur" id="toc-techniques-avancées-de-profondeur" class="nav-link" data-scroll-target="#techniques-avancées-de-profondeur">Techniques avancées de profondeur</a>
   <ul class="collapse">
-  <li><a href="#acuité-visuelle" id="toc-acuité-visuelle" class="nav-link" data-scroll-target="#acuité-visuelle">Acuité visuelle</a></li>
-  <li><a href="#champ-visuel" id="toc-champ-visuel" class="nav-link" data-scroll-target="#champ-visuel">Champ visuel</a></li>
-  <li><a href="#résolution-temporelle" id="toc-résolution-temporelle" class="nav-link" data-scroll-target="#résolution-temporelle">Résolution temporelle</a></li>
-  <li><a href="#plage-dynamique" id="toc-plage-dynamique" class="nav-link" data-scroll-target="#plage-dynamique">Plage dynamique</a></li>
-  <li><a href="#couleur" id="toc-couleur" class="nav-link" data-scroll-target="#couleur">Couleur</a></li>
-  <li><a href="#accommodation" id="toc-accommodation" class="nav-link" data-scroll-target="#accommodation">Accommodation</a></li>
-  </ul></li>
-  <li><a href="#anatomie-de-lœil-humain" id="toc-anatomie-de-lœil-humain" class="nav-link" data-scroll-target="#anatomie-de-lœil-humain">Anatomie de l’œil humain</a>
-  <ul class="collapse">
-  <li><a href="#structure-générale" id="toc-structure-générale" class="nav-link" data-scroll-target="#structure-générale">Structure générale</a></li>
-  <li><a href="#la-rétine" id="toc-la-rétine" class="nav-link" data-scroll-target="#la-rétine">La rétine</a></li>
-  </ul></li>
-  <li><a href="#mosaïque-des-photorécepteurs" id="toc-mosaïque-des-photorécepteurs" class="nav-link" data-scroll-target="#mosaïque-des-photorécepteurs">Mosaïque des photorécepteurs</a>
-  <ul class="collapse">
-  <li><a href="#types-de-photorécepteurs" id="toc-types-de-photorécepteurs" class="nav-link" data-scroll-target="#types-de-photorécepteurs">Types de photorécepteurs</a></li>
-  <li><a href="#répartition-sur-la-rétine" id="toc-répartition-sur-la-rétine" class="nav-link" data-scroll-target="#répartition-sur-la-rétine">Répartition sur la rétine</a></li>
-  <li><a href="#sensibilité-lumineuse" id="toc-sensibilité-lumineuse" class="nav-link" data-scroll-target="#sensibilité-lumineuse">Sensibilité lumineuse</a></li>
-  <li><a href="#limitations-de-la-vision-humaine" id="toc-limitations-de-la-vision-humaine" class="nav-link" data-scroll-target="#limitations-de-la-vision-humaine">Limitations de la vision humaine</a></li>
-  <li><a href="#comparaison-œil-appareil-photo" id="toc-comparaison-œil-appareil-photo" class="nav-link" data-scroll-target="#comparaison-œil-appareil-photo">Comparaison œil / appareil photo</a></li>
-  </ul></li>
-  <li><a href="#cellules-ganglionnaires-rétiniennes" id="toc-cellules-ganglionnaires-rétiniennes" class="nav-link" data-scroll-target="#cellules-ganglionnaires-rétiniennes">Cellules ganglionnaires rétiniennes</a>
-  <ul class="collapse">
-  <li><a href="#première-étape-de-traitement-visuel" id="toc-première-étape-de-traitement-visuel" class="nav-link" data-scroll-target="#première-étape-de-traitement-visuel">Première étape de traitement visuel</a></li>
-  <li><a href="#cellules-m-et-p" id="toc-cellules-m-et-p" class="nav-link" data-scroll-target="#cellules-m-et-p">Cellules M et P</a></li>
-  </ul></li>
-  <li><a href="#cortex-visuel-primaire-v1" id="toc-cortex-visuel-primaire-v1" class="nav-link" data-scroll-target="#cortex-visuel-primaire-v1">Cortex visuel primaire (V1)</a>
-  <ul class="collapse">
-  <li><a href="#anatomie-des-voies-visuelles" id="toc-anatomie-des-voies-visuelles" class="nav-link" data-scroll-target="#anatomie-des-voies-visuelles">Anatomie des voies visuelles</a></li>
-  <li><a href="#corps-genouillé-latéral-lgn" id="toc-corps-genouillé-latéral-lgn" class="nav-link" data-scroll-target="#corps-genouillé-latéral-lgn">Corps genouillé latéral (LGN)</a></li>
-  <li><a href="#aire-visuelle-primaire-v1" id="toc-aire-visuelle-primaire-v1" class="nav-link" data-scroll-target="#aire-visuelle-primaire-v1">Aire visuelle primaire V1</a></li>
-  <li><a href="#modélisation-des-cellules-simples" id="toc-modélisation-des-cellules-simples" class="nav-link" data-scroll-target="#modélisation-des-cellules-simples">Modélisation des cellules simples</a></li>
-  <li><a href="#hiérarchie-et-spécificité" id="toc-hiérarchie-et-spécificité" class="nav-link" data-scroll-target="#hiérarchie-et-spécificité">Hiérarchie et spécificité</a></li>
-  <li><a href="#hypercolonnes-dans-le-cortex-visuel" id="toc-hypercolonnes-dans-le-cortex-visuel" class="nav-link" data-scroll-target="#hypercolonnes-dans-le-cortex-visuel">Hypercolonnes dans le cortex visuel</a></li>
-  <li><a href="#voies-dorsale-et-ventrale" id="toc-voies-dorsale-et-ventrale" class="nav-link" data-scroll-target="#voies-dorsale-et-ventrale">Voies dorsale et ventrale</a></li>
-  <li><a href="#connectivité-intrinsèque-et-extrinsèque-de-la-voie-ventrale" id="toc-connectivité-intrinsèque-et-extrinsèque-de-la-voie-ventrale" class="nav-link" data-scroll-target="#connectivité-intrinsèque-et-extrinsèque-de-la-voie-ventrale">Connectivité intrinsèque et extrinsèque de la voie ventrale</a></li>
-  <li><a href="#inspiration-pour-la-vision-par-ordinateur" id="toc-inspiration-pour-la-vision-par-ordinateur" class="nav-link" data-scroll-target="#inspiration-pour-la-vision-par-ordinateur">Inspiration pour la vision par ordinateur</a></li>
-  </ul></li>
-  <li><a href="#modèles-de-réseaux-inspirés-du-système-visuel-humain" id="toc-modèles-de-réseaux-inspirés-du-système-visuel-humain" class="nav-link" data-scroll-target="#modèles-de-réseaux-inspirés-du-système-visuel-humain">Modèles de réseaux inspirés du système visuel humain</a>
-  <ul class="collapse">
-  <li><a href="#néocognitron-kunihiko-fukushima" id="toc-néocognitron-kunihiko-fukushima" class="nav-link" data-scroll-target="#néocognitron-kunihiko-fukushima">Néocognitron (Kunihiko Fukushima)</a></li>
-  <li><a href="#gradientbased-learning-applied-to-document-recognition-lecun-et-al." id="toc-gradientbased-learning-applied-to-document-recognition-lecun-et-al." class="nav-link" data-scroll-target="#gradientbased-learning-applied-to-document-recognition-lecun-et-al.">Gradient‑Based Learning Applied to Document Recognition (LeCun et al.)</a></li>
-  </ul></li>
-  <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications">Applications</a>
-  <ul class="collapse">
-  <li><a href="#affichages-stéréoscopiques" id="toc-affichages-stéréoscopiques" class="nav-link" data-scroll-target="#affichages-stéréoscopiques">Affichages stéréoscopiques</a></li>
-  <li><a href="#réalité-virtuelle-vr-et-augmentée-ar" id="toc-réalité-virtuelle-vr-et-augmentée-ar" class="nav-link" data-scroll-target="#réalité-virtuelle-vr-et-augmentée-ar">Réalité virtuelle (VR) et augmentée (AR)</a></li>
-  <li><a href="#problème-de-conflit-vergenceaccommodation" id="toc-problème-de-conflit-vergenceaccommodation" class="nav-link" data-scroll-target="#problème-de-conflit-vergenceaccommodation">Problème de conflit vergence‑accommodation</a></li>
-  <li><a href="#zone-de-confort" id="toc-zone-de-confort" class="nav-link" data-scroll-target="#zone-de-confort">Zone de confort</a></li>
+  <li><a href="#stéréo-confocale-confocal-stereo" id="toc-stéréo-confocale-confocal-stereo" class="nav-link" data-scroll-target="#stéréo-confocale-confocal-stereo">Stéréo confocale (<em>Confocal Stereo</em>)</a></li>
+  <li><a href="#profondeur-par-défocalisation-depth-from-defocus" id="toc-profondeur-par-défocalisation-depth-from-defocus" class="nav-link" data-scroll-target="#profondeur-par-défocalisation-depth-from-defocus">Profondeur par défocalisation (<em>Depth from Defocus</em>)</a></li>
+  <li><a href="#flot-focal-focal-flow" id="toc-flot-focal-focal-flow" class="nav-link" data-scroll-target="#flot-focal-focal-flow">Flot focal (<em>Focal Flow</em>)</a></li>
+  <li><a href="#récapitulatif-des-techniques-de-profondeur" id="toc-récapitulatif-des-techniques-de-profondeur" class="nav-link" data-scroll-target="#récapitulatif-des-techniques-de-profondeur">Récapitulatif des techniques de profondeur</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#light-field-photography" id="toc-light-field-photography" class="nav-link" data-scroll-target="#light-field-photography">Light Field Photography</a>
+  <ul class="collapse">
+  <li><a href="#théorie-du-champ-lumineux" id="toc-théorie-du-champ-lumineux" class="nav-link" data-scroll-target="#théorie-du-champ-lumineux">Théorie du champ lumineux</a>
+  <ul class="collapse">
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation">Motivation</a></li>
+  <li><a href="#définition-du-champ-lumineux" id="toc-définition-du-champ-lumineux" class="nav-link" data-scroll-target="#définition-du-champ-lumineux">Définition du champ lumineux</a></li>
+  <li><a href="#fonction-plénotique-5d" id="toc-fonction-plénotique-5d" class="nav-link" data-scroll-target="#fonction-plénotique-5d">Fonction plénotique 5D</a></li>
+  </ul></li>
+  <li><a href="#capture-dun-champ-lumineux" id="toc-capture-dun-champ-lumineux" class="nav-link" data-scroll-target="#capture-dun-champ-lumineux">Capture d’un champ lumineux</a>
+  <ul class="collapse">
+  <li><a href="#mesure-des-rayons" id="toc-mesure-des-rayons" class="nav-link" data-scroll-target="#mesure-des-rayons">Mesure des rayons</a></li>
+  <li><a href="#option-1-tableau-de-caméras-multiples" id="toc-option-1-tableau-de-caméras-multiples" class="nav-link" data-scroll-target="#option-1-tableau-de-caméras-multiples">Option 1 : Tableau de caméras multiples</a></li>
+  <li><a href="#option-2-déplacement-dune-seule-caméra" id="toc-option-2-déplacement-dune-seule-caméra" class="nav-link" data-scroll-target="#option-2-déplacement-dune-seule-caméra">Option 2 : Déplacement d’une seule caméra</a></li>
+  <li><a href="#option-3-caméra-plénoptique-plenoptic-camera" id="toc-option-3-caméra-plénoptique-plenoptic-camera" class="nav-link" data-scroll-target="#option-3-caméra-plénoptique-plenoptic-camera">Option 3 : Caméra plénoptique (<em>Plenoptic Camera</em>)</a></li>
+  </ul></li>
+  <li><a href="#caméra-conventionnelle-vs-caméra-à-champ-lumineux" id="toc-caméra-conventionnelle-vs-caméra-à-champ-lumineux" class="nav-link" data-scroll-target="#caméra-conventionnelle-vs-caméra-à-champ-lumineux">Caméra conventionnelle vs caméra à champ lumineux</a>
+  <ul class="collapse">
+  <li><a href="#structure-comparée" id="toc-structure-comparée" class="nav-link" data-scroll-target="#structure-comparée">Structure comparée</a></li>
+  <li><a href="#paramétrisation-des-plans" id="toc-paramétrisation-des-plans" class="nav-link" data-scroll-target="#paramétrisation-des-plans">Paramétrisation des plans</a></li>
+  </ul></li>
+  <li><a href="#opérations-numériques-sur-le-champ-lumineux" id="toc-opérations-numériques-sur-le-champ-lumineux" class="nav-link" data-scroll-target="#opérations-numériques-sur-le-champ-lumineux">Opérations numériques sur le champ lumineux</a>
+  <ul class="collapse">
+  <li><a href="#réduction-douverture-numérique-digitally-stopping-down" id="toc-réduction-douverture-numérique-digitally-stopping-down" class="nav-link" data-scroll-target="#réduction-douverture-numérique-digitally-stopping-down">Réduction d’ouverture numérique (<em>Digitally stopping-down</em>)</a></li>
+  <li><a href="#déplacement-virtuel-de-lobservateur" id="toc-déplacement-virtuel-de-lobservateur" class="nav-link" data-scroll-target="#déplacement-virtuel-de-lobservateur">Déplacement virtuel de l’observateur</a></li>
+  <li><a href="#refocalisation-numérique-digital-refocusing" id="toc-refocalisation-numérique-digital-refocusing" class="nav-link" data-scroll-target="#refocalisation-numérique-digital-refocusing">Refocalisation numérique (<em>Digital refocusing</em>)</a></li>
+  </ul></li>
+  <li><a href="#caméra-lytro" id="toc-caméra-lytro" class="nav-link" data-scroll-target="#caméra-lytro">Caméra Lytro</a>
+  <ul class="collapse">
+  <li><a href="#présentation" id="toc-présentation" class="nav-link" data-scroll-target="#présentation">Présentation</a></li>
+  <li><a href="#quest-ce-que-la-caméra-lytro" id="toc-quest-ce-que-la-caméra-lytro" class="nav-link" data-scroll-target="#quest-ce-que-la-caméra-lytro">Qu’est-ce que la caméra Lytro ?</a></li>
+  <li><a href="#composants-internes" id="toc-composants-internes" class="nav-link" data-scroll-target="#composants-internes">Composants internes</a></li>
+  <li><a href="#caméras-plénoptiques-industrielles" id="toc-caméras-plénoptiques-industrielles" class="nav-link" data-scroll-target="#caméras-plénoptiques-industrielles">Caméras plénoptiques industrielles</a></li>
+  <li><a href="#avantages-et-inconvénients-du-lytro" id="toc-avantages-et-inconvénients-du-lytro" class="nav-link" data-scroll-target="#avantages-et-inconvénients-du-lytro">Avantages et inconvénients du Lytro</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#caméra-conventionnelle-avec-ouverture-codée" id="toc-caméra-conventionnelle-avec-ouverture-codée" class="nav-link" data-scroll-target="#caméra-conventionnelle-avec-ouverture-codée">Caméra conventionnelle avec ouverture codée</a>
+  <ul class="collapse">
+  <li><a href="#objectifs" id="toc-objectifs" class="nav-link" data-scroll-target="#objectifs">Objectifs</a></li>
+  <li><a href="#lentille-et-défocalisation" id="toc-lentille-et-défocalisation" class="nav-link" data-scroll-target="#lentille-et-défocalisation">Lentille et défocalisation</a>
+  <ul class="collapse">
+  <li><a href="#point-source-en-mise-au-point" id="toc-point-source-en-mise-au-point" class="nav-link" data-scroll-target="#point-source-en-mise-au-point">Point source en mise au point</a></li>
+  <li><a href="#point-source-défocalisé" id="toc-point-source-défocalisé" class="nav-link" data-scroll-target="#point-source-défocalisé">Point source défocalisé</a></li>
+  </ul></li>
+  <li><a href="#profondeur-par-défocalisation" id="toc-profondeur-par-défocalisation" class="nav-link" data-scroll-target="#profondeur-par-défocalisation">Profondeur par défocalisation</a></li>
+  <li><a href="#défis-de-la-déconvolution" id="toc-défis-de-la-déconvolution" class="nav-link" data-scroll-target="#défis-de-la-déconvolution">Défis de la déconvolution</a>
+  <ul class="collapse">
+  <li><a href="#problème-1-déconvolution-difficile-même-si-le-noyau-est-connu" id="toc-problème-1-déconvolution-difficile-même-si-le-noyau-est-connu" class="nav-link" data-scroll-target="#problème-1-déconvolution-difficile-même-si-le-noyau-est-connu">Problème 1 : Déconvolution difficile même si le noyau est connu</a></li>
+  <li><a href="#problème-2-déconvolution-mal-posée" id="toc-problème-2-déconvolution-mal-posée" class="nav-link" data-scroll-target="#problème-2-déconvolution-mal-posée">Problème 2 : Déconvolution mal posée</a></li>
+  </ul></li>
+  <li><a href="#solutions-proposées" id="toc-solutions-proposées" class="nav-link" data-scroll-target="#solutions-proposées">Solutions proposées</a>
+  <ul class="collapse">
+  <li><a href="#solution-1-prior-sur-les-images-naturelles" id="toc-solution-1-prior-sur-les-images-naturelles" class="nav-link" data-scroll-target="#solution-1-prior-sur-les-images-naturelles">Solution 1 : Prior sur les images naturelles</a></li>
+  <li><a href="#solution-2-ouverture-codée-coded-aperture" id="toc-solution-2-ouverture-codée-coded-aperture" class="nav-link" data-scroll-target="#solution-2-ouverture-codée-coded-aperture">Solution 2 : Ouverture codée (<em>Coded Aperture</em>)</a></li>
+  </ul></li>
+  <li><a href="#vue-densemble-du-pipeline-avec-ouverture-codée" id="toc-vue-densemble-du-pipeline-avec-ouverture-codée" class="nav-link" data-scroll-target="#vue-densemble-du-pipeline-avec-ouverture-codée">Vue d’ensemble du pipeline avec ouverture codée</a>
+  <ul class="collapse">
+  <li><a href="#modèle-de-défocalisation-locale" id="toc-modèle-de-défocalisation-locale" class="nav-link" data-scroll-target="#modèle-de-défocalisation-locale">Modèle de défocalisation locale</a></li>
+  <li><a href="#estimation-de-profondeur-régularisée" id="toc-estimation-de-profondeur-régularisée" class="nav-link" data-scroll-target="#estimation-de-profondeur-régularisée">Estimation de profondeur régularisée</a></li>
+  <li><a href="#résultats-obtenus" id="toc-résultats-obtenus" class="nav-link" data-scroll-target="#résultats-obtenus">Résultats obtenus</a></li>
+  <li><a href="#refocalisation-numérique-depuis-une-seule-image" id="toc-refocalisation-numérique-depuis-une-seule-image" class="nav-link" data-scroll-target="#refocalisation-numérique-depuis-une-seule-image">Refocalisation numérique depuis une seule image</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#caméra-avec-optique-généralisée" id="toc-caméra-avec-optique-généralisée" class="nav-link" data-scroll-target="#caméra-avec-optique-généralisée">Caméra avec optique généralisée</a>
+  <ul class="collapse">
+  <li><a href="#motivation-1" id="toc-motivation-1" class="nav-link" data-scroll-target="#motivation-1">Motivation</a></li>
+  <li><a href="#codage-du-front-donde-wavefront-coding" id="toc-codage-du-front-donde-wavefront-coding" class="nav-link" data-scroll-target="#codage-du-front-donde-wavefront-coding">Codage du front d’onde (<em>Wavefront Coding</em>)</a>
+  <ul class="collapse">
+  <li><a href="#principe-1" id="toc-principe-1" class="nav-link" data-scroll-target="#principe-1">Principe</a></li>
+  <li><a href="#avantage" id="toc-avantage" class="nav-link" data-scroll-target="#avantage">Avantage</a></li>
+  </ul></li>
+  <li><a href="#lentille-à-réseau-lattice-lens" id="toc-lentille-à-réseau-lattice-lens" class="nav-link" data-scroll-target="#lentille-à-réseau-lattice-lens">Lentille à réseau (<em>Lattice Lens</em>)</a>
+  <ul class="collapse">
+  <li><a href="#principe-2" id="toc-principe-2" class="nav-link" data-scroll-target="#principe-2">Principe</a></li>
+  <li><a href="#propriétés-spectrales" id="toc-propriétés-spectrales" class="nav-link" data-scroll-target="#propriétés-spectrales">Propriétés spectrales</a></li>
+  </ul></li>
+  <li><a href="#comparaison-des-approches" id="toc-comparaison-des-approches" class="nav-link" data-scroll-target="#comparaison-des-approches">Comparaison des approches</a></li>
+  </ul></li>
+  <li><a href="#références" id="toc-références" class="nav-link" data-scroll-target="#références">Références</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Cours</li><li class="breadcrumb-item"><a href="./ch2c.html">Human Visual System</a></li><li class="breadcrumb-item"><a href="./ch2.html">Human Visual System</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Cours</li><li class="breadcrumb-item"><a href="./ch3c.html">Human Visual System</a></li><li class="breadcrumb-item"><a href="./ch3c.html">Details</a></li></ol></nav></header>
 
 
 
 
 
-<section id="human-visual-system" class="level1">
-<h1>Human Visual System</h1>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<section id="biological-imaging-systems" class="level3">
-<h3 class="anchored" data-anchor-id="biological-imaging-systems">Biological imaging systems</h3>
-<p>L’être humain possède un système visuel complexe, fruit d’une longue évolution. L’œil humain en est le composant principal, mais le traitement de l’information visuelle se poursuit dans le cortex visuel primaire. Ce cours explore les différentes facettes de ce système, de son anatomie à ses applications technologiques.</p>
-</section>
-<section id="échelle-de-temps-géologique" class="level3">
-<h3 class="anchored" data-anchor-id="échelle-de-temps-géologique">Échelle de temps géologique</h3>
-<p>L’apparition des systèmes d’imagerie biologiques s’étend sur des centaines de millions d’années. Voici quelques jalons :</p>
-<ul>
-<li><strong>Nautilus belauensis</strong> (450 millions d’années) – œil primitif sans cristallin.</li>
-<li><strong>Reptiles</strong> (200 millions d’années) – vision évoluée avec des cônes pour la couleur.</li>
-<li><strong>Oiseaux</strong> (155 millions d’années) – acuité visuelle exceptionnelle, parfois double fovéa.</li>
-<li><strong>Mammifères</strong> (125 millions d’années) – vision adaptée à différents environnements.</li>
-<li><strong>Hominidés</strong> (Australopithecus, Homo habilis, erectus, neanderthalensis, sapiens) – évolution récente (3 millions d’années) avec une vision stéréoscopique et une grande acuité.</li>
-</ul>
-</section>
-<section id="évolution-de-lœil" class="level3">
-<h3 class="anchored" data-anchor-id="évolution-de-lœil">Évolution de l’œil</h3>
-<p>L’œil s’est perfectionné progressivement : apparition de la cornée, du cristallin, de la rétine, et de la fovéa. Cette évolution illustre l’adaptation aux besoins de survie (chasse, reconnaissance des prédateurs, etc.).</p>
+<section id="computational-imaging-lecture-3" class="level1">
+<h1>Computational Imaging — Lecture 3</h1>
+<section id="taras-holotyak-université-de-genève-14x062" class="level5">
+<h5 class="anchored" data-anchor-id="taras-holotyak-université-de-genève-14x062">Taras Holotyak · Université de Genève · 14X062</h5>
+<hr>
 </section>
 </section>
-<section id="interprétation-du-système-visuel-humain-à-travers-lhistoire" class="level2">
-<h2 class="anchored" data-anchor-id="interprétation-du-système-visuel-humain-à-travers-lhistoire">Interprétation du système visuel humain à travers l’histoire</h2>
-<section id="théories-extramissives" class="level3">
-<h3 class="anchored" data-anchor-id="théories-extramissives">Théories extramissives</h3>
-<ul>
-<li><strong>Platon (350 av. J.-C.)</strong> : une lumière sort de nos yeux, semblable à celle du soleil, et va « éclairer » les objets.</li>
-<li><strong>Chalcidius (Moyen Âge)</strong> : la vision résulte de trois lumières – celle de l’œil, celle extérieure, et celle des corps visibles.</li>
-<li>Autres croyances non matérielles (vision spirituelle, « mauvais œil »).</li>
-</ul>
-</section>
-<section id="difficultés-des-théories-extramissives" class="level3">
-<h3 class="anchored" data-anchor-id="difficultés-des-théories-extramissives">Difficultés des théories extramissives</h3>
-<ul>
-<li>Pourquoi voit‑on instantanément des objets éloignés en ouvrant les yeux ?</li>
-<li>Pourquoi les systèmes visuels de plusieurs personnes regardant le même objet n’interfèrent‑ils pas ?</li>
-<li>Que se passe‑t‑il si les yeux sont fermés au retour de l’esprit visuel ?</li>
-<li>Les objets émettent‑ils des « images matérielles » (Aristote) ? Comment une grande montagne pourrait‑elle entrer dans l’œil ?</li>
-</ul>
-</section>
-<section id="alhazen-abu-ali-al-hasan-ibn-al-hasan-ibn-al-haytham-1040" class="level3">
-<h3 class="anchored" data-anchor-id="alhazen-abu-ali-al-hasan-ibn-al-hasan-ibn-al-haytham-1040">Alhazen (Abu Ali al-Hasan ibn al-Hasan ibn al-Haytham, 1040)</h3>
-<ul>
-<li>Plus grand opticien du Moyen Âge.</li>
-<li>Les corps lumineux (Soleil, Lune) émettent de la lumière qui se propage en ligne droite.</li>
-<li>Lorsqu’elle frappe un objet, la lumière est irradiée dans toutes les directions.</li>
-<li>Notion de milieu transparent ou opaque.</li>
-<li>Théorie pointilliste : nous voyons une collection de points à la surface des objets.</li>
-<li>Première explication géométrique de la correspondance un‑à‑un entre le monde et l’image formée dans l’œil.</li>
-</ul>
-</section>
-<section id="formation-de-limage-selon-alhazen" class="level3">
-<h3 class="anchored" data-anchor-id="formation-de-limage-selon-alhazen">Formation de l’image selon Alhazen</h3>
-<ul>
-<li>Un rayon lumineux part de la source et voyage en ligne droite.</li>
-<li>Il frappe un objet, puis est réfléchi et/ou réfracté.</li>
-<li>Si l’objet est notre cristallin, la lumière utile pour la vision est celle qui est réfractée.</li>
-</ul>
-</section>
-<section id="réfraction-ptolémée-et-alhazen" class="level3">
-<h3 class="anchored" data-anchor-id="réfraction-ptolémée-et-alhazen">Réfraction : Ptolémée et Alhazen</h3>
-<ul>
-<li>Ptolémée (150 av. J.-C.) connaissait les phénomènes de réfraction.</li>
-<li>Problème d’Alhazen : puisque la lumière d’un point de surface atteint toute la surface de l’œil, comment voyons‑nous une seule image de ce point ?
-<ul>
-<li>Il supposa que seul le rayon perpendiculaire à l’œil affecte la vision, les autres étant trop réfractés donc « affaiblis ».</li>
-<li>En réalité, les propriétés optiques du cristallin concentrent tous ces rayons en un seul point focal (dans des conditions favorables).</li>
-</ul></li>
-</ul>
-</section>
-<section id="johannes-kepler-15711630" class="level3">
-<h3 class="anchored" data-anchor-id="johannes-kepler-15711630">Johannes Kepler (1571–1630)</h3>
-<ul>
-<li>Fondateur des théories modernes de l’optique.</li>
-<li>La lumière s’écoule ou est émise par sa source vers un lieu éloigné.</li>
-<li>Depuis un point, la lumière se propage selon une infinité de lignes droites.</li>
-<li>La lumière peut aller jusqu’à l’infini.</li>
-<li>Les lignes d’émission sont droites et appelées <strong>rayons</strong>.</li>
-</ul>
-<p><strong>Théorie rétinienne de Kepler</strong> : bien que des rayons provenant de plusieurs points de la surface frappent le même point du cristallin, ils arrivent sous des directions différentes. Ils sont donc réfractés dans des directions différentes, séparés par le cristallin, et forment une image inversée sur la rétine.</p>
-</section>
-<section id="théories-modernes-de-la-vision" class="level3">
-<h3 class="anchored" data-anchor-id="théories-modernes-de-la-vision">Théories modernes de la vision</h3>
-<p>Trois courants principaux contribuent à notre compréhension :</p>
-<ul>
-<li><strong>Psychologie de la perception</strong> : fonctionnalités.</li>
-<li><strong>Neurophysiologie</strong> : explications des mécanismes.</li>
-<li><strong>Vision par ordinateur</strong> : modélisation et problèmes.</li>
-</ul>
-<p><strong>Partition actuelle</strong> :</p>
-<ul>
-<li><strong>Vision bas niveau (précoce)</strong> : parallélisme, multiplexage, partitionnement.</li>
-<li><strong>Vision haut niveau</strong> : modularité.</li>
-</ul>
-</section>
-</section>
-<section id="résumé-des-caractéristiques-du-système-visuel-humain" class="level2">
-<h2 class="anchored" data-anchor-id="résumé-des-caractéristiques-du-système-visuel-humain">Résumé des caractéristiques du système visuel humain</h2>
-<section id="acuité-visuelle" class="level3">
-<h3 class="anchored" data-anchor-id="acuité-visuelle">Acuité visuelle</h3>
-<ul>
-<li>Une vision 20/20 correspond environ à <strong>1 minute d’arc</strong>.</li>
-</ul>
-</section>
-<section id="champ-visuel" class="level3">
-<h3 class="anchored" data-anchor-id="champ-visuel">Champ visuel</h3>
-<ul>
-<li>Horizontal : environ <strong>200°</strong> (dont 120° binoculaire et 40° monoculaire pour chaque œil).</li>
-<li>Vertical : environ <strong>135°</strong>.</li>
-</ul>
-</section>
-<section id="résolution-temporelle" class="level3">
-<h3 class="anchored" data-anchor-id="résolution-temporelle">Résolution temporelle</h3>
-<ul>
-<li>Environ <strong>60 Hz</strong> (dépend du contraste et de la luminance).</li>
-</ul>
-</section>
-<section id="plage-dynamique" class="level3">
-<h3 class="anchored" data-anchor-id="plage-dynamique">Plage dynamique</h3>
-<ul>
-<li>Instantanée : <strong>6,5 diaphragmes (f‑stops)</strong>.</li>
-<li>Adaptative : jusqu’à <strong>46,5 diaphragmes</strong> (grâce à l’adaptation à la lumière).</li>
-</ul>
-</section>
-<section id="couleur" class="level3">
-<h3 class="anchored" data-anchor-id="couleur">Couleur</h3>
-<ul>
-<li>Représentée dans le diagramme CIE xy ; les distances perçues sont linéaires dans l’espace CIE Lab.</li>
-</ul>
-</section>
-<section id="accommodation" class="level3">
-<h3 class="anchored" data-anchor-id="accommodation">Accommodation</h3>
-<ul>
-<li>Distance de mise au point : d’environ <strong>8 cm à l’infini</strong>, diminue avec l’âge.</li>
-</ul>
-</section>
-</section>
-<section id="anatomie-de-lœil-humain" class="level2">
-<h2 class="anchored" data-anchor-id="anatomie-de-lœil-humain">Anatomie de l’œil humain</h2>
-<section id="structure-générale" class="level3">
-<h3 class="anchored" data-anchor-id="structure-générale">Structure générale</h3>
-<p>L’œil est un organe complexe composé de :</p>
-<ul>
-<li>Cornée</li>
-<li>Humeur aqueuse</li>
-<li>Iris</li>
-<li>Cristallin</li>
-<li>Humeur vitrée</li>
-<li>Rétine</li>
-<li>Nerf optique</li>
-</ul>
-</section>
-<section id="la-rétine" class="level3">
-<h3 class="anchored" data-anchor-id="la-rétine">La rétine</h3>
-<p>La rétine est une fine couche de tissu nerveux tapissant le fond de l’œil. Elle contient trois couches de cellules :</p>
-<ol type="1">
-<li><strong>Cellules photoréceptrices</strong> (cônes et bâtonnets).</li>
-<li><strong>Cellules collectrices</strong> (cellules bipolaires, cellules horizontales, cellules amacrines).</li>
-<li><strong>Cellules ganglionnaires</strong> rétiniennes.</li>
-</ol>
-<section id="compromis-sensibilité-résolution-spatiale" class="level4">
-<h4 class="anchored" data-anchor-id="compromis-sensibilité-résolution-spatiale">Compromis sensibilité / résolution spatiale</h4>
-<p>Deux systèmes parallèles :</p>
-<ul>
-<li><strong>Bâtonnets</strong> : dédiés à la sensibilité à la lumière (vision scotopique, basse lumière). Convergence importante vers les cellules collectrices et ganglionnaires → image basse résolution mais persistante en faible éclairage.</li>
-<li><strong>Cônes</strong> : dédiés à la résolution spatiale (vision photopique, bonne lumière). Convergence limitée → image haute résolution.</li>
-</ul>
-</section>
-</section>
-</section>
-<section id="mosaïque-des-photorécepteurs" class="level2">
-<h2 class="anchored" data-anchor-id="mosaïque-des-photorécepteurs">Mosaïque des photorécepteurs</h2>
-<section id="types-de-photorécepteurs" class="level3">
-<h3 class="anchored" data-anchor-id="types-de-photorécepteurs">Types de photorécepteurs</h3>
-<ul>
-<li><strong>Cônes</strong> (environ 7 millions) : vision des couleurs.
-<ul>
-<li>Trois types : S (bleu, courte longueur d’onde), M (vert, moyenne), L (rouge, longue).</li>
-</ul></li>
-<li><strong>Bâtonnets</strong> (environ 120 millions) : vision en niveaux de gris, sensibles à la lumière.</li>
-</ul>
-</section>
-<section id="répartition-sur-la-rétine" class="level3">
-<h3 class="anchored" data-anchor-id="répartition-sur-la-rétine">Répartition sur la rétine</h3>
+<section id="computational-photography" class="level1">
+<h1>Computational Photography</h1>
+<section id="modèle-dimagerie" class="level2">
+<h2 class="anchored" data-anchor-id="modèle-dimagerie">Modèle d’imagerie</h2>
+<section id="photographie-conventionnelle" class="level3">
+<h3 class="anchored" data-anchor-id="photographie-conventionnelle">Photographie conventionnelle</h3>
+<p>Dans la photographie conventionnelle, le pipeline est simple et linéaire :</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">xychart-beta
-    title &quot;Densité des photorécepteurs en fonction de l’excentricité&quot;
-    x-axis [&quot;Nasale&quot;, &quot;Fovéa&quot;, &quot;Temporelle&quot;]
-    y-axis &quot;Densité (x1000/mm²)&quot; 0 --&gt; 200
-    line &quot;Cônes&quot; [10, 150, 10]
-    line &quot;Bâtonnets&quot; [100, 0, 100]
+<pre class="mermaid mermaid-js">flowchart LR
+    A[Monde réel] --&gt; B[Optique]
+    B --&gt; C[Image capturée]
+    C --&gt; D[Calcul]
+    D --&gt; E[Image améliorée]
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -7353,262 +7352,816 @@ z-index: 1000;
 </div>
 </div>
 <ul>
-<li><strong>Fovéa</strong> : concentre les cônes, responsable de la vision fine.</li>
-<li><strong>Périphérie</strong> : dominée par les bâtonnets.</li>
-<li><strong>Point aveugle</strong> : absence de photorécepteurs (sortie du nerf optique).</li>
+<li>L’<strong>optique</strong> capture quelque chose de proche de l’image finale</li>
+<li>Le <strong>calcul</strong> sert principalement à <em>améliorer</em> l’image capturée (ex. : défloutage)</li>
 </ul>
 </section>
-<section id="sensibilité-lumineuse" class="level3">
-<h3 class="anchored" data-anchor-id="sensibilité-lumineuse">Sensibilité lumineuse</h3>
-<p>Après adaptation à l’obscurité, un seul bâtonnet peut répondre à <strong>un unique photon</strong>.</p>
-</section>
-<section id="limitations-de-la-vision-humaine" class="level3">
-<h3 class="anchored" data-anchor-id="limitations-de-la-vision-humaine">Limitations de la vision humaine</h3>
+<section id="photographie-computationnelle" class="level3">
+<h3 class="anchored" data-anchor-id="photographie-computationnelle">Photographie computationnelle</h3>
+<p>La photographie computationnelle généralise ce pipeline :</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A[Monde réel] --&gt; B[Optique généralisée]
+    B --&gt; C[Représentation codée]
+    C --&gt; D[Calcul généralisé]
+    D --&gt; E[Image(s) finales]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <ul>
-<li>Présence de vaisseaux sanguins et d’autres cellules devant les photorécepteurs (ombres portées).</li>
-<li>Luminosité non uniforme.</li>
-<li>Image inversée sur la rétine (corrigée par le cerveau).</li>
-<li>Haute résolution uniquement dans la fovéa.</li>
-<li>Un seul point de fovéa chez l’homme (contrairement à certains oiseaux ou guépards qui en ont deux).</li>
-<li>Point aveugle.</li>
+<li>L’<strong>optique généralisée</strong> encode le monde dans une représentation intermédiaire</li>
+<li>Le <strong>calcul généralisé</strong> décode cette représentation en une ou plusieurs images</li>
 </ul>
+<blockquote class="blockquote">
+<p><strong>Idée clé</strong> : on déplace la complexité de l’optique vers le calcul, gagnant ainsi en flexibilité.</p>
+</blockquote>
 </section>
-<section id="comparaison-œil-appareil-photo" class="level3">
-<h3 class="anchored" data-anchor-id="comparaison-œil-appareil-photo">Comparaison œil / appareil photo</h3>
+<section id="paramètres-optiques-contrôlables" class="level3">
+<h3 class="anchored" data-anchor-id="paramètres-optiques-contrôlables">Paramètres optiques contrôlables</h3>
+<p>Les paramètres d’un système optique sur lesquels on peut agir :</p>
 <ul>
-<li>L’œil est comparable à un appareil photo avec une lentille (cornée + cristallin), un diaphragme (iris), et un capteur (rétine).</li>
-<li>La mise au point se fait par déformation du cristallin (accommodation), alors qu’un objectif se déplace.</li>
-<li>La rétine a une résolution variable (fovéa haute, périphérie basse), tandis qu’un capteur numérique a une résolution uniforme.</li>
+<li>Ouverture (<em>aperture</em>)</li>
+<li>Profondeur de champ (<em>depth of field</em>)</li>
+<li>Champ de vue (<em>field of view</em>)</li>
+<li>Exposition (<em>exposure</em>)</li>
+<li>Bruit (<em>noise</em>)</li>
+<li>Tableaux de filtres couleur (<em>color filter arrays</em>, CFA)</li>
 </ul>
+<hr>
 </section>
 </section>
-<section id="cellules-ganglionnaires-rétiniennes" class="level2">
-<h2 class="anchored" data-anchor-id="cellules-ganglionnaires-rétiniennes">Cellules ganglionnaires rétiniennes</h2>
-<section id="première-étape-de-traitement-visuel" class="level3">
-<h3 class="anchored" data-anchor-id="première-étape-de-traitement-visuel">Première étape de traitement visuel</h3>
-<p>Les cellules ganglionnaires remplacent les niveaux d’illumination absolus par une carte rétinotopique de <strong>différences</strong>.</p>
-<section id="organisation-centrepourtour-des-champs-récepteurs" class="level4">
-<h4 class="anchored" data-anchor-id="organisation-centrepourtour-des-champs-récepteurs">Organisation centre‑pourtour des champs récepteurs</h4>
+<section id="exemple-fondateur-la-mosaïque-cfa-mosaicing" class="level2">
+<h2 class="anchored" data-anchor-id="exemple-fondateur-la-mosaïque-cfa-mosaicing">Exemple fondateur : la mosaïque CFA (<em>mosaicing</em>)</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A[Monde réel] --&gt; B[&quot;Optique généralisée\n(CFA)&quot;]
+    B --&gt; C[&quot;Représentation codée\n(mosaïque)&quot;]
+    C --&gt; D[&quot;Calcul généralisé\n(dématriçage)&quot;]
+    D --&gt; E[&quot;Image finale\n(RGB)&quot;]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <ul>
-<li>Cellules <strong>on‑centre / off‑pourtour</strong> : excitées par la lumière au centre, inhibées par la lumière à la périphérie.</li>
-<li>Cellules <strong>off‑centre / on‑pourtour</strong> : inhibées par la lumière au centre, excitées par la lumière à la périphérie.</li>
+<li>Le <strong>tableau de filtres couleur (CFA)</strong> encode la couleur sous forme de mosaïque</li>
+<li>Le <strong>dématriçage (<em>demosaicing</em>)</strong> décode cette mosaïque en image RGB complète</li>
 </ul>
-<p><strong>Pourquoi ?</strong> Les objets ne sont pas associés à une luminosité absolue, mais à des différences de luminosité avec le fond. Amplifier les différences évite de devoir représenter toute la plage dynamique. C’est la base de la perception des objets.</p>
+<hr>
 </section>
+<section id="caméra-à-sténopé-pinhole-camera" class="level2">
+<h2 class="anchored" data-anchor-id="caméra-à-sténopé-pinhole-camera">Caméra à sténopé (<em>Pinhole Camera</em>)</h2>
+<p><strong>Principe</strong> : une ouverture infiniment petite remplace la lentille.</p>
+<ul>
+<li>✅ Tout est net (profondeur de champ infinie)</li>
+<li>❌ Très peu efficace en termes de lumière captée</li>
+</ul>
+<hr>
 </section>
-<section id="cellules-m-et-p" class="level3">
-<h3 class="anchored" data-anchor-id="cellules-m-et-p">Cellules M et P</h3>
-<p>Deux types principaux de cellules ganglionnaires, qui alimentent les voies magnocellulaires (M) et parvocellulaires (P) du corps genouillé latéral (LGN).</p>
+<section id="caméra-à-lentille-lens-camera" class="level2">
+<h2 class="anchored" data-anchor-id="caméra-à-lentille-lens-camera">Caméra à lentille (<em>Lens Camera</em>)</h2>
+<p><strong>Principe</strong> : une lentille remplace le sténopé pour collecter plus de lumière.</p>
+<ul>
+<li>✅ Très efficace en termes de lumière</li>
+<li>❌ Un seul plan est net à la fois → <strong>problème de mise au point</strong></li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Question</strong> : comment obtenir une image entièrement nette ?</p>
+</blockquote>
+<hr>
+</section>
+<section id="pile-focale-focal-stack" class="level2">
+<h2 class="anchored" data-anchor-id="pile-focale-focal-stack">Pile focale (<em>Focal Stack</em>)</h2>
+<section id="concept" class="level3">
+<h3 class="anchored" data-anchor-id="concept">Concept</h3>
+<p><strong>Analogie</strong> avec le HDR vu précédemment :</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 9%">
-<col style="width: 12%">
-<col style="width: 36%">
-<col style="width: 33%">
-<col style="width: 9%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Type</th>
-<th>Entrée</th>
-<th>Sensibilité temporelle</th>
-<th>Sensibilité spatiale</th>
-<th>Rôle</th>
+<th>HDR</th>
+<th>Focal Stack</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>M</strong></td>
-<td>Grand nombre de photorécepteurs</td>
-<td>Élevée (réponses transitoires)</td>
-<td>Basse</td>
-<td>Perception du mouvement, stimuli soudains</td>
+<td>Empiler des images à différentes expositions</td>
+<td>Empiler des images focalisées sur différents plans</td>
 </tr>
 <tr class="even">
-<td><strong>P</strong></td>
-<td>Petit nombre de photorécepteurs</td>
-<td>Faible</td>
-<td>Élevée</td>
-<td>Couleur, texture, formes (perception des objets)</td>
+<td>Fusionner en une image HDR</td>
+<td>Fusionner en une image entièrement nette</td>
 </tr>
 </tbody>
 </table>
-<ul>
-<li>Les cellules M sont plus grandes, avec des vitesses de conduction nerveuse plus rapides.</li>
-<li>Les cellules P montrent une sensibilité aux couleurs, pas les M.</li>
-</ul>
 </section>
-</section>
-<section id="cortex-visuel-primaire-v1" class="level2">
-<h2 class="anchored" data-anchor-id="cortex-visuel-primaire-v1">Cortex visuel primaire (V1)</h2>
-<section id="anatomie-des-voies-visuelles" class="level3">
-<h3 class="anchored" data-anchor-id="anatomie-des-voies-visuelles">Anatomie des voies visuelles</h3>
-<ul>
-<li>Les axones des cellules ganglionnaires forment le <strong>nerf optique</strong>.</li>
-<li>Au niveau du chiasma optique, une partie des fibres croise, puis le tractus optique projette vers différentes structures, principalement le <strong>corps genouillé latéral (LGN)</strong>.</li>
-</ul>
-</section>
-<section id="corps-genouillé-latéral-lgn" class="level3">
-<h3 class="anchored" data-anchor-id="corps-genouillé-latéral-lgn">Corps genouillé latéral (LGN)</h3>
-<ul>
-<li>Un LGN dans chaque hémisphère cérébral.</li>
-<li>Composé de couches :
-<ul>
-<li><strong>Couches magnocellulaires</strong> (deux) : entrée des cellules M → meilleure résolution temporelle.</li>
-<li><strong>Couches parvocellulaires</strong> (quatre) : entrée des cellules P → meilleure résolution spatiale, sensibilité aux longueurs d’onde.</li>
-</ul></li>
-<li>Les neurones de toutes les couches présentent une organisation centre‑pourtour.</li>
-<li>Rétinotopie préservée : l’image projetée sur la rétine est maintenue dans le LGN et au‑delà.</li>
-</ul>
-</section>
-<section id="aire-visuelle-primaire-v1" class="level3">
-<h3 class="anchored" data-anchor-id="aire-visuelle-primaire-v1">Aire visuelle primaire V1</h3>
-<ul>
-<li>Prix Nobel à David H. Hubel et Torsten N. Wiesel (1962) pour la découverte des propriétés des cellules de V1.</li>
-<li>Trois types de cellules :</li>
-</ul>
+<section id="procédure-de-capture" class="level3">
+<h3 class="anchored" data-anchor-id="procédure-de-capture">Procédure de capture</h3>
+<p>Pour capturer une pile focale :</p>
 <ol type="1">
-<li><strong>Centre‑pourtour</strong> (similaires aux cellules ganglionnaires).</li>
-<li><strong>Cellules simples</strong> :
+<li>Prendre plusieurs images focalisées sur différents <strong>plans de profondeur</strong></li>
+<li>Fusionner en une seule image entièrement nette (<em>all-in-focus</em>)</li>
+</ol>
+<p><strong>Paramètre à modifier</strong> : on tourne la <strong>bague de mise au point</strong> (et non le zoom !), ce qui change la <strong>distance lentille-capteur <span class="math inline">\(D&#39;\)</span></strong>.</p>
+<section id="loi-de-conjugaison-des-lentilles" class="level4">
+<h4 class="anchored" data-anchor-id="loi-de-conjugaison-des-lentilles">Loi de conjugaison des lentilles</h4>
+<p><span class="math display">\[\frac{1}{f} = \frac{1}{D} + \frac{1}{D&#39;}\]</span></p>
+<p>avec :</p>
 <ul>
-<li>Zones excitatrices et inhibitrices allongées.</li>
-<li>Répondent à des contours orientés à une position et une orientation spécifiques.</li>
-</ul></li>
-<li><strong>Cellules complexes</strong> :
+<li><span class="math inline">\(f\)</span> : longueur focale de la lentille</li>
+<li><span class="math inline">\(D\)</span> : distance lentille-objet</li>
+<li><span class="math inline">\(D&#39;\)</span> : distance lentille-capteur</li>
+</ul>
+</section>
+</section>
+<section id="fusion-de-la-pile-focale" class="level3">
+<h3 class="anchored" data-anchor-id="fusion-de-la-pile-focale">Fusion de la pile focale</h3>
+<section id="étape-1-alignement-des-images" class="level4">
+<h4 class="anchored" data-anchor-id="étape-1-alignement-des-images">Étape 1 : Alignement des images</h4>
+<p><strong>Pourquoi aligner ?</strong> Quand on change la distance de mise au point, on change aussi le <strong>grandissement</strong> (champ de vue), ce qui provoque un léger zoom entre les images.</p>
+<p>En supposant que <span class="math inline">\(f\)</span> et toutes les valeurs de <span class="math inline">\(D&#39;\)</span> sont connues, on peut corriger ce changement de grandissement par <strong>redimensionnement</strong> (<em>resize</em>) selon les équations de conjugaison.</p>
+</section>
+<section id="étape-2-assignation-des-poids" class="level4">
+<h4 class="anchored" data-anchor-id="étape-2-assignation-des-poids">Étape 2 : Assignation des poids</h4>
+<p>Pour chaque pixel, on mesure sa <strong>netteté locale</strong> afin de savoir s’il est bien mis au point :</p>
+<ol type="1">
+<li>Appliquer l’<strong>opérateur Laplacien</strong> (détecteur de bords → zones nettes)</li>
+<li>Appliquer un <strong>flou gaussien</strong> pour régulariser</li>
+</ol>
+<p>→ Plus la réponse est forte, plus le pixel est net.</p>
+</section>
+<section id="étape-3-fusion-pondérée" class="level4">
+<h4 class="anchored" data-anchor-id="étape-3-fusion-pondérée">Étape 3 : Fusion pondérée</h4>
+<p><span class="math display">\[I_{\text{fused}}(x,y) = \frac{\sum_k w_k(x,y) \cdot I_k(x,y)}{\sum_k w_k(x,y)}\]</span></p>
+<p>avec <span class="math inline">\(w_k(x,y)\)</span> le poids de netteté du pixel <span class="math inline">\((x,y)\)</span> dans l’image <span class="math inline">\(k\)</span>.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="techniques-avancées-de-profondeur" class="level2">
+<h2 class="anchored" data-anchor-id="techniques-avancées-de-profondeur">Techniques avancées de profondeur</h2>
+<section id="stéréo-confocale-confocal-stereo" class="level3">
+<h3 class="anchored" data-anchor-id="stéréo-confocale-confocal-stereo">Stéréo confocale (<em>Confocal Stereo</em>)</h3>
+<p><em>[Hassinoff and Kutulakos, ECCV 2006]</em></p>
 <ul>
-<li>Répondent à des contours orientés, mais de manière plus abstraite, partiellement indépendante de la position dans le champ visuel.</li>
+<li>Capture une <strong>pile 2D</strong> en faisant varier à la fois la mise au point <strong>et</strong> l’ouverture</li>
+<li>Analyse l’image focale-ouverture de chaque pixel pour estimer la <strong>profondeur réelle</strong></li>
+<li>✅ Estimation par pixel</li>
+</ul>
+</section>
+<section id="profondeur-par-défocalisation-depth-from-defocus" class="level3">
+<h3 class="anchored" data-anchor-id="profondeur-par-défocalisation-depth-from-defocus">Profondeur par défocalisation (<em>Depth from Defocus</em>)</h3>
+<p><em>[Shree K. Nayar]</em></p>
+<ul>
+<li>Utilise seulement <strong>deux images</strong> avec des défocalisations différentes</li>
+<li>Noyaux de flou : <span class="math inline">\(h_{z_1}(x,y)\)</span> et <span class="math inline">\(h_{z_2}(x,y)\)</span> pour les images <span class="math inline">\(G_1(x,y)\)</span> et <span class="math inline">\(G_2(x,y)\)</span></li>
+<li>Estime la profondeur en comparant les niveaux de flou</li>
+<li>✅ Nécessite peu d’images</li>
+<li>❌ Estimation par patch (pas par pixel)</li>
+</ul>
+</section>
+<section id="flot-focal-focal-flow" class="level3">
+<h3 class="anchored" data-anchor-id="flot-focal-focal-flow">Flot focal (<em>Focal Flow</em>)</h3>
+<p><em>[Alexander et al., ECCV 2016 ; Guo et al., ICCV 2017, PNAS 2019]</em></p>
+<p><strong>Inspiration biologique</strong> : les araignées sauteuses utilisent ce principe !</p>
+<p><strong>Principe</strong> :</p>
+<ol type="1">
+<li>Utiliser une <strong>pile focale dense</strong> (ex. : depuis l’autofocus)</li>
+<li>Modéliser le cercle de confusion comme un noyau de flou (typiquement gaussien) avec <span class="math inline">\(\sigma\)</span> variable</li>
+<li>Estimer le <strong>flot optique</strong> entre images successives de la pile</li>
+<li>Relier le changement de flot optique à la <strong>profondeur</strong></li>
+</ol>
+<ul>
+<li>✅ Très peu de calcul (pas de convolutions)</li>
+<li>❌ Ne fonctionne que sur des zones texturées</li>
+</ul>
+</section>
+<section id="récapitulatif-des-techniques-de-profondeur" class="level3">
+<h3 class="anchored" data-anchor-id="récapitulatif-des-techniques-de-profondeur">Récapitulatif des techniques de profondeur</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Technique</th>
+<th>Entrée requise</th>
+<th>Granularité</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Depth from focus</td>
+<td>Pile focale</td>
+<td>Par patch</td>
+</tr>
+<tr class="even">
+<td>Depth from defocus</td>
+<td>2 images</td>
+<td>Par patch</td>
+</tr>
+<tr class="odd">
+<td>Confocal stereo</td>
+<td>Pile focale + ouverture</td>
+<td>Par pixel</td>
+</tr>
+<tr class="even">
+<td>Focal flow</td>
+<td>Pile focale dense</td>
+<td>Par patch (efficace)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+</section>
+<section id="light-field-photography" class="level1">
+<h1>Light Field Photography</h1>
+<section id="théorie-du-champ-lumineux" class="level2">
+<h2 class="anchored" data-anchor-id="théorie-du-champ-lumineux">Théorie du champ lumineux</h2>
+<section id="motivation" class="level3">
+<h3 class="anchored" data-anchor-id="motivation">Motivation</h3>
+<p>Une photographie classique ne capture qu’une <strong>fraction</strong> de l’information lumineuse entrant dans la caméra.</p>
+<p>Une <strong>caméra à champ lumineux (<em>light field camera</em>)</strong> capture en plus :</p>
+<ul>
+<li>La direction de provenance de chaque rayon lumineux</li>
+<li>Comment la lumière venant d’une partie de la lentille diffère de celle venant d’une autre</li>
+</ul>
+</section>
+<section id="définition-du-champ-lumineux" class="level3">
+<h3 class="anchored" data-anchor-id="définition-du-champ-lumineux">Définition du champ lumineux</h3>
+<p>Le champ lumineux est défini comme la <strong>distribution géométrique des rayons lumineux</strong> circulant dans l’espace.</p>
+<p><span class="math display">\[L = L(x, y, z, \theta, \phi)\]</span></p>
+<p>C’est une <strong>fonction plénotique (<em>plenoptic function</em>) à 5 dimensions</strong> :</p>
+<ul>
+<li><span class="math inline">\(3D\)</span> pour chaque position spatiale <span class="math inline">\((x, y, z)\)</span></li>
+<li><span class="math inline">\(2D\)</span> pour chaque direction de propagation <span class="math inline">\((\theta, \phi)\)</span></li>
+</ul>
+</section>
+<section id="fonction-plénotique-5d" class="level3">
+<h3 class="anchored" data-anchor-id="fonction-plénotique-5d">Fonction plénotique 5D</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    P[&quot;Fonction plénotique 5D\nL(x, y, z, θ, φ)&quot;]
+    P --&gt; S[&quot;Position spatiale\n(x, y, z) — 3D&quot;]
+    P --&gt; D[&quot;Direction de propagation\n(θ, φ) — 2D&quot;]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Le <strong>champ lumineux</strong> (ou <em>radiance</em>) encode complètement l’état de la lumière en tout point de l’espace.</p>
+<hr>
+</section>
+</section>
+<section id="capture-dun-champ-lumineux" class="level2">
+<h2 class="anchored" data-anchor-id="capture-dun-champ-lumineux">Capture d’un champ lumineux</h2>
+<section id="mesure-des-rayons" class="level3">
+<h3 class="anchored" data-anchor-id="mesure-des-rayons">Mesure des rayons</h3>
+<p>Un rayon lumineux peut être paramétré par son intersection avec <strong>deux plans parallèles</strong> :</p>
+<ul>
+<li>Plan <span class="math inline">\(st\)</span> (au niveau de la lentille)</li>
+<li>Plan <span class="math inline">\(uv\)</span> (au niveau du capteur)</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Propriété clé</strong> : le même ensemble de rayons peut être capturé par une <strong>caméra à sténopé déplacée</strong> sur plusieurs points de vue.</p>
+</blockquote>
+</section>
+<section id="option-1-tableau-de-caméras-multiples" class="level3">
+<h3 class="anchored" data-anchor-id="option-1-tableau-de-caméras-multiples">Option 1 : Tableau de caméras multiples</h3>
+<p><em>[Wilburn et al., SIGGRAPH 2005]</em></p>
+<ul>
+<li><strong>Stanford Camera Array</strong> → <em>“synthetic aperture”</em></li>
+<li>✅ Haute résolution spatiale et angulaire</li>
+<li>❌ Encombrant et coûteux</li>
+</ul>
+</section>
+<section id="option-2-déplacement-dune-seule-caméra" class="level3">
+<h3 class="anchored" data-anchor-id="option-2-déplacement-dune-seule-caméra">Option 2 : Déplacement d’une seule caméra</h3>
+<ul>
+<li>Caméra unique montée sur un moteur (ex. : LEGO)</li>
+<li>Prendre plusieurs images depuis différentes positions</li>
+<li>❌ Scène doit être <strong>statique</strong></li>
+</ul>
+</section>
+<section id="option-3-caméra-plénoptique-plenoptic-camera" class="level3">
+<h3 class="anchored" data-anchor-id="option-3-caméra-plénoptique-plenoptic-camera">Option 3 : Caméra plénoptique (<em>Plenoptic Camera</em>)</h3>
+<blockquote class="blockquote">
+<p><strong>Étymologie</strong> : <em>plenus</em> (latin, “plein”) + <em>optic</em> (grec, “voir”)</p>
+</blockquote>
+<p>Conceptualisée pour la première fois par <strong>Gabriel Lippmann</strong> (il y a plus d’un siècle) sous le nom de <em>photographie intégrale</em>.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A[Monde réel] --&gt; B[&quot;Optique généralisée\n(caméra plénoptique)&quot;]
+    B --&gt; C[&quot;Représentation codée\n(champ lumineux)&quot;]
+    C --&gt; D[&quot;Calcul généralisé\n(rendu du champ lumineux)&quot;]
+    D --&gt; E[&quot;Images refocalisées\nou multi-points de vue&quot;]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="caméra-conventionnelle-vs-caméra-à-champ-lumineux" class="level2">
+<h2 class="anchored" data-anchor-id="caméra-conventionnelle-vs-caméra-à-champ-lumineux">Caméra conventionnelle vs caméra à champ lumineux</h2>
+<section id="structure-comparée" class="level3">
+<h3 class="anchored" data-anchor-id="structure-comparée">Structure comparée</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    subgraph &quot;Caméra conventionnelle&quot;
+        L1[Lentille principale] --&gt; S1[Capteur]
+    end
+    subgraph &quot;Caméra plénoptique&quot;
+        L2[Lentille principale] --&gt; MLA[Tableau de microlentilles]
+        MLA --&gt; S2[Capteur]
+    end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>La différence fondamentale : un <strong>tableau de microlentilles (<em>microlens array</em>)</strong> est inséré entre la lentille principale et le capteur.</p>
+</section>
+<section id="paramétrisation-des-plans" class="level3">
+<h3 class="anchored" data-anchor-id="paramétrisation-des-plans">Paramétrisation des plans</h3>
+<ul>
+<li>Plan <span class="math inline">\(st\)</span> : plan de la lentille principale</li>
+<li>Plan <span class="math inline">\(uv\)</span> : plan du capteur</li>
+</ul>
+<p>Chaque microlentille capture les rayons provenant d’une petite région du plan <span class="math inline">\(st\)</span>, donnant accès à la <strong>direction</strong> des rayons.</p>
+<hr>
+</section>
+</section>
+<section id="opérations-numériques-sur-le-champ-lumineux" class="level2">
+<h2 class="anchored" data-anchor-id="opérations-numériques-sur-le-champ-lumineux">Opérations numériques sur le champ lumineux</h2>
+<section id="réduction-douverture-numérique-digitally-stopping-down" class="level3">
+<h3 class="anchored" data-anchor-id="réduction-douverture-numérique-digitally-stopping-down">Réduction d’ouverture numérique (<em>Digitally stopping-down</em>)</h3>
+<ul>
+<li><strong>Principe</strong> : additionner uniquement la partie centrale de chaque microlentille</li>
+<li>→ Simule une ouverture plus petite → plus grande profondeur de champ</li>
+</ul>
+</section>
+<section id="déplacement-virtuel-de-lobservateur" class="level3">
+<h3 class="anchored" data-anchor-id="déplacement-virtuel-de-lobservateur">Déplacement virtuel de l’observateur</h3>
+<ul>
+<li><strong>Principe</strong> : déplacer la fenêtre d’extraction à travers les microlentilles</li>
+<li>→ Simule un changement de point de vue</li>
+</ul>
+</section>
+<section id="refocalisation-numérique-digital-refocusing" class="level3">
+<h3 class="anchored" data-anchor-id="refocalisation-numérique-digital-refocusing">Refocalisation numérique (<em>Digital refocusing</em>)</h3>
+<ul>
+<li><strong>Principe</strong> : additionner des fenêtres extraites de plusieurs microlentilles avec décalage</li>
+<li>→ Simule une mise au point sur un plan différent <em>après la capture</em></li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Avantage majeur</strong> : on peut choisir le plan de mise au point <strong>après</strong> avoir pris la photo !</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="caméra-lytro" class="level2">
+<h2 class="anchored" data-anchor-id="caméra-lytro">Caméra Lytro</h2>
+<section id="présentation" class="level3">
+<h3 class="anchored" data-anchor-id="présentation">Présentation</h3>
+<p><em>Lytro</em> et <em>Lytro Illum Pro</em> : premières caméras plénoptiques grand public.</p>
+</section>
+<section id="quest-ce-que-la-caméra-lytro" class="level3">
+<h3 class="anchored" data-anchor-id="quest-ce-que-la-caméra-lytro">Qu’est-ce que la caméra Lytro ?</h3>
+<ul>
+<li>Caméra plénoptique avec :
+<ul>
+<li>Une <strong>lentille principale</strong> photographique</li>
+<li>Un <strong>tableau de microlentilles</strong> (<em>lens array</em>)</li>
+<li>Un <strong>capteur numérique</strong> (<em>digital photosensor</em>)</li>
 </ul></li>
+<li>Capture le champ lumineux pour permettre la <strong>refocalisation après coup</strong></li>
+</ul>
+</section>
+<section id="composants-internes" class="level3">
+<h3 class="anchored" data-anchor-id="composants-internes">Composants internes</h3>
+<ul>
+<li><strong>Lens Array</strong> : tableau de microlentilles</li>
+<li><strong>Light Field Sensor</strong> : capteur de champ lumineux</li>
+<li><strong>Light Field Engine</strong> : moteur de traitement du champ lumineux</li>
+<li><strong>Marvell Avastar 88W8787 SoC</strong> : puce Wi-Fi et Bluetooth</li>
+</ul>
+<section id="capteur-de-champ-lumineux-light-field-sensor" class="level4">
+<h4 class="anchored" data-anchor-id="capteur-de-champ-lumineux-light-field-sensor">Capteur de champ lumineux (<em>Light Field Sensor</em>)</h4>
+<ul>
+<li><strong>Capteur CMOS</strong> : converti la lumière en électrons → valeurs numériques par cellule</li>
+<li><strong>Tableau de microlentilles</strong> : divisent les pixels CMOS en zones, montrant l’image sous différents angles</li>
+</ul>
+</section>
+<section id="spécifications-du-capteur-lytro" class="level4">
+<h4 class="anchored" data-anchor-id="spécifications-du-capteur-lytro">Spécifications du capteur Lytro</h4>
+<ul>
+<li><strong>4000 × 4000 pixels</strong> au total</li>
+<li><strong>292 × 292 microlentilles</strong> (296 selon les specs mécaniques, ~<span class="math inline">\(37\)</span> mm de surface active)</li>
+<li><strong>14 × 14 pixels</strong> par microlentille</li>
+<li>Microlentilles carrées de <span class="math inline">\(125\ \mu m\)</span> de côté</li>
+<li>Séparation de <span class="math inline">\(0.5\)</span> mm entre les composants</li>
+</ul>
+</section>
+</section>
+<section id="caméras-plénoptiques-industrielles" class="level3">
+<h3 class="anchored" data-anchor-id="caméras-plénoptiques-industrielles">Caméras plénoptiques industrielles</h3>
+<p>Les caméras plénoptiques sont devenues populaires en laboratoire et industrie :</p>
+<ul>
+<li>✅ Résolution spatiale et angulaire bien supérieure aux caméras grand public</li>
+<li>✅ Lentilles interchangeables</li>
+<li>✅ Vidéo possible</li>
+<li>❌ Très coûteuses</li>
+</ul>
+</section>
+<section id="avantages-et-inconvénients-du-lytro" class="level3">
+<h3 class="anchored" data-anchor-id="avantages-et-inconvénients-du-lytro">Avantages et inconvénients du Lytro</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Avantages</th>
+<th>Inconvénients</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Très portable</td>
+<td>Résolution totale réduite</td>
+</tr>
+<tr class="even">
+<td>Capacité de refocalisation</td>
+<td>Ouverture fixe</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+</section>
+<section id="caméra-conventionnelle-avec-ouverture-codée" class="level1">
+<h1>Caméra conventionnelle avec ouverture codée</h1>
+<section id="objectifs" class="level2">
+<h2 class="anchored" data-anchor-id="objectifs">Objectifs</h2>
+<p>À partir d’une <strong>seule image d’entrée</strong>, obtenir :</p>
+<ol type="1">
+<li><strong>Output #1</strong> : une <strong>carte de profondeur (<em>depth map</em>)</strong></li>
+<li><strong>Output #2</strong> : une <strong>image entièrement nette (<em>all-focused image</em>)</strong></li>
+</ol>
+<hr>
+</section>
+<section id="lentille-et-défocalisation" class="level2">
+<h2 class="anchored" data-anchor-id="lentille-et-défocalisation">Lentille et défocalisation</h2>
+<section id="point-source-en-mise-au-point" class="level3">
+<h3 class="anchored" data-anchor-id="point-source-en-mise-au-point">Point source en mise au point</h3>
+<p>Quand un point source est sur le <strong>plan focal</strong> :</p>
+<ul>
+<li>Tous les rayons convergent vers un <strong>point unique</strong> sur le capteur</li>
+<li>La <strong>fonction d’étalement du point (<em>Point Spread Function</em>, PSF)</strong> est une impulsion de Dirac</li>
+</ul>
+</section>
+<section id="point-source-défocalisé" class="level3">
+<h3 class="anchored" data-anchor-id="point-source-défocalisé">Point source défocalisé</h3>
+<p>Quand le point source est <strong>hors du plan focal</strong> :</p>
+<ul>
+<li>Les rayons ne convergent plus → forment un <strong>disque de confusion (<em>circle of confusion</em>)</strong></li>
+<li>La PSF est un <strong>disque circulaire</strong> dont le rayon dépend de la profondeur</li>
+</ul>
+<p><span class="math display">\[r_{\text{coc}} \propto \left| \frac{1}{f} - \frac{1}{D} - \frac{1}{D&#39;} \right|\]</span></p>
+<hr>
+</section>
+</section>
+<section id="profondeur-par-défocalisation" class="level2">
+<h2 class="anchored" data-anchor-id="profondeur-par-défocalisation">Profondeur par défocalisation</h2>
+<p><strong>Idée</strong> : le rayon du cercle de confusion dépend de la profondeur :</p>
+<p><span class="math display">\[C_D = \frac{A \cdot f \cdot |D&#39; - D_f|}{D_f \cdot (D&#39; - f)}\]</span></p>
+<p>avec :</p>
+<ul>
+<li><span class="math inline">\(A\)</span> : diamètre d’ouverture</li>
+<li><span class="math inline">\(D_f\)</span> : distance de mise au point</li>
+<li><span class="math inline">\(D&#39;\)</span> : distance lentille-capteur</li>
+</ul>
+<p>→ Analyser l’<strong>échelle du flou de défocalisation</strong> pour estimer la profondeur.</p>
+<hr>
+</section>
+<section id="défis-de-la-déconvolution" class="level2">
+<h2 class="anchored" data-anchor-id="défis-de-la-déconvolution">Défis de la déconvolution</h2>
+<section id="problème-1-déconvolution-difficile-même-si-le-noyau-est-connu" class="level3">
+<h3 class="anchored" data-anchor-id="problème-1-déconvolution-difficile-même-si-le-noyau-est-connu">Problème 1 : Déconvolution difficile même si le noyau est connu</h3>
+<ul>
+<li>Algorithme de <strong>Richardson-Lucy</strong> classique → <strong>artefacts d’anneau (<em>ringing</em>)</strong> sévères</li>
+</ul>
+</section>
+<section id="problème-2-déconvolution-mal-posée" class="level3">
+<h3 class="anchored" data-anchor-id="problème-2-déconvolution-mal-posée">Problème 2 : Déconvolution mal posée</h3>
+<p>L’image observée <span class="math inline">\(y\)</span> est liée à l’image nette <span class="math inline">\(x\)</span> par :</p>
+<p><span class="math display">\[y = f \otimes x + \text{bruit}\]</span></p>
+<p>Cette inversion est <strong>ill-posed</strong> : il existe une infinité de solutions <span class="math inline">\(x\)</span> compatibles avec <span class="math inline">\(y\)</span>.</p>
+<hr>
+</section>
+</section>
+<section id="solutions-proposées" class="level2">
+<h2 class="anchored" data-anchor-id="solutions-proposées">Solutions proposées</h2>
+<section id="solution-1-prior-sur-les-images-naturelles" class="level3">
+<h3 class="anchored" data-anchor-id="solution-1-prior-sur-les-images-naturelles">Solution 1 : Prior sur les images naturelles</h3>
+<p><strong>Observation</strong> : les images naturelles ont des <strong>gradients épars (<em>sparse gradients</em>)</strong>.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    N[Images naturelles] --&gt; |&quot;gradients épars&quot;| G[Histogramme en pic]
+    U[Images non naturelles] --&gt; |&quot;gradients étalés&quot;| H[Histogramme aplati]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>Idée</strong> : imposer une <strong>pénalité sur les gradients</strong> lors de la déconvolution.</p>
+<section id="formulation-de-la-déconvolution-avec-prior" class="level4">
+<h4 class="anchored" data-anchor-id="formulation-de-la-déconvolution-avec-prior">Formulation de la déconvolution avec prior</h4>
+<p><span class="math display">\[\hat{x} = \arg\min_x \| f \otimes x - y \|^2 + \lambda \cdot P(\nabla x)\]</span></p>
+<p>avec :</p>
+<ul>
+<li><span class="math inline">\(\| f \otimes x - y \|^2\)</span> : <strong>erreur de convolution</strong> (fidélité aux données)</li>
+<li><span class="math inline">\(P(\nabla x)\)</span> : <strong>prior sur les dérivées</strong> (régularisation)</li>
+<li><span class="math inline">\(\lambda\)</span> : paramètre de compromis</li>
+</ul>
+</section>
+<section id="comparaison-des-priors" class="level4">
+<h4 class="anchored" data-anchor-id="comparaison-des-priors">Comparaison des priors</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Algorithme</th>
+<th>Prior <span class="math inline">\(P\)</span></th>
+<th>Comportement</th>
+<th>Qualité</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Richardson-Lucy</td>
+<td>aucun</td>
+<td>—</td>
+<td>Anneau fort</td>
+</tr>
+<tr class="even">
+<td>Prior gaussien</td>
+<td><span class="math inline">\(\|\nabla x\|^2\)</span></td>
+<td>Étale les gradients</td>
+<td>Moyen</td>
+</tr>
+<tr class="odd">
+<td>Prior épars</td>
+<td><span class="math inline">\(\|\nabla x\|\)</span></td>
+<td>Localise les gradients</td>
+<td>Meilleur</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="solution-2-ouverture-codée-coded-aperture" class="level3">
+<h3 class="anchored" data-anchor-id="solution-2-ouverture-codée-coded-aperture">Solution 2 : Ouverture codée (<em>Coded Aperture</em>)</h3>
+<section id="principe" class="level4">
+<h4 class="anchored" data-anchor-id="principe">Principe</h4>
+<p>Placer un <strong>masque (<em>code</em>)</strong> dans le plan d’ouverture de la lentille :</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A[&quot;Ouverture conventionnelle\n(disque plein)&quot;] --&gt; |&quot;remplacée par&quot;| B[&quot;Ouverture codée\n(masque binaire)&quot;]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p><strong>But</strong> : rendre les motifs de défocalisation <strong>différents des images naturelles</strong> → plus faciles à discriminer.</p>
+</section>
+<section id="pourquoi-coder" class="level4">
+<h4 class="anchored" data-anchor-id="pourquoi-coder">Pourquoi coder ?</h4>
+<p><strong>Problème en fréquence</strong> : la convolution spatiale correspond à une multiplication fréquentielle.</p>
+<p><span class="math display">\[Y(u,v) = F(u,v) \cdot X(u,v)\]</span></p>
+<p>Si <span class="math inline">\(F(u,v)\)</span> a des <strong>zéros</strong> (fréquences nulles) → perte d’information irréversible → impossibilité d’inverser.</p>
+<ul>
+<li><strong>Ouverture conventionnelle</strong> (disque) : spectre fréquentiel avec zéros → déconvolution difficile</li>
+<li><strong>Ouverture codée</strong> : conçue pour <strong>éviter les zéros</strong> dans le spectre → déconvolution possible</li>
+</ul>
+</section>
+<section id="conception-du-filtre-optimal" class="level4">
+<h4 class="anchored" data-anchor-id="conception-du-filtre-optimal">Conception du filtre optimal</h4>
+<p>Recherche analytique du motif maximisant la <strong>discrimination entre différentes échelles de défocalisation</strong> (divergence KL) :</p>
+<ul>
+<li>Tenir compte du prior sur les images</li>
+<li>Respecter les contraintes physiques (binaire : ouvert/fermé)</li>
+</ul>
+<p><strong>Propriété clé</strong> : si le filtre n’a <strong>pas de zéros fréquentiels</strong> → inversion directe possible.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="vue-densemble-du-pipeline-avec-ouverture-codée" class="level2">
+<h2 class="anchored" data-anchor-id="vue-densemble-du-pipeline-avec-ouverture-codée">Vue d’ensemble du pipeline avec ouverture codée</h2>
+<section id="modèle-de-défocalisation-locale" class="level3">
+<h3 class="anchored" data-anchor-id="modèle-de-défocalisation-locale">Modèle de défocalisation locale</h3>
+<p>La fenêtre locale <span class="math inline">\(V&#39;\)</span> de l’image est modélisée comme :</p>
+<p><span class="math display">\[V&#39; = f_\lambda \otimes V\]</span></p>
+<p>avec <span class="math inline">\(f_\lambda\)</span> : noyau de flou calibré à la profondeur <span class="math inline">\(\lambda\)</span>.</p>
+</section>
+<section id="estimation-de-profondeur-régularisée" class="level3">
+<h3 class="anchored" data-anchor-id="estimation-de-profondeur-régularisée">Estimation de profondeur régularisée</h3>
+<ol type="1">
+<li><p>Déconvoluer avec <strong>10 échelles d’ouverture différentes</strong> : <span class="math display">\[\hat{x}_\lambda = \arg\min_x \| f_\lambda \otimes x - y \|^2 + \lambda \cdot P(\nabla x)\]</span></p></li>
+<li><p><strong>Sélectionner</strong> l’échelle à erreur minimale dans chaque fenêtre locale</p></li>
+<li><p><strong>Régulariser</strong> l’estimation de profondeur (carte de profondeur lissée)</p></li>
+<li><p><strong>Déconvoluer</strong> avec le noyau sélectionné → image nette</p></li>
 </ol>
 </section>
-<section id="modélisation-des-cellules-simples" class="level3">
-<h3 class="anchored" data-anchor-id="modélisation-des-cellules-simples">Modélisation des cellules simples</h3>
-<p>Les cellules simples peuvent être modélisées par une convolution avec un noyau linéaire (ex. filtres de Gabor) suivi d’une non‑linéarité.</p>
-</section>
-<section id="hiérarchie-et-spécificité" class="level3">
-<h3 class="anchored" data-anchor-id="hiérarchie-et-spécificité">Hiérarchie et spécificité</h3>
-<p>Les réponses des cellules deviennent de plus en plus spécifiques quant à la forme du stimulus (ex. contours orientés, formes complexes) et de plus en plus générales quant aux conditions de vision (position, échelle, etc.). Cette double tendance est essentielle pour la reconnaissance d’objets.</p>
-</section>
-<section id="hypercolonnes-dans-le-cortex-visuel" class="level3">
-<h3 class="anchored" data-anchor-id="hypercolonnes-dans-le-cortex-visuel">Hypercolonnes dans le cortex visuel</h3>
-<p>Organisation spatiale des neurones pour minimiser la distance entre ceux qui représentent des stimuli similaires selon trois dimensions :</p>
+<section id="résultats-obtenus" class="level3">
+<h3 class="anchored" data-anchor-id="résultats-obtenus">Résultats obtenus</h3>
 <ul>
-<li>Œil d’origine (dominance oculaire).</li>
-<li>Orientation.</li>
-<li>Position rétinotopique.</li>
-</ul>
-<p><strong>Règle de Hebb</strong> : les neurones qui déchargent ensemble se connectent ensemble.</p>
-</section>
-<section id="voies-dorsale-et-ventrale" class="level3">
-<h3 class="anchored" data-anchor-id="voies-dorsale-et-ventrale">Voies dorsale et ventrale</h3>
-<ul>
-<li><strong>Voie dorsale</strong> (occipito‑parétale) : traitement du mouvement et de la localisation (« où »).</li>
-<li><strong>Voie ventrale</strong> (occipito‑temporale) : traitement de la forme et de l’identité (« quoi »).</li>
-</ul>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph TD
-    A[Rétine] --&gt; B[LGN]
-    B --&gt; C[V1]
-    C --&gt; D[V2]
-    D --&gt; E{V2 / V4 / etc.}
-    E --&gt; F[Voie dorsale]
-    E --&gt; G[Voie ventrale]
-    F --&gt; H[Cortex pariétal]
-    G --&gt; I[Cortex temporal inférieur]
-    I --&gt; J[Reconnaissance d&#39;objets]
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</section>
-<section id="connectivité-intrinsèque-et-extrinsèque-de-la-voie-ventrale" class="level3">
-<h3 class="anchored" data-anchor-id="connectivité-intrinsèque-et-extrinsèque-de-la-voie-ventrale">Connectivité intrinsèque et extrinsèque de la voie ventrale</h3>
-<p>De nombreuses connexions bidirectionnelles et feedback existent, mais les modèles computationnels actuels sont encore largement feedforward.</p>
-</section>
-<section id="inspiration-pour-la-vision-par-ordinateur" class="level3">
-<h3 class="anchored" data-anchor-id="inspiration-pour-la-vision-par-ordinateur">Inspiration pour la vision par ordinateur</h3>
-<ul>
-<li>La sélectivité à l’orientation dans V1 a inspiré des descripteurs comme <strong>SIFT</strong> et <strong>HOG</strong>.</li>
-<li>La vision hiérarchique feedforward a conduit au <strong>néocognitron</strong> (Fukushima) puis aux <strong>réseaux convolutifs</strong> (LeCun et al.).</li>
-<li>Aujourd’hui, on sait que la voie ventrale est plus complexe (boucles de rétroaction), ce qui n’a pas encore été pleinement exploité en vision par ordinateur.</li>
+<li>✅ Carte de profondeur + image nette depuis une <strong>seule image</strong></li>
+<li>✅ <strong>Pas de perte de résolution</strong> par rapport à la caméra conventionnelle</li>
+<li>✅ <strong>Modification simple</strong> de la lentille (ajout du masque)</li>
+<li>⚠️ Profondeur grossière : impossible sur zones non texturées, peut nécessiter corrections manuelles</li>
+<li>⚠️ Légère <strong>perte de lumière</strong> (masque bloque une partie)</li>
 </ul>
 </section>
-</section>
-<section id="modèles-de-réseaux-inspirés-du-système-visuel-humain" class="level2">
-<h2 class="anchored" data-anchor-id="modèles-de-réseaux-inspirés-du-système-visuel-humain">Modèles de réseaux inspirés du système visuel humain</h2>
-<section id="néocognitron-kunihiko-fukushima" class="level3">
-<h3 class="anchored" data-anchor-id="néocognitron-kunihiko-fukushima">Néocognitron (Kunihiko Fukushima)</h3>
-<ul>
-<li>Modèle de réseau de neurones auto‑organisé pour la reconnaissance de formes insensible aux décalages.</li>
-<li>S’inspire directement de la hiérarchie de Hubel et Wiesel (cellules simples et complexes).</li>
-</ul>
-</section>
-<section id="gradientbased-learning-applied-to-document-recognition-lecun-et-al." class="level3">
-<h3 class="anchored" data-anchor-id="gradientbased-learning-applied-to-document-recognition-lecun-et-al.">Gradient‑Based Learning Applied to Document Recognition (LeCun et al.)</h3>
-<ul>
-<li>Introduction des réseaux convolutifs (LeNet) pour la reconnaissance de documents.</li>
-<li>Architecture en couches alternant convolution et pooling, inspirée des cellules simples et complexes.</li>
-</ul>
-</section>
-</section>
-<section id="applications" class="level2">
-<h2 class="anchored" data-anchor-id="applications">Applications</h2>
-<section id="affichages-stéréoscopiques" class="level3">
-<h3 class="anchored" data-anchor-id="affichages-stéréoscopiques">Affichages stéréoscopiques</h3>
-<ul>
-<li>Le stéréoscope de Charles Wheatstone (1841) utilisait deux images légèrement décalées pour créer une illusion de relief.</li>
-<li>Utilisé pour des portraits stéréoscopiques (ex. Abraham Lincoln, 1865).</li>
-</ul>
-</section>
-<section id="réalité-virtuelle-vr-et-augmentée-ar" class="level3">
-<h3 class="anchored" data-anchor-id="réalité-virtuelle-vr-et-augmentée-ar">Réalité virtuelle (VR) et augmentée (AR)</h3>
-<p>Les casques VR/AR modernes tentent de reproduire la vision binoculaire avec des écrans distincts pour chaque œil.</p>
-</section>
-<section id="problème-de-conflit-vergenceaccommodation" class="level3">
-<h3 class="anchored" data-anchor-id="problème-de-conflit-vergenceaccommodation">Problème de conflit vergence‑accommodation</h3>
-<ul>
-<li>Dans le monde réel, la vergence (rotation des yeux pour fixer un objet) et l’accommodation (mise au point du cristallin) sont <strong>couplées</strong> : elles agissent à la même distance.</li>
-<li>Dans les affichages stéréoscopiques actuels, l’accommodation est fixée sur l’écran, tandis que la vergence change avec la distance virtuelle. Ce conflit entraîne :
-<ul>
-<li>Fatigue visuelle</li>
-<li>Gêne</li>
-<li>Nausées</li>
-<li>Vision double (diplopie)</li>
-<li>Baisse de qualité d’image</li>
-<li>Risques pour le développement visuel chez l’enfant</li>
-</ul></li>
-</ul>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">graph LR
-    A[Monde réel] --&gt; B[Vergence = Accommodation]
-    C[Écran stéréo] --&gt; D[Vergence ≠ Accommodation]
-    D --&gt; E[Conflit]
-    E --&gt; F[Inconfort]
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</section>
-<section id="zone-de-confort" class="level3">
-<h3 class="anchored" data-anchor-id="zone-de-confort">Zone de confort</h3>
-<p>Pour éviter ce conflit, les ingénieurs cherchent à concevoir des affichages où la distance d’accommodation peut varier en fonction de la distance virtuelle (affichages multiplans, holographiques, etc.).</p>
+<section id="refocalisation-numérique-depuis-une-seule-image" class="level3">
+<h3 class="anchored" data-anchor-id="refocalisation-numérique-depuis-une-seule-image">Refocalisation numérique depuis une seule image</h3>
+<p>L’estimation de profondeur permet de simuler une <strong>refocalisation a posteriori</strong>, similaire à la caméra plénoptique — mais depuis <strong>une seule prise de vue</strong> avec une caméra modifiée simplement.</p>
 <hr>
-<p>Ce cours a présenté une vue d’ensemble du système visuel humain, de son anatomie à son fonctionnement, en passant par son histoire et ses applications. La compréhension de ces mécanismes est essentielle pour la conception de systèmes d’imagerie computationnelle et de réalité virtuelle/augmentée.</p>
-
-
 </section>
 </section>
+</section>
+<section id="caméra-avec-optique-généralisée" class="level1">
+<h1>Caméra avec optique généralisée</h1>
+<section id="motivation-1" class="level2">
+<h2 class="anchored" data-anchor-id="motivation-1">Motivation</h2>
+<p>Au lieu de modifier l’<strong>ouverture</strong>, on peut modifier directement l’<strong>optique</strong> (la lentille elle-même).</p>
+<p><span class="math display">\[\text{Distance objet } D \quad \longleftrightarrow \quad \text{Distance focale } D&#39;\]</span></p>
+<hr>
+</section>
+<section id="codage-du-front-donde-wavefront-coding" class="level2">
+<h2 class="anchored" data-anchor-id="codage-du-front-donde-wavefront-coding">Codage du front d’onde (<em>Wavefront Coding</em>)</h2>
+<section id="principe-1" class="level3">
+<h3 class="anchored" data-anchor-id="principe-1">Principe</h3>
+<p>Remplacer la lentille par une <strong>plaque à phase cubique (<em>cubic phase plate</em>)</strong>.</p>
+<ul>
+<li><strong>Lentille standard</strong> : les rayons convergent vers le plan focal → PSF très différente selon la profondeur</li>
+<li><strong>Wavefront coding</strong> : les rayons ne convergent plus exactement → PSF <strong>approximativement invariante en profondeur</strong> sur une plage donnée</li>
+</ul>
+</section>
+<section id="avantage" class="level3">
+<h3 class="anchored" data-anchor-id="avantage">Avantage</h3>
+<p><span class="math display">\[\text{PSF}(x,y,D) \approx \text{PSF}(x,y) \quad \text{pour } D \in [D_{\min}, D_{\max}]\]</span></p>
+<p>→ Une <strong>seule déconvolution</strong> suffit pour tout déflouteur, quelle que soit la profondeur.</p>
+<hr>
+</section>
+</section>
+<section id="lentille-à-réseau-lattice-lens" class="level2">
+<h2 class="anchored" data-anchor-id="lentille-à-réseau-lattice-lens">Lentille à réseau (<em>Lattice Lens</em>)</h2>
+<section id="principe-2" class="level3">
+<h3 class="anchored" data-anchor-id="principe-2">Principe</h3>
+<p>Ajouter un <strong>tableau de lentillons à focale variable (<em>lenslet array</em>)</strong> devant la lentille principale.</p>
+<p>→ Ressemble à une caméra plénoptique (cf. tableau de microlentilles Lytro)</p>
+</section>
+<section id="propriétés-spectrales" class="level3">
+<h3 class="anchored" data-anchor-id="propriétés-spectrales">Propriétés spectrales</h3>
+<ul>
+<li>Spectre du champ lumineux : <strong>4D</strong></li>
+<li>Spectre de l’image : <strong>2D</strong></li>
+<li>Profondeur : <strong>1D</strong></li>
+</ul>
+<p>→ Seule la <strong>variété 3D</strong> correspondant à la distance de mise au point physique est utile.</p>
+<p><span class="math display">\[\dim(\text{utile}) = 3 \quad \text{sur } 4D \text{ total}\]</span></p>
+<p><strong>Conséquence</strong> : la PSF n’est <strong>pas</strong> invariante en profondeur → déconvolution locale nécessaire (comme pour l’ouverture codée).</p>
+<hr>
+</section>
+</section>
+<section id="comparaison-des-approches" class="level2">
+<h2 class="anchored" data-anchor-id="comparaison-des-approches">Comparaison des approches</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Approche</th>
+<th>Modification</th>
+<th>Invariance PSF</th>
+<th>Profondeur de champ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Lentille standard</td>
+<td>aucune</td>
+<td>Non</td>
+<td>Faible</td>
+</tr>
+<tr class="even">
+<td>Ouverture codée</td>
+<td>masque dans ouverture</td>
+<td>Non</td>
+<td>Étendue</td>
+</tr>
+<tr class="odd">
+<td>Focal sweep</td>
+<td>balayage continu</td>
+<td>Partielle</td>
+<td>Très étendue</td>
+</tr>
+<tr class="even">
+<td>Wavefront coding</td>
+<td>plaque phase cubique</td>
+<td><strong>Oui</strong> (approx.)</td>
+<td>Étendue</td>
+</tr>
+<tr class="odd">
+<td>Lattice lens</td>
+<td>réseau de lentillons</td>
+<td>Non</td>
+<td>Étendue</td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A[Lentille standard] --&gt; B[Ouverture codée]
+    B --&gt; C[Focal sweep]
+    C --&gt; D[Wavefront coding]
+    D --&gt; E[Lattice lens]
+    style A fill:#ffcccc
+    style E fill:#ccffcc
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="références" class="level1">
+<h1>Références</h1>
+<ul>
+<li><em>Computational Photography</em> — Levoy, Adams, Pulli (Stanford)</li>
+<li><em>Computational Photography SIGGRAPH Course</em> — Raskar &amp; Tumblin</li>
+<li><em>Digital and Computational Photography</em> — Durand &amp; Freeman (MIT)</li>
+<li><em>Computational Photography</em> — Efros (CMU)</li>
+<li><em>Computational Photography</em> — Gkioulekas (CMU)</li>
+<li><em>Computational Imaging</em> — Wetzstein (Stanford)</li>
+<li><em>Computational Photography</em> — Fergus (NYU)</li>
+<li><em>Computational Imaging</em> — Dragotti (Imperial College)</li>
+<li><em>Computer Vision</em> — Seitz &amp; Szeliski (UWashington)</li>
+<li><em>Introduction to Visual Computing and Visual Modeling</em> — Kutulakos (UToronto)</li>
+</ul>
+
+
 </section>
 
 </main> <!-- /main -->
