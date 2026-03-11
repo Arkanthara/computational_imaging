@@ -213,31 +213,56 @@ def run_gd_fourier(
 #     return x, losses, time_list
 
 def run_sgd_fourier(
-    h,
-    b,
-    step_size: float = 1e-4,
-    num_iters: int = 1500,
+    H,
+    B,
+    step_size: float = 1e-1,
+    num_iters: int = 3000,
     batch_size: int = 32,
     grad_fn=grad_l2_fourier,
     residual=residual_l2_fourier,
 ):
-    # Create x near the damaged image to speed up the convergence
-    x = np.random.rand(*b.shape)
-    # x = b.copy()
+    F = B.copy()
     losses = []
-    time_list = [] 
+    time_list = []
     for i in range(num_iters):
         init_time = time.time()
-        idx = np.random.randint(0, b.shape[0] - batch_size)
-        idy = np.random.randint(0, b.shape[1] - batch_size)
-        b_batch = b[idx:idx+batch_size, idy:idy+batch_size]
-        x_batch = x[idx:idx+batch_size, idy:idy+batch_size]
-        grad = grad_fn(h, x_batch, b_batch)
-        x[idx:idx+batch_size, idy:idy+batch_size] -= step_size * grad
-        x = np.clip(x, 0, 1)
-        losses.append(residual(h, x, b))
+        index = np.random.choice(B.size, batch_size, replace=False)
+        idx, idy = np.unravel_index(index, B.shape)
+        H_batch = H[idx, idy]
+        F_batch = F[idx, idy]
+        B_batch = B[idx, idy]
+        grad = grad_l2_fourier(H_batch, F_batch, B_batch)
+        F[idx, idy] = F[idx, idy] - step_size * grad
+        losses.append(residual_l2_fourier(H, F, B))
         time_list.append(time.time() - init_time)
-    return x, losses, time_list
+    return F, losses, time_list
+
+# def run_sgd_fourier(
+#     h,
+#     b,
+#     step_size: float = 1e-4,
+#     num_iters: int = 1500,
+#     batch_size: int = 32,
+#     grad_fn=grad_l2_fourier,
+#     residual=residual_l2_fourier,
+# ):
+#     # Create x near the damaged image to speed up the convergence
+#     x = np.random.rand(*b.shape)
+#     # x = b.copy()
+#     losses = []
+#     time_list = [] 
+#     for i in range(num_iters):
+#         init_time = time.time()
+#         idx = np.random.randint(0, b.shape[0] - batch_size)
+#         idy = np.random.randint(0, b.shape[1] - batch_size)
+#         b_batch = b[idx:idx+batch_size, idy:idy+batch_size]
+#         x_batch = x[idx:idx+batch_size, idy:idy+batch_size]
+#         grad = grad_fn(h, x_batch, b_batch)
+#         x[idx:idx+batch_size, idy:idy+batch_size] -= step_size * grad
+#         x = np.clip(x, 0, 1)
+#         losses.append(residual(h, x, b))
+#         time_list.append(time.time() - init_time)
+#     return x, losses, time_list
 
 # def run_gd(
 #     A,
@@ -408,6 +433,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
         H = psf2otf(h, shape=b.shape)
         step_size = 1e-2
         num_iters = 1500
+        batch_size = 100
         if original:
             plt.figure(figsize=figsize)
             plt.subplot(1, 2, 1)
@@ -442,49 +468,29 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.xlabel("step")
             plt.ylabel("time")
             return plt.gcf()
-        # if subtask == 1:
-        #     b = b.reshape(-1, 1)
-        #     A = scipy.linalg.convolution_matrix(h, b.shape[0])
-        #     x, losses, time_list = run_gd(A, b)
-        #     plt.figure()
-        #     plt.subplot(1, 3, 1)
-        #     plt.imshow(x.reshape(downsampled_img.shape), cmap="gray")
-        #     plt.title("Recovered image")
-        #     plt.axis("off")
-        #     plt.subplot(1, 3, 2)
-        #     plt.plot(losses)
-        #     plt.title("Gradient Descent Loss")
-        #     plt.xlabel("Iteration")
-        #     plt.ylabel("Loss")
-        #     plt.subplot(1, 3, 3)
-        #     plt.plot(time_list)
-        #     plt.title("Time taken for a step")
-        #     plt.xlabel("step")
-        #     plt.ylabel("time")
-        #     return plt.gcf()
-        # if subtask == 2:
-        #     batch_size = h.shape[0]
-        #     x, losses, time_list = run_sgd_fourier(h, b, step_size=step_size, num_iters=num_iters,batch_size=batch_size)
-        #     plt.figure(figsize=figsize)
-        #     plt.subplot(2, 2, 1)
-        #     plt.imshow(b, cmap="gray")
-        #     plt.title("Damaged image")
-        #     plt.axis("off")
-        #     plt.subplot(2, 2, 2)
-        #     plt.imshow(x, cmap="gray")
-        #     plt.title("Reconstructed image")
-        #     plt.axis("off")
-        #     plt.subplot(2, 2, 3)
-        #     plt.plot(losses)
-        #     plt.title("Stochastic Gradient Descent Loss")
-        #     plt.xlabel("Iteration")
-        #     plt.ylabel("Loss")
-        #     plt.subplot(2, 2, 4)
-        #     plt.plot(time_list)
-        #     plt.title("Time taken for a step")
-        #     plt.xlabel("step")
-        #     plt.ylabel("time")
-        #     return plt.gcf()
+        if subtask == 2:
+            F, losses, time_list = run_sgd_fourier(H, B, step_size=step_size, num_iters=num_iters, batch_size=batch_size)
+            f = np.fft.ifft2(F).real
+            plt.figure(figsize=figsize)
+            plt.subplot(2, 2, 1)
+            plt.imshow(b, cmap="gray")
+            plt.title("Damaged image")
+            plt.axis("off")
+            plt.subplot(2, 2, 2)
+            plt.imshow(f, cmap="gray")
+            plt.title("Reconstructed image")
+            plt.axis("off")
+            plt.subplot(2, 2, 3)
+            plt.plot(losses)
+            plt.title("Stochastic Gradient Descent Loss")
+            plt.xlabel("Iteration")
+            plt.ylabel("Loss")
+            plt.subplot(2, 2, 4)
+            plt.plot(time_list)
+            plt.title("Time taken for a step")
+            plt.xlabel("step")
+            plt.ylabel("time")
+            return plt.gcf()
 
 
 if __name__ == "__main__":

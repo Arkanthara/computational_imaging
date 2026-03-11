@@ -199,7 +199,7 @@ tasks(3, 1)
 %| img-width: 120%
 %| caption: Image restoration using stochastic gradient descent in Fourier domain
 %| grid-align: bottom
-tasks(3, 1)
+tasks(3, 2)
 ```
 
 = Discussion
