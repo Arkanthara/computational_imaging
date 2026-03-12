@@ -188,30 +188,6 @@ def run_gd_fourier(
         time_list.append(time.time() - init_time)
     return F, losses, time_list
 
-# def run_gd_fourier(
-#     h,
-#     b,
-#     step_size: float = 1e-4,
-#     num_iters: int = 1500,
-#     grad_fn=grad_l2_fourier,
-#     residual=residual_l2_fourier,
-# ):
-#     # Create x near the damaged image to speed up the convergence
-#     # x = b.copy()
-#     x = np.random.rand(*b.shape)
-#     # Noise reduction by blur the image
-#     # x = filterFT(x, h)
-#     losses = []
-#     time_list = []
-#     for i in range(num_iters):
-#         init_time = time.time()
-#         grad = grad_fn(h, x, b)
-#         x = x - step_size * grad
-#         x = np.clip(x, 0, 1)
-#         losses.append(residual(h, x, b))
-#         time_list.append(time.time() - init_time)
-#     return x, losses, time_list
-
 def run_sgd_fourier(
     H,
     B,
@@ -236,52 +212,6 @@ def run_sgd_fourier(
         losses.append(residual_l2_fourier(H, F, B))
         time_list.append(time.time() - init_time)
     return F, losses, time_list
-
-# def run_sgd_fourier(
-#     h,
-#     b,
-#     step_size: float = 1e-4,
-#     num_iters: int = 1500,
-#     batch_size: int = 32,
-#     grad_fn=grad_l2_fourier,
-#     residual=residual_l2_fourier,
-# ):
-#     # Create x near the damaged image to speed up the convergence
-#     x = np.random.rand(*b.shape)
-#     # x = b.copy()
-#     losses = []
-#     time_list = [] 
-#     for i in range(num_iters):
-#         init_time = time.time()
-#         idx = np.random.randint(0, b.shape[0] - batch_size)
-#         idy = np.random.randint(0, b.shape[1] - batch_size)
-#         b_batch = b[idx:idx+batch_size, idy:idy+batch_size]
-#         x_batch = x[idx:idx+batch_size, idy:idy+batch_size]
-#         grad = grad_fn(h, x_batch, b_batch)
-#         x[idx:idx+batch_size, idy:idy+batch_size] -= step_size * grad
-#         x = np.clip(x, 0, 1)
-#         losses.append(residual(h, x, b))
-#         time_list.append(time.time() - init_time)
-#     return x, losses, time_list
-
-# def run_gd(
-#     A,
-#     b,
-#     step_size: float = 1e-4,
-#     num_iters: int = 1500,
-#     grad_fn=grad_l2,
-#     residual=residual_l2,
-# ):
-#     x = np.random.rand(A.shape[1], 1)
-#     losses = []
-#     time_list = []
-#     init_time = time.time()
-#     for i in range(num_iters):
-#         grad = grad_fn(A, x, b)
-#         x = x - step_size * grad
-#         losses.append(residual(A, x, b))
-#         time_list.append(time.time() - init_time)
-#     return x, losses, time_list
 
 
 def run_sgd(
@@ -315,7 +245,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
     )
     img = sk.util.img_as_float(img)
     # TASK 1
-    # 1.1 Low-pass filtering in frequency domain (using np.convolve2d !)
+    # 1.1 Low-pass filtering in Spatial domain (using np.convolve2d !)
     if task == 1 and subtask == 1:
         index = 1
         plt.figure(figsize=figsize)
@@ -328,11 +258,11 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.axis("off")
             index += 1
 
-            # Apply filter in frequency domain -> 2D convolution
+            # Apply filter in Spatial domain -> 2D convolution
             plt.subplot(3, 3, index)
             img_gaussian_blur = filter(img, h)
             plt.imshow(img_gaussian_blur, cmap="gray")
-            plt.title(f"frequency domain, $\\sigma = {i}$")
+            plt.title(f"Spatial domain, $\\sigma = {i}$")
             plt.axis("off")
             index += 1
 
@@ -358,11 +288,11 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.axis("off")
             index += 1
 
-            # Apply filter in frequency domain -> 2D convolution
+            # Apply filter in Spatial domain -> 2D convolution
             plt.subplot(3, 3, index)
             img_gaussian_blur = filter(img, h)
             plt.imshow(img - img_gaussian_blur, cmap="gray")
-            plt.title(f"frequency domain, $\\sigma = {i}$")
+            plt.title(f"Spatial domain, $\\sigma = {i}$")
             plt.axis("off")
             index += 1
 
@@ -432,8 +362,8 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
         B = np.fft.fft2(b)
         H = psf2otf(h, shape=b.shape)
         step_size = 1e-2
-        num_iters = 1500
-        batch_size = 100
+        num_iters = 500
+        batch_size = 1000
         if original:
             plt.figure(figsize=figsize)
             plt.subplot(1, 2, 1)
@@ -469,7 +399,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.ylabel("time")
             return plt.gcf()
         if subtask == 2:
-            F, losses, time_list = run_sgd_fourier(H, B, step_size=step_size, num_iters=num_iters, batch_size=batch_size)
+            F, losses, time_list = run_sgd_fourier(H, B, step_size=step_size, num_iters=num_iters * 20, batch_size=batch_size)
             f = np.fft.ifft2(F).real
             plt.figure(figsize=figsize)
             plt.subplot(2, 2, 1)
@@ -515,7 +445,7 @@ if __name__ == "__main__":
     img = sk.util.img_as_float(img)
     print_range(img)
     # TASK 1
-    # 1.1 Low-pass filtering in frequency domain (using np.convolve2d !)
+    # 1.1 Low-pass filtering in Spatial domain (using np.convolve2d !)
     if args.task == 1:
         tasks(1, 1, figsize).show()
         tasks(1, 2, figsize).show()

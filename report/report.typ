@@ -2,7 +2,7 @@
 #import "template.typ": make-report, report-footnote
 #import "metadata.typ": my-report
 #import "@preview/theofig:0.1.0": definition
-#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 
 // Main content
 #show: make-report.with(my-report)
@@ -27,34 +27,57 @@ The basics are the following:
 - The filter is applied to the image in spatial or in Fourier domain.
   - In spatial domain, the convolution between the image and the filter is performed to apply the filter to each pixel of the image.
   - In Fourier domain, a simple multiplication between the image and the filter applies the filter to the image.
-    
-    #let tint(c) = (stroke: c, fill: rgb(..c.components().slice(0,3), 5%), inset: 8pt)
-    
-    #figure(diagram(
 
-      node-corner-radius: 5pt,
-      node-inset: 6pt,
-      spacing: 1em,
-  
-      node((0, 1), "Original image", ..tint(teal)),
-      node((0, 2), "filter", ..tint(teal)),
-      node((0, 0), "Spatial domain"),
-      node((0, 3), "Filtered image", ..tint(purple), name: <res>),
-      node((1, 2), "                                 "),
-      node((2, 1), "F", ..tint(orange)),
-      node((3, 1), "H", ..tint(orange)),
-      node((2.5, 0), "Fourier domain"),
-      node((2.5, 3), "F * H", ..tint(orange), name: <mul>),
-      edge((2, 1), (2.5, 3), "-|>"),
-      edge((3, 1), (2.5, 3), "-|>"),
-      node(enclose: ((0, 0), (0, 4)), ..tint(teal), name: <spatial>, inset: 15pt),
-      node(enclose: ((0, 1), (0, 2)), ..tint(teal), name: <original>, inset: 4pt),
-      node(enclose: ((2, 1), (3, 1)), ..tint(orange), name: <transform>, inset: 5pt),
-      node(enclose: ((2, 1), (2, 3), (3, 2), (3, 1.5), (2.5, 3), (2.5, 0)), ..tint(orange), name: <fourier>, inset: 10pt),
-  
-      edge(<original>, <transform>, "=>", stroke: green + .75pt, label: "Fourier Transform", label-fill: rgb(..green.components().slice(0, 3), 20%), label-size: 8pt),
-      edge(<mul>, <res>, "=>", stroke: green + .75pt, label: "Inverse Fourier Transform", label-fill: rgb(..green.components().slice(0, 3), 20%), label-size: 8pt)
-    ), caption: "Image filtering in Fourier domain")
+    #let tint(c) = (stroke: c, fill: rgb(..c.components().slice(0, 3), 5%), inset: 8pt)
+
+    #figure(
+      diagram(
+        node-corner-radius: 5pt,
+        node-inset: 6pt,
+        spacing: 1em,
+
+        node((0, 1), "Original image", ..tint(teal)),
+        node((0, 2), "filter", ..tint(teal)),
+        node((0, 0), "Spatial domain"),
+        node((0, 3), "Filtered image", ..tint(purple), name: <res>),
+        node((1, 2), "                                 "),
+        node((2, 1), "F", ..tint(orange)),
+        node((3, 1), "H", ..tint(orange)),
+        node((2.5, 0), "Fourier domain"),
+        node((2.5, 3), "F * H", ..tint(orange), name: <mul>),
+        edge((2, 1), (2.5, 3), "-|>"),
+        edge((3, 1), (2.5, 3), "-|>"),
+        node(enclose: ((0, 0), (0, 4)), ..tint(teal), name: <spatial>, inset: 15pt),
+        node(enclose: ((0, 1), (0, 2)), ..tint(teal), name: <original>, inset: 4pt),
+        node(enclose: ((2, 1), (3, 1)), ..tint(orange), name: <transform>, inset: 5pt),
+        node(
+          enclose: ((2, 1), (2, 3), (3, 2), (3, 1.5), (2.5, 3), (2.5, 0)),
+          ..tint(orange),
+          name: <fourier>,
+          inset: 10pt,
+        ),
+
+        edge(
+          <original>,
+          <transform>,
+          "=>",
+          stroke: green + .75pt,
+          label: "Fourier Transform",
+          label-fill: rgb(..green.components().slice(0, 3), 20%),
+          label-size: 8pt,
+        ),
+        edge(
+          <mul>,
+          <res>,
+          "=>",
+          stroke: green + .75pt,
+          label: "Inverse Fourier Transform",
+          label-fill: rgb(..green.components().slice(0, 3), 20%),
+          label-size: 8pt,
+        ),
+      ),
+      caption: "Image filtering in Fourier domain",
+    )
 
 == Types of filters
 
@@ -69,7 +92,7 @@ In this project, we will use the following filters:
 
 Inverse filtering is a technique used to restore an image that has been filtered by a known filter.
 As the filtering  operation in Fourier domain is a simple multiplication, the inverse filter consists only to inverse the multiplication to retrieve the original image
-For instance, if the image was filtered in Fourier domain by a known filter $H$, the original image can be retrieved by multiplying the filtered image by the inverse filter $1/H$. Note that in general, to avoid division by zero, a small value $K$ is added to stabilize the inverse filter: $ "Inverse filter" = 1/(H + K) $ 
+For instance, if the image was filtered in Fourier domain by a known filter $H$, the original image can be retrieved by multiplying the filtered image by the inverse filter $1/H$. Note that in general, to avoid division by zero, a small value $K$ is added to stabilize the inverse filter: $ "Inverse filter" = 1/(H + K) $
 
 === Wiener filtering
 
@@ -91,15 +114,17 @@ $ x^(k+1) = x^k - alpha gradient_x f(x^k) $
 
 The gradient $gradient_x f$ can be defined as follows:
 
-#align(left,
+#align(
+  left,
   $
-  gradient_x f(x) &= gradient_x(1/2||A x - b||_2^2) \
-  &= gradient_x (1/2 (A x - b)(A x - b)^T)) \
-  &= gradient_x (1/2 (x^T A^T A x - x^T A^T b - A x b^T + b b^T )) \
-  &= gradient_x (1/2 (x^T A^T A x - 2x^T A^T b + b b^T )) \
-  &= 1/2 (2 A^T A x - 2 A^T b) \
-  &= A^T A x - A^T b
-  $)
+    gradient_x f(x) & = gradient_x(1/2||A x - b||_2^2) \
+                    & = gradient_x (1/2 (A x - b)(A x - b)^T)) \
+                    & = gradient_x (1/2 (x^T A^T A x - x^T A^T b - A x b^T + b b^T )) \
+                    & = gradient_x (1/2 (x^T A^T A x - 2x^T A^T b + b b^T )) \
+                    & = 1/2 (2 A^T A x - 2 A^T b) \
+                    & = A^T A x - A^T b
+  $,
+)
 
 In our work, the numnber of iterations is used as stopping criterion for the gradient descent algorithm.
 
@@ -118,13 +143,17 @@ The code can be executed in command line and follows the documentation below:
 
 
 #set block(fill: luma(240), inset: 1em, radius: 0.5em, width: 100%)
-#raw("TP1 of computational imaging
+#raw(
+  "TP1 of computational imaging
 
 options:
   -h, --help         show this help message and exit
   -t, --task TASK    Enter the number of the task to execute
   -i, --image IMAGE  Path to the input image
-", lang: "raw", block: true)
+",
+  lang: "raw",
+  block: true,
+)
 #set block(fill: none)
 
 For the gradient descent and the stochastic gradient descent, to avoid allocation of hudge convolution matrix, I try to filter the image in Fourier domain. Indeed, if the image is of size $64 times 64$, it means that the flat version of the image is of size $4096$ and then the convolution matrix needed is of size $4096 times 4096 = 16777216$. If we consider that each element of the matrix is an integer of 1 octet, it means that the matrix uses $16 "Mo"$. So due to memory usage, I make another implementation:
@@ -151,6 +180,7 @@ from tp1 import tasks
 %| caption: Low-Pass filter: Gaussian Blur
 %| img-width: 80%
 %| grid-align: bottom
+%| label: t11
 tasks(1, 1)
 ```
 
@@ -159,6 +189,7 @@ tasks(1, 1)
 %| caption: High-Pass filter: Unsharp Mask
 %| img-width: 140%
 %| grid-align: bottom
+%| label: t12
 tasks(1, 2)
 ```
 
@@ -168,6 +199,7 @@ tasks(1, 2)
 %| echo: false
 %| caption: Original and blured image
 %| img-width: 80%
+%| label: t210
 tasks(2, 1, original=True)
 ```
 
@@ -175,6 +207,7 @@ tasks(2, 1, original=True)
 %| echo: false
 %| caption: Inverse filtering on blured image
 %| img-width: 100%
+%| label: t21
 tasks(2, 1)
 ```
 
@@ -182,6 +215,7 @@ tasks(2, 1)
 %| echo: false
 %| caption: Wiener filter on blured image
 %| img-width: 140%
+%| label: t22
 tasks(2, 2)
 ```
 
@@ -191,6 +225,7 @@ tasks(2, 2)
 %| echo: false
 %| caption: Image restoration using gradient descent in Fourier domain
 %| grid-align: bottom
+%| label: t31
 tasks(3, 1)
 ```
 
@@ -199,12 +234,30 @@ tasks(3, 1)
 %| img-width: 120%
 %| caption: Image restoration using stochastic gradient descent in Fourier domain
 %| grid-align: bottom
+%| label: t32
 tasks(3, 2)
 ```
 
+```python
+print("COucou")
+print("Hello")
+print("Coucou")
+print("Haha")
+print("blabla")
+```
+
+
 = Discussion
 
-Blabla
-Blabla
+In the @t11, we can easily see that bigger is the Gaussian kernel, more blurred is the image.
+Indeed, a Gaussian kernel of $0.1$ gives an image close to the original image as shown on @t11b and @t11c whereas a Gaussian kernel of $10$ gives a more blurred image as shown in @t11h and @t11i.
+So the size of the Gaussian kernel determines the threshold to cut-off high-frequencies.
+
+As shown in @t11, the spatial and Fourier domain gives similar results.
+However, if we compare @t11h and @t11i, the filtered image in spatial domain have a kind of black blurred border.
+This is due to the zero padding applied for the convolution of the image with the filter.
+Indeed, a padding is required in spatial domain to allows the application of the filter on each pixel of the image because of the convolution.
+
+
 
 = Conclusion
