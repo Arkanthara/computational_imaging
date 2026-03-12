@@ -153,9 +153,6 @@ def gaussianKernel(std: float, size: int = 101) -> np.ndarray:
     kernel /= kernel.sum()
     return kernel
 
-
-
-
 def grad_l2(A, x, b):
     return A.T @ (A @ x - b)
 
@@ -181,10 +178,9 @@ def run_gd_fourier(
     time_list = []
     for i in range(num_iters):
         init_time = time.time()
-        grad = grad_l2_fourier(H, F, B)
+        grad = grad_fn(H, F, B)
         F = F - step_size * grad
-        # F = np.clip(F, 0, 1)
-        losses.append(residual_l2_fourier(H, F, B))
+        losses.append(residual(H, F, B))
         time_list.append(time.time() - init_time)
     return F, losses, time_list
 
@@ -207,9 +203,9 @@ def run_sgd_fourier(
         H_batch = H[idx, idy]
         F_batch = F[idx, idy]
         B_batch = B[idx, idy]
-        grad = grad_l2_fourier(H_batch, F_batch, B_batch)
+        grad = grad_fn(H_batch, F_batch, B_batch)
         F[idx, idy] = F[idx, idy] - step_size * grad
-        losses.append(residual_l2_fourier(H, F, B))
+        losses.append(residual(H, F, B))
         time_list.append(time.time() - init_time)
     return F, losses, time_list
 
@@ -262,7 +258,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(3, 3, index)
             img_gaussian_blur = filter(img, h)
             plt.imshow(img_gaussian_blur, cmap="gray")
-            plt.title(f"Spatial domain, $\\sigma = {i}$")
+            plt.title(f"Spatial domain#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img_gaussian_blur):.2f} dB")
             plt.axis("off")
             index += 1
 
@@ -270,7 +266,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(3, 3, index)
             img_gaussian_blur_ft = filterFT(img, h)
             plt.imshow(img_gaussian_blur_ft, cmap="gray")
-            plt.title(f"Fourier domain, $\\sigma = {i}$")
+            plt.title(f"Fourier domain#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img_gaussian_blur_ft):.2f} dB")
             plt.axis("off")
             index += 1
         return plt.gcf()
@@ -292,7 +288,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(3, 3, index)
             img_gaussian_blur = filter(img, h)
             plt.imshow(img - img_gaussian_blur, cmap="gray")
-            plt.title(f"Spatial domain, $\\sigma = {i}$")
+            plt.title(f"Spatial domain#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img - img_gaussian_blur):.2f} dB")
             plt.axis("off")
             index += 1
 
@@ -300,7 +296,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(3, 3, index)
             img_gaussian_blur_ft = filterFT(img, h)
             plt.imshow(img - img_gaussian_blur_ft, cmap="gray")
-            plt.title(f"Fourier domain, $\\sigma = {i}$")
+            plt.title(f"Fourier domain#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img - img_gaussian_blur_ft):.2f} dB")
             plt.axis("off")
             index += 1
         return plt.gcf()
@@ -330,7 +326,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
                 h = gaussianKernel(5)
                 img_inv_filter = filterFT(img_noised, h, inv_filter=True)
                 plt.imshow(img_inv_filter, cmap="gray")
-                plt.title(f"Inverse filtering with noise $\\sigma = {i}$")
+                plt.title(f"Inverse filtering#linebreak()noise $\\sigma = {i}$#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img_inv_filter):.2f} dB")
                 plt.axis("off")
                 index += 1
             return plt.gcf()
@@ -347,7 +343,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
                     img_noised, h, wiener=True, K=i / np.mean(img_noised)
                 )
                 plt.imshow(img_inv_filter, cmap="gray")
-                plt.title(f"Wiener filtering with noise $\\sigma = {i}$")
+                plt.title(f"Wiener filtering#linebreak()noise $\\sigma = {i}$#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img_inv_filter):.2f} dB")
                 plt.axis("off")
                 index += 1
             return plt.gcf()
@@ -385,7 +381,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.axis("off")
             plt.subplot(2, 2, 2)
             plt.imshow(f, cmap="gray")
-            plt.title("Reconstructed image")
+            plt.title("Reconstructed image #linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
             plt.axis("off")
             plt.subplot(2, 2, 3)
             plt.plot(losses)
@@ -408,7 +404,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.axis("off")
             plt.subplot(2, 2, 2)
             plt.imshow(f, cmap="gray")
-            plt.title("Reconstructed image")
+            plt.title("Reconstructed image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
             plt.axis("off")
             plt.subplot(2, 2, 3)
             plt.plot(losses)

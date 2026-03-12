@@ -137,6 +137,19 @@ However, instead of computing the gradient on all the image, the stochastic grad
 This variation is faster than the classical gradient descent thanks to the computation on a subset of the image.
 However, as the gradient is not computed for the whole image, the result is less accurate than the classical gradient descent.
 
+== Comparison metrics
+
+To evaluate the difference between the original image $I_"original"$ and modified image $I_"modified"$, the PSNR metric is used.
+The PSNR is defined as in @psnr.
+
+#set math.equation(numbering: "(1)")
+
+$ "PSNR" = 10 log_2(max(I_"original")^2/"MSE") $ <psnr>
+
+with $"MSE"$ the mean squared error between the two images defined in @mse.
+
+$ "MSE" = 1/(m n) sum_(i=1)^m sum_(j=1)^n [I_"original"(i, j) - I_"modified"(i, j)]^2 $ <mse>
+
 = Implementation <impl>
 
 The code can be executed in command line and follows the documentation below:
@@ -224,7 +237,7 @@ tasks(2, 2)
 ```python
 %| echo: false
 %| caption: Image restoration using gradient descent in Fourier domain
-%| grid-align: bottom
+%| grid-align: top
 %| label: t31
 tasks(3, 1)
 ```
@@ -233,17 +246,9 @@ tasks(3, 1)
 %| echo: false
 %| img-width: 120%
 %| caption: Image restoration using stochastic gradient descent in Fourier domain
-%| grid-align: bottom
+%| grid-align: top
 %| label: t32
 tasks(3, 2)
-```
-
-```python
-print("COucou")
-print("Hello")
-print("Coucou")
-print("Haha")
-print("blabla")
 ```
 
 
@@ -254,9 +259,12 @@ Indeed, a Gaussian kernel of $0.1$ gives an image close to the original image as
 So the size of the Gaussian kernel determines the threshold to cut-off high-frequencies.
 
 As shown in @t11, the spatial and Fourier domain gives similar results.
-However, if we compare @t11h and @t11i, the filtered image in spatial domain have a kind of black blurred border.
+Indeed, the PSNR is always similar (around $1$ dB of difference maximum...)
+However, if we compare @t11h and @t11i, the filtered image in spatial domain have a kind of black blurred border, which may be responsible of the $1$ dB of difference between filtering in spatial and Fourier domain.
 This is due to the zero padding applied for the convolution of the image with the filter.
 Indeed, a padding is required in spatial domain to allows the application of the filter on each pixel of the image because of the convolution.
+
+As the sharpening of the image is done by substracting a blurred version of the image to the original one, the results obtained by the @t12 are similar in term of PSNR.
 
 
 
