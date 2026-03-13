@@ -234,7 +234,7 @@ def run_sgd(
     return x, losses, time_list
 
 
-def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jpg", figsize: tuple[int, int] = (10, 10), original: bool = False, test: bool = False):
+def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jpg", figsize: tuple[int, int] = (10, 10), original: bool = False, test: int = 1):
     img = sk.io.imread(
         img_path,
         as_gray=True,
@@ -303,7 +303,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
 
     # TASK 2: Inverse filtering and Wiener filtering
     elif task == 2:
-        img_blured = filterFT(img, gaussianKernel(5))
+        img_blurred = filterFT(img, gaussianKernel(5))
         if original:
             plt.figure(figsize=figsize)
             plt.subplot(1, 2, 1)
@@ -311,9 +311,9 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.axis("off")
             plt.title("Original image")
             plt.subplot(1, 2, 2)
-            plt.imshow(img_blured, cmap="gray")
+            plt.imshow(img_blurred, cmap="gray")
             plt.axis("off")
-            plt.title("Blured image")
+            plt.title(f"blurred image#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img_blurred)}")
             return plt.gcf()
         if subtask == 1:
             index = 1
@@ -321,7 +321,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             for i in [0, 0.001, 0.01, 0.1]:
                 plt.subplot(2, 2, index)
                 # Add noise
-                img_noised = add_noise(img_blured, std=i)
+                img_noised = add_noise(img_blurred, std=i)
                 # Inverse filter in Fourrier domain
                 h = gaussianKernel(5)
                 img_inv_filter = filterFT(img_noised, h, inv_filter=True)
@@ -336,7 +336,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             for i in [0, 0.001, 0.01, 0.1]:
                 plt.subplot(2, 2, index)
                 # Add noise
-                img_noised = add_noise(img_blured, std=i)
+                img_noised = add_noise(img_blurred, std=i)
                 # Wiener filter in Fourrier domain
                 h = gaussianKernel(5)
                 img_inv_filter = filterFT(
@@ -375,9 +375,10 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             F, losses, time_list = run_gd_fourier(H, B, step_size=step_size, num_iters=num_iters)
             f = np.fft.ifft2(F).real
             plt.figure(figsize=figsize)
+            plt.suptitle(f"Gradient Descent with step size = {step_size}")
             plt.subplot(2, 2, 1)
             plt.imshow(b, cmap="gray")
-            plt.title("Damaged image")
+            plt.title("Damaged image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, b)))
             plt.axis("off")
             plt.subplot(2, 2, 2)
             plt.imshow(f, cmap="gray")
@@ -395,28 +396,81 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.ylabel("time")
             return plt.gcf()
         if subtask == 2:
-            F, losses, time_list = run_sgd_fourier(H, B, step_size=step_size, num_iters=num_iters * 20, batch_size=batch_size)
-            f = np.fft.ifft2(F).real
-            plt.figure(figsize=figsize)
-            plt.subplot(2, 2, 1)
-            plt.imshow(b, cmap="gray")
-            plt.title("Damaged image")
-            plt.axis("off")
-            plt.subplot(2, 2, 2)
-            plt.imshow(f, cmap="gray")
-            plt.title("Reconstructed image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
-            plt.axis("off")
-            plt.subplot(2, 2, 3)
-            plt.plot(losses)
-            plt.title("Stochastic Gradient Descent Loss")
-            plt.xlabel("Iteration")
-            plt.ylabel("Loss")
-            plt.subplot(2, 2, 4)
-            plt.plot(time_list)
-            plt.title("Time taken for a step")
-            plt.xlabel("step")
-            plt.ylabel("time")
-            return plt.gcf()
+            if test == 1:
+                batch_size = 10
+                F, losses, time_list = run_sgd_fourier(H, B, step_size=step_size, num_iters=num_iters * 20, batch_size=batch_size)
+                f = np.fft.ifft2(F).real
+                plt.figure(figsize=figsize)
+                plt.suptitle(f"Stochastic Gradient Descent with batch size = {batch_size} and step size = {step_size}")
+                plt.subplot(2, 2, 1)
+                plt.imshow(b, cmap="gray")
+                plt.title("Damaged image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, b)))
+                plt.axis("off")
+                plt.subplot(2, 2, 2)
+                plt.imshow(f, cmap="gray")
+                plt.title("Reconstructed image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
+                plt.axis("off")
+                plt.subplot(2, 2, 3)
+                plt.plot(losses)
+                plt.title("Stochastic Gradient Descent Loss")
+                plt.xlabel("Iteration")
+                plt.ylabel("Loss")
+                plt.subplot(2, 2, 4)
+                plt.plot(time_list)
+                plt.title("Time taken for a step")
+                plt.xlabel("step")
+                plt.ylabel("time")
+                return plt.gcf()
+            if test == 2:
+                batch_size = 100
+                F, losses, time_list = run_sgd_fourier(H, B, step_size=step_size, num_iters=num_iters * 20, batch_size=batch_size)
+                f = np.fft.ifft2(F).real
+                plt.figure(figsize=figsize)
+                plt.suptitle(f"Stochastic Gradient Descent with batch size = {batch_size} and step size = {step_size}")
+                plt.subplot(2, 2, 1)
+                plt.imshow(b, cmap="gray")
+                plt.title("Damaged image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, b)))
+                plt.axis("off")
+                plt.subplot(2, 2, 2)
+                plt.imshow(f, cmap="gray")
+                plt.title("Reconstructed image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
+                plt.axis("off")
+                plt.subplot(2, 2, 3)
+                plt.plot(losses)
+                plt.title("Stochastic Gradient Descent Loss")
+                plt.xlabel("Iteration")
+                plt.ylabel("Loss")
+                plt.subplot(2, 2, 4)
+                plt.plot(time_list)
+                plt.title("Time taken for a step")
+                plt.xlabel("step")
+                plt.ylabel("time")
+                return plt.gcf()
+            if test == 3:
+                batch_size = 1000
+                F, losses, time_list = run_sgd_fourier(H, B, step_size=step_size, num_iters=num_iters * 20, batch_size=batch_size)
+                f = np.fft.ifft2(F).real
+                plt.figure(figsize=figsize)
+                plt.suptitle(f"Stochastic Gradient Descent with batch size = {batch_size} and step size = {step_size}")
+                plt.subplot(2, 2, 1)
+                plt.imshow(b, cmap="gray")
+                plt.title("Damaged image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, b)))
+                plt.axis("off")
+                plt.subplot(2, 2, 2)
+                plt.imshow(f, cmap="gray")
+                plt.title("Reconstructed image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
+                plt.axis("off")
+                plt.subplot(2, 2, 3)
+                plt.plot(losses)
+                plt.title("Stochastic Gradient Descent Loss")
+                plt.xlabel("Iteration")
+                plt.ylabel("Loss")
+                plt.subplot(2, 2, 4)
+                plt.plot(time_list)
+                plt.title("Time taken for a step")
+                plt.xlabel("step")
+                plt.ylabel("time")
+                return plt.gcf()
 
 
 if __name__ == "__main__":
