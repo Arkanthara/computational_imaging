@@ -153,6 +153,8 @@ $ "MSE" = 1/(m n) sum_(i=1)^m sum_(j=1)^n [I_"original"(i, j) - I_"modified"(i, 
 
 This means that an infinite PSNR indicates that two images are identical, while a low PSNR indicates that the two images differ significantly.
 
+#pagebreak()
+
 = Implementation <impl>
 
 The code can be executed in command line and follows the documentation below:
@@ -173,16 +175,17 @@ options:
 #set block(fill: none)
 
 For the gradient descent and the stochastic gradient descent, to avoid allocation of hudge convolution matrix, I try to filter the image in Fourier domain. Indeed, if the image is of size $64 times 64$, it means that the flat version of the image is of size $4096$ and then the convolution matrix needed is of size $4096 times 4096 = 16777216$. If we consider that each element of the matrix is an integer of 1 octet, it means that the matrix uses $16 "Mo"$. So due to memory usage, I make another implementation:
-we know that convolution gives multiplication in Fourier domain.
-So instead of working with convolution matrix of the filter with the image, I use multiplication in Fourier domain. And the flipped version of the filter gives the conjugate in Fourier domain.
-So for instance the gradient $gradient_x f$ becomes $G(H x - b)$ with $G$ the conjugate of the filter in Fourier domain and $H$ the filter in Fourier domain.
+we know that convolution gives bitwise multiplication in Fourier domain.
+So instead of working with convolution matrix of the filter with the image, I use multiplication in Fourier domain.
+So each pixel is updated according to the gradient of this pixel given by $gradient_(i, j) = H(i, j)(H(i, j) F(i, j) - B(i, j))$ with $H, F$ and $B$ that correspond to filter, reconstructed image and damaged image in Fourier domain. 
 
+For the stochastic gradient descent, I select randomly $N$ pixels according to the `batch_size` parameter and then I apply the gradient descent on this subset of pixels. 
 
 = Results
 
 ```python
 %| echo: false
-%| refresh: true
+%| refresh: false
 import os
 import sys
 os.chdir(os.path.normpath(os.path.join(os.getcwd(), "../code")))
@@ -192,10 +195,13 @@ from tp1 import tasks
 
 == Image filtering
 
+#text("   ")
+
 ```python
 %| echo: false
+%| raw: false
 %| caption: Low-Pass filter: Gaussian Blur
-%| img-width: 80%
+%| img-width: 140%
 %| grid-align: bottom
 %| label: t11
 tasks(1, 1)
@@ -212,18 +218,18 @@ tasks(1, 2)
 
 == Image restoration
 
+#set align(horizon)
+
 ```python
 %| echo: false
-%| caption: Original and blured image
-%| img-width: 80%
-%| label: t210
+%| img-width: 125%
 tasks(2, 1, original=True)
 ```
 
 ```python
 %| echo: false
 %| caption: Inverse filtering on blured image
-%| img-width: 100%
+%| img-width: 140%
 %| label: t21
 tasks(2, 1)
 ```
@@ -241,6 +247,7 @@ tasks(2, 2)
 ```python
 %| echo: false
 %| grid-align: top
+%| img-width: 120%
 %| label: t31
 tasks(3, 1)
 ```
@@ -248,6 +255,7 @@ tasks(3, 1)
 ```python
 %| echo: false
 %| grid-align: top
+%| img-width: 120%
 %| label: t321
 tasks(3, 2, test=1)
 ```
@@ -255,6 +263,7 @@ tasks(3, 2, test=1)
 ```python
 %| echo: false
 %| grid-align: top
+%| img-width: 120%
 %| label: t322
 tasks(3, 2, test=2)
 ```
@@ -262,11 +271,13 @@ tasks(3, 2, test=2)
 ```python
 %| echo: false
 %| grid-align: top
+%| img-width: 120%
 %| label: t323
 tasks(3, 2, test=3)
 ```
 
 
+#set align(top)
 
 = Discussion
 
