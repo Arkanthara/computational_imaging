@@ -3,90 +3,8 @@ import matplotlib.pyplot as plt
 from pypher.pypher import psf2otf
 from scipy.signal import convolve2d
 import argparse
-import scipy
 import skimage as sk
 import time
-
-
-def read_image(name: str = "img/img.jpg") -> np.ndarray:
-    img = sk.io.imread(name, as_gray=True)
-    return img
-
-
-def print_range(img: np.ndarray):
-    print("========================")
-    print("     IMAGE RANGE")
-    print("========================")
-    print(f"dtype: {img.dtype}")
-    print(f"Min: {img.min()}")
-    print(f"Max: {img.max()}")
-    print(f"Range: {img.max() - img.min()}")
-
-
-def print_image(
-    img: np.ndarray,
-    title: str = "Image",
-    magnitude: bool = False,
-    phase: bool = False,
-    log: bool = False,
-    figsize: tuple = (5, 5),
-    axis: bool = False,
-) -> np.ndarray:
-
-    plt.figure(figsize=figsize)
-    plt.title(title)
-    plt.imshow(img, cmap="gray")
-    plt.axis("off")
-    plt.show()
-
-    F_img = np.fft.fft2(img)
-
-    if magnitude:
-        if axis:
-            F_img_M = np.fft.fftshift(np.abs(F_img))
-
-            plt.figure(figsize=figsize)
-            plt.title("Magnitude")
-            if log:
-                tmp = np.log(F_img_M + 1)
-                plt.imshow(
-                    tmp,
-                    cmap="gray",
-                    extent=[
-                        -tmp.shape[1] / 2.0,
-                        tmp.shape[1] / 2.0,
-                        tmp.shape[0] / 2.0,
-                        -tmp.shape[0] / 2.0,
-                    ],
-                )
-            else:
-                plt.imshow(F_img_M, cmap="gray")
-            plt.show()
-
-        else:
-            F_img_M = np.fft.fftshift(np.abs(F_img))
-
-            plt.figure(figsize=figsize)
-            plt.title("Magnitude")
-            if log:
-                plt.imshow(np.log(F_img_M + 1), cmap="gray")
-            else:
-                plt.imshow(F_img_M, cmap="gray")
-            plt.axis("off")
-            plt.show()
-
-    if phase:
-        F_img_P = np.fft.fftshift(np.arctan2(F_img.imag, F_img.real))
-
-        plt.figure(figsize=figsize)
-        plt.title("Phase")
-        plt.imshow(F_img_P, cmap="gray")
-        plt.axis("off")
-        plt.show()
-
-
-def normalize(img: np.ndarray, target: float = 1.0) -> np.ndarray:
-    return (img - img.min()) * target / (img.max() - img.min())
 
 
 def add_noise(img: np.ndarray, mean: float = 0.0, std: float = 1.0) -> np.ndarray:
@@ -95,45 +13,20 @@ def add_noise(img: np.ndarray, mean: float = 0.0, std: float = 1.0) -> np.ndarra
     return np.clip(img_noised, a_min=0, a_max=255)
 
 
-def MSE(img_1: np.ndarray, img_2: np.ndarray) -> float:
-    return np.mean((img_1 - img_2) ** 2)
-
-
-# Fix the PSNR function first
-def PSNR(img_1: np.ndarray, img_2: np.ndarray) -> float:
-    mse = MSE(img_1, img_2)
-    if mse == 0:
-        return float("inf")
-    max_pixel = 255.0
-    return 10 * np.log10((max_pixel**2) / mse)
-
-
-# Fix the filterFT function
 def filterFT(
     img: np.ndarray,
     h: np.ndarray,
     inv_filter: bool = False,
     wiener: bool = False,
     K: float = 0.01,
-    debug: bool = False,
 ) -> np.ndarray:
     F_img = np.fft.fft2(img)
-    # H = np.fft.fft2(h, s=img.shape)
     H = psf2otf(h, shape=img.shape)
-    if debug:
-        print_image(np.log(np.fft.fftshift(np.abs(H)) + 1))
-        print_image(np.log(np.fft.fftshift(np.abs(F_img)) + 1))
-        print_image(np.clip(np.fft.ifft2(F_img).real, 0, 255))
     if inv_filter:
-        # H[H == 0] = 1e-10
-        # H_inv = np.linalg.inv(H)
         H_inv = 1 / (H + 1e-10)
         F_img_filtered = F_img * H_inv
-        if debug:
-            print_image(np.log(np.fft.fftshift(np.abs(F_img_filtered) + 1)))
     elif wiener:
-        # H_wiener = (1 / (H + 1e-10)) * (np.abs(H) ** 2 / (np.abs(H) ** 2 + K + 1e-10))
-        H_wiener = np.conj(H) / (np.abs(H) ** 2 + K + 1e-10)
+        H_wiener = 1/(H + 1e-10) * (np.abs(H)**2) / (np.abs(H) ** 2 + K + 1e-10)
         F_img_filtered = F_img * H_wiener
     else:
         F_img_filtered = F_img * H
@@ -142,7 +35,6 @@ def filterFT(
 
 
 def filter(img: np.ndarray, h: np.ndarray) -> np.ndarray:
-    # Here, we ask for symmetric padding to apply filter to avoid vignette artifact
     return convolve2d(img, h, mode="same")
 
 
@@ -152,12 +44,6 @@ def gaussianKernel(std: float, size: int = 101) -> np.ndarray:
     kernel = np.outer(kernel, kernel)
     kernel /= kernel.sum()
     return kernel
-
-def grad_l2(A, x, b):
-    return A.T @ (A @ x - b)
-
-def residual_l2(A, x, b):
-    return 1/2 * np.linalg.norm(A @ x - b) ** 2
 
 def grad_l2_fourier(H, F, B):
     return 2 * H * (H * F - B)
@@ -210,30 +96,6 @@ def run_sgd_fourier(
     return F, losses, time_list
 
 
-def run_sgd(
-    A,
-    b,
-    step_size: float = 1e-4,
-    num_iters: int = 1500,
-    batch_size: int = 32,
-    grad_fn=grad_l2,
-    residual=residual_l2,
-):
-    x = np.random.rand(A.shape[1], 1)
-    losses = []
-    time_list = []
-    init_time = time.time()
-    for i in range(num_iters):
-        idx = np.random.choice(A.shape[0], batch_size, replace=False)
-        A_batch = A[idx]
-        b_batch = b[idx]
-        grad = grad_fn(A_batch, x, b_batch)
-        x = x - step_size * grad
-        losses.append(residual(A, x, b))
-        time_list.append(time.time() - init_time)
-    return x, losses, time_list
-
-
 def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jpg", figsize: tuple[int, int] = (10, 10), original: bool = False, test: int = 1):
     img = sk.io.imread(
         img_path,
@@ -258,7 +120,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(3, 3, index)
             img_gaussian_blur = filter(img, h)
             plt.imshow(img_gaussian_blur, cmap="gray")
-            plt.title(f"Spatial domain#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img_gaussian_blur):.2f} dB")
+            plt.title(f"Spatial domain\nPSNR = {sk.metrics.peak_signal_noise_ratio(img, img_gaussian_blur):.2f} dB")
             plt.axis("off")
             index += 1
 
@@ -266,7 +128,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(3, 3, index)
             img_gaussian_blur_ft = filterFT(img, h)
             plt.imshow(img_gaussian_blur_ft, cmap="gray")
-            plt.title(f"Fourier domain#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img_gaussian_blur_ft):.2f} dB")
+            plt.title(f"Fourier domain\nPSNR = {sk.metrics.peak_signal_noise_ratio(img, img_gaussian_blur_ft):.2f} dB")
             plt.axis("off")
             index += 1
         return plt.gcf()
@@ -288,7 +150,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(3, 3, index)
             img_gaussian_blur = filter(img, h)
             plt.imshow(img - img_gaussian_blur, cmap="gray")
-            plt.title(f"Spatial domain#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img - img_gaussian_blur):.2f} dB")
+            plt.title(f"Spatial domain\nPSNR = {sk.metrics.peak_signal_noise_ratio(img, img - img_gaussian_blur):.2f} dB")
             plt.axis("off")
             index += 1
 
@@ -296,7 +158,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(3, 3, index)
             img_gaussian_blur_ft = filterFT(img, h)
             plt.imshow(img - img_gaussian_blur_ft, cmap="gray")
-            plt.title(f"Fourier domain#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img - img_gaussian_blur_ft):.2f} dB")
+            plt.title(f"Fourier domain\nPSNR = {sk.metrics.peak_signal_noise_ratio(img, img - img_gaussian_blur_ft):.2f} dB")
             plt.axis("off")
             index += 1
         return plt.gcf()
@@ -313,7 +175,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.subplot(1, 2, 2)
             plt.imshow(img_blurred, cmap="gray")
             plt.axis("off")
-            plt.title(f"blurred image#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img_blurred)}")
+            plt.title(f"blurred image\nPSNR = {sk.metrics.peak_signal_noise_ratio(img, img_blurred)}")
             return plt.gcf()
         if subtask == 1:
             index = 1
@@ -326,7 +188,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
                 h = gaussianKernel(5)
                 img_inv_filter = filterFT(img_noised, h, inv_filter=True)
                 plt.imshow(img_inv_filter, cmap="gray")
-                plt.title(f"Inverse filtering#linebreak()noise $\\sigma = {i}$#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img_inv_filter):.2f} dB")
+                plt.title(f"Inverse filtering\nnoise $\\sigma = {i}$\nPSNR = {sk.metrics.peak_signal_noise_ratio(img, img_inv_filter):.2f} dB")
                 plt.axis("off")
                 index += 1
             return plt.gcf()
@@ -343,7 +205,7 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
                     img_noised, h, wiener=True, K=i / np.mean(img_noised)
                 )
                 plt.imshow(img_inv_filter, cmap="gray")
-                plt.title(f"Wiener filtering#linebreak()noise $\\sigma = {i}$#linebreak()PSNR = {sk.metrics.peak_signal_noise_ratio(img, img_inv_filter):.2f} dB")
+                plt.title(f"Wiener filtering\nnoise $\\sigma = {i}$\nPSNR = {sk.metrics.peak_signal_noise_ratio(img, img_inv_filter):.2f} dB")
                 plt.axis("off")
                 index += 1
             return plt.gcf()
@@ -354,7 +216,6 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
         downsampled_img = img[::2, ::2]
         h = gaussianKernel(3, size=31)
         b = filterFT(downsampled_img, h)
-        # b = add_noise(b, std=0.1)
         B = np.fft.fft2(b)
         H = psf2otf(h, shape=b.shape)
         step_size = 1e-2
@@ -378,11 +239,11 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
             plt.suptitle(f"Gradient Descent with step size = {step_size}")
             plt.subplot(2, 2, 1)
             plt.imshow(b, cmap="gray")
-            plt.title("Damaged image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, b)))
+            plt.title("Damaged image\nPSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, b)))
             plt.axis("off")
             plt.subplot(2, 2, 2)
             plt.imshow(f, cmap="gray")
-            plt.title("Reconstructed image #linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
+            plt.title("Reconstructed image \nPSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
             plt.axis("off")
             plt.subplot(2, 2, 3)
             plt.plot(losses)
@@ -404,11 +265,11 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
                 plt.suptitle(f"Stochastic Gradient Descent with batch size = {batch_size} and step size = {step_size}")
                 plt.subplot(2, 2, 1)
                 plt.imshow(b, cmap="gray")
-                plt.title("Damaged image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, b)))
+                plt.title("Damaged image\nPSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, b)))
                 plt.axis("off")
                 plt.subplot(2, 2, 2)
                 plt.imshow(f, cmap="gray")
-                plt.title("Reconstructed image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
+                plt.title("Reconstructed image\nPSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
                 plt.axis("off")
                 plt.subplot(2, 2, 3)
                 plt.plot(losses)
@@ -429,11 +290,11 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
                 plt.suptitle(f"Stochastic Gradient Descent with batch size = {batch_size} and step size = {step_size}")
                 plt.subplot(2, 2, 1)
                 plt.imshow(b, cmap="gray")
-                plt.title("Damaged image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, b)))
+                plt.title("Damaged image\nPSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, b)))
                 plt.axis("off")
                 plt.subplot(2, 2, 2)
                 plt.imshow(f, cmap="gray")
-                plt.title("Reconstructed image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
+                plt.title("Reconstructed image\nPSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
                 plt.axis("off")
                 plt.subplot(2, 2, 3)
                 plt.plot(losses)
@@ -454,11 +315,11 @@ def tasks(task: int = 1, subtask: int = 1, img_path: str = "img/tangled_small.jp
                 plt.suptitle(f"Stochastic Gradient Descent with batch size = {batch_size} and step size = {step_size}")
                 plt.subplot(2, 2, 1)
                 plt.imshow(b, cmap="gray")
-                plt.title("Damaged image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, b)))
+                plt.title("Damaged image\nPSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, b)))
                 plt.axis("off")
                 plt.subplot(2, 2, 2)
                 plt.imshow(f, cmap="gray")
-                plt.title("Reconstructed image#linebreak()PSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
+                plt.title("Reconstructed image\nPSNR = {:.2f} dB".format(sk.metrics.peak_signal_noise_ratio(downsampled_img, f)))
                 plt.axis("off")
                 plt.subplot(2, 2, 3)
                 plt.plot(losses)
@@ -493,19 +354,16 @@ if __name__ == "__main__":
         as_gray=True,
     )
     img = sk.util.img_as_float(img)
-    print_range(img)
-    # TASK 1
-    # 1.1 Low-pass filtering in Spatial domain (using np.convolve2d !)
     if args.task == 1:
         tasks(1, 1, figsize).show()
         tasks(1, 2, figsize).show()
+        input("Press Enter to exit...")
     elif args.task == 2:
         tasks(2, original=True, figsize=figsize).show()
         tasks(2, 1, figsize).show()
         tasks(2, 2, figsize).show()
+        input("Press Enter to exit...")
     elif args.task == 3:
         tasks(3, original=True, figsize=figsize).show()
         tasks(3, 1, figsize=figsize).show()
-        # tasks(3, test=True, figsize=figsize).show()
-        # tasks(3, 2, figsize).show()
-        input("Press Enter to continue...")
+        input("Press Enter to exit...")

@@ -26,7 +26,7 @@ The basics are the following:
 
 - The filter is applied to the image in spatial or in Fourier domain.
   - In spatial domain, the convolution between the image and the filter is performed to apply the filter to each pixel of the image.
-  - In Fourier domain, a simple multiplication between the image and the filter applies the filter to the image.
+  - In Fourier domain, a simple element-wise multiplication between the image and the filter applies the filter to the image.
 
     #let tint(c) = (stroke: c, fill: rgb(..c.components().slice(0, 3), 5%), inset: 8pt)
 
@@ -172,6 +172,10 @@ options:
   lang: "raw",
   block: true,
 )
+
+To install all dependencies, the command `uv sync` can be used in `code` folder (where the file `pyproject.toml` is located).
+Then, the command `uv run tp1.py` automatically activate the virtual environment created and run the code.
+
 #set block(fill: none)
 
 For the gradient descent and the stochastic gradient descent, to avoid allocation of hudge convolution matrix, I try to filter the image in Fourier domain. Indeed, if the image is of size $64 times 64$, it means that the flat version of the image is of size $4096$ and then the convolution matrix needed is of size $4096 times 4096 = 16777216$. If we consider that each element of the matrix is an integer of 1 octet, it means that the matrix uses $16 "Mo"$. So due to memory usage, I make another implementation:
@@ -367,6 +371,8 @@ But due to the size of the image, this time is negligible.
 In fact, while the gradient is calculated only on a portion of the image, a list of random position indices must be generated, which tends to offset the time savings achieved through the shorter gradient calculation due to the small size of the image.
 
 The stochastic gradient descent method thus prevents gradient descent from getting stuck in a local optimum, but requires more parameters to be tuned in order to achieve a good balance between the quality of the results and computational power.
+
+#pagebreak()
 
 = Conclusion
 

@@ -7,7 +7,7 @@
   logo: "./img/unige.svg",
   logosize: 6cm,
   university: "University of Geneva",
-  title: "My Course",
+  title: "Assignment 1",
 
   // Structured authors
   authors: (
@@ -19,19 +19,19 @@
   // Optional information
   faculty: "Faculty of Science",
   // subtitle: "Report Subtitle",
-  course-name: "Digital Forensics",
-  course-id: "14x065",
-  // illustrations: (
-  //   (
-  //     path: "./img/full_msg.png",
-  //     width: 10cm,
-  //   ),
-  //   (
-  //     path: "./img/full_hist_R.png",
-  //     width: 10cm,
-  //   ),
-  // ),
-  project-name: "Digital Forensics",
+  course-name: "Computational Imaging",
+  course-id: "14x062",
+  illustrations: (
+    (
+      path: ".typst_py/img/b5_f1_a1.png",
+      width: 7cm,
+    ),
+    (
+      path: ".typst_py/img/b4_f1_a2.png",
+      width: 7cm,
+    )
+  ),
+  project-name: "Computational Imaging",
   date: none,
 
   // Document options
