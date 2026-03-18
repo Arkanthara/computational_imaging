@@ -4,12 +4,11 @@ project:
   output-dir: ../_site/fr
 
 website:
-  # Language switching setup
+  page-footer:
+    center: "Copyright © 2026 University of Geneva"
 
   navbar:
-    # background: primary
     search: true
-    # Right side for language selector
     right:
       - text: Langage
         icon: globe
@@ -22,44 +21,38 @@ website:
   sidebar:
     style: docked
     search: true
-    
     contents:
       - section: "Cours"
         contents:
-          - section: "Introduction"
+          - section: "Chapitre 1 - Introduction"
             contents:
-              - text: "Details"
+              - text: "Detail"
+                href: ch1.qmd
+              - text: "Approfondissement"
                 href: ch1c.qmd
-              - ch1.qmd
               - text: "Synthese"
                 href: ch1r.qmd
-          - section: "Human Visual System"
+          - section: "Chapitre 2 - Systeme visuel humain"
             contents:
-              - text: "Details"
+              - text: "Detail"
+                href: ch2.qmd
+              - text: "Approfondissement"
                 href: ch2c.qmd
-              - ch2.qmd
               - text: "Synthese"
                 href: ch2r.qmd
-          - section: "Human Visual System"
+          - section: "Chapitre 3 - Photographie computationnelle"
             contents:
-              - text: "Details"
+              - text: "Detail"
+                href: ch3.qmd
+              - text: "Approfondissement"
                 href: ch3c.qmd
-              - ch3.qmd
               - text: "Synthese"
                 href: ch3r.qmd
-
 
 format:
   html:
     theme:
-      light: flatly
-      dark: darkly
+      dark: ../macchiato.scss
+      light: ../latte.scss
     toc: true
     embed-resources: true
-  # pdf:
-  #   toc: true
-  # docx:
-  #   toc: true
-
-# filters:
-#   - diagram

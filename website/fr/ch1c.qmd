@@ -1,655 +1,100 @@
-# Computational Imaging
+# Chapitre 1C - Approfondissement et entraînement
 
-**Taras Holotyak** — Université de Genève, Département d'Informatique
+## Comment utiliser cette page
 
-Cours 14X062 — Stochastic Information Processing (SIP)
-
----
-
-# Présentation du cours
-
-## Contenu du cours
-
-L'objectif du cours est d'introduire le domaine du *computational imaging* tout en développant des compétences pratiques.
-
-Le cours couvre les thématiques suivantes :
-
-- Principes du *computational imaging*
-- État de l'art du *computational imaging* moderne
-- Analyse approfondie des applications du *computational imaging*
-
-## Évaluation
-
-| Composante | Poids |
-|---|---|
-| Partie théorique (2 CC ou examen oral) | 40% |
-| TPs | 25% |
-| Mini-projet (rapport + présentation) | 35% |
-
-Points importants :
-
-- La partie théorique est évaluée sur la base de 2 contrôles continus **ou** d'un examen oral
-- La partie pratique combine :
-  - La moyenne des notes de TPs
-  - La moyenne des notes du mini-projet (rapport et présentation)
-
-> ⚠️ **Important :** Toutes les composantes (théorie, TPs, mini-projet) doivent avoir une note **positive ≥ 4.0/6.0**
-
-## Livres recommandés
-
-- *Computer Vision: Algorithms and Applications* — Richard Szeliski
-- *Foundations of Computational Imaging: A Model-Based Approach* — Charles A. Bouman (SIAM)
-- *Computational Imaging* — Ayush Bhandari, Achuta Kadambi, Ramesh Raskar (MIT Press)
-- *Computational Photography: Mastering New Techniques for Lenses, Lighting, and Sensors* — Ramesh Raskar & Jack Tumblin
-- *Computational Optical Imaging: Principle and Technology* — Zhengjun Liu et al. (Springer)
-- *Computational Methods for Inverse Problems in Imaging* — Marco Donatelli & Stefano Serra-Capizzano (Springer)
-- *Computational Imaging Through Atmospheric Turbulence* — Stanley H. Chan & Nicholas Chimitt
-- *Computational Optical Phase Imaging* — Cheng Liu, Shouyu Wang, Suhas P. Veetil (Springer)
-- *Fourier Optics and Computational Imaging* — Kedar Khare (Wiley)
-- *Computational Imaging VIII* — Bouman, Charles A.
-- *Medical Imaging Technology* — Khin Wee Lai & Dyah Ekashanty Octorina Dewi (Springer)
-- *Biomedical Imaging and Computational Modeling in Biomechanics* — Ugo Andreaus & Daniela Iacoviello (Springer)
+- Lire le chapitre détail d'abord.
+- Utiliser cette page pour consolider les notions.
+- Travailler les mini-cas et les questions de révision active.
 
 ---
 
-# Introduction au Computational Imaging
-
-## Pourquoi « imaging » ?
-
-Le terme *imaging* (imagerie) est justifié par l'importance centrale de la vision dans la perception humaine :
-
-| Sens | Part de l'information |
-|---|---|
-| **Vue (Sight)** | **75%** |
-| Ouïe (Hearing) | 13% |
-| Toucher (Touch) | 6% |
-| Goût (Taste) | 3% |
-| Odorat (Smell) | 3% |
-
-> Environ **75% de l'information** que nous percevons passe par le canal visuel humain.
-
-## Pourquoi « computational » ?
-
-### Définition
-
-Le **computational imaging** est le processus de formation indirecte d'images à partir de mesures, en utilisant des algorithmes nécessitant une quantité significative de calcul.
-
-Contrairement à l'imagerie traditionnelle, les systèmes de *computational imaging* impliquent une **intégration étroite** entre le système de capture et le calcul.
-
-L'objectif principal du *computational imaging* est de **reconstruire des images reconnaissables par l'humain** à partir de données mesurées, grâce à des algorithmes avancés.
-
-En revanche, l'imagerie traditionnelle vise à **traiter des images déjà reconnaissables** pour en améliorer la qualité ou en extraire des informations.
-
----
-
-### Imagerie traditionnelle vs Computational Imaging
-
-#### Imagerie traditionnelle
-
-```{mermaid}
-flowchart LR
-    A[Monde réel] --> B[Optique]
-    B --> C[Image capturée]
-    C --> D[Calcul]
-    D --> E[Image améliorée]
-```
-
-- L'optique capture quelque chose de **proche** de l'image finale
-- Le calcul **améliore** principalement l'image capturée (ex. : défloutage)
-
-#### Computational Imaging
-
-```{mermaid}
-flowchart LR
-    A[Monde réel] --> B["Optique\ngénéralisée (?)"]
-    B --> C["Représentation\ncodée (?)"]
-    C --> D["Calcul\ngénéralisé (?)"]
-    D --> E["Image(s)\nfinale(s)"]
-```
-
-- L'**optique généralisée** encode le monde dans une représentation intermédiaire
-- Le **calcul généralisé** décode cette représentation en une ou plusieurs images finales
-
----
-
-### Composantes du Computational Imaging
-
-Le *computational imaging* se situe à l'intersection de trois domaines :
+## 1) Carte mentale rapide du chapitre 1
 
 ```{mermaid}
 flowchart TD
-    subgraph Monde_physique["Monde physique/analogique"]
-        M[Mathématiques]
-        P[Physique]
-    end
-    subgraph Monde_numerique["Monde numérique"]
-        C[Calcul / Computation]
-    end
-    CI["⬤ Computational Imaging"]
-    M --- CI
-    P --- CI
-    C --- CI
+    A["Scène physique"] --> B["Encodage optique"]
+    B --> C["Mesure brute"]
+    C --> D["Modèle inverse"]
+    D --> E["Reconstruction"]
+    E --> F["Application"]
+    F --> G["Médical"]
+    F --> H["Astro"]
+    F --> I["Art"]
+    F --> J["Autonome"]
+    F --> K["NLOS"]
 ```
 
-Deux caractéristiques essentielles :
+## 2) Nuances conceptuelles importantes
 
-- Accès aux mondes **physique/analogique** et **numérique**
-- Considération de l'imagerie comme un **modèle intégré de capture et d'inférence**
+### CI n'est pas juste "post-traitement"
 
----
+- Post-traitement classique : améliorer une image déjà interprétable.
+- CI : reconstruire une information qui n'est pas directement visible dans la mesure brute.
 
-### Positionnement dans la physique optique
+### La co-conception est centrale
 
-Le *computational imaging* se situe principalement au niveau de l'**optique géométrique**, enrichie par le traitement du signal moderne :
+- Concevoir séparément optique et algorithme est souvent sous-optimal.
+- Concevoir ensemble acquisition + reconstruction permet de meilleurs compromis bruit-résolution-coût.
 
-```{mermaid}
-flowchart LR
-    EM["Électromagnétisme\n(E&M)"]
-    WO["Optique ondulatoire\n(Wave Optics)"]
-    GO["Optique géométrique\n(Geometric Optics)"]
-    SP["Traitement du signal moderne,\nOptimisation et IA"]
+### Le problème inverse est le cœur mathématique
 
-    EM --> WO --> GO
-    GO <--> SP
-```
-
-Propriétés de la lumière en optique géométrique :
-
-- Lumière modélisée comme des **rayons**
-- Unité : **radiance** (spectrale)
-- Propriétés : longueur d'onde, polarisation, direction…
-- L'optique ondulatoire n'est introduite que brièvement
+- Mesure : observation partielle, bruitée, souvent non unique.
+- Inférence : régularisation et prior pour choisir une solution physiquement plausible.
 
 ---
 
-### Schéma général du Computational Imaging
+## 3) Mini-cas guidés
 
-Le *computational imaging* repose sur deux étapes fondamentales :
+### Cas A - Smartphone mode nuit
 
-1. **Encoder** optiquement l'information de la scène
-2. **Récupérer** computationnellement l'information
+- Situation : scène sombre, capteur petit, bruit élevé.
+- Stratégie CI :
+  - acquisition multi-images ;
+  - alignement ;
+  - fusion robuste ;
+  - denoising + restauration des détails.
 
-Cela implique :
+### Cas B - MA-XRF en patrimoine
 
-- De **nouveaux types d'optiques**
-- De **nouveaux capteurs**
-- De **nouveaux systèmes d'éclairage**
-- De **nouveaux algorithmes**
+- Situation : pigments superposés et invisibles en RGB.
+- Stratégie CI :
+  - acquisition spectrale (x, y, énergie) ;
+  - déconvolution spectrale ;
+  - cartes élémentaires ;
+  - interprétation physico-chimique.
 
-#### Exemple : Computational Displays
+### Cas C - NLOS
 
-```{mermaid}
-flowchart LR
-    CPU[Calcul] --> OE["Optique &\nÉlectronique"]
-    OE --> HVS["Système visuel\nhumain"]
-    HVS -.->|interaction| CPU
-```
-
-#### Exemple : Computational Imaging (caméra)
-
-```{mermaid}
-flowchart LR
-    O[Optique] --> S[Capteur]
-    S --> C[Calcul]
-```
+- Situation : objet caché hors ligne de vue.
+- Stratégie CI :
+  - illumination pulsée ;
+  - mesure temporelle des rebonds ;
+  - inversion du transport de lumière.
 
 ---
 
-## Exemple biologique : l'œil de la crevette-mante
+## 4) Questions de compréhension active
 
-La crevette-mante (*mantis shrimp*) est un exemple remarquable de *computational imaging* biologique.
-
-Ses yeux composés possèdent des propriétés extraordinaires qui illustrent parfaitement la philosophie du *computational imaging* : une **intégration profonde** entre le système de capture optique et le traitement neuronal de l'information.
-
----
-
-## Domaines d'application
-
-Le *computational imaging* s'applique dans de nombreux domaines :
-
-- **Photographie numérique** — traitement d'image, démosaïquage, HDR
-- **Véhicules autonomes** — caméras, LIDARs, radars
-- **Endoscopie** — imagerie médicale miniaturisée
-- **Imagerie médicale** — CT, IRM, PET, échographie 3D
-- **Astronomie** — télescopes, radio-interférométrie
-- **Vision nocturne / thermique** — caméras infrarouges
-- **Lunettes connectées / AR/VR** — *computational displays*
+- Pourquoi l'encodage optique peut-il rendre la reconstruction plus stable ?
+- Dans quel cas une meilleure optique n'est-elle pas suffisante sans algorithme adapté ?
+- Pourquoi les applications CI sont-elles souvent multi-données ?
+- En quoi un prior aide-t-il un problème mal posé ?
 
 ---
 
-## Exemple : photographie numérique comme CI
+## 5) Checklist de révision avant examen
 
-Le pipeline complet d'une caméra numérique illustre le *computational imaging* :
-
-```{mermaid}
-flowchart TD
-    A["Projection lumineuse\n(Light Projection)"]
-    B["Amplification et quantification\nde l'énergie"]
-    C["Ajustement du signal\n(Signal Adjusting)"]
-    D["Couleurs (Colors)"]
-    E["Interpolation et\ndémosaïquage"]
-    F["Correction couleur\net gamma"]
-    G["Amélioration\n(Sharpening)"]
-    H["Stockage\n(Storing)"]
-    I["Image finale"]
-
-    A --> B --> C --> D --> E --> F --> G --> H --> I
-```
+- Je sais définir CI en une phrase précise.
+- Je sais expliquer la différence avec l'imagerie traditionnelle.
+- Je peux dessiner la chaîne encodage -> mesure -> décodage.
+- Je peux citer au moins 4 domaines d'application et leur logique de mesure.
+- Je peux expliquer le rôle d'un problème inverse et d'un prior.
 
 ---
 
-# Exemples motivants
-
-## Microscopie à l'échelle nanométrique
-
-### STM et AFM : imagerie de spin à l'échelle atomique
-
-Deux méthodes compatibles permettent d'atteindre une résolution atomique pour la détection de spin :
-
-- **SP-STM** (*Spin-Polarised Scanning Tunnelling Microscopy*) — détection locale d'une composante de spin du courant tunnel
-- **nc-AFM** (*Non-Contact Atom Force Microscopy*) — détection de forces locales liées à l'échange magnétique
-
-### IRM nanométrique
-
-La **MRFM** (*Magnetic Resonance Force Microscopy*) repose sur des capteurs de force mécaniques pour détecter le signal magnétique faible de spins nucléaires individuels.
-
-Trois approches complémentaires (mesure basée sur le champ magnétique) :
-
-- **(a) MRFM** — résonateur nanomécanique + aimant à l'échelle nano → force sur les spins de l'échantillon (antenne microstrip pour pulses RF)
-- **(b) NV-NanoMRI** — défaut de spin électronique dans le diamant (centre NV) à quelques nanomètres de la surface
-- **(c) ESR-STM** — courant tunnel entre une pointe de balayage et un substrat conducteur
-
-| Méthode | Gamme | Résolution |
-|---|---|---|
-| MRFM | 100 nm | 1 nm |
-| NV-NanoMRI | 10 nm | 0.1 nm |
-| ESR-STM | 1 nm | < 0.1 nm |
-
-### Imagerie X cohérente de systèmes magnétiques
-
-L'imagerie magnétique aux rayons X cohérents est une approche **sans lentille** pour la microscopie magnétique.
-
-Points forts :
-
-- Accès simultané aux contrastes de **phase** et d'**absorption** spécifiques à chaque élément
-- Résolution spatiale limitée par la longueur d'onde : **5 nm en 2D**, **10 nm en 3D**
-
-Jalons historiques :
-
-- **2004** — Magnetic FTH
-- **2011** — Magnetic Ptychography
-- **2015** — Suivi de la dynamique des skyrmions
-- **2017** — Cartographie des textures de spin 3D
-- **2021** — Filmage de la dynamique de spin en femtosecondes
-- **2023** — Capture des fluctuations magnétiques
-- *Futur* — Imagerie à l'échelle naturelle, application généralisée
-
----
-
-## Applications astronomiques
-
-### Questions ouvertes : comprendre l'Univers
-
-Les grandes questions de la cosmologie moderne nécessitent des instruments de mesure extrêmement puissants :
-
-- Origine de l'Univers et inflation
-- Matière noire et énergie sombre
-- Formation des galaxies et des planètes
-- Cosmologie à grande échelle
-
-### Le réseau SKA (*Square Kilometre Array*)
-
-#### Capteurs d'acquisition
-
-**SKA1-Low** (Australie, Murchison) :
-
-- 131 072 antennes basse fréquence
-- 512 stations de 256 dipôles chacune
-- Fréquences : 50–350 MHz
-- Lignes de base : 65 km
-
-**SKA1-Mid** (Afrique du Sud, Karoo) :
-
-- 197 antennes paraboliques ($133 \times 15\text{m} + 64 \times 13.5\text{m}$)
-- Fréquences : 0.35–15.4 GHz
-- Lignes de base : 150 km
-
-#### Volume de données généré
-
-- Débit brut : $\sim 2$ Pb/s (SKA1-Low), $\sim 9$ Tb/s (SKA1-Mid)
-- Après traitement central : $\sim 7$ Tb/s → $\sim 5$ Tb/s
-- Stockage annuel : **300 PB/an** par instrument
-- Puissance de calcul requise : **$\sim 130$ PFlops** par instrument
-- Problème non dans l'acquisition, mais dans le traitement de l'information !
-
----
-
-## Imagerie médicale
-
-### Classification des méthodes d'imagerie médicale
-
-| Méthode | Vecteur d'information | Note |
-|---|---|---|
-| Échographie | Ondes de pression haute fréquence | Imagerie par rétrodiffusion/réflexion |
-| Radiographie (projection) | Rayonnement ionisant | Imagerie par transmission |
-| Tomodensitométrie CT / C-arm | Rayonnement ionisant | Imagerie par transmission |
-| Imagerie nucléaire (SPECT, PET) | Rayonnement ionisant | Imagerie par émission |
-| IRM | Précession de spin nucléaire | Imagerie par résonance magnétique |
-
-**Pipeline de traitement général :**
-
-1. Acquisition de multiples signaux 1D et 2D
-2. Reconstruction de l'objet 3D
-
-### Exemples d'images médicales
-
-- **Échographie 3D** — visualisation fœtale
-- **Radiographie projetée** — transmission de rayons X
-- **CT (Computed Tomography)** — reconstruction 3D du corps
-- **PET** (*Positron Emission Tomography*) — imagerie fonctionnelle
-
-### IRM : modalités avancées
-
-- **MRI structurelle** — anatomie
-- **MRA** (*MR Angiography*) — vaisseaux sanguins
-- **MRS** (*Magnetic Resonance Spectroscopy*) — composition chimique locale
-- **fMRI** (*Functional MRI*) — activité cérébrale
-- **CDI** (*Current Density Imaging*) — cartographie des courants cérébraux
-
----
-
-## Photographie computationnelle
-
-### Imagerie par appareils mobiles
-
-Les smartphones modernes intègrent plusieurs capteurs et objectifs pour mettre en œuvre des algorithmes de *computational photography* :
-
-- Fusion multi-capteurs
-- HDR (*High Dynamic Range*)
-- Mode nuit (*Night Mode*)
-- Portrait avec flou d'arrière-plan artificiel
-
-### Imagerie multi-capteurs / hyperspectrale
-
-Des caméras équipées de **multiples objectifs** (ex. : Light L16) permettent de capturer simultanément plusieurs perspectives et longueurs d'onde.
-
----
-
-## Industrie automobile
-
-### Véhicules autonomes
-
-Un véhicule autonome intègre de nombreux systèmes de *computational imaging* :
-
-| Capteur | Rôle |
-|---|---|
-| **Caméras** | Détection de piétons, cyclistes, feux de signalisation, espace libre |
-| **LIDARs** | Capteurs laser haute précision, détection d'objets fixes et mobiles |
-| **Radars longue portée** | Détection des véhicules et mesure de vitesse |
-| **Radars courte portée** | Détection des obstacles autour du véhicule |
-| **Radars articulés** | Détection des véhicules en mouvement à longue portée |
-
-### Imagerie 3D pour véhicules autonomes
-
-Le **LIDAR** (*Light Detection and Ranging*) est un capteur clé :
-
-- Exemple : Velodyne VLS-128
-- Génère des nuages de points 3D en temps réel
-- Permet la perception de l'environnement à 360°
-
----
-
-## Solutions basées sur l'IA
-
-### Deep Optics
-
-Le concept de **Deep Optics** consiste à **optimiser conjointement** les composants optiques et le traitement d'image de bout en bout (*end-to-end*).
-
-#### Principe général
-
-```{mermaid}
-flowchart LR
-    subgraph Physical["Couche physique"]
-        L["Optique\n(lentille)"]
-    end
-    subgraph Digital["Couche numérique"]
-        N["Réseau de neurones"]
-    end
-    Loss["Loss"]
-
-    L --> N --> Loss
-    Loss -.->|"rétropropagation\n(backpropagation)"| L
-    Loss -.->|"rétropropagation"| N
-```
-
-#### Phase d'entraînement (*Training*)
-
-- Optimisation **end-to-end en simulation**
-- La lentille est modélisée différentiablement
-- Le réseau et les paramètres optiques sont co-optimisés via une fonction de perte (*loss*)
-
-#### Phase d'inférence (*Inference*)
-
-- **Fabrication** de la lentille ou d'autres composants physiques obtenus par optimisation
-- Exécution du réseau numérique
-
-**Deux interprétations possibles :**
-
-- Système encodeur optique / décodeur électronique
-- Réseau de neurones hybride optique-électronique
-
----
-
-## Analyse d'œuvres d'art
-
-### Examen de peintures anciennes
-
-L'imagerie computationnelle permet d'analyser de manière **non invasive** la structure interne des peintures.
-
-### Structure d'une peinture (*stratigraphy*)
-
-Une peinture est une structure multicouche :
-
-```{mermaid}
-flowchart TD
-    V["Vernis / Glacis\n(Varnish/Glazes)"]
-    P["Couches de peinture\n(Paint layers)"]
-    S["Esquisse\n(Sketches)"]
-    G["Couche de préparation\n(Ground Layer)"]
-    C["Toile / Support\n(Canvas)"]
-    V --> P --> S --> G --> C
-```
-
-### Imagerie non-invasive traditionnelle
-
-Quatre modalités complémentaires pour une même œuvre (ex. : *La Vierge aux rochers* de Léonard de Vinci) :
-
-| Modalité | Ce qu'on voit |
-|---|---|
-| **Infrarouge** | Couches profondes, esquisses |
-| **Visible** | Surface de la peinture |
-| **Ultraviolet** | Restaurations, vernis |
-| **Rayons X** | Structure générale, couches denses |
-
-### MA-XRF (*Macro X-Ray Fluorescence*)
-
-La **MA-XRF** est une technique d'imagerie élémentaire basée sur la fluorescence X.
-
-#### Principe physique
-
-Lorsqu'un faisceau de rayons X primaire frappe l'échantillon :
-
-1. Des électrons sont éjectés de couches internes (couche K, L, M)
-2. Des électrons de couches externes comblent les lacunes
-3. L'énergie libérée est émise sous forme de **rayonnement de fluorescence X**
-4. L'énergie caractéristique identifie l'**élément chimique** présent
-
-#### Datacube MA-XRF
-
-La MA-XRF génère un **cube de données** 3D :
-
-- Dimensions $x, y$ : position spatiale sur la peinture
-- Dimension énergie : 0–40 keV, 4096 canaux
-
-Ce cube permet de créer des **cartes de distribution élémentaire** (Calcium, Manganèse, Fer, Cuivre, Mercure, Plomb…)
-
-#### Déconvolution XRF
-
-À partir du datacube, un algorithme de **déconvolution XRF** extrait les cartes individuelles par élément chimique.
-
-Exemple (Van Gogh — *Les Tournesols*) :
-
-- Carte Cuivre (Cu K-alpha)
-- Carte Zinc
-- Carte Fer
-- Carte Plomb
-
-### Extraction d'une peinture sous-jacente par ML
-
-Une approche d'apprentissage automatique permet de **séparer** la peinture visible de la peinture cachée (recouverte) à partir des images X.
-
-Exemple : Francisco de Goya — *Doña Isabel de Porcel* (NG1473, avant 1805)
-
-- **(a)** Image RGB (peinture visible)
-- **(b)** Image radiographique X (mélange des deux peintures)
-- **Résultat** : séparation en $\hat{x}_1$ (peinture originale) et $\hat{x}_2$ (peinture sous-jacente)
-
----
-
-## Applications non triviales
-
-### Imagerie en dehors de la ligne de visée (NLOS)
-
-Le **NLOS** (*Non-Line-Of-Sight*) imaging permet de **reconstruire des objets cachés**, non visibles directement par la caméra.
-
-#### Principe
-
-```{mermaid}
-flowchart LR
-    L["Laser picoseconde\n(pulsé)"]
-    M["Miroirs galvanométriques\n(2 axes)"]
-    W["Mur (diffuseur)"]
-    O["Objet caché\n(hidden object)"]
-    D["Capteur SPAD"]
-
-    L --> M --> W
-    W -->|"lumière diffusée"| O
-    O -->|"lumière réfléchie"| W
-    W --> D
-```
-
-#### Mécanisme de mesure temporelle
-
-La profondeur est récupérée grâce au **temps de vol** de la lumière :
-
-- 1er rebond (laser → mur) : mesure de référence, ex. $2.7\text{ ns}$ → $40\text{ cm}$
-- 3ème rebond (mur → objet → mur) : contient l'info sur l'objet, ex. $4.3\text{ ns}$
-- La différence $\Delta t = 4.3 - 2.7 = 1.6\text{ ns}$ correspond à $\sim 24\text{ cm}$
-
-#### Pipeline de reconstruction
-
-1. Acquisition des **mesures temporelles résolues** (datacube 3D)
-2. Application d'un algorithme de **reconstruction 3D** (inversion du problème)
-3. Obtention d'une **image volumétrique** de l'objet caché
-
-#### Résultats expérimentaux
-
-- Système réel : laser pulsé + capteur SPAD + miroirs galvos + occulteur
-- Scène cachée : statue + plante
-- Résultat : reconstruction 3D identifiable de la scène derrière l'occulteur
-
----
-
-# Thèmes principaux du cours
-
-## Système visuel humain
-
-Étude du canal visuel biologique comme référence :
-
-- Anatomie de l'œil
-- Acuité visuelle, vision des couleurs, vision 3D
-- Sensibilité au contraste
-- Conflits dans les affichages (*displays*)
-- Erreurs réfractives
-
-```{mermaid}
-flowchart LR
-    E["Œil\n(capteurs)"] --> N["Nerf optique\n(réseau)"] --> B["Cortex visuel\n(calcul)"]
-```
-
-## Photographie numérique
-
-Étude des composantes d'un appareil photo numérique :
-
-- Optiques et lentilles
-- Ouverture (*aperture*)
-- Profondeur de champ (*depth of field*)
-- Champ de vision (*field of view*)
-- Exposition (*exposure*)
-- Bruit (*noise*)
-- Tableaux de filtres colorés (*color filter arrays*, CFA)
-- Pipeline de traitement d'image (*imaging processing pipeline*)
-
-## Photographie computationnelle
-
-Techniques avancées de capture et traitement :
-
-- **HDR** (*High Dynamic Range Imaging*)
-- *Tone mapping*
-- Photographie en rafale et mode nuit (*Burst photography & Night Sight*)
-- Ouvertures codées (*Coded apertures*)
-- Et bien d'autres…
-
-## Apprentissage profond pour le CI
-
-Architectures de réseaux de neurones appliquées à l'imagerie :
-
-- Réseaux de neurones convolutifs (**CNN** — *Convolutional Neural Networks*)
-- **DnCNN** — débruitage par réseau profond
-- **U-Net** — segmentation et reconstruction
-- Et autres architectures…
-
-## Optimisation et apprentissage profond
-
-Méthodes algorithmiques pour la résolution de problèmes inverses :
-
-- Méthodes de gradient proximal (*Proximal gradient methods*)
-- Optimisation itérative avec des *priors* profonds
-- Résolution de problèmes inverses généraux en imagerie
-
-## Imagerie compressive (*Compressive Imaging*)
-
-Acquisition sous-échantillonnée avec reconstruction :
-
-- Caméra à pixel unique (*single pixel camera*)
-- Imagerie hyperspectrale compressive
-- Imagerie compressive de champ lumineux (*light field*)
-
-## Introduction à l'optique ondulatoire et au Deep Optics
-
-- Diffraction et interférence
-- La limite de diffraction
-- Optimisation conjointe optique & traitement d'image (*end-to-end*)
-- Récupération de phase (*phase retrieval*)
-- Holographie générée par ordinateur (*computer-generated holography*)
-
-## Affichages computationnels (*Computational Displays*)
-
-- **Gaze-Contingent Focus Displays** — affichages adaptatifs au regard
-- **Near-Eye Light Field Displays** — affichages à champ lumineux proche de l'œil
-- **Holographic Displays** — affichages holographiques
-
----
-
-# Références
-
-- *Computational Photography* — Levoy, Adams, Pulli (Stanford)
-- *Computational Photography SIGGRAPH Course* — Raskar & Tumblin
-- *Digital and Computational Photography* — Durand & Freeman (MIT)
-- *Computational Photography* — Efros (CMU)
-- *Computational Photography* — Gkioulekas (CMU)
-- *Computational Imaging* — Wetzstein (Stanford)
-- *Computational Photography* — Fergus (NYU)
-- *Computational Imaging* — Dragotti (Imperial College)
-- *Computer Vision* — Seitz & Szeliski (UWashington)
-- *Introduction to Visual Computing* et *Visual Modeling* — Kutulakos (UToronto)
+## 6) Erreurs fréquentes
+
+- Réduire la CI à l'IA uniquement.
+- Oublier les contraintes physiques de l'acquisition.
+- Confondre amélioration visuelle et reconstruction d'information.
+- Ignorer les compromis (résolution, bruit, lumière, coût, calcul).

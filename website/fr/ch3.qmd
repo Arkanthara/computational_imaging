@@ -1,243 +1,618 @@
-# Computational imaging
-
-## Introduction
-
-Ce cours présente les principes de l’imagerie computationnelle, une discipline qui combine l’optique et le traitement numérique pour repousser les limites des systèmes d’imagerie traditionnels. Nous explorerons trois domaines clés : la photographie computationnelle, la photographie de champ lumineux (light field) et les caméras à ouverture codée.
+# Chapitre 3 - Photographie computationnelle
+##### Taras Holotyak · Université de Genève · 14X062
 
 ---
 
-# 1. Photographie computationnelle
+## Computational Photography
 
-La photographie computationnelle désigne l’ensemble des techniques où l’optique et le calcul numérique travaillent ensemble pour produire des images qui seraient impossibles à obtenir avec un système purement optique.
+## Modèle d'imagerie
 
-## Approche classique vs. approche computationnelle
+### Photographie conventionnelle
 
-Dans une caméra traditionnelle :
+Dans la photographie conventionnelle, le pipeline est simple et linéaire :
 
-- L’optique capture une image qui est (presque) l’image finale.
-- Le calcul ne fait qu’« améliorer » l’image capturée (par exemple, défloutage).
+```{mermaid}
+flowchart LR
+    A[Monde réel] --> B[Optique]
+    B --> C[Image capturée]
+    C --> D[Calcul]
+    D --> E[Image améliorée]
+```
 
-Avec une approche computationnelle :
+- L'**optique** capture quelque chose de proche de l'image finale
+- Le **calcul** sert principalement à *améliorer* l'image capturée (ex. : défloutage)
 
-- L’optique généralisée **encode** la scène dans une représentation intermédiaire.
-- Le calcul généralisé **décode** cette représentation pour produire une ou plusieurs images finales.
+### Photographie computationnelle
 
-## Éléments d’un système d’imagerie
+La photographie computationnelle généralise ce pipeline :
 
-Les paramètres fondamentaux qui influencent la formation de l’image sont :
+```{mermaid}
+flowchart LR
+    A[Monde réel] --> B[Optique généralisée]
+    B --> C[Représentation codée]
+    C --> D[Calcul généralisé]
+    D --> E[Image(s) finales]
+```
 
-- l’optique (lentilles)
-- l’ouverture (diaphragme)
-- la profondeur de champ
-- le champ de vue
-- l’exposition
-- le bruit
-- les matrices de filtres colorés (CFA)
-- la chaîne de traitement d’image (pipeline)
+- L'**optique généralisée** encode le monde dans une représentation intermédiaire
+- Le **calcul généralisé** décode cette représentation en une ou plusieurs images
 
-## Exemple : matrice de filtres colorés (CFA)
+> **Idée clé** : on déplace la complexité de l'optique vers le calcul, gagnant ainsi en flexibilité.
 
-La plupart des capteurs numériques sont monochromes. Pour obtenir une image couleur, on place devant le capteur une matrice de filtres (généralement Bayer) qui encode l’information couleur en une mosaïque de pixels rouges, verts et bleus.
+### Paramètres optiques contrôlables
 
-- L’optique **encode** la couleur dans cette mosaïque.
-- Le calcul (démosaïçage) **décode** la mosaïque pour reconstruire une image RGB complète.
+Les paramètres d'un système optique sur lesquels on peut agir :
 
-## Profondeur de champ et mise au point
-
-### Problème du tout net
-
-Si l’on règle l’optique pour que tout soit net (très petite ouverture), on perd énormément de lumière (inefficacité lumineuse).
-
-### Solution classique : une seule profondeur nette
-
-En ouvrant le diaphragme, seule une fine tranche de l’espace est nette. C’est efficace en lumière, mais on perd l’information des autres plans.
-
-**Question :** Comment obtenir une image entièrement nette (tout-net) tout en conservant une bonne efficacité lumineuse ?
-
-## Prise de vue par empilement de mises au point (focal stack)
-
-Une solution consiste à capturer plusieurs images avec des distances de mise au point différentes, puis à les fusionner en une seule image où tout est net.
-
-### 1. Acquisition d’un empilement focal
-
-Pour capturer un empilement focal, on modifie la distance de mise au point (par exemple en déplaçant l’objectif ou en changeant la distance focale). Attention : en modifiant la mise au point, on change aussi le grandissement (champ de vue). Les images ne sont donc pas parfaitement alignées.
-
-### 2. Alignement des images
-
-Il faut aligner les images pour compenser les variations de grandissement. Si l’on connaît la distance focale $f$ et les distances de mise au point $D$, on peut calculer les transformations géométriques nécessaires (homothéties). Dans la pratique, on utilise souvent des algorithmes de recalage d’images.
-
-### 3. Pondération des pixels
-
-Pour fusionner les images, on attribue à chaque pixel un poids représentant son degré de netteté. On mesure la netteté locale par des opérateurs de dérivée seconde, comme le Laplacien, éventuellement suivi d’un flou gaussien pour lisser la carte de poids.
-
-### 4. Fusion
-
-L’image finale tout-net est obtenue par une moyenne pondérée des images alignées.
+- Ouverture (*aperture*)
+- Profondeur de champ (*depth of field*)
+- Champ de vue (*field of view*)
+- Exposition (*exposure*)
+- Bruit (*noise*)
+- Tableaux de filtres couleur (*color filter arrays*, CFA)
 
 ---
 
-## Techniques d’inférence de profondeur
+## Exemple fondateur : la mosaïque CFA (*mosaicing*)
 
-L’empilement focal peut également servir à estimer la profondeur des objets dans la scène. Plusieurs méthodes existent.
+```{mermaid}
+flowchart LR
+    A[Monde réel] --> B["Optique généralisée\n(CFA)"]
+    B --> C["Représentation codée\n(mosaïque)"]
+    C --> D["Calcul généralisé\n(dématriçage)"]
+    D --> E["Image finale\n(RGB)"]
+```
 
-### Stéréo confocale
-
-- On capture un empilement 2D en faisant varier à la fois la mise au point et l’ouverture.
-- On analyse pour chaque pixel son « image focus-ouverture » pour en déduire la profondeur réelle.
-
-### Profondeur par flou de défocalisation (depth from defocus)
-
-- Nécessite seulement deux images prises avec des ouvertures ou des mises au point différentes.
-- On modélise le flou comme une convolution par un noyau gaussien dont l’écart-type $\sigma$ dépend de la profondeur.
-- En estimant la différence de flou entre les deux images, on remonte à la profondeur.
-
-### Flux focal (focal flow)
-
-- On utilise un empilement focal dense (par exemple, toutes les images produites lors d’une mise au point automatique).
-- On suppose que le flou de défocalisation est modélisable par un noyau gaussien de variance variable.
-- On estime le flot optique entre images successives de l’empilement.
-- La variation du flot optique est reliée à la profondeur.
-- Méthode très efficace (pas de convolution coûteuse) mais ne fonctionne que sur des zones texturées (pourquoi ? Parce que le flot optique nécessite des motifs discriminables).
-
-### Profondeur par mise au point (depth from focus)
-
-- Nécessite un empilement focal.
-- Pour chaque patch, on cherche l’image où la netteté est maximale ; la profondeur correspondante est celle du patch.
-
-### Résumé comparatif
-
-| Technique       | Données nécessaires         | Résolution spatiale |
-|-----------------|------------------------------|----------------------|
-| Stéréo confocale | Empilement focus-ouverture   | Par pixel            |
-| Flux focal       | Empilement focal dense       | Par patch (texture)  |
-| Profondeur par focus | Empilement focal           | Par patch            |
-| Profondeur par defocus | Deux images seulement    | Par patch            |
+- Le **tableau de filtres couleur (CFA)** encode la couleur sous forme de mosaïque
+- Le **dématriçage (*demosaicing*)** décode cette mosaïque en image RGB complète
 
 ---
 
-# 2. Photographie de champ lumineux (light field photography)
+## Caméra à sténopé (*Pinhole Camera*)
 
-Les photographies traditionnelles n’enregistrent qu’une infime partie de l’information contenue dans la lumière qui entre dans l’appareil. La photographie de champ lumineux vise à capturer la distribution géométrique complète des rayons lumineux.
+**Principe** : une ouverture infiniment petite remplace la lentille.
+
+- ✅ Tout est net (profondeur de champ infinie)
+- ❌ Très peu efficace en termes de lumière captée
+
+---
+
+## Caméra à lentille (*Lens Camera*)
+
+**Principe** : une lentille remplace le sténopé pour collecter plus de lumière.
+
+- ✅ Très efficace en termes de lumière
+- ❌ Un seul plan est net à la fois → **problème de mise au point**
+
+> **Question** : comment obtenir une image entièrement nette ?
+
+---
+
+## Pile focale (*Focal Stack*)
+
+### Concept
+
+**Analogie** avec le HDR vu précédemment :
+
+| HDR | Focal Stack |
+|---|---|
+| Empiler des images à différentes expositions | Empiler des images focalisées sur différents plans |
+| Fusionner en une image HDR | Fusionner en une image entièrement nette |
+
+### Procédure de capture
+
+Pour capturer une pile focale :
+
+1. Prendre plusieurs images focalisées sur différents **plans de profondeur**
+2. Fusionner en une seule image entièrement nette (*all-in-focus*)
+
+**Paramètre à modifier** : on tourne la **bague de mise au point** (et non le zoom !), ce qui change la **distance lentille-capteur $D'$**.
+
+#### Loi de conjugaison des lentilles
+
+$$\frac{1}{f} = \frac{1}{D} + \frac{1}{D'}$$
+
+avec :
+
+- $f$ : longueur focale de la lentille
+- $D$ : distance lentille-objet
+- $D'$ : distance lentille-capteur
+
+### Fusion de la pile focale
+
+#### Étape 1 : Alignement des images
+
+**Pourquoi aligner ?** Quand on change la distance de mise au point, on change aussi le **grandissement** (champ de vue), ce qui provoque un léger zoom entre les images.
+
+En supposant que $f$ et toutes les valeurs de $D'$ sont connues, on peut corriger ce changement de grandissement par **redimensionnement** (*resize*) selon les équations de conjugaison.
+
+#### Étape 2 : Assignation des poids
+
+Pour chaque pixel, on mesure sa **netteté locale** afin de savoir s'il est bien mis au point :
+
+1. Appliquer l'**opérateur Laplacien** (détecteur de bords → zones nettes)
+2. Appliquer un **flou gaussien** pour régulariser
+
+→ Plus la réponse est forte, plus le pixel est net.
+
+#### Étape 3 : Fusion pondérée
+
+$$I_{\text{fused}}(x,y) = \frac{\sum_k w_k(x,y) \cdot I_k(x,y)}{\sum_k w_k(x,y)}$$
+
+avec $w_k(x,y)$ le poids de netteté du pixel $(x,y)$ dans l'image $k$.
+
+---
+
+## Techniques avancées de profondeur
+
+### Stéréo confocale (*Confocal Stereo*)
+
+*[Hassinoff and Kutulakos, ECCV 2006]*
+
+- Capture une **pile 2D** en faisant varier à la fois la mise au point **et** l'ouverture
+- Analyse l'image focale-ouverture de chaque pixel pour estimer la **profondeur réelle**
+- ✅ Estimation par pixel
+
+### Profondeur par défocalisation (*Depth from Defocus*)
+
+*[Shree K. Nayar]*
+
+- Utilise seulement **deux images** avec des défocalisations différentes
+- Noyaux de flou : $h_{z_1}(x,y)$ et $h_{z_2}(x,y)$ pour les images $G_1(x,y)$ et $G_2(x,y)$
+- Estime la profondeur en comparant les niveaux de flou
+- ✅ Nécessite peu d'images
+- ❌ Estimation par patch (pas par pixel)
+
+### Flot focal (*Focal Flow*)
+
+*[Alexander et al., ECCV 2016 ; Guo et al., ICCV 2017, PNAS 2019]*
+
+**Inspiration biologique** : les araignées sauteuses utilisent ce principe !
+
+**Principe** :
+
+1. Utiliser une **pile focale dense** (ex. : depuis l'autofocus)
+2. Modéliser le cercle de confusion comme un noyau de flou (typiquement gaussien) avec $\sigma$ variable
+3. Estimer le **flot optique** entre images successives de la pile
+4. Relier le changement de flot optique à la **profondeur**
+
+- ✅ Très peu de calcul (pas de convolutions)
+- ❌ Ne fonctionne que sur des zones texturées
+
+### Récapitulatif des techniques de profondeur
+
+| Technique | Entrée requise | Granularité |
+|---|---|---|
+| Depth from focus | Pile focale | Par patch |
+| Depth from defocus | 2 images | Par patch |
+| Confocal stereo | Pile focale + ouverture | Par pixel |
+| Focal flow | Pile focale dense | Par patch (efficace) |
+
+---
+
+## Light Field Photography
 
 ## Théorie du champ lumineux
 
-La fonction plénoptique décrit la lumière en tout point de l’espace et dans toute direction. C’est une fonction à 5 dimensions : 3 coordonnées spatiales $(x, y, z)$ et 2 angles de direction $(\theta, \phi)$. On la note $L(x, y, z, \theta, \phi)$.
+### Motivation
 
-Dans un appareil photo, on peut simplifier en considérant que la lumière est captée sur un plan (le capteur) et que les directions sont échantillonnées par la pupille de l’objectif. On aboutit à une représentation à 4 dimensions : deux coordonnées sur le plan de l’image $(u, v)$ et deux coordonnées sur le plan de la pupille $(s, t)$. C’est le **light field** $L(u, v, s, t)$.
+Une photographie classique ne capture qu'une **fraction** de l'information lumineuse entrant dans la caméra.
 
-## Comment capturer un champ lumineux ?
+Une **caméra à champ lumineux (*light field camera*)** capture en plus :
 
-### Option 1 : utiliser plusieurs caméras
+- La direction de provenance de chaque rayon lumineux
+- Comment la lumière venant d'une partie de la lentille diffère de celle venant d'une autre
 
-On place un réseau de caméras (par exemple, le « Stanford camera array »). Chaque caméra voit la scène sous un angle légèrement différent. L’ensemble des images forme un light field échantillonné.
+### Définition du champ lumineux
 
-### Option 2 : déplacer une seule caméra
+Le champ lumineux est défini comme la **distribution géométrique des rayons lumineux** circulant dans l'espace.
 
-On monte une caméra sur un système motorisé (par exemple, un moteur LEGO) et on prend des photos depuis différentes positions. On obtient ainsi un light field, mais l’acquisition est lente.
+$$L = L(x, y, z, \theta, \phi)$$
 
-### Option 3 : utiliser une caméra plénoptique
+C'est une **fonction plénotique (*plenoptic function*) à 5 dimensions** :
 
-Une caméra plénoptique (ou « plenoptic camera ») place un réseau de microlentilles devant le capteur. Chaque microlentille sépare les rayons provenant de différentes parties de la pupille, ce qui permet d’enregistrer à la fois l’information spatiale et angulaire en une seule exposition.
+- $3D$ pour chaque position spatiale $(x, y, z)$
+- $2D$ pour chaque direction de propagation $(\theta, \phi)$
 
-- Principe conceptualisé par Gabriel Lippmann au début du XXe siècle sous le nom de « photographie intégrale ».
-- L’optique **encode** la scène en un light field (4D).
-- Le calcul **décode** ce light field pour produire des images refocalisées ou des vues multiples.
+### Fonction plénotique 5D
 
-## Exemple : caméra Lytro
+```{mermaid}
+flowchart TD
+    P["Fonction plénotique 5D\nL(x, y, z, θ, φ)"]
+    P --> S["Position spatiale\n(x, y, z) — 3D"]
+    P --> D["Direction de propagation\n(θ, φ) — 2D"]
+```
 
-La caméra Lytro est un exemple commercial de caméra plénoptique portable.
-
-- Elle contient un objectif principal, un réseau de microlentilles et un capteur CMOS.
-- Le réseau de microlentilles divise les pixels du capteur en zones, chacune enregistrant une vue sous un angle différent.
-- Le « Light Field Engine » (processeur) traite les données brutes pour permettre la refocalisation a posteriori.
-- Spécifications typiques : un capteur de 16 mégapixels peut être divisé, par exemple, en $292 \times 292$ microlentilles, chacune couvrant $14 \times 14$ pixels. On obtient ainsi une résolution spatiale réduite mais une haute résolution angulaire.
-
-### Avantages et inconvénients
-
-**Avantages :**
-
-- Appareil portable.
-- Possibilité de refocaliser après la prise de vue (digital refocusing).
-
-**Inconvénients :**
-
-- Résolution spatiale réduite (car les pixels sont partagés entre vues angulaires).
-- Ouverture fixe (pas de contrôle direct de la profondeur de champ).
-
-## Caméras plénoptiques industrielles
-
-Des modèles plus sophistiqués existent pour la recherche et l’industrie :
-
-- Résolution spatiale et angulaire beaucoup plus élevée.
-- Objectifs interchangeables.
-- Possibilité de vidéo.
-- Coût très élevé.
+Le **champ lumineux** (ou *radiance*) encode complètement l'état de la lumière en tout point de l'espace.
 
 ---
 
-# 3. Caméra conventionnelle à ouverture codée
+## Capture d'un champ lumineux
 
-L’ouverture codée est une technique qui consiste à placer un masque (motif) dans le diaphragme de l’objectif pour modifier la forme du flou de défocalisation. Cela permet d’améliorer l’estimation de la profondeur et la déconvolution.
+### Mesure des rayons
 
-## Problèmes liés au flou de défocalisation
+Un rayon lumineux peut être paramétré par son intersection avec **deux plans parallèles** :
 
-- Il est difficile de distinguer une scène lisse (peu texturée) d’un flou de défocalisation.
-- Il est difficile d’inverser le flou (déconvolution) à cause des artefacts (ringing) et de l’amplification du bruit.
+- Plan $st$ (au niveau de la lentille)
+- Plan $uv$ (au niveau du capteur)
 
-## Solutions possibles
+> **Propriété clé** : le même ensemble de rayons peut être capturé par une **caméra à sténopé déplacée** sur plusieurs points de vue.
 
-1. **Exploiter les caractéristiques statistiques des images naturelles** (priors) pour régulariser la déconvolution.
-2. **Améliorer la discrimination en profondeur** en rendant le flou plus « reconnaissable ».
+### Option 1 : Tableau de caméras multiples
 
-L’ouverture codée agit sur le second point : en remplaçant l’ouverture circulaire par un motif connu (par exemple, un code binaire), la forme du flou varie avec la profondeur de manière plus discriminante. On peut ainsi :
+*[Wilburn et al., SIGGRAPH 2005]*
 
-- Mieux estimer la profondeur à partir d’une seule image.
-- Améliorer la déconvolution car le noyau de flou (PSF) est plus facile à identifier.
+- **Stanford Camera Array** → *"synthetic aperture"*
+- ✅ Haute résolution spatiale et angulaire
+- ❌ Encombrant et coûteux
 
-## Principe
+### Option 2 : Déplacement d'une seule caméra
 
-- On place un masque (coded aperture) à l’intérieur de l’objectif.
-- La PSF (Point Spread Function) de l’appareil dépend de la profondeur de l’objet et du motif du masque.
-- En connaissant le motif, on peut, par déconvolution aveugle ou semi-aveugle, estimer à la fois la profondeur et l’image nette.
+- Caméra unique montée sur un moteur (ex. : LEGO)
+- Prendre plusieurs images depuis différentes positions
+- ❌ Scène doit être **statique**
 
-### Exemple de défis
+### Option 3 : Caméra plénoptique (*Plenoptic Camera*)
 
-- Une scène uniforme reste difficile car il n’y a pas d’information de texture.
-- Les algorithmes de déconvolution classiques produisent des artefacts (ringing) si le noyau est mal estimé.
+> **Étymologie** : *plenus* (latin, "plein") + *optic* (grec, "voir")
 
----
+Conceptualisée pour la première fois par **Gabriel Lippmann** (il y a plus d'un siècle) sous le nom de *photographie intégrale*.
 
-# 4. Caméras à optique généralisée
-
-Au-delà de l’ouverture codée, on peut modifier l’optique elle-même pour obtenir des propriétés intéressantes.
-
-## Codage par front d’onde (wavefront coding)
-
-- On remplace la lentille conventionnelle par une **plaque de phase cubique**.
-- Les rayons ne convergent plus en un point unique.
-- La PSF devient **approximativement invariante en profondeur** sur une certaine plage.
-- Cela facilite la déconvolution (un seul noyau à utiliser pour toute la scène).
-
-## Réseau de microlentilles à focales variables
-
-- On place un réseau de microlentilles devant l’objectif principal, chaque microlentille ayant une focale légèrement différente.
-- Cela permet de capturer simultanément des images avec différentes mises au point.
-- Principe proche de la caméra plénoptique, mais avec une organisation différente.
-
-## Lentille en treillis (lattice lens)
-
-- Ce dispositif capture seulement un sous-ensemble « utile » du champ lumineux 4D.
-- La PSF n’est pas invariante en profondeur, mais on peut appliquer des déconvolutions locales comme en ouverture codée.
+```{mermaid}
+flowchart LR
+    A[Monde réel] --> B["Optique généralisée\n(caméra plénoptique)"]
+    B --> C["Représentation codée\n(champ lumineux)"]
+    C --> D["Calcul généralisé\n(rendu du champ lumineux)"]
+    D --> E["Images refocalisées\nou multi-points de vue"]
+```
 
 ---
 
-# Conclusion
+## Caméra conventionnelle vs caméra à champ lumineux
 
-L’imagerie computationnelle offre des possibilités extraordinaires en repoussant les limites des systèmes optiques traditionnels. À travers l’empilement focal, le champ lumineux, l’ouverture codée et les optiques généralisées, on peut :
+### Structure comparée
 
-- Obtenir des images tout-nettes avec une bonne luminosité.
-- Estimer la profondeur des scènes.
-- Refocaliser après la prise de vue.
-- Améliorer la qualité des images dégradées par le flou.
+```{mermaid}
+flowchart TD
+    subgraph "Caméra conventionnelle"
+        L1[Lentille principale] --> S1[Capteur]
+    end
+    subgraph "Caméra plénoptique"
+        L2[Lentille principale] --> MLA[Tableau de microlentilles]
+        MLA --> S2[Capteur]
+    end
+```
 
-Ces techniques sont aujourd’hui utilisées dans des domaines variés : photographie grand public, imagerie scientifique, robotique, réalité virtuelle, etc.
+La différence fondamentale : un **tableau de microlentilles (*microlens array*)** est inséré entre la lentille principale et le capteur.
+
+### Paramétrisation des plans
+
+- Plan $st$ : plan de la lentille principale
+- Plan $uv$ : plan du capteur
+
+Chaque microlentille capture les rayons provenant d'une petite région du plan $st$, donnant accès à la **direction** des rayons.
+
+---
+
+## Opérations numériques sur le champ lumineux
+
+### Réduction d'ouverture numérique (*Digitally stopping-down*)
+
+- **Principe** : additionner uniquement la partie centrale de chaque microlentille
+- → Simule une ouverture plus petite → plus grande profondeur de champ
+
+### Déplacement virtuel de l'observateur
+
+- **Principe** : déplacer la fenêtre d'extraction à travers les microlentilles
+- → Simule un changement de point de vue
+
+### Refocalisation numérique (*Digital refocusing*)
+
+- **Principe** : additionner des fenêtres extraites de plusieurs microlentilles avec décalage
+- → Simule une mise au point sur un plan différent *après la capture*
+
+> **Avantage majeur** : on peut choisir le plan de mise au point **après** avoir pris la photo !
+
+---
+
+## Caméra Lytro
+
+### Présentation
+
+*Lytro* et *Lytro Illum Pro* : premières caméras plénoptiques grand public.
+
+### Qu'est-ce que la caméra Lytro ?
+
+- Caméra plénoptique avec :
+  - Une **lentille principale** photographique
+  - Un **tableau de microlentilles** (*lens array*)
+  - Un **capteur numérique** (*digital photosensor*)
+- Capture le champ lumineux pour permettre la **refocalisation après coup**
+
+### Composants internes
+
+- **Lens Array** : tableau de microlentilles
+- **Light Field Sensor** : capteur de champ lumineux
+- **Light Field Engine** : moteur de traitement du champ lumineux
+- **Marvell Avastar 88W8787 SoC** : puce Wi-Fi et Bluetooth
+
+#### Capteur de champ lumineux (*Light Field Sensor*)
+
+- **Capteur CMOS** : converti la lumière en électrons → valeurs numériques par cellule
+- **Tableau de microlentilles** : divisent les pixels CMOS en zones, montrant l'image sous différents angles
+
+#### Spécifications du capteur Lytro
+
+- **4000 × 4000 pixels** au total
+- **292 × 292 microlentilles** (296 selon les specs mécaniques, ~$37$ mm de surface active)
+- **14 × 14 pixels** par microlentille
+- Microlentilles carrées de $125\ \mu m$ de côté
+- Séparation de $0.5$ mm entre les composants
+
+### Caméras plénoptiques industrielles
+
+Les caméras plénoptiques sont devenues populaires en laboratoire et industrie :
+
+- ✅ Résolution spatiale et angulaire bien supérieure aux caméras grand public
+- ✅ Lentilles interchangeables
+- ✅ Vidéo possible
+- ❌ Très coûteuses
+
+### Avantages et inconvénients du Lytro
+
+| Avantages | Inconvénients |
+|---|---|
+| Très portable | Résolution totale réduite |
+| Capacité de refocalisation | Ouverture fixe |
+
+---
+
+## Caméra conventionnelle avec ouverture codée
+
+## Objectifs
+
+À partir d'une **seule image d'entrée**, obtenir :
+
+1. **Output #1** : une **carte de profondeur (*depth map*)**
+2. **Output #2** : une **image entièrement nette (*all-focused image*)**
+
+---
+
+## Lentille et défocalisation
+
+### Point source en mise au point
+
+Quand un point source est sur le **plan focal** :
+
+- Tous les rayons convergent vers un **point unique** sur le capteur
+- La **fonction d'étalement du point (*Point Spread Function*, PSF)** est une impulsion de Dirac
+
+### Point source défocalisé
+
+Quand le point source est **hors du plan focal** :
+
+- Les rayons ne convergent plus → forment un **disque de confusion (*circle of confusion*)**
+- La PSF est un **disque circulaire** dont le rayon dépend de la profondeur
+
+$$r_{\text{coc}} \propto \left| \frac{1}{f} - \frac{1}{D} - \frac{1}{D'} \right|$$
+
+---
+
+## Profondeur par défocalisation
+
+**Idée** : le rayon du cercle de confusion dépend de la profondeur :
+
+$$C_D = \frac{A \cdot f \cdot |D' - D_f|}{D_f \cdot (D' - f)}$$
+
+avec :
+
+- $A$ : diamètre d'ouverture
+- $D_f$ : distance de mise au point
+- $D'$ : distance lentille-capteur
+
+→ Analyser l'**échelle du flou de défocalisation** pour estimer la profondeur.
+
+---
+
+## Défis de la déconvolution
+
+### Problème 1 : Déconvolution difficile même si le noyau est connu
+
+- Algorithme de **Richardson-Lucy** classique → **artefacts d'anneau (*ringing*)** sévères
+
+### Problème 2 : Déconvolution mal posée
+
+L'image observée $y$ est liée à l'image nette $x$ par :
+
+$$y = f \otimes x + \text{bruit}$$
+
+Cette inversion est **ill-posed** : il existe une infinité de solutions $x$ compatibles avec $y$.
+
+---
+
+## Solutions proposées
+
+### Solution 1 : Prior sur les images naturelles
+
+**Observation** : les images naturelles ont des **gradients épars (*sparse gradients*)**.
+
+```{mermaid}
+flowchart LR
+    N[Images naturelles] --> |"gradients épars"| G[Histogramme en pic]
+    U[Images non naturelles] --> |"gradients étalés"| H[Histogramme aplati]
+```
+
+**Idée** : imposer une **pénalité sur les gradients** lors de la déconvolution.
+
+#### Formulation de la déconvolution avec prior
+
+$$\hat{x} = \arg\min_x \| f \otimes x - y \|^2 + \lambda \cdot P(\nabla x)$$
+
+avec :
+
+- $\| f \otimes x - y \|^2$ : **erreur de convolution** (fidélité aux données)
+- $P(\nabla x)$ : **prior sur les dérivées** (régularisation)
+- $\lambda$ : paramètre de compromis
+
+#### Comparaison des priors
+
+| Algorithme | Prior $P$ | Comportement | Qualité |
+|---|---|---|---|
+| Richardson-Lucy | aucun | — | Anneau fort |
+| Prior gaussien | $\|\nabla x\|^2$ | Étale les gradients | Moyen |
+| Prior épars | $\|\nabla x\|$ | Localise les gradients | Meilleur |
+
+---
+
+### Solution 2 : Ouverture codée (*Coded Aperture*)
+
+#### Principe
+
+Placer un **masque (*code*)** dans le plan d'ouverture de la lentille :
+
+```{mermaid}
+flowchart LR
+    A["Ouverture conventionnelle\n(disque plein)"] --> |"remplacée par"| B["Ouverture codée\n(masque binaire)"]
+```
+
+**But** : rendre les motifs de défocalisation **différents des images naturelles** → plus faciles à discriminer.
+
+#### Pourquoi coder ?
+
+**Problème en fréquence** : la convolution spatiale correspond à une multiplication fréquentielle.
+
+$$Y(u,v) = F(u,v) \cdot X(u,v)$$
+
+Si $F(u,v)$ a des **zéros** (fréquences nulles) → perte d'information irréversible → impossibilité d'inverser.
+
+- **Ouverture conventionnelle** (disque) : spectre fréquentiel avec zéros → déconvolution difficile
+- **Ouverture codée** : conçue pour **éviter les zéros** dans le spectre → déconvolution possible
+
+#### Conception du filtre optimal
+
+Recherche analytique du motif maximisant la **discrimination entre différentes échelles de défocalisation** (divergence KL) :
+
+- Tenir compte du prior sur les images
+- Respecter les contraintes physiques (binaire : ouvert/fermé)
+
+**Propriété clé** : si le filtre n'a **pas de zéros fréquentiels** → inversion directe possible.
+
+---
+
+## Vue d'ensemble du pipeline avec ouverture codée
+
+### Modèle de défocalisation locale
+
+La fenêtre locale $V'$ de l'image est modélisée comme :
+
+$$V' = f_\lambda \otimes V$$
+
+avec $f_\lambda$ : noyau de flou calibré à la profondeur $\lambda$.
+
+### Estimation de profondeur régularisée
+
+1. Déconvoluer avec **10 échelles d'ouverture différentes** :
+   $$\hat{x}_\lambda = \arg\min_x \| f_\lambda \otimes x - y \|^2 + \lambda \cdot P(\nabla x)$$
+
+2. **Sélectionner** l'échelle à erreur minimale dans chaque fenêtre locale
+
+3. **Régulariser** l'estimation de profondeur (carte de profondeur lissée)
+
+4. **Déconvoluer** avec le noyau sélectionné → image nette
+
+### Résultats obtenus
+
+- ✅ Carte de profondeur + image nette depuis une **seule image**
+- ✅ **Pas de perte de résolution** par rapport à la caméra conventionnelle
+- ✅ **Modification simple** de la lentille (ajout du masque)
+- ⚠️ Profondeur grossière : impossible sur zones non texturées, peut nécessiter corrections manuelles
+- ⚠️ Légère **perte de lumière** (masque bloque une partie)
+
+### Refocalisation numérique depuis une seule image
+
+L'estimation de profondeur permet de simuler une **refocalisation a posteriori**, similaire à la caméra plénoptique — mais depuis **une seule prise de vue** avec une caméra modifiée simplement.
+
+---
+
+## Caméra avec optique généralisée
+
+## Motivation
+
+Au lieu de modifier l'**ouverture**, on peut modifier directement l'**optique** (la lentille elle-même).
+
+$$\text{Distance objet } D \quad \longleftrightarrow \quad \text{Distance focale } D'$$
+
+---
+
+## Codage du front d'onde (*Wavefront Coding*)
+
+### Principe
+
+Remplacer la lentille par une **plaque à phase cubique (*cubic phase plate*)**.
+
+- **Lentille standard** : les rayons convergent vers le plan focal → PSF très différente selon la profondeur
+- **Wavefront coding** : les rayons ne convergent plus exactement → PSF **approximativement invariante en profondeur** sur une plage donnée
+
+### Avantage
+
+$$\text{PSF}(x,y,D) \approx \text{PSF}(x,y) \quad \text{pour } D \in [D_{\min}, D_{\max}]$$
+
+→ Une **seule déconvolution** suffit pour tout déflouteur, quelle que soit la profondeur.
+
+---
+
+## Lentille à réseau (*Lattice Lens*)
+
+### Principe
+
+Ajouter un **tableau de lentillons à focale variable (*lenslet array*)** devant la lentille principale.
+
+→ Ressemble à une caméra plénoptique (cf. tableau de microlentilles Lytro)
+
+### Propriétés spectrales
+
+- Spectre du champ lumineux : **4D**
+- Spectre de l'image : **2D**
+- Profondeur : **1D**
+
+→ Seule la **variété 3D** correspondant à la distance de mise au point physique est utile.
+
+$$\dim(\text{utile}) = 3 \quad \text{sur } 4D \text{ total}$$
+
+**Conséquence** : la PSF n'est **pas** invariante en profondeur → déconvolution locale nécessaire (comme pour l'ouverture codée).
+
+---
+
+## Comparaison des approches
+
+| Approche | Modification | Invariance PSF | Profondeur de champ |
+|---|---|---|---|
+| Lentille standard | aucune | Non | Faible |
+| Ouverture codée | masque dans ouverture | Non | Étendue |
+| Focal sweep | balayage continu | Partielle | Très étendue |
+| Wavefront coding | plaque phase cubique | **Oui** (approx.) | Étendue |
+| Lattice lens | réseau de lentillons | Non | Étendue |
+
+```{mermaid}
+flowchart LR
+    A[Lentille standard] --> B[Ouverture codée]
+    B --> C[Focal sweep]
+    C --> D[Wavefront coding]
+    D --> E[Lattice lens]
+    style A fill:#ffcccc
+    style E fill:#ccffcc
+```
+
+---
+
+## Références
+
+- *Computational Photography* — Levoy, Adams, Pulli (Stanford)
+- *Computational Photography SIGGRAPH Course* — Raskar & Tumblin
+- *Digital and Computational Photography* — Durand & Freeman (MIT)
+- *Computational Photography* — Efros (CMU)
+- *Computational Photography* — Gkioulekas (CMU)
+- *Computational Imaging* — Wetzstein (Stanford)
+- *Computational Photography* — Fergus (NYU)
+- *Computational Imaging* — Dragotti (Imperial College)
+- *Computer Vision* — Seitz & Szeliski (UWashington)
+- *Introduction to Visual Computing and Visual Modeling* — Kutulakos (UToronto)

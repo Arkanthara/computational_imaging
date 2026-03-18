@@ -1,10 +1,10 @@
-# Résumé — Système Visuel Humain
+# Chapitre 2 - Synthèse de révision
 
 *Révision rapide — 14X062 Computational Imaging*
 
 ---
 
-# Évolution & Biologie
+## Évolution & Biologie
 
 ## Ce qu'il faut retenir
 
@@ -21,7 +21,7 @@ Les **6 étapes clés** de l'évolution de l'œil :
 
 ---
 
-# Théories Historiques de la Vision
+## Théories Historiques de la Vision
 
 ## Les grandes étapes
 
@@ -46,7 +46,7 @@ Les **6 étapes clés** de l'évolution de l'œil :
 
 ---
 
-# Caractéristiques du HVS
+## Caractéristiques du HVS
 
 ## Chiffres essentiels à mémoriser
 
@@ -68,7 +68,7 @@ Les **6 étapes clés** de l'évolution de l'œil :
 
 ---
 
-# Anatomie de l'Œil
+## Anatomie de l'Œil
 
 ## Structure de l'avant vers l'arrière
 
@@ -91,7 +91,7 @@ graph LR
 
 ---
 
-# Rétine & Photorécepteurs
+## Rétine & Photorécepteurs
 
 ## Deux systèmes parallèles
 
@@ -120,7 +120,7 @@ graph LR
 
 ---
 
-# Cellules Ganglionnaires de la Rétine
+## Cellules Ganglionnaires de la Rétine
 
 ## Rôle fondamental
 
@@ -147,7 +147,7 @@ graph LR
 
 ---
 
-# Voies Visuelles & Cortex
+## Voies Visuelles & Cortex
 
 ## Chaîne de traitement complète
 
@@ -219,7 +219,7 @@ Organisation spatiale minimisant la distance entre neurones pour des stimuli sim
 
 ---
 
-# Lien avec la Vision Computationnelle
+## Lien avec la Vision Computationnelle
 
 ## Inspirations biologiques → algorithmes
 
@@ -243,7 +243,7 @@ $$\text{Image} \rightarrow \text{Conv} \rightarrow \text{Pool} \rightarrow \text
 
 ---
 
-# Applications — Affichages 3D & VR
+## Applications — Affichages 3D & VR
 
 ## Principe de la stéréoscopie
 
@@ -280,7 +280,7 @@ $$\text{Mobile} < \text{Desktop} < \text{TV} < \text{Cinéma}$$
 
 ---
 
-# Points Clés Absolus à Retenir
+## Points Clés Absolus à Retenir
 
 - **Bâtonnets** → sensibilité, mouvement, nuit — **Cônes** → résolution, couleur, jour
 - **Cellules M** → temporel (mouvement) — **Cellules P** → spatial (couleur, forme)

@@ -1,8 +1,8 @@
-# Résumé — Computational Imaging Lecture 3
+# Chapitre 3 - Synthèse de révision
 
 ---
 
-# Computational Photography
+## Computational Photography
 
 ## Pipeline
 
@@ -38,7 +38,7 @@
 
 ---
 
-# Light Field Photography
+## Light Field Photography
 
 ## Concepts clés
 
@@ -71,7 +71,7 @@
 
 ---
 
-# Caméra avec ouverture codée
+## Caméra avec ouverture codée
 
 ## Problème fondamental
 
@@ -108,7 +108,7 @@ $$\hat{x} = \arg\min_x \underbrace{\| f \otimes x - y \|^2}_{\text{fidélité}} 
 
 ---
 
-# Caméra avec optique généralisée
+## Caméra avec optique généralisée
 
 ## Wavefront Coding
 
