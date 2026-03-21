@@ -1,0 +1,7 @@
+*files
+**/*.quarto_ipynb
+*_site*
+*gitignore
+*.quarto
+*_extensions
+
