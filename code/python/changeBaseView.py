@@ -1,6 +1,6 @@
 import numpy as np
 
-def changeBaseView(s: np.ndarray, t: np.ndarray) -> np.ndarray:
+def changeBaseView(s: int, t: int) -> np.ndarray:
     """
     Returns the shift matrix relative to a specific camera in a 4x4 camera array.
 
@@ -8,9 +8,9 @@ def changeBaseView(s: np.ndarray, t: np.ndarray) -> np.ndarray:
 
     Parameters
     ----------
-    s : np.ndarray
+    s : int
       Camera array row number (0-3).
-    t : np.ndarray
+    t : int
       Camera array column number (0-3).
 
     Returns
@@ -40,7 +40,7 @@ def changeBaseView(s: np.ndarray, t: np.ndarray) -> np.ndarray:
     newShiftMat = np.zeros((4,4,2));
 
     # Compute New Shift Matrix for Camera at (s,t)
-    newShiftMat[:,:,0] = shiftMat[:,:,0] - shiftMat[s+1,t+1,0]
-    newShiftMat[:,:,1] = shiftMat[:,:,1] - shiftMat[s+1,t+1,1]
+    newShiftMat[:,:,0] = shiftMat[:,:,0] - shiftMat[s,t,0]
+    newShiftMat[:,:,1] = shiftMat[:,:,1] - shiftMat[s,t,1]
     return newShiftMat
 

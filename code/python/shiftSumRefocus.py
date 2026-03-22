@@ -53,15 +53,23 @@ def shiftSumRefocus(lightField: np.ndarray, arrayLength: int, arrayDepth: int, s
     # Run Loop through Sub-Aperture Images
     refocusedImage = np.zeros((dim[0], dim[1], dim[2]), dtype=np.double)
     index = 0
-    print("shiftMat: ", shiftMat)
-    print("shiftMat type: ", type(shiftMat))
     for i in range(arrayLength):
         for j in range(arrayDepth):
-            index = index
-            print("Transform: ", [-1*d*shiftMat[i,j,0], -1*d*shiftMat[i,j,1]])
+            # Advance through all sub-aperture views while preserving Python's 0-based indexing.
             tform = AffineTransform(translation=[-1*d*shiftMat[i,j,0], -1*d*shiftMat[i,j,1]])
             # Perform Shift and Sum
-            refocusedImage = refocusedImage + np.double(np.array(imtranslate(lightField[:,:,:,index], tform)))
+            shifted = np.zeros_like(lightField[:, :, :, index], dtype=np.double)
+            for ch in range(dim[2]):
+                shifted[:, :, ch] = imtranslate(
+                    lightField[:, :, ch, index],
+                    tform.inverse,
+                    order=1,
+                    mode='constant',
+                    cval=0,
+                    preserve_range=True,
+                )
+            refocusedImage = refocusedImage + np.double(shifted)
+            index += 1
 
     # Compute Average
     refocusedImage = np.uint8(255*mat2gray(refocusedImage/(arrayLength*arrayDepth)))

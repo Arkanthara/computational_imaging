@@ -33,13 +33,15 @@
 from skimage.io import imread
 import matplotlib.pyplot as plt
 from selectiveBlurring import selectiveBlurring
+import os
 
 ## Set Paths and Parameters Specific to the Data
 
-inputPath = "Sample_Data/Sample_SelectiveBlurring/"
+scriptPath = os.path.dirname(os.path.abspath(__file__)) # Get Path to Current Script
+inputPath = os.path.join(scriptPath, "Sample_Data", "Sample_SelectiveBlurring")
 
-img = imread(path=inputPath+"painter.png")               # Load Image
-depthMap = imread(path=inputPath+"painter-depth.png")    # Load Corresponding Depth Map
+img = imread(os.path.join(inputPath, "painter.png"))               # Load Image
+depthMap = imread(os.path.join(inputPath, "painter-depth.png"))    # Load Corresponding Depth Map
 
 # NOTE: Two other image frames ('painter-02.png' and 'painter-03.png') and 
 # their corresponding depth maps ('painter-02-depth.png' and 'painter-03-depth.png') are 

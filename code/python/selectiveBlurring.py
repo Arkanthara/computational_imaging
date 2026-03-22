@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import mode
-from skimage.filters import gaussian as imgaussfilt
+import skimage as sk
 
 def selectiveBlurring(img: np.ndarray, imgDepth: np.ndarray, numLevels: int, focusRange: list, upperFilt: int):
     """
@@ -34,6 +34,11 @@ def selectiveBlurring(img: np.ndarray, imgDepth: np.ndarray, numLevels: int, foc
     -----
     This function is written for images from the Technicolor dataset used for this project. To extend usage to images from another dataset, minor modifications may be needed.
     """
+
+    # Convert imgDepth to grayscale if it is not already
+    if len(imgDepth.shape) == 3:
+        imgDepth = sk.color.rgb2gray(imgDepth)
+        imgDepth = sk.util.img_as_uint(imgDepth) # Convert to uint8
 
     ## Initialization
     blurredImage = np.zeros(img.shape) # Initialize Output Image
@@ -135,7 +140,13 @@ def selectiveBlurring(img: np.ndarray, imgDepth: np.ndarray, numLevels: int, foc
     # filt is a 4D matrix with dimensions ImageWidth x ImageHeight x ColorChannels x numLevels.
 
     for i in range(numLevels):
-        filt[:,:,:,i] = imgaussfilt(img,filtSize[chooseFilt[i]])
+        filtIdx = int(np.clip(chooseFilt[i] - 1, 0, numLevels - 1))
+        filt[:, :, :, i] = sk.filters.gaussian(
+            img,
+            filtSize[filtIdx],
+            preserve_range=True,
+            channel_axis=-1,
+        )
 
     # By iterating through the 4th dimension of filt, one can view versions
     # of the input image filtered by a different Gaussian filter chosen based 

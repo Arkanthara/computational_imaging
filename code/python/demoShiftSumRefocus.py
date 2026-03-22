@@ -41,22 +41,22 @@ lightField = genLfSequence(inputPath,"Painter_pr_00",views,frameOfInterest,"png"
 
 ## Display All Sub-Aperture Views of Given Frame
 plt.figure(figsize=(10,10))
-plt.subplot(4,4,1), plt.imshow(lightField[:,:,:,0]), plt.title("0")
-plt.subplot(4,4,2), plt.imshow(lightField[:,:,:,1]), plt.title("1")
-plt.subplot(4,4,3), plt.imshow(lightField[:,:,:,2]), plt.title("2")
-plt.subplot(4,4,4), plt.imshow(lightField[:,:,:,3]), plt.title("3")
-plt.subplot(4,4,5), plt.imshow(lightField[:,:,:,4]), plt.title("4")
-plt.subplot(4,4,6), plt.imshow(lightField[:,:,:,5]), plt.title("5")
-plt.subplot(4,4,7), plt.imshow(lightField[:,:,:,6]), plt.title("6")
-plt.subplot(4,4,8), plt.imshow(lightField[:,:,:,7]), plt.title("7")
-plt.subplot(4,4,9), plt.imshow(lightField[:,:,:,8]), plt.title("8")
-plt.subplot(4,4,10), plt.imshow(lightField[:,:,:,9]), plt.title("9")
-plt.subplot(4,4,11), plt.imshow(lightField[:,:,:,10]), plt.title("10")
-plt.subplot(4,4,12), plt.imshow(lightField[:,:,:,11]), plt.title("11")
-plt.subplot(4,4,13), plt.imshow(lightField[:,:,:,12]), plt.title("12")
-plt.subplot(4,4,14), plt.imshow(lightField[:,:,:,13]), plt.title("13")
-plt.subplot(4,4,15), plt.imshow(lightField[:,:,:,14]), plt.title("14")
-plt.subplot(4,4,16), plt.imshow(lightField[:,:,:,15]), plt.title("15")
+plt.subplot(4,4,1), plt.imshow(lightField[:,:,:,0]), plt.axis('off'), plt.title("0")
+plt.subplot(4,4,2), plt.imshow(lightField[:,:,:,1]), plt.axis('off'), plt.title("1")
+plt.subplot(4,4,3), plt.imshow(lightField[:,:,:,2]), plt.axis('off'), plt.title("2")
+plt.subplot(4,4,4), plt.imshow(lightField[:,:,:,3]), plt.axis('off'), plt.title("3")
+plt.subplot(4,4,5), plt.imshow(lightField[:,:,:,4]), plt.axis('off'), plt.title("4")
+plt.subplot(4,4,6), plt.imshow(lightField[:,:,:,5]), plt.axis('off'), plt.title("5")
+plt.subplot(4,4,7), plt.imshow(lightField[:,:,:,6]), plt.axis('off'), plt.title("6")
+plt.subplot(4,4,8), plt.imshow(lightField[:,:,:,7]), plt.axis('off'), plt.title("7")
+plt.subplot(4,4,9), plt.imshow(lightField[:,:,:,8]), plt.axis('off'), plt.title("8")
+plt.subplot(4,4,10), plt.imshow(lightField[:,:,:,9]), plt.axis('off'), plt.title("9")
+plt.subplot(4,4,11), plt.imshow(lightField[:,:,:,10]), plt.axis('off'), plt.title("10")
+plt.subplot(4,4,12), plt.imshow(lightField[:,:,:,11]), plt.axis('off'), plt.title("11")
+plt.subplot(4,4,13), plt.imshow(lightField[:,:,:,12]), plt.axis('off'), plt.title("12")
+plt.subplot(4,4,14), plt.imshow(lightField[:,:,:,13]), plt.axis('off'), plt.title("13")
+plt.subplot(4,4,15), plt.imshow(lightField[:,:,:,14]), plt.axis('off'), plt.title("14")
+plt.subplot(4,4,16), plt.imshow(lightField[:,:,:,15]), plt.axis('off'), plt.title("15")
 plt.suptitle("All Views from Frame-"+str(frameOfInterest))
 
 ## Compute Refocused Image
@@ -71,7 +71,7 @@ depth = 2 # Starting Depth
 plt.figure()
 for i in range(6):
      temp = shiftSumRefocus(lightField,4,4,shiftMat,depth) # Compute Shift Sum Refocus
-     plt.subplot(2,3,i+1), plt.imshow(temp.astype(np.uint8)), plt.title("Z = "+str(depth)+" meters")
+     plt.subplot(2,3,i+1), plt.imshow(temp.astype(np.uint8)), plt.axis('off'), plt.title("Z = "+str(depth)+" meters")
      depth = depth+0.5
 
 plt.suptitle("Refocused at Different Depths")
