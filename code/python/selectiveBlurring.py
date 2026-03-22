@@ -37,8 +37,7 @@ def selectiveBlurring(img: np.ndarray, imgDepth: np.ndarray, numLevels: int, foc
 
     # Convert imgDepth to grayscale if it is not already
     if len(imgDepth.shape) == 3:
-        imgDepth = sk.color.rgb2gray(imgDepth)
-        imgDepth = sk.util.img_as_uint(imgDepth) # Convert to uint8
+        imgDepth = imgDepth[:, :, 0]  # Extract first channel (depth maps are often redundantly 3D)
 
     ## Initialization
     blurredImage = np.zeros(img.shape) # Initialize Output Image
