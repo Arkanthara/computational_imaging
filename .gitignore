@@ -4,4 +4,7 @@
 *gitignore
 *.quarto
 *_extensions
+*__pycache__*
+*.venv
+*.gitattributes
 
