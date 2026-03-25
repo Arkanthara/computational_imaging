@@ -89,13 +89,13 @@ def calculate_filter_banks_old(img: np.ndarray) -> np.ndarray:
 
     H = np.zeros((img.shape[0], img.shape[1], 17), dtype=float)
     for i, ker in enumerate(kernels):
-        H[:, :, i] = convolve2d(img_y, ker, mode="valid")
+        H[:, :, i] = convolve2d(img_y, ker, mode="same", boundary="symm")
     
-    H[:, :, 9] = convolve2d(cb, np.outer(l3, l3), mode="valid")
-    H[:, :, 10] = convolve2d(cr, np.outer(l3, l3), mode="valid")
+    H[:, :, 9] = convolve2d(cb, np.outer(l3, l3), mode="same", boundary="symm")
+    H[:, :, 10] = convolve2d(cr, np.outer(l3, l3), mode="same", boundary="symm")
 
     nb_kernels = [nb1, nb2, nb3, nb4, nb5, nb6]
     for i, ker in enumerate(nb_kernels, start=11):
-        H[:, :, i] = convolve2d(img_y, ker, mode="valid")
+        H[:, :, i] = convolve2d(img_y, ker, mode="same", boundary="symm")
 
     return np.abs(H, dtype=float)

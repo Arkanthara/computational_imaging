@@ -1,7 +1,3 @@
-"""Plotting helper for comparing depth predictions with ground truth."""
-
-from __future__ import annotations
-
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -19,7 +15,7 @@ def _resize_like(src: np.ndarray, ref_shape: tuple[int, int]) -> np.ndarray:
         mode="reflect",
         anti_aliasing=True,
         preserve_range=True,
-    ).astype(np.float32)
+    ).astype(float)
 
 
 def plot_result(
@@ -42,17 +38,17 @@ def plot_result(
         If provided, write a figure to this path.
     """
     image = io.imread(Path(image_path))
-    pred = loadmat(Path(predicted_depth_mat), simplify_cells=True)["depth"].astype(np.float32)
+    pred = loadmat(Path(predicted_depth_mat), simplify_cells=True)["depth"].astype(float)
 
     gt_raw = loadmat(Path(gt_depth_mat), simplify_cells=True)
     if "Position3DGrid" in gt_raw:
-        gt = np.asarray(gt_raw["Position3DGrid"], dtype=np.float32)
+        gt = np.asarray(gt_raw["Position3DGrid"], dtype=float)
         if gt.ndim == 3 and gt.shape[2] >= 4:
             gt = gt[:, :, 3]
     else:
-        gt = np.asarray(gt_raw["depth"], dtype=np.float32)
+        gt = np.asarray(gt_raw["depth"], dtype=float)
 
-    pred = _resize_like(pred, gt.shape)
+    pred = transform.resize(pred, gt.shape, preserve_range=True)
 
     fig, axes = plt.subplots(1, 3, figsize=(14, 4.5))
     axes[0].imshow(image)

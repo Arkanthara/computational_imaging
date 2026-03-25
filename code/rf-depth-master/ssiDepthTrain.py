@@ -217,7 +217,7 @@ class SSIDepthTrainOptions:
             n_sim_ftrs,
             n_col_sim_ftrs,
             n_chns,
-        ) = ssiDepthChns(sample_image, self.to_dict())
+        ) = ssiDepthChns(sample_image, self)
 
         self.nChns = int(n_chns)
         self.nChnFtrs = int(n_chn_ftrs)
@@ -225,6 +225,8 @@ class SSIDepthTrainOptions:
         self.nSimFtrs = int(n_sim_ftrs)
         self.nColSimFtrs = int(n_col_sim_ftrs)
         self.nTotFtrs = int(n_chn_ftrs + n_col_chn_ftrs + n_sim_ftrs + n_col_sim_ftrs)
+        # Also keep to_dict() for backward compatibility with model serialization
+        self._cached_dict = None
 
 
 class SSIDepthTrainer:
@@ -365,7 +367,7 @@ class SSIDepthTrainer:
             image = io.imread(image_file)
             depth = self._load_make3d_depth(gt_file)
 
-            features = compute_depth_features(image, self.opts.to_dict())
+            features = compute_depth_features(image, self.opts)
             depth_resized = transform.resize(
                 depth,
                 tuple(self.opts.imResize),

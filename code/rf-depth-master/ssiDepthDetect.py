@@ -2,13 +2,16 @@
 
 from __future__ import annotations
 
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 
 import numpy as np
 from scipy.ndimage import gaussian_filter
 from skimage import img_as_float32, transform
 
 from ssiDepthChns import ssiDepthChns
+
+if TYPE_CHECKING:
+    from ssiDepthTrain import SSIDepthTrainOptions
 
 
 FEATURE_NAMES = (
@@ -36,15 +39,15 @@ def _resize_image(image: np.ndarray, out_hw: tuple[int, int]) -> np.ndarray:
     ).astype(np.float32)
 
 
-def compute_depth_features(image: np.ndarray, opts: Mapping[str, Any]) -> np.ndarray:
+def compute_depth_features(image: np.ndarray, opts: "SSIDepthTrainOptions") -> np.ndarray:
     """Compute pixel-wise depth features.
 
     Parameters
     ----------
     image : numpy.ndarray
         Input image of shape ``(H, W, 3)`` or ``(H, W)``.
-    opts : Mapping[str, Any]
-        Detector options.
+    opts : SSIDepthTrainOptions
+        Detector options object.
 
     Returns
     -------
@@ -107,14 +110,16 @@ def ssiDepthDetect(image: np.ndarray, model: Mapping[str, Any]) -> np.ndarray:
     numpy.ndarray
         Estimated depth map with shape ``(H, W)``.
     """
-    opts = dict(model["opts"])
+    from ssiDepthTrain import SSIDepthTrainOptions
+    
+    opts = SSIDepthTrainOptions.from_dict(model["opts"])
 
     image_f = img_as_float32(image)
     if image_f.ndim == 2:
         image_f = np.stack([image_f, image_f, image_f], axis=-1)
 
     orig_h, orig_w = image_f.shape[:2]
-    res_h, res_w = map(int, opts["imResize"])
+    res_h, res_w = opts.imResize
     resized = _resize_image(image_f, (res_h, res_w))
 
     features = compute_depth_features(resized, opts)

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 from scipy.ndimage import gaussian_filter, minimum_filter
@@ -10,6 +10,9 @@ from skimage import color, img_as_float32, transform
 
 from features.calculateFilterBanks_old import calculate_filter_banks_old
 from features.rgb2hsi import rgb2hsi
+
+if TYPE_CHECKING:
+    from ssiDepthTrain import SSIDepthTrainOptions
 
 
 def _as_float_rgb(image: np.ndarray) -> np.ndarray:
@@ -66,7 +69,7 @@ def _smooth_channels(chns: np.ndarray, sigma: float) -> np.ndarray:
 
 def ssiDepthChns(
     image: np.ndarray,
-    opts: Mapping[str, Any],
+    opts: "SSIDepthTrainOptions",
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, int, int, int, int, int]:
     """Compute channels used by the SSI depth detector.
 
@@ -74,8 +77,8 @@ def ssiDepthChns(
     ----------
     image : numpy.ndarray
         Input image of shape ``(H, W, 3)`` or ``(H, W)``.
-    opts : Mapping[str, Any]
-        Model options dictionary.
+    opts : SSIDepthTrainOptions
+        Model options object.
 
     Returns
     -------
@@ -85,13 +88,13 @@ def ssiDepthChns(
     """
     image = _as_float_rgb(image)
 
-    res_h, res_w = map(int, opts["imResize"])
-    im_width = int(opts["imWidth"])
-    shrink = int(opts["shrink"])
-    shrink_col = int(opts["shrinkCol"])
+    res_h, res_w = opts.imResize
+    im_width = opts.imWidth
+    shrink = opts.shrink
+    shrink_col = opts.shrinkCol
 
-    chn_smooth = float(opts["chnSmooth"])
-    sim_smooth = float(opts["simSmooth"])
+    chn_smooth = opts.chnSmooth
+    sim_smooth = opts.simSmooth
 
     resized = _resize_image(image, (res_h, res_w))
 
@@ -99,7 +102,7 @@ def ssiDepthChns(
     sh_w = max(1, res_w // shrink)
 
     rgb_shrink = _resize_image(resized, (sh_h, sh_w))
-    luv_shrink = _resize_image(color.rgb2luv(resized).astype(np.float32), (sh_h, sh_w))
+    luv_shrink = _resize_image(color.rgb2luv(resized).astype(float), (sh_h, sh_w))
     hsi_shrink = _resize_image(rgb2hsi(resized), (sh_h, sh_w))
 
     prior = np.linspace(0.0, 1.0, sh_h, dtype=np.float32)[:, None]
@@ -133,8 +136,8 @@ def ssiDepthChns(
     cols_reg = _resize_image(chns_reg, (col_h, col_w))
     cols_sim = _resize_image(chns_sim, (col_h, col_w))
 
-    n_cells = int(opts["nCells"])
-    n_cells_col = int(opts["nCellsCol"])
+    n_cells = opts.nCells
+    n_cells_col = opts.nCellsCol
     n_chns = int(chns_reg.shape[2])
 
     sig_ftr_size = (im_width // shrink) ** 2

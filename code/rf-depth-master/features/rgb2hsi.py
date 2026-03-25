@@ -32,7 +32,7 @@ def rgb2hsi(rgb: np.ndarray) -> np.ndarray:
     h[mask] = 2.0 * np.pi - h[mask]
     h /= 2.0 * np.pi
 
-    min_rgb = np.min(np.min(r, g), b)
+    min_rgb = np.minimum(np.minimum(r, g), b)
     den = r + g + b
     den = np.where(den == 0.0, np.finfo(np.float32).eps, den)
     s = 1.0 - 3.0 * min_rgb / den
