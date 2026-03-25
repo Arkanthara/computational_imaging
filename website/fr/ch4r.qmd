@@ -1,0 +1,310 @@
+---
+title: "Imagerie médicale computationnelle — Révision"
+---
+
+# Pipeline & Coordonnées
+
+## Pipeline d'imagerie médicale
+
+**Objet → Dispositif → Données brutes → Algorithme → Image reconstruite**
+
+## Plans anatomiques
+
+| Plan | Sépare | Étymologie |
+|------|--------|-----------|
+| **Axial** (= transverse) | Sup / Inf | — |
+| **Sagittal** | Gauche / Droite | *sagitta* = flèche |
+| **Coronal** | Ant / Post | *corona* = couronne |
+
+## Codes de coordonnées
+
+| Lettre | Direction |
+|--------|-----------|
+| S / I | Supérieur / Inférieur |
+| L / R | Gauche / Droite |
+| A / P | Antérieur / Postérieur |
+
+⚠️ Gauche/Droite = **point de vue du patient**
+
+💡 Exemple : **LSA** → x : L→R, y : S→I, z : A→P (utilisé en CT)
+
+---
+
+# Modalités — Vue d'ensemble
+
+| Modalité | Vecteur | Type |
+|----------|---------|------|
+| **Ultrasons (US)** | Ondes pression haute fréquence | Réflexion |
+| **Radiographie / CT** | Rayonnement ionisant | Transmission |
+| **SPECT / PET** | Émission métabolique X | Émission |
+| **IRM (MRI)** | Précession spin nucléaire | Résonance magnétique |
+
+## Anatomique vs Fonctionnel
+
+| | Anatomique | Fonctionnel |
+|-|-----------|------------|
+| Modalité | IRM, CT, X-ray | PET, fMRI, SPECT |
+| Montre | Structure physique | Activité physiologique |
+| Patient décédé | Image identique | Image noire (PET) |
+
+---
+
+# Types de données
+
+| Dimension | Structure | Modalité |
+|-----------|-----------|----------|
+| **1D** | Valeur scalaire | ELISA, fluorescence, séquençage |
+| **2D** | Matrice pixels | Radiographie X |
+| **2D série** | Tenseur 3D (x,y,t) | Fluoroscopie, vidéo |
+| **2D couleur** | Tenseur 3D (x,y,RGB) | Lames histologiques |
+| **3D** | Tenseur voxels | CT, IRM |
+| **4D** | Tenseur voxels + temps | fMRI, PET |
+
+⚠️ Format universel : **DICOM** (données + métadonnées patient)
+
+---
+
+# Défis de l'imagerie médicale
+
+- Grandes images, **petits datasets**
+- Acquisition non standardisée
+- Distribution **long-tail** des maladies
+- Étiquettes **rares et bruitées**
+- Données **hétérogènes et déséquilibrées**
+- Subjectivité dans la vérité terrain
+- Anonymisation parfois impossible (ex. scans faciaux)
+
+---
+
+# Stratégies d'apprentissage
+
+| Stratégie | Données | Sortie |
+|-----------|---------|--------|
+| **Supervisé** | Labels patch-level | Détection locale directe |
+| **Semi-supervisé** | Labels + non labellisés | Représentation améliorée |
+| **MIL** (Multi-Instance Learning) | Labels image-level faibles | Détection locale + globale |
+| **Transfer Learning** | Domaine A riche → Domaine B pauvre | Adaptation inter-domaine |
+
+💡 **MIL** : bag positif si ≥ 1 instance positive → utile en anatomopathologie
+
+---
+
+# Radiographie (X-ray)
+
+## Physique
+
+$$E = h \cdot f = \frac{hc}{\lambda} \quad \Rightarrow E \sim \text{keV}$$
+
+## 3 interactions photon-matière
+
+| Interaction | Mécanisme | Effet imagerie |
+|-------------|-----------|----------------|
+| **Photoélectrique** | Absorption totale du photon | ✅ Souhaitable — forme le contraste |
+| **Compton** | Absorption partielle, déviation | ⚠️ Bruit (rayon non-linéaire) |
+| **Production de paires** | E > 1,02 MeV, paire e⁻/e⁺ | Utilisé en PET |
+
+💡 Tissu dense (os) → absorbe plus → **blanc**. Air/muscle → absorbe moins → **sombre**
+
+## Qualité d'image — dépend de
+
+- Qualité pointe anode, épaisseur patient
+- Phosphore, résolution film, procédure d'échantillonnage
+- Résolution requise : **≥ 2000² pixels**
+
+## Applications
+
+| Application | Principe | Particularité |
+|-------------|----------|---------------|
+| **Fluoroscopie** | Rayons X temps réel | C-arm portable |
+| **Angiographie** | Contraste iodé IV | Vaisseaux invisibles sans contraste |
+| **DSA** | Soustraction masque pré-contraste | Remplacée par CT angiographie |
+
+---
+
+# CT (Tomodensitométrie)
+
+## Histoire
+
+| Année | Acteur | Contribution |
+|-------|--------|-------------|
+| 1917 | Radon | Transformée de Radon |
+| 1963 | Cormack | Analyse reconstruction tomographique |
+| 1972 | Hounsfield | 1er système CT |
+| 1979 | Hounsfield + Cormack | Nobel Physiologie/Médecine |
+
+## Transformée de Radon
+
+$$p_\theta(r,\theta) = \int_{-\infty}^{\infty} \mu(x,y)\,\delta(x\cos\theta + y\sin\theta - r)\,\mathrm{d}x\,\mathrm{d}y$$
+
+- **Projections infinies** → reconstruction parfaite
+- En pratique : **Filtered Back-Projection (FBP)**
+
+## Géométries de faisceau
+
+| Type | Description | Usage |
+|------|-------------|-------|
+| **Parallèle** | Une source par rayon | Impraticable |
+| **Fan-beam** | Source unique, éventail 2D | CT standard |
+| **Cone-beam** | Détecteur 2D, une rotation | Angiographie 3D |
+
+## Modalités 3D
+
+| Mode | Principe | Caractéristique |
+|------|----------|----------------|
+| **Single-slit** | Step-and-shoot | Simple, lent |
+| **Hélicoïdal** | Table + rotation simultanées | Rapide, pitch = TF/Δz |
+| **Multislice** | Plusieurs rangées détecteurs | Quasi temps réel |
+| **Cone-beam** | 1 seule rotation | FDK reconstruction |
+
+## Avantages / Inconvénients CT
+
+| ✅ Avantages | ⚠️ Inconvénients |
+|-------------|-----------------|
+| Pas de superposition | Radiation modérée-élevée |
+| Multiplanaire (axial/coronal/sagittal) | 47% dose médicale collective (UK) |
+| Angiographie non invasive | Contraste → risque rénal, allergie |
+| Rapide, disponible | Plus cher que radiographie |
+
+---
+
+# Imagerie nucléaire (Nuclear Imaging)
+
+## Principe
+
+1. Injection traceur radiomarqué (radionucléide)
+2. Traceur → site anatomique à activité métabolique
+3. Détection des rayons X émis
+
+💡 SNR bien meilleur que fMRI
+
+## SPECT vs PET
+
+| Critère | SPECT | PET |
+|---------|-------|-----|
+| Photon | Unique (collimateur requis) | Paire γ à 180° |
+| Résolution | 6–8 mm | 2–3 mm |
+| Décroissance traceur | Lente | Rapide |
+| Production traceur | Pas sur site nécessaire | Cyclotron à proximité |
+| Coût | Moins cher | Plus cher |
+| Images | 64×64 ou 128×128 px | — |
+
+⚠️ SPECT : atténuation → **sous-estimation** en profondeur → correction par CT intégré
+
+## PET — Mécanisme
+
+1. FDG (¹⁸F) injecté
+2. Désintégration → **émission positron**
+3. Positron + électron → **annihilation** → 2 photons γ à 180°
+4. Détection des paires coïncidentes uniquement
+
+Applications : oncologie, cardiologie, neurologie
+
+---
+
+# IRM (Magnetic Resonance Imaging)
+
+## Histoire clé
+
+| Année | Événement |
+|-------|-----------|
+| 1946 | NMR démontré (Bloch + Purcell) |
+| 1973 | 1ère image IRM (Lauterbur) — Nobel 2003 |
+| Début 1980s | 1ers systèmes commerciaux |
+| 1993 | fMRI chez l'humain |
+
+## Principe physique
+
+$$\nu = \gamma |B_0| \quad (\text{fréquence de résonance})$$
+
+Pour H : $\gamma = 42{,}58$ MHz/T
+
+**Séquence** : $B_0$ aligne protons → impulsion RF perturbe → retour à l'équilibre → signal capté
+
+## Relaxations T1 et T2
+
+| | T1 | T2 |
+|-|----|----|
+| Nom | Relaxation spin-réseau | Relaxation spin-spin |
+| Décrit | Retour $M_z$ à l'équilibre | Décroissance $M_{xy}$ |
+| Formule | $M_z = M_0(1-e^{-t/T_1})$ | $M_{xy} = M_{xy0}\,e^{-t/T_2}$ |
+| Relation | — | **Toujours $T_2 \leq T_1$** |
+
+💡 T1 et T2 sont **spécifiques aux tissus** → source du contraste IRM
+
+## Modes IRM
+
+| Mode | Description |
+|------|-------------|
+| **Standard** | Séquences d'impulsions RF multiples |
+| **EPI** | Acquisition rapide, moins d'artefacts mouvement |
+| **MRS** | Noyaux autres que H (P, Na, F) |
+| **fMRI** | Contraste BOLD (oxygénation sang) |
+
+## Applications IRM
+
+| Application | Principe | Utilisation |
+|-------------|----------|-------------|
+| **MRA** | Contraste paramagnétique / flow-related | Sténose, anévrismes |
+| **MRS** | Spectre chimique tissu | Cancer, épilepsie, Parkinson |
+| **fMRI** | BOLD (Hb oxygenée/désoxygénée) | Activité cérébrale |
+| **CDI** | Phase IRM → densités courant | Cartographie électrique |
+| **Interventionnelle** | Guidage procédure | ~0,2 T → sensibilité réduite |
+
+## IRM vs CT
+
+| Critère | CT | IRM |
+|---------|----|----|
+| Contraste | Atténuation X | T1, T2, densité, flux… |
+| Disponibilité/coût | ✅ Plus disponible, moins cher | ❌ Plus cher |
+| Radiation | ⚠️ Oui | ✅ Non |
+| Répétition | ⚠️ Radiation cumulative | ✅ Préférable |
+| Os/calcifications | ✅ Excellent | ❌ Moins adapté |
+| Tissus mous | Moyen | ✅ Supérieur |
+| Tumeurs | Moins bon | ✅ Généralement supérieur |
+
+---
+
+# Échographie (Ultrasound Imaging)
+
+## Propriétés physiques
+
+- Ondes de **compression longitudinales**
+- Fréquence médicale : **> 2,5 MHz** (inaudible pour l'humain)
+- Piézoélectricité (Pierre Curie, 1880) → génération et détection
+
+## Modes d'acquisition
+
+| Mode | Signification | Principe | Usage |
+|------|--------------|----------|-------|
+| **A** | Amplitude | Écho simple, 1 ligne | Obsolète |
+| **M** | Motion | A-mode répété (1000 puls/s) | Cœur, fœtus |
+| **B** | Brightness | Translation/inclinaison transducteur → image 2D | Standard |
+| **CW Doppler** | Continuous Wave | Comparaison $f_T$ vs $f_R$ | Vitesse flux continu |
+| **PW Doppler** | Pulsed Wave | Signal retardé, pas Doppler strict | Localisation flux |
+
+## Formule Doppler CW
+
+$$f_D = f_R - f_T \approx \frac{-2|v_a|\cos\theta}{c} f_T$$
+
+## Avantages / Inconvénients US
+
+| ✅ Avantages | ⚠️ Inconvénients |
+|-------------|-----------------|
+| Non invasif, sans radiation | Bruit (speckle) élevé |
+| Peu coûteux, portable | Faible résolution spatiale |
+| Temps réel (excellent $\Delta t$) | Dépend opérateur + anatomie |
+
+---
+
+# Points critiques / Pièges ⚠️
+
+- **Gauche/Droite** en imagerie = point de vue **patient** (pas observateur)
+- **Compton** → bruit (pas signal utile en radiographie)
+- **DSA** → remplacée par CT angiographie (moins invasive)
+- **SPECT** → atténuation sous-estime activité en profondeur
+- **PET** → traceurs à décroissance rapide → cyclotron à proximité obligatoire
+- **$T_2 \leq T_1$** toujours
+- **fMRI** → signal **indirect** (BOLD = oxygénation, pas activité neuronale directe)
+- **Cone-beam CT** → problèmes d'échantillonnage aux extrémités
+- **IRM interventionnelle** → champ faible (~0,2 T) → sensibilité réduite
+- **CT** → 7% examens radiologiques mais **47% dose collective** (UK)

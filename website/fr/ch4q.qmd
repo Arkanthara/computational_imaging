@@ -1,0 +1,339 @@
+---
+title: "Imagerie médicale computationnelle — Quiz"
+filters:
+  - quizdown
+execute:
+  enabled: false
+---
+
+## Niveau 1 — Fondamentaux
+
+```{quizdown}
+### Quel est le plan anatomique qui separe la partie anterieure de la partie posterieure du corps ?
+
+> Pense a l'etymologie latine de chaque plan.
+
+1. [ ] Plan axial
+1. [ ] Plan sagittal
+1. [x] Plan coronal
+    > Correct : le plan coronal (du latin corona = couronne) separe l'avant de l'arriere. Le plan sagittal separe gauche et droite, le plan axial separe superieur et inferieur.
+1. [ ] Plan transverse
+```
+
+```{quizdown}
+### Dans le systeme de coordonnees medicales, la gauche et la droite sont definies du point de vue de qui ?
+
+> Pense a qui porte les electrodes ou l'appareil lors d'un examen.
+
+1. [ ] Du radiologue
+1. [x] Du patient
+    > Correct : en imagerie medicale, gauche et droite sont toujours definies du point de vue du patient, ce qui peut preter a confusion pour l'observateur.
+1. [ ] De l'appareil d'imagerie
+1. [ ] De la convention internationale ISO
+```
+
+```{quizdown}
+### Que signifient les lettres du systeme de coordonnees LSA en tomodensitometrie ?
+
+> Chaque lettre designe la direction positive d'un axe (x, y, z).
+
+1. [ ] Lateral-Superieur-Axial
+1. [ ] Longitudinal-Sagittal-Anterieur
+1. [x] Gauche (Left) - Superieur - Anterieur
+    > Correct : L = axe x de gauche a droite, S = axe y de superieur a inferieur, A = axe z d'anterieur a posterieur.
+1. [ ] Gauche (Left) - Sagittal - Axial
+```
+
+```{quizdown}
+### Quelle modalite d'imagerie utilise la precession du spin nucleaire comme vecteur d'information ?
+
+> Pense a la modalite qui utilise un champ magnetique puissant et des ondes radiofrequences.
+
+1. [ ] Tomodensitometrie (CT)
+1. [ ] Echographie (Ultrasound)
+1. [ ] SPECT
+1. [x] IRM (MRI)
+    > Correct : l'IRM exploite la precession du spin nucleaire des protons d'hydrogene sous l'effet d'un champ magnetique B0 et d'une impulsion radiofrequence.
+```
+
+```{quizdown}
+### Quels elements font partie du pipeline standard de l'imagerie medicale computationnelle ?
+
+> Pense aux etapes successives depuis le patient jusqu'a l'image finale.
+
+- [x] Le dispositif d'imagerie
+    > Correct : le dispositif capture les donnees brutes sur le patient.
+- [ ] Le diagnostic clinique final
+    > Incorrect : le diagnostic est realise par le medecin apres l'imagerie, il n'est pas dans le pipeline de reconstruction.
+- [x] L'algorithme de reconstruction
+    > Correct : l'algorithme transforme les donnees brutes en image interpretable.
+- [x] Les donnees brutes
+    > Correct : les donnees brutes sont la sortie du dispositif avant reconstruction.
+- [ ] La prescription medicale
+    > Incorrect : la prescription precede l'examen mais n'est pas une etape du pipeline d'imagerie.
+```
+
+```{quizdown}
+### Quel format de fichier est le standard universel pour le stockage et la transmission des images medicales ?
+
+> Ce format encapsule a la fois les donnees d'image et les metadonnees patient.
+
+1. [ ] JPEG2000
+1. [ ] NIfTI
+1. [x] DICOM
+    > Correct : DICOM (Digital Imaging and Communications in Medicine) est le standard universel. Il contient les donnees d'image ET les metadonnees cliniques.
+1. [ ] TIFF
+```
+
+```{quizdown}
+### Quelle est la difference fondamentale entre imagerie anatomique et imagerie fonctionnelle ?
+
+1. [ ] L'imagerie anatomique utilise des rayons X, l'imagerie fonctionnelle utilise des ondes sonores
+1. [ ] L'imagerie anatomique est 2D, l'imagerie fonctionnelle est 3D
+1. [x] L'imagerie anatomique montre la structure physique, l'imagerie fonctionnelle montre l'activite physiologique
+    > Correct : un scan IRM montre les structures du cerveau qu'une personne soit vivante ou decedee. Un PET ne montre de signal que si le cerveau est actif (metaboliquement).
+1. [ ] L'imagerie anatomique est non invasive, l'imagerie fonctionnelle est invasive
+```
+
+---
+
+## Niveau 2 — Comprehension
+
+```{quizdown}
+### Un patient subit un examen PET (TEP). Pourquoi l'image est-elle noire chez un patient decede ?
+
+> Pense au principe de detection du PET et a ce qu'il mesure reellement.
+
+1. [ ] Parce que le traceur ne peut pas etre injecte apres le deces
+1. [x] Parce qu'il n'y a plus d'activite metabolique pour concentrer le traceur dans les tissus
+    > Correct : le PET detecte l'accumulation de FDG (glucose radiomarque) dans les zones a forte activite metabolique. Sans activite cellulaire, le traceur ne s'accumule pas.
+1. [ ] Parce que le champ magnetique ne fonctionne pas sur un corps sans vie
+1. [ ] Parce que les photons gamma sont absorbes par les tissus froids
+```
+
+```{quizdown}
+### Pourquoi la diffusion Compton (Compton scattering) est-elle indesirable en radiographie ?
+
+> Pense a la trajectoire du photon apres l'interaction et a l'hypothese faite lors de la reconstruction.
+
+1. [ ] Parce qu'elle absorbe trop de photons et reduit le signal
+1. [ ] Parce qu'elle augmente la dose de radiation du patient
+1. [x] Parce que les photons deviés creent des rayons non-lineaires percus comme du bruit
+    > Correct : la reconstruction suppose des rayons lineaires. Un photon devie par diffusion Compton peut atteindre le detecteur sans passer par le chemin prevu, generant un signal de bruit.
+1. [ ] Parce qu'elle produit des paires electron-positron perturbant le signal
+```
+
+```{quizdown}
+### Quelle structure de donnees correspond a une serie temporelle d'images IRM fonctionnelle (fMRI) ?
+
+> Compte les dimensions : spatiales + temporelle.
+
+1. [ ] Matrice 2D (x, y)
+1. [ ] Tenseur 3D (x, y, z)
+1. [ ] Tenseur 3D (x, y, t)
+1. [x] Tenseur 4D (x, y, z, t)
+    > Correct : l'IRMf produit un volume 3D (x, y, z) a chaque instant t, donnant un tenseur 4D. C'est aussi le cas du PET dynamique.
+```
+
+```{quizdown}
+### Dans le contexte de l'apprentissage automatique applique a l'imagerie medicale, qu'est-ce que le Multiple Instance Learning (MIL) permet de resoudre ?
+
+> Pense a la situation ou annoter chaque cellule d'une lame histologique est impossible mais le diagnostic global est connu.
+
+1. [ ] Le manque de diversite dans les augmentations de donnees
+1. [x] L'apprentissage a partir d'etiquettes faibles au niveau de l'image entiere pour obtenir une detection locale
+    > Correct : en MIL, l'image est decoupee en patches (instances). Le bag est positif si au moins une instance l'est. On peut ainsi localiser des lesions sans annotation locale.
+1. [ ] L'adaptation d'un modele d'un domaine source vers un domaine cible
+1. [ ] La reduction du bruit dans les images a faible dose de radiation
+```
+
+```{quizdown}
+### Quels sont les principaux defis specifiques a l'imagerie medicale par rapport a la vision par ordinateur classique ?
+
+> Pense aux contraintes liees aux donnees medicales elles-memes.
+
+- [x] Petits datasets malgre de grandes tailles d'images
+    > Correct : acquérir et annoter des images medicales est couteux, resultant en peu d'exemples labellises.
+- [x] Distribution long-tail des maladies
+    > Correct : certaines maladies sont tres rares, rendant l'apprentissage statistique difficile.
+- [ ] Trop de donnees etiquetees disponibles
+    > Incorrect : c'est le probleme inverse — les etiquettes sont rares et couteuses en imagerie medicale.
+- [x] Subjectivite dans la verite terrain
+    > Correct : meme des experts peuvent ne pas s'accorder sur un diagnostic, rendant la ground-truth bruitee.
+- [x] Anonymisation parfois impossible
+    > Correct : les scans faciaux par exemple permettent d'identifier un individu, ce qui pose des problemes de confidentialite.
+```
+
+```{quizdown}
+### Quelle est la relation entre T1 et T2 en IRM ?
+
+> Ces deux constantes decrivent des phenomenes de relaxation differents mais simultanes.
+
+1. [ ] T1 est toujours inferieur a T2
+1. [ ] T1 et T2 sont toujours egaux
+1. [x] T2 est toujours inferieur ou egal a T1
+    > Correct : par definition physique, T2 est toujours inferieur ou egal a T1. Les deux processus se produisent simultanement mais a des rythmes differents.
+1. [ ] Il n'existe aucune relation systematique entre T1 et T2
+```
+
+```{quizdown}
+### Pourquoi le CT est-il deconseille pour des examens repetes par rapport a l'IRM ?
+
+> Pense au vecteur d'information utilise par chaque modalite.
+
+1. [ ] Parce que le CT est moins precis que l'IRM pour les tissus mous
+1. [x] Parce que le CT utilise des rayonnements ionisants qui s'accumulent et augmentent le risque oncologique
+    > Correct : chaque CT expose le patient a des rayons X. Les expositions repetees augmentent la dose cumulee et le risque de cancer induit. L'IRM n'utilise pas de rayonnement ionisant.
+1. [ ] Parce que le CT necessite un agent de contraste obligatoire
+1. [ ] Parce que le CT a une resolution spatiale inferieure a l'IRM
+```
+
+```{quizdown}
+### Quel type de bruit est caracteristique de l'echographie (ultrasound) ?
+
+> Ce bruit est lie a la nature des ondes ultrasonores et a leur interaction avec les tissus.
+
+1. [ ] Bruit thermique (Johnson noise)
+1. [ ] Bruit quantique (quantum noise)
+1. [x] Bruit de speckle (speckle noise)
+    > Correct : le speckle est un bruit granulaire caracteristique des images ultrasonores, resultant des interferences constructives et destructives des ondes echoes sur les structures tissulaires.
+1. [ ] Bruit de Poisson
+```
+
+---
+
+## Niveau 3 — Maitrise
+
+```{quizdown}
+### Un radiologue observe une image CT ou les os apparaissent en blanc brillant et les poumons en noir. Quel effet physique explique principalement ce contraste ?
+
+> Pense aux trois types d'interactions photon-matiere et a leur role respectif en radiographie.
+
+1. [x] L'effet photoelectrique : les tissus denses absorbent plus de photons, donc moins d'energie atteint le detecteur
+    > Correct : l'os (tissu dense, fort numero atomique) absorbe plus completement les photons X par effet photoelectrique, laissant moins d'energie atteindre le detecteur (blanc). L'air des poumons absorbe peu (noir).
+1. [ ] La diffusion Compton : les os diffusent davantage les photons vers le detecteur
+1. [ ] La production de paires : l'energie > 1.02 MeV est absorbee par les os
+1. [ ] La fluorescence : les os re-emettent les photons X dans une direction opposee
+```
+
+```{quizdown}
+### Remets les etapes de la reconstruction CT dans le bon ordre, de l'acquisition a l'image finale.
+
+> Pense au chemin parcouru par les donnees depuis le tube a rayons X jusqu'a l'image medicale.
+
+1. Rotation du systeme source-detecteur autour du patient
+2. Acquisition des projections 2D (sinogramme) a chaque angle
+3. Application de la transformee de Radon inverse
+4. Filtrage (filtre passe-haut) pour corriger le flou de retroprojection
+5. Retroprojection filtree pour reconstruire l'image en coupe
+```
+
+```{quizdown}
+### Un hopital dispose d'un patient necessite une imagerie hepatique pour evaluer une lesion suspecte. Il a une insuffisance renale moderee. Quelle modalite privilegier et pourquoi ?
+
+> Reflechis aux effets secondaires des agents de contraste selon la modalite.
+
+1. [ ] CT avec contraste iode : meilleure resolution anatomique
+1. [ ] CT sans contraste : pas de risque renal mais image moins informative
+1. [x] IRM : pas de rayonnement ionisant et les agents de contraste a base de gadolinium sont moins nephrotoxiques que l'iode
+    > Correct : pour une insuffisance renale moderee, l'IRM est recommandee a la place du CT. L'iode du CT peut induire une nephropathie de contraste, risque accru en cas d'insuffisance renale preexistante.
+1. [ ] PET-CT : meilleure sensibilite pour les lesions hepatiques
+```
+
+```{quizdown}
+### Quelle est la difference fondamentale entre le CT helicoidal (spiral CT) et le CT sequentiel (step-and-shoot) ?
+
+> Pense au mouvement relatif de la table et du systeme de rotation pendant l'acquisition.
+
+1. [ ] Le CT helicoidal utilise un faisceau conique, le CT sequentiel utilise un faisceau en eventail
+1. [x] En CT helicoidal, la table se deplace continuement pendant la rotation ; en CT sequentiel, la table s'arrete entre chaque coupe
+    > Correct : en spiral CT, la table translate et le tube tourne simultanement (trajectoire helicoidale). En step-and-shoot, on acquiert une coupe, on deplace la table, on recommence. Le spiral est plus rapide mais a une resolution en z legerement inferieure.
+1. [ ] Le CT helicoidal est reserve a l'imagerie cardiaque, le sequentiel a l'imagerie cerebrale
+1. [ ] Le CT sequentiel utilise plusieurs rangees de detecteurs, le helicoidal une seule
+```
+
+```{quizdown}
+### Remets les etapes du mecanisme PET (TEP) dans le bon ordre chronologique.
+
+> Suis le parcours depuis l'injection jusqu'a la formation de l'image.
+
+1. Injection du FDG (fluorodeoxyglucose) contenant du 18F
+2. Accumulation du FDG dans les zones a forte activite metabolique
+3. Desintegration radioactive et emission d'un positron
+4. Annihilation du positron avec un electron : emission de deux photons gamma a 180 degres
+5. Detection de la paire coincidente par les detecteurs
+6. Reconstruction de l'image par les paires coïncidentes
+```
+
+```{quizdown}
+### En SPECT, pourquoi integre-t-on aujourd'hui un scanner CT dans le meme appareil ?
+
+> Pense au probleme physique de l'attenuation et a ce que le CT peut apporter.
+
+- [x] Corriger l'attenuation qui sous-estime l'activite en profondeur
+    > Correct : le CT fournit une carte d'attenuation des tissus qui est integree dans la reconstruction SPECT pour corriger la sous-estimation de l'activite dans les structures profondes.
+- [x] Fournir une information anatomique co-enregistree
+    > Correct : le SPECT seul a une faible resolution anatomique. Le CT co-enregistre permet de localiser precisement les zones d'activite metabolique dans leur contexte anatomique.
+- [ ] Augmenter la dose de rayonnement pour ameliorer le SNR
+    > Incorrect : l'ajout du CT n'est pas destine a augmenter la dose mais a corriger l'attenuation et ajouter l'anatomie.
+- [ ] Remplacer l'algorithme de retroprojection filtree par une methode iterative
+    > Incorrect : l'integration du CT ne determine pas directement l'algorithme de reconstruction SPECT utilise.
+```
+
+```{quizdown}
+### Un chercheur entraine un modele de deep learning sur des images CT de poumons annotes (domaine A) et souhaite l'appliquer a des IRM pulmonaires non annotees (domaine B). Quelle strategie d'apprentissage est la plus adaptee ?
+
+> Pense aux strategies qui permettent de transferer des connaissances entre domaines differents.
+
+1. [ ] Apprentissage supervise classique uniquement sur le domaine B
+1. [ ] Multiple Instance Learning avec les IRM comme bags
+1. [x] Transfer Learning depuis le domaine A (CT annote) vers le domaine B (IRM non annote)
+    > Correct : le Transfer Learning est concu exactement pour cette situation : exploiter les connaissances acquises sur un domaine riche en annotations pour les adapter a un domaine cible pauvre en donnees labellisees.
+1. [ ] Apprentissage non supervise par GAN sur les CT uniquement
+```
+
+```{quizdown}
+### Pourquoi le mode Doppler en onde pulsee (Pulsed Wave) ne repose-t-il pas strictement sur le principe Doppler ?
+
+> Pense a comment le signal recu est modelise mathematiquement dans ce mode.
+
+1. [ ] Parce qu'il n'utilise pas de transducteur piezoelectrique
+1. [ ] Parce qu'il mesure l'amplitude plutot que la frequence
+1. [x] Parce qu'il suppose que le signal recu est une replique retardee du signal transmis, pas un changement de frequence
+    > Correct : en PW, on echantillonne le signal recu a un instant fixe tR. La velocite est deduite du changement de temps de trajet (delta_t) entre impulsions successives, pas d'un changement de frequence comme en Doppler classique.
+1. [ ] Parce qu'il fonctionne en continu sans interruption
+```
+
+```{quizdown}
+### Quelle formule decrit la frequence de resonance en IRM, et que represente le rapport gyromagnetique gamma pour l'hydrogene ?
+
+> Cette relation est fondamentale pour comprendre pourquoi le champ magnetique B0 determine la frequence d'excitation.
+
+1. [ ] nu = B0 / gamma, avec gamma = 42.58 T/MHz pour H
+1. [x] nu = gamma * |B0|, avec gamma = 42.58 MHz/T pour H
+    > Correct : la frequence de Larmor est nu = gamma * B0. Pour l'hydrogene, gamma = 42.58 MHz/T. Ainsi a 1.5 T, la frequence de resonance est environ 63.8 MHz.
+1. [ ] nu = gamma / |B0|, avec gamma = 42.58 MHz/T pour H
+1. [ ] nu = gamma^2 * |B0|, avec gamma = 42.58 MHz/T pour H
+```
+
+```{quizdown}
+### Quelle modalite est la seule couramment utilisee en routine pour le suivi de grossesse, et pour quelles raisons ?
+
+> Pense aux contraintes de securite et de practicite en obstetrique.
+
+1. [ ] IRM : meilleure resolution des tissus mous
+1. [ ] Radiographie : rapide et peu couteuse
+1. [ ] PET : mesure l'activite metabolique foetale
+1. [x] Echographie : sans radiation ionisante, portable, temps reel, peu couteuse
+    > Correct : l'echographie combine l'absence de rayonnement (crucial pour le foetus), la portabilite, l'imagerie en temps reel et un cout abordable, ce qui la rend ideale pour le suivi obstetrical repete.
+```
+
+```{quizdown}
+### Vrai ou faux : le contraste BOLD en IRMf mesure directement l'activite des neurones.
+
+> Réfléchis à ce que BOLD signifie physiquement et a ce qu'il mesure reellement.
+
+1. [ ] Vrai
+1. [x] Faux
+    > Faux : BOLD (Blood-Oxygen-Level Dependent) mesure les changements d'oxygenation du sang (hemoglobine oxy vs desoxy). C'est un signal indirect de l'activite neuronale, lie a la consommation d'oxygene par les neurones actifs, pas a leur potentiel d'action direct.
+```

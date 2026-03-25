@@ -1,0 +1,1013 @@
+---
+title: "Imagerie médicale computationnelle"
+---
+
+# Principes généraux de l'imagerie médicale
+
+## Pipeline de l'imagerie médicale (Medical Imaging Pipeline)
+
+L'imagerie médicale repose sur un enchaînement d'étapes qui transforment un patient en une image exploitable par un médecin ou un algorithme.
+
+Le pipeline général se déroule comme suit :
+
+1. **L'objet** (le patient ou une partie du corps) est soumis à un **dispositif d'imagerie** (scanner, IRM, échographe…).
+2. Le dispositif produit des **données brutes** (projections, signaux, échos…).
+3. Un **algorithme d'imagerie** traite ces données brutes.
+4. On obtient une **image reconstruite en coupe** (cross-sectional image) exploitable cliniquement.
+
+💡 L'étape de reconstruction algorithmique est au cœur de l'imagerie computationnelle : sans elle, les données brutes ne sont pas directement lisibles.
+
+```{mermaid}
+flowchart LR
+    A[Patient / Objet] --> B[Dispositif d'imagerie]
+    B --> C[Données brutes]
+    C --> D[Algorithme de reconstruction]
+    D --> E[Image en coupe reconstruite]
+```
+
+## Repères et coordonnées anatomiques (Medical Imaging Coordinates)
+
+### Directions anatomiques
+
+Pour décrire la position d'une structure dans le corps humain, on utilise des directions standardisées :
+
+- **Supérieur / Inférieur** : vers le haut / vers le bas
+- **Gauche / Droite** : du point de vue du patient (pas de l'observateur)
+- **Antérieur / Postérieur** : vers l'avant / vers l'arrière
+
+⚠️ La gauche et la droite sont toujours définies du **point de vue du patient**, ce qui peut prêter à confusion lors de la lecture d'images.
+
+### Plans d'imagerie (Medical Imaging Planes)
+
+Trois plans anatomiques de référence permettent de décrire n'importe quelle coupe :
+
+- **Plan axial** (= plan transverse) : perpendiculaire à l'axe long du corps. Il sépare la partie supérieure de la partie inférieure.
+- **Plan sagittal** : divise le corps en partie gauche et partie droite. Le mot *sagitta* vient du latin et signifie *flèche*.
+- **Plan coronal** : divise le corps en partie antérieure et partie postérieure. Le mot *corona* vient du latin et signifie *couronne*.
+
+💡 Ces trois plans sont mutuellement perpendiculaires. Toute coupe d'image médicale peut être caractérisée par rapport à l'un d'eux.
+
+## Système de coordonnées (Coordinate System)
+
+### Notation à trois lettres
+
+Pour désigner l'orientation d'un volume 3D, on utilise une notation à **3 lettres** indiquant la direction positive de chaque axe (x, y, z).
+
+Les codes de lettres sont :
+
+| Lettre | Direction |
+|--------|-----------|
+| S | Supérieur |
+| I | Inférieur |
+| L | Gauche |
+| R | Droite |
+| A | Antérieur |
+| P | Postérieur |
+
+### Exemple : le système « LSA »
+
+Le système **LSA** indique que :
+
+- L'axe **x** va de gauche (L) à droite
+- L'axe **y** va de supérieur (S) à inférieur
+- L'axe **z** va d'antérieur (A) à postérieur
+
+Ce système est utilisé notamment en **tomodensitométrie (CT)**. Un autre système commun est le **RPI** (Right-Posterior-Inferior).
+
+💡 Connaître le système de coordonnées est indispensable pour manipuler des volumes 3D dans les logiciels d'analyse d'images médicales.
+
+## Imagerie invasive et non invasive (Invasive / Non-Invasive Imaging)
+
+### Imagerie invasive
+
+L'imagerie invasive nécessite une intervention physique sur le patient :
+
+- **Optiques intra-corporelles** : endoscope (du grec *endo* = intérieur), qui permet de visualiser l'intérieur du corps.
+- **Chirurgie ouverte** : accès direct aux organes.
+- **Caméras pour chirurgie minimalement invasive** : par exemple les *pilules caméra* avalées pour explorer le tube digestif, ou les caméras introduites dans les veines.
+
+### Imagerie non invasive (imagerie médicale au sens habituel)
+
+L'imagerie non invasive ne nécessite pas d'intervention chirurgicale. Deux distinctions importantes :
+
+- **Images planaires vs images en coupe** (Planar projections vs cross-sectional images)
+- **Images statiques vs séries dynamiques** (Static images vs dynamic series / « films »)
+
+💡 La grande majorité des modalités d'imagerie médicale présentées dans ce cours sont non invasives, ce qui est un avantage majeur pour le patient.
+
+## Modalités d'imagerie (Imaging Modalities)
+
+Quatre grandes familles de modalités d'imagerie médicale existent, chacune reposant sur un **vecteur d'information** différent :
+
+| Modalité | Vecteur d'information | Type |
+|---------|----------------------|------|
+| **Ultrasons (Ultrasound)** | Ondes de pression à haute fréquence | Imagerie par réflexion/rétrodiffusion |
+| **Radiographie (X-ray)** | Rayonnement ionisant | Imagerie en transmission |
+| **Tomodensitométrie (CT, C-arm)** | Rayonnement ionisant | Imagerie en transmission |
+| **Imagerie nucléaire (SPECT, PET)** | Émission de rayons X métaboliques | Imagerie en émission |
+| **IRM (MRI)** | Précession du spin nucléaire | Imagerie par résonance magnétique |
+
+🧠 À retenir : le choix d'une modalité dépend de ce que l'on cherche à imager (os, tissu mou, activité métabolique…) et des contraintes cliniques (disponibilité, coût, radiation, temps d'acquisition).
+
+## Imagerie anatomique vs fonctionnelle (Anatomic vs Functional Imaging)
+
+### Imagerie anatomique
+
+L'imagerie anatomique représente la **structure physique** des organes, indépendamment de leur activité.
+
+- Exemple : une **IRM cérébrale** (MRI brain scan) montre les structures du cerveau aussi bien chez une personne vivante que chez une personne décédée.
+- L'image est similaire dans les deux cas.
+
+### Imagerie fonctionnelle
+
+L'imagerie fonctionnelle capture l'**activité physiologique** en temps réel.
+
+- Exemple : un **scanner PET** (Positron Emission Tomography) révèle l'activité métabolique du cerveau. Les zones brillantes correspondent à une forte activité cérébrale.
+- Sur un patient décédé, un PET ne montre rien (image noire).
+
+💡 La formule pédagogique souvent citée :
+> *"Une IRM vous montre que vous avez un cerveau. Un PET vous montre que vous l'utilisez."*
+
+## Types de données en imagerie médicale
+
+### Cas 1D — Mesure ponctuelle
+
+Certains tests diagnostiques produisent une **valeur scalaire unique** ou un signal 1D :
+
+- Densité optique / turbidité / fluorescence
+- Tests ELISA (dosage immunologique)
+- Tests de sensibilité aux antibiotiques (mesure du diamètre d'inhibition)
+- Séquençage ADN Illumina
+
+💡 Dans ces cas, l'image peut être un format **intermédiaire** qui n'a pas besoin d'être stocké ou analysé séparément car l'analyse est intégrée à l'appareil.
+
+### Cas 2D — Radiographie en niveaux de gris
+
+La radiographie conventionnelle produit une **matrice 2D de pixels** :
+
+- Utilise des **rayons X** pour imager os et tissus mous
+- **Avantages** : faible dose de radiation, peu coûteux, rapide, très disponible
+- **Inconvénients** : plage dynamique de densité tissulaire limitée
+- **Format de données** : image en niveaux de gris (matrice 2D d'intensités de blanc), généralement au format **DICOM** (Digital Imaging and Communications in Medicine)
+- La taille de l'image dépend de l'appareil et de l'échelle
+
+⚠️ DICOM est le standard universel pour le stockage et la transmission des images médicales. Il encapsule à la fois les données d'image et les métadonnées patient.
+
+### Cas 2D — Imagerie de lames colorées (Color Slide Imaging)
+
+L'anatomopathologie numérique utilise la **numérisation de lames microscopiques** :
+
+- Numérisation et photographie de lames de microscopie (y compris colorations et fluorescence)
+- **Avantages** : rapports partageables, analyses automatisées, reproductibilité
+- **Inconvénients** : fichiers très volumineux (> 10 Go), sensibilité aux variations entre scanners et préparations
+- **Format de données** : image couleur à 3 canaux (tenseur 3D avec intensités R, G, B) — formats TIF / JPEG2000 / DICOM
+
+### Cas 2D — Coupes de tomodensitométrie (CT Slices)
+
+Le scanner CT produit un **ensemble de coupes 2D** :
+
+- Les rayons X effectuent 1 000 à 5 000 passes hélicoïdales, traitées pour reconstituer un pseudo-3D de n'importe quel système organique
+- **Avantages** : excellente capture des détails anatomiques, rapide, supérieur à la radiographie pour le contraste (organes, vaisseaux)
+- **Inconvénients** : dose de radiation plus élevée, relativement coûteux
+- **Format de données** : image en niveaux de gris reconstruite (matrice 3D d'intensités de blanc) ; coupes 2D individuelles en niveaux de gris — format DICOM
+
+### Cas 2D — Vidéo de fluoroscopie (Fluoroscopy Video)
+
+La fluoroscopie produit une **série temporelle d'images 2D** :
+
+- Rayons X collectés en **série temporelle** avec un milieu de contraste pour guider les procédures ou évaluer les changements au fil du temps (angiographie)
+- **Avantages** : imagerie en temps réel, largement disponible, relativement peu coûteux
+- **Inconvénients** : plus cher et dose de radiation plus élevée que la radiographie seule
+- **Format de données** : série de coupes 2D en niveaux de gris (tenseur 3D) — format DICOM
+
+### Cas 3D — IRM (Magnetic Resonance Imaging)
+
+L'IRM produit des **volumes 3D** :
+
+- Images 3D construites à partir de perturbations par **impulsions radiofréquences** d'atomes corporels (protons > neutrons) alignés par un **champ magnétique puissant** (avec ou sans contraste). Peut être optimisé pour le flux sanguin (IRM fonctionnelle)
+- **Avantages** : imagerie multiplanaire/3D sans contraste, meilleure représentation des tissus mous qu'en CT, sans radiation, indolore
+- **Inconvénients** : coûteux, bruyant, nécessite beaucoup d'espace, sensible aux mouvements du patient (peut nécessiter une sédation)
+- **Format de données** : tenseur 3D en niveaux de gris ; coupes 2D en niveaux de gris ; séries temporelles 4D — format DICOM
+
+### Cas 4D — TEP (Positron Emission Tomography)
+
+La TEP (PET) produit des **données 4D** (3D + temps) :
+
+- Série temporelle de **positrons détectés** provenant du fluorodésoxyglucose radiomarqué ou de l'O-15 pour détecter les tissus/lésions à forte activité métabolique
+- **Avantages** : mesure de la fonction, indolore
+- **Inconvénients** : faible résolution anatomique (combinaison avec CT/IRM nécessaire), très coûteux, traceur radioactif
+- **Format de données** : tenseur 4D DICOM (TEP-CT/IRM couleur 5D ou point temporel fixe 3D). SPECT et IRMf offrent également des options d'imagerie fonctionnelle dynamique
+
+### Cas 2D–4D — Échographie (Ultrasound)
+
+L'échographie est très polyvalente en termes de dimensionnalité :
+
+- Utilise les **ondes sonores** et le schéma d'écho pour imager les structures internes (tissus mous, organes, vaisseaux)
+- **Avantages** : imagerie en temps réel, sans radiation, portable
+- **Inconvénients** : dépend de l'opérateur, de l'anatomie du patient, plus cher que la radiographie
+- **Nombreux types** : élastographie, doppler, triplex, transvaginale, endoscopique
+- **Format de données** : peut être rendu en 2D, coupes 2D, 3D ou 4D — format DICOM
+
+## Aperçu général des données d'imagerie médicale
+
+En résumé, les différentes modalités correspondent à différentes structures de données :
+
+- **Mesure ponctuelle (1D, valeur unique)** : densité optique, turbidité, fluorescence
+- **Imagerie planaire/projective (matrice 2D de pixels)** : radiographie X
+- **Imagerie tomographique/multicoupes (tenseur 3D de pixels)** : CT — série d'images représentant des coupes à travers un volume
+- **Volume 3D (tenseur 3D de voxels)** : IRM
+- **Série dynamique (tenseur 4D de voxels)** : IRMf / TEP-CT/IRM
+
+## Défis de l'imagerie médicale (Medical Imaging Challenges)
+
+L'imagerie médicale soulève de nombreux défis spécifiques qui la distinguent de la vision par ordinateur classique :
+
+- **Nombreuses modalités avec de très grandes tailles d'images** (mais petits ensembles de données) : les données sont rares et volumineuses simultanément.
+- **Acquisition non standardisée** : grande variabilité entre les appareils, configurations, protocoles.
+- **Distribution longue queue (long-tail) des patterns de maladies** : certaines maladies sont très rares, ce qui rend l'apprentissage difficile.
+- **Étiquettes rares et bruitées** : annoter des images médicales requiert une expertise rare et est donc coûteux.
+- **Échantillons hétérogènes et déséquilibrés** : les classes ne sont pas équilibrées (beaucoup plus de cas normaux que pathologiques).
+- **Subjectivité dans la vérité terrain (ground-truth)** : même des experts peuvent ne pas être d'accord.
+- **Anonymisation parfois impossible** : par exemple, les scanners faciaux permettent d'identifier un individu.
+
+## Qualité des données et stratégies d'apprentissage
+
+### Apprentissage non supervisé (Unsupervised Learning)
+
+En imagerie médicale, l'absence d'étiquettes pousse à utiliser des approches non supervisées.
+
+Une approche consiste à entraîner un **GAN** (Generative Adversarial Network) à reconstruire les prochaines coupes IRM saines à partir des coupes précédentes. Lors de l'inférence, on compare la reconstruction à la coupe réelle pour détecter les anomalies (en calculant la **perte L₂** par scan).
+
+💡 L'idée clé : si la reconstruction est mauvaise, c'est que la coupe est pathologique (car le modèle n'a appris que des images saines).
+
+### Apprentissage supervisé (Supervised Learning)
+
+Quand des étiquettes sont disponibles, trois variantes existent selon le niveau d'annotation :
+
+**Apprentissage supervisé classique** :
+- Données d'entraînement avec étiquettes au niveau des patches
+- Un modèle supervisé apprend la correspondance directe image → étiquette
+
+**Apprentissage semi-supervisé (Semi-Supervised Learning)** :
+- Mélange de données étiquetées et non étiquetées
+- On exploite les données non étiquetées pour améliorer la représentation
+
+**Apprentissage multi-instances (Multiple Instance Learning — MIL)** :
+- Données d'entraînement avec des étiquettes faibles au niveau de l'image entière
+- L'image est découpée en **patches** (instances) regroupés en **bags**
+- Le label du bag est positif si au moins une instance est positive
+- Permet une **détection locale** (localisation de la lésion) à partir d'étiquettes globales (image-level)
+
+💡 Le MIL est particulièrement utile en anatomopathologie numérique où annoter chaque cellule est impossible, mais l'étiquette globale (cancéreux / non cancéreux) est disponible.
+
+### Apprentissage par transfert (Transfer Learning)
+
+L'apprentissage par transfert permet de pallier le manque de données labellisées dans un domaine cible :
+
+- **Données d'entraînement du domaine A** (par ex. poumons en CT avec annotations) + éventuellement données non labellisées du **domaine B**
+- Le modèle est adapté pour performer sur une **image test du domaine B** (par ex. modalité différente)
+
+💡 Plutôt que d'apprendre de zéro, on transfère les connaissances d'un domaine riche vers un domaine pauvre en données.
+
+---
+
+# Radiographie (Radiography)
+
+## Histoire de la découverte des rayons X
+
+La radiographie est la plus ancienne modalité d'imagerie médicale. Elle débute en **1895** avec la découverte des rayons X par **Wilhelm Conrad Röntgen** (1845–1923), physicien allemand, décédé d'un cancer intestinal.
+
+Faits historiques clés :
+
+- La **première image publiée** aux rayons X est celle de la main d'Anna Berthe Röntgen, présentée dans l'article *« Über eine neue Art von Strahlen »* (« Sur une nouvelle sorte de rayons »).
+- Röntgen reçoit le **premier Prix Nobel de Physique en 1901** *« en reconnaissance des services extraordinaires qu'il a rendus par la découverte des rayons remarquables qui portent son nom »*.
+- Les rayons X ont été très vite utilisés à des fins diagnostiques, **avant** que les dangers du rayonnement ionisant soient découverts.
+
+⚠️ L'histoire de la radiographie est un rappel important : l'utilisation clinique précède souvent la compréhension complète des risques associés à une technologie.
+
+## Physique des rayons X (X-ray Physics)
+
+### Nature des rayons X
+
+Les rayons X sont des **ondes électromagnétiques** constituées de **photons**.
+
+Leur énergie est donnée par :
+
+$$E = h \cdot f = \frac{hc}{\lambda}$$
+
+où :
+
+- $h$ = constante de Planck ($4{,}135 \times 10^{-15}$ eVs)
+- $c$ = vitesse de la lumière ($300 \times 10^6$ m/s)
+- $\lambda$ = longueur d'onde (de l'ordre de $10^{-10}$ m)
+
+L'énergie des rayons X est donc de l'ordre du **keV** (kiloélectronvolt).
+
+💡 Sur le spectre électromagnétique, les rayons X se situent entre les ultraviolets et les rayons gamma, avec une longueur d'onde bien plus courte que la lumière visible, ce qui leur confère un fort pouvoir pénétrant.
+
+### Génération des rayons X
+
+Dans un tube à rayons X, les électrons sont accélérés par une tension (cathode vers anode) et frappent l'anode, libérant leur énergie par **Bremsstrahlung** (rayonnement de freinage) :
+
+- Cela produit un **spectre continu** d'émission.
+- Des **pics spécifiques** apparaissent aux énergies des couches orbitales (rayonnement caractéristique) lorsque les électrons L de l'anode retombent dans la couche K.
+
+**Paramètres importants du tube à rayons X** :
+
+- **Quantité de photons émis** : 6 à 100 mA
+- **Énergie des photons émis** : déterminée par la tension cathode-anode, $V_{\text{cathode-anode}}$ entre 50 et 125 kV
+
+### Interactions des rayons X avec la matière
+
+Trois types d'interaction existent entre les photons X et la matière :
+
+#### Absorption photoélectrique (Photo-electric Absorption)
+
+Un photon est **entièrement absorbé** par un atome, qui libère un électron dans la même direction (ionisation).
+
+```
+photon → atome → électron
+```
+
+**Effet en radiographie** :
+- Le tissu dense (os) absorbe plus de photons → moins d'énergie atteint le détecteur → apparaît **blanc** sur l'image.
+- Le tissu peu dense (muscle, air) absorbe moins → plus d'énergie atteint le détecteur → apparaît **sombre**.
+- Cet effet **contrôle la formation et le contraste de l'image**.
+
+💡 C'est l'effet **le plus souhaitable** en radiographie.
+
+#### Diffusion Compton (Compton Scattering)
+
+Seulement **absorption partielle** de l'énergie du photon. Le photon change de direction (à énergie réduite) et un électron est libéré.
+
+**Effet en radiographie** :
+- Le photon dévié peut être détecté sur le détecteur → rayon **non-linéaire**.
+- Comme on suppose des rayons linéaires, cela est problématique.
+- Les photons dus à la diffusion Compton sont perçus comme du **bruit**.
+
+⚠️ La diffusion Compton est **moins souhaitable** en radiographie.
+
+#### Production de paires (Pair Production)
+
+Lorsque l'énergie du photon est > 1,02 MeV, une paire électron-positron peut se former. Le positron s'annihile ensuite avec un autre électron, produisant deux photons voyageant en directions opposées.
+
+**Effet** : utilisé en **imagerie nucléaire** (TEP), pas en radiographie conventionnelle (ne se produit qu'avec des rayons X de haute énergie).
+
+### Devenir des électrons produits
+
+Les électrons libérés se recombinent rapidement avec d'autres atomes dans les tissus. Ils **ne seront pas détectés** lors de la génération de l'image (sur le détecteur de rayons X).
+
+## Détecteurs de rayons X (X-ray Detectors)
+
+### Film photographique ordinaire
+
+- Très inefficace : seulement 1 à 2 % du rayonnement est arrêté.
+- Nécessite une dose de rayons X inutilement élevée pour le patient.
+
+### Écrans intensificateurs (Intensifying Screens)
+
+Placés des deux côtés du film :
+
+- Le **phosphore** transforme les photons X en photons lumineux.
+- Deux types de luminescence :
+  - **Fluorescence** : émission dans les $10^{-8}$ s suivant l'excitation
+  - **Phosphorescence** : émission retardée et prolongée
+- Efficacité de conversion : 5 à 20 %
+
+### Intensificateurs d'images radiologiques (X-ray Image Intensifiers — XRIIs)
+
+- Fenêtre d'entrée en aluminium ou titane
+- Les photons X sont absorbés par du phosphore
+- Les électrons sont canalisés vers la photocathode
+
+## Qualité de l'image radiographique (X-ray Image Quality)
+
+La qualité de l'image dépend de nombreux facteurs :
+
+- **Qualité de la pointe de l'anode** : des pointes plus fines donnent une meilleure mise au point.
+- **Épaisseur du patient** : les patients plus épais causent plus de diffusion, ce qui dégrade la résolution.
+- **Propriétés de diffusion de la lumière du phosphore** (pour les systèmes à base de phosphore).
+- **Résolution du film** (pour les systèmes à base de film).
+- **Procédure d'échantillonnage** (pour les systèmes à lecture numérique).
+- **Taille du point du laser de lecture** (pour les systèmes à lecture numérique).
+
+**Résolution typique** :
+
+- Combinaisons écran-film : généralement suffisante (5–15 lp/mm, 100–33 µm)
+- Phosphores de stockage : suffisante pour la plupart des applications sauf la mammographie numérique (2,5–5 lp/mm, 200–100 µm)
+- Radiographie directe : nécessaire pour la mammographie numérique
+
+🧠 La résolution requise indique une taille d'image ≥ 2000² pixels.
+
+## Applications des rayons X
+
+### Fluoroscopie (Fluoroscopy)
+
+La fluoroscopie est une technique radiographique fournissant des **images en temps réel** :
+
+- La chaîne est : source de rayons X → patient → fluorescent → enregistreur
+- Utilise un intensificateur d'image radiologique (XRII) :
+  - Luminosité de sortie environ $10^5$ fois plus brillante que l'image d'entrée
+  - Gain de flux (amplification du nombre de photons) ≈ 100
+  - Gain de minification (de grande entrée vers petite sortie) ≈ 100
+  - Bruit quantique (faible nombre de photons) limitant la qualité de l'image
+- Détecteurs à **panneau plat** :
+  - Sensibilité accrue aux rayons X, réduction de la dose de rayonnement patient
+  - Amélioration de la résolution temporelle (moins de flou de mouvement)
+  - Meilleur rapport de contraste par rapport aux intensificateurs d'image
+
+**C-arm** : fluoroscope portable qui peut se déplacer autour de la table chirurgicale et produire des images numériques pour le chirurgien.
+
+- Utilise un nombre limité de projections pour reconstruire une « coupe » 2D à travers le volume 3D
+- Les objets à haute densité (ex. aiguille) ou les gradients de densité peuvent créer des **artéfacts en éventail** perturbants
+
+### Angiographie (Angiography)
+
+Le sang a la même densité aux rayons X que le tissu environnant. Pour le visualiser :
+
+- Un **agent de contraste à base d'iode** est injecté dans la circulation sanguine et imagé pendant son trajet.
+- L'angiographie est utilisée pour détecter :
+  - **Anévrismes** : gonflements anormaux remplis de sang d'une artère ou veine, résultant d'une faiblesse localisée de la paroi vasculaire
+  - **Fuites** vasculaires
+  - **Thromboses** : caillots sanguins formant une obstruction du vaisseau sanguin
+- Les images peuvent être des images fixes ou des séquences vidéo (25–30 images par seconde)
+- **Angiographie rétinienne** : couramment réalisée pour identifier le rétrécissement des vaisseaux chez les patients atteints de rétinopathie diabétique et de dégénérescence maculaire
+
+### Angiographie par soustraction numérique (Digital Subtraction Angiography — DSA)
+
+La DSA améliore la visibilité des vaisseaux sanguins en éliminant les structures environnantes :
+
+- Une **image masque** de la même zone est acquise **avant** l'administration du contraste.
+- Un intensificateur d'image (fluoroscopie) est utilisé, produisant des images à un rythme de 1 à 6 images par seconde, en **soustrayant en temps réel** toutes les images suivantes de l'image masque originale.
+- D'où le terme « angiographie par soustraction numérique ».
+
+⚠️ La DSA est de moins en moins utilisée, étant remplacée par l'angiographie CT, qui est moins invasive et moins stressante pour le patient.
+
+---
+
+# Tomodensitométrie (Computed Tomography — CT)
+
+## Histoire du CT
+
+### La percée
+
+La clé du CT est l'acquisition de **nombreuses projections autour de l'objet** permettant la reconstruction 3D de l'objet (ou une coupe 2D en coupe transversale).
+
+### Pionniers de la reconstruction CT
+
+- **1917 : Johann Radon** établit le cadre mathématique pour la tomographie, aujourd'hui appelé la transformée de Radon.
+- **1963 : Allan Cormack** publie une analyse mathématique de la reconstruction d'images tomographiques, sans connaissance des travaux de Radon.
+- **1972 : Godfrey Hounsfield** développe le premier système CT, sans connaissance des travaux ni de Radon ni de Cormack, et développe sa propre méthode de reconstruction.
+- **1979 : Hounsfield et Cormack** reçoivent le Prix Nobel de Physiologie ou Médecine.
+
+💡 Fait remarquable : trois personnes ont développé indépendamment le même cadre mathématique, illustrant la convergence des idées dans l'histoire des sciences.
+
+## Propriétés du CT
+
+Le CT utilise des **rayons X** avec une géométrie particulière :
+
+- Au lieu d'un faisceau conique 3D, les rayons sont collimatés pour voyager dans un **faisceau en éventail 2D** (fan-beam).
+- Une **projection 2D d'une section transversale** du corps est détectée par un grand nombre de détecteurs.
+- Cette opération est répétée pour de **nombreuses orientations** au fur et à mesure que le tube à rayons X et les détecteurs tournent autour du patient.
+- Une image de la section transversale est ensuite **calculée à partir des projections**.
+- Le résultat est appelé **sinogramme** : une ligne pour chaque angle de projection.
+
+## Reconstruction tomographique (Tomographic Reconstruction)
+
+### Principes mathématiques
+
+Les données collectées sont des **intégrales** à la position $r$, à travers une projection à l'angle $\theta$ :
+
+La **transformée de Radon** d'un objet 2D est :
+
+$$p_\theta(r, \theta) = \int_{-\infty}^{\infty} \mu(x,y) \, \delta(x\cos\theta + y\sin\theta - r) \, \mathrm{d}x \, \mathrm{d}y$$
+
+où $\mu(x,y)$ est la **fonction d'atténuation** de l'objet.
+
+### Théorème de la tranche de projection (Projection-Slice Theorem)
+
+Ce théorème fondamental établit le lien entre les projections et la reconstruction :
+
+- Un **nombre infini de projections** ⇒ reconstruction parfaite de l'objet
+- La **transformée de Radon inverse** ⇒ estimation de la fonction objet $\mu(x,y)$
+- **Instable** vis-à-vis des données bruitées
+
+La version stabilisée et discrétisée est l'algorithme de **rétroprojection filtrée** (Filtered Back-Projection — FBP).
+
+⚠️ En pratique, on n'a qu'un nombre fini de projections, ce qui introduit des artefacts de résolution finie.
+
+## Géométrie des faisceaux (Beam Geometry)
+
+### Configuration parallèle (Parallel-Beam)
+
+La configuration parallèle n'est **pas pratique** car elle nécessite un nouvel emplacement source pour chaque rayon.
+
+### Configuration en éventail (Fan-Beam)
+
+L'acquisition **fan-beam** permet d'obtenir une image en « un seul tir » à partir d'une seule position source.
+
+```{mermaid}
+flowchart LR
+    A[Source X] --> B{Faisceau en éventail}
+    B --> C[Détecteurs linéaires]
+```
+
+### Configuration conique (Cone-Beam — 3D)
+
+Extension 3D du fan-beam : le faisceau illumine un **détecteur 2D** en une seule rotation.
+
+## Modalités d'imagerie 3D en CT
+
+### CT à coupe unique (Single-Slit CT)
+
+La plus simple des configurations :
+
+- Donne une seule image en plan axial.
+- En mode axial « step-and-shoot » : la table est déplacée entre chaque coupe.
+
+### CT hélicoïdal / spiral (Helical CT)
+
+Très populaire en pratique clinique :
+
+- Le tube à rayons X et les détecteurs tournent pendant que le patient se déplace le long de l'axe de rotation.
+- Acquisition rapide de données 3D.
+- Résolution en z légèrement inférieure au mode « step-and-shoot ».
+- Peut incliner le détecteur ±30° par rapport à l'axe de rotation.
+- **Table feed (TF)** = translation axiale par rotation du tube.
+- **Pitch** = TF / Δz
+
+### CT multicoupes (Multislice CT)
+
+Plusieurs rangées de détecteurs captent un **cône de données** X, donnant une projection 2D du patient 3D.
+
+- Avec 1 à 3 révolutions par seconde, une imagerie 3D **quasi temps réel** est possible, avec des vitesses de translation jusqu'à 20 cm par seconde.
+
+### CT volumique (Cone-Beam CT)
+
+Modalité d'imagerie 3D la plus directe :
+
+- Utilise un détecteur 2D
+- Ne nécessite qu'**une seule rotation** autour du patient pour obtenir toutes les données (dans les limites de l'angle du cône)
+- La formule de reconstruction peut être dérivée de manière similaire à l'équation fan-beam (utilise divers types de pondérations)
+- L'équation populaire est celle de **Feldkamp-Davis-Kress**
+- La rétroprojection procède le long des rayons du faisceau conique
+
+**Avantages** :
+- Potentiellement très rapide (une seule rotation)
+- Souvent utilisé pour l'angiographie 3D
+
+**Inconvénients** :
+- Problèmes d'échantillonnage aux extrémités
+- Le taux d'échantillonnage de reconstruction varie le long de z
+
+## Qualité d'image CT (CT Image Quality)
+
+### Acquisition
+
+- Taille du point focal, taille des éléments de détecteur, avance de table, méthode d'interpolation, distance d'échantillonnage, etc.
+
+### Reconstruction
+
+- Noyau de reconstruction (filtre), processus d'interpolation, taille des voxels.
+
+### Bruit
+
+- **Bruit quantique** : dû à la nature statistique des rayons X.
+- L'augmentation de la puissance réduit le bruit mais **augmente la dose**.
+- Le bruit de l'image dépend aussi de l'algorithme de reconstruction, des filtres et méthodes d'interpolation.
+- Un Δz plus grand réduit le bruit mais **abaisse la résolution axiale**.
+
+### Contraste
+
+- Dépend de plusieurs facteurs physiques : spectre des rayons X, durcissement du faisceau (beam-hardening), diffusion.
+
+## Avantages et inconvénients du CT
+
+### Avantages du CT
+
+- Élimine la **superposition** des structures hors de la région d'intérêt (ROI).
+- De petites différences de densité physique peuvent être distinguées.
+- Les données CT peuvent être visualisées dans le plan axial, coronal, sagittal (imagerie multiplanaire reformatée).
+- L'angiographie CT évite l'insertion invasive d'un cathéter artériel.
+- La coloscopie CT est aussi utile que l'examen au lavement baryté pour la détection des tumeurs, avec une dose de rayonnement potentiellement inférieure.
+
+### Inconvénients du CT
+
+- Technique diagnostique à **radiation modérée à élevée** :
+  - Amélioration de l'efficacité du rayonnement → doses plus faibles
+  - Imagerie haute résolution → doses plus élevées
+  - Techniques de scan plus complexes → doses plus élevées
+- Disponibilité accrue + nombre croissant d'indications → forte augmentation de la popularité.
+- Le CT représente 7 % de tous les examens radiologiques (Royaume-Uni) mais contribue à **47 % de la dose collective médicale** aux rayons X.
+- Augmentation globale de la quantité totale de rayonnement médical utilisé, malgré des réductions dans d'autres domaines.
+
+### Inconvénients des agents de contraste
+
+- Certains patients peuvent avoir des **réactions allergiques sévères**.
+- L'agent de contraste peut induire des **lésions rénales (néphropathie)** :
+  - Si la fonction rénale est normale, le risque de néphropathie de contraste est négligeable.
+  - Risque accru chez les patients avec insuffisance rénale préexistante, diabète, ou volume intravasculaire réduit.
+  - Pour une insuffisance rénale modérée, utiliser l'IRM plutôt que le CT.
+  - Les patients en dialyse ne nécessitent pas de précautions spéciales : peu de fonction rénale restante, la dialyse éliminera l'agent de contraste.
+
+---
+
+# Imagerie nucléaire (Nuclear Imaging)
+
+## Principe général
+
+L'imagerie nucléaire regroupe deux modalités principales :
+
+- **SPECT** : Tomographie par émission monophotonique (Single Photon Emission Computed Tomography)
+- **PET** : Tomographie par émission de positrons (Positron Emission Tomography)
+
+**Idée centrale** :
+
+1. Injecter (dans la circulation sanguine) une **molécule traceur** marquée avec un radionucléide.
+2. Il existe des molécules traceurs **spécifiques** pour des cibles spécifiques.
+   - Exemple : la déprenyl déclenche la production de dopamine dans le cerveau humain.
+3. La molécule se rend sur le site anatomique cible avec l'activité métabolique (ex. une zone du cerveau).
+4. Le traceur génère des rayons X qui peuvent être détectés.
+
+💡 Tout comme l'IRMf, c'est une modalité d'imagerie métabolique, mais avec un **rapport signal/bruit (SNR) bien plus élevé** (plusieurs ordres de grandeur supérieur).
+
+## SPECT
+
+### Principe de fonctionnement
+
+Le SPECT est principalement utilisé pour l'étude du **flux sanguin**, par injection d'un radiopharmaceutique dans la circulation sanguine (ou par ingestion/inhalation).
+
+- L'image obtenue par caméra gamma est une **vue 2D de la distribution 3D** d'un radionucléide.
+- L'imagerie SPECT est réalisée en utilisant une **caméra gamma** pour acquérir de multiples images 2D.
+- La reconstruction tomographique produit un **jeu de données 3D**.
+- À partir de ce jeu de données, on peut afficher des coupes minces selon n'importe quel axe choisi, similaire à l'IRM, CT, PET.
+
+### Caméras SPECT
+
+- Les images SPECT sont collectées par une **caméra gamma à trou d'épingle** (pinhole) tournant autour du patient.
+- Les projections sont acquises à des points définis pendant la rotation, typiquement tous les 3 à 6 degrés.
+- Une rotation complète de **360°** donne une reconstruction optimale :
+  - 15 à 20 secondes par projection
+  - Temps total de scan : 15 à 20 minutes
+- Les caméras gamma **multi-têtes** permettent une acquisition plus rapide :
+  - Caméra à deux têtes : 2 projections simultanées
+  - Caméras à trois têtes avec espacement de 120°
+
+### Reconstruction SPECT
+
+- Images **basse résolution** (64×64 ou 128×128 pixels)
+- Tailles de pixels : 3–6 mm
+- Les images reconstruites comparées aux images planaires : résolution plus faible, bruit accru, artefacts de reconstruction
+- Une distribution inégale des nucléides peut également causer des artefacts
+- **Atténuation** → sous-estimation de l'activité en profondeur
+  - Les équipements SPECT modernes sont intégrés avec un scanner CT :
+    - Les images CT sont une carte d'atténuation des tissus
+    - Intégrées dans la reconstruction SPECT pour corriger l'atténuation
+  - Les images CT co-enregistrées fournissent des informations anatomiques
+
+## PET (Tomographie par émission de positrons)
+
+### Principe de fonctionnement
+
+La TEP repose sur la physique de l'annihilation du positron :
+
+1. Un sucre (**fluorodésoxyglucose, FDG**) contenant du **¹⁸F** radioactif est injecté.
+2. Pendant la désintégration, l'isotope **émet un positron**.
+3. Le positron **s'annihile avec un électron** ⇒ paire de photons γ se déplaçant dans des **directions opposées**.
+4. Les photons gamma sont **détectés par le dispositif de scan**.
+5. Seule la **paire simultanée** de photons est utilisée pour la reconstruction d'image.
+
+**Applications cliniques** :
+
+- **Cardiologie** : maladies du cœur et des vaisseaux sanguins
+- **Oncologie** : tumeurs (cancer)
+- **Neurologie** : le système nerveux
+
+### Différences entre SPECT et PET
+
+| Critère | SPECT | PET |
+|---------|-------|-----|
+| Type de photon | Photon unique (collimateur nécessaire) | Paire de photons gamma à 180° |
+| Résolution | Faible (6–8 mm) | Meilleure (2–3 mm) |
+| Décroissance du traceur | Lente (effets durables possibles) | Rapide |
+| Production du traceur | Pas nécessairement sur site | Cyclotrons à proximité requis |
+| Coût | Moins cher | Plus cher |
+| SNR vs IRMf | — | Bien meilleur |
+
+**Méthodes itératives** avantageuses dans ces cas :
+
+- Nombre limité de projections
+- Projections à espacement irrégulier et angles variés
+- Chemins de rayons non rectilignes (ex. réfraction en imagerie ultrasonore)
+- Mesures correctives pendant la reconstruction (ex. artefacts métalliques)
+- Présence de bruit statistique (Poisson) et de diffusion (principalement en imagerie fonctionnelle : SPECT, PET)
+
+---
+
+# Imagerie par résonance magnétique (Magnetic Resonance Imaging — MRI)
+
+## Histoire de l'IRM
+
+- **1946 : Felix Bloch** (Stanford) et **Edward Purcell** (Harvard) démontrent la **résonance magnétique nucléaire (RMN)**.
+- **1973 : Paul Lauterbur** (Stony Brook University) publie la **première image IRM** dans Nature.
+  - Il reçoit le Prix Nobel de Physiologie ou Médecine en 2003.
+- **Fin des années 1970** : Premières images IRM humaines conçues.
+- **Début des années 1980** : Premiers systèmes IRM commerciaux disponibles.
+- **1993 : IRM fonctionnelle** démontrée chez l'humain.
+
+## Concept de l'IRM
+
+L'IRM mesure les **effets des propriétés magnétiques des tissus** :
+
+- Ces effets sont **spécifiques aux tissus**
+- Également spécifiques à la **perfusion sanguine et à l'oxygénation** (IRM fonctionnelle)
+
+L'IRM est très polyvalente (mais aussi plus coûteuse que le CT).
+
+💡 Selon le type de pondération choisi (T1, T2, densité de protons), le même tissu apparaîtra différemment, ce qui offre une richesse diagnostique inégalée.
+
+## Bases physiques de l'IRM
+
+### Alignement des protons
+
+Les noyaux d'atomes d'hydrogène (protons) s'alignent soit **parallèlement** soit **antiparallèlement** à un fort champ magnétique statique externe $\vec{B}_0$.
+
+### Impulsion radiofréquence
+
+Une onde RF à la **fréquence de résonance** $\nu$ est transmise dans un plan perpendiculaire au champ magnétique :
+
+$$\nu = \gamma |B_0|$$
+
+où $\gamma$ est le **rapport gyromagnétique**. Pour l'hydrogène : $\gamma = 42{,}58$ MHz / T.
+
+Cette impulsion met les noyaux dans un **état de haute énergie non aligné**.
+
+### Précession et signal
+
+Lorsque les protons retournent à l'alignement, ils **précessent** (oscillent). Cette précession **génère un nouveau signal RF** capté par une antenne.
+
+## Formation de l'image IRM
+
+Pour n'exciter que les protons dans des parties sélectionnées du corps :
+
+- Des **gradients** sont ajoutés ⇒ variation spatiale de $\vec{B}_0(\vec{r})$ ⇒ seules les parties sélectionnées résonnent à la fréquence RF de transmission $\nu$.
+- Des méthodes tomographiques (rétroprojection, etc.) permettent de générer des images 2D.
+- Des gradients plus forts permettent une imagerie plus rapide ou une résolution plus élevée.
+- La commutation plus rapide des gradients permet un scan plus rapide (limitée par des préoccupations de sécurité concernant la stimulation nerveuse).
+- Résolution typique : **~1 mm³**
+
+## Fonctionnement de l'IRM : processus T1 et T2
+
+### Processus T1 (Relaxation spin-réseau)
+
+À l'équilibre :
+
+- Le **vecteur de magnétisation** $\vec{M}$ des protons est aligné sur $\vec{B}_0$ : magnétisation d'équilibre $\vec{M}_0$
+- $M_z$ : magnétisation longitudinale
+- Pas de magnétisation transversale $M_x$ ou $M_y$
+
+La **constante de temps T₁** décrit comment $M_z$ retourne à l'équilibre (*temps de relaxation spin-réseau*) :
+
+$$M_z = M_0\left(1 - e^{-t/T_1}\right)$$
+
+$T_1$ : temps pour réduire la différence entre la magnétisation longitudinale $M_z$ et sa valeur d'équilibre $M_0$ par un facteur $e$.
+
+### Processus T2 (Relaxation spin-spin)
+
+$T_2$ décrit le **retour à l'équilibre de la magnétisation transversale** $M_{xy}$ (*temps de relaxation spin-spin*) :
+
+$$M_{xy} = M_{xy0} \, e^{-t/T_2}$$
+
+- Les processus $T_2$ et $T_1$ se produisent **simultanément**.
+- **Toujours : $T_2 \leq T_1$**
+- Quand $t \to \infty$ : $M_{xy} \to 0$ et $M_z \to M_0$
+
+💡 T1 et T2 sont des propriétés intrinsèques des tissus, différentes selon les types de tissus. C'est cette différence qui permet le contraste en IRM.
+
+## Modes d'IRM
+
+### IRM standard
+
+Comprend plusieurs **séquences d'impulsions** différentes (séries temporelles de différentes impulsions RF pour manipuler $M$).
+
+### Imagerie écho-planaire (Echo-Planar Imaging — EPI)
+
+Chaque excitation RF : suivie d'un train de gradients avec différents encodages spatiaux ⇒ collecte de données rapide ⇒ moins d'artefacts de mouvement.
+
+### Spectroscopie par résonance magnétique (MR Spectroscopy)
+
+Image d'autres noyaux que H : par exemple P (phosphore), Na (sodium), F (fluor).
+
+### IRM fonctionnelle (fMRI)
+
+Mesure les **changements de flux sanguin** dans le cerveau. L'hémoglobine est diamagnétique lorsqu'elle est oxygénée, paramagnétique lorsqu'elle est désoxygénée ⇒ le signal de résonance magnétique du sang est différent selon le niveau d'oxygénation.
+
+## Applications de l'IRM
+
+### Angiographie par résonance magnétique (MR Angiography — MRA)
+
+L'ARM est utilisée pour imager les vaisseaux sanguins afin d'évaluer :
+
+- **Sténose** : rétrécissement anormal
+- **Anévrismes** : renflement localisé, en forme de ballon, rempli de sang (le plus souvent dans les artères)
+
+Techniques utilisées :
+
+- **Injection d'agents de contraste paramagnétiques**
+- **Rehaussement lié au flux (flow-related enhancement)** : le tissu stationnaire se trouve depuis longtemps dans le plan d'imagerie ⇒ pas complètement « relaxé » avant la prochaine excitation RF ⇒ répond différemment du sang « frais » qui vient d'entrer dans le plan d'imagerie
+
+### Spectroscopie par résonance magnétique (MRS)
+
+- L'IRM montre la **localisation** d'une tumeur.
+- La spectroscopie par RM indique dans quelle mesure elle est **agressive (maligne)**.
+- La MRS peut être accordée à différents noyaux chimiques : H (hydrogène), P (phosphore), Na (sodium), F (fluor).
+- La MRS est utilisée pour étudier :
+  - Le cancer (cerveau / sein / prostate)
+  - L'épilepsie, la maladie de Parkinson, la maladie de Huntington (un trouble neurodégénératif génétique)
+
+### IRM fonctionnelle (fMRI)
+
+- Les changements d'activité cérébrale sont liés aux **changements de flux sanguin et d'oxygénation sanguine**.
+- Les cellules nerveuses actives **consomment de l'oxygène** transporté par l'hémoglobine.
+- L'hémoglobine est **diamagnétique** quand oxygénée, **paramagnétique** quand désoxygénée.
+- ⇒ Le signal MR du sang dépend du niveau d'oxygénation ⇒ **contraste BOLD** (Blood-Oxygen-Level Dependent)
+
+### IRM interventionnelle (Interventional MRI)
+
+Scanner IRM utilisé pour guider simultanément une procédure minimalement invasive :
+
+- Champ radiofréquence magnétique fort présent
+- Champs quasi-statiques générés ⇒ environnement, instruments et outils **non magnétiques** requis
+- Un aimant ouvert donne au chirurgien un meilleur accès au patient
+- ⇒ Implique souvent des aimants à champ plus faible (~0,2 T) ⇒ Sensibilité réduite
+
+### Imagerie par densité de courant (Current Density Imaging — CDI)
+
+Utilisée pour cartographier les **voies de courant électrique** à travers les tissus :
+
+1. Un courant externe est appliqué pendant la session IRM.
+2. Les courants électriques génèrent des champs magnétiques locaux.
+3. Ces champs magnétiques affectent la **phase des dipôles magnétiques** pendant une séquence d'imagerie.
+4. La CDI utilise les informations de phase de l'IRM pour reconstruire les **densités de courant** à l'intérieur de l'objet.
+
+## IRM vs CT (Comparaison)
+
+| Critère | CT | IRM |
+|---------|----|----|
+| Contraste | Atténuation des rayons X uniquement | Nombreuses propriétés (T1, T2, densité, flux…) |
+| Disponibilité | Plus disponible, plus rapide, moins cher | Plus cher, moins disponible |
+| Détection tumorale | Moins bonne | Généralement supérieure |
+| Examens répétés | Exposition au rayonnement ionisant | Préférable (sans rayonnement) |
+| Tissu osseux/calcifications | Excellente différenciation os/tissu mou | Moins adapté aux calcifications |
+| Tissus mous | — | Meilleure différenciation |
+| Agents de contraste | Contiennent des atomes à numéro atomique élevé (iode, baryum) | Propriétés para/diamagnétiques |
+
+---
+
+# Imagerie par ultrasons (Ultrasound Imaging)
+
+## Histoire de l'imagerie ultrasonore
+
+### Applications jalons
+
+- Publication de *The Theory of Sound* (Lord Rayleigh, 1877).
+- Découverte de l'**effet piézoélectrique** (Pierre Curie, 1880) : a permis la génération et la détection d'ondes ultrasonores.
+- Première utilisation pratique pendant la **Première Guerre mondiale** pour la détection de sous-marins.
+- Suivi par :
+  - Tests non destructifs de métaux (ailes d'avion, ponts)
+  - Sismologie
+- **Première utilisation clinique** pour localiser des tumeurs cérébrales (Karl Dussik, Friederich Dussik, 1942).
+- Premières images en niveaux de gris produites en **1950**, en temps réel par un dispositif Siemens en **1965**.
+- Direction électronique du faisceau avec la technologie en réseau phasé (**phased-array**) en 1968.
+- Technique populaire depuis le milieu des années 70.
+- Améliorations substantielles depuis le milieu des années 1990.
+
+## Propriétés des ultrasons
+
+### Avantages
+
+- Non invasif
+- Peu coûteux
+- Portable
+- Excellente résolution temporelle
+
+### Inconvénients
+
+- Bruyant (bruit de speckle important)
+- Faible résolution spatiale
+
+### Applications cliniques
+
+- **Échographie** (echo ultrasound) : cardiaque, surveillance fœtale
+- **Échographie Doppler** : flux sanguin
+- **CT ultrasonore** : mammographie
+
+## Propriétés physiques des ondes ultrasonores
+
+Les ondes ultrasonores sont des **ondes de compression longitudinales** :
+
+- Les particules ne se déplacent jamais loin.
+- Le transducteur émet une impulsion sonore qui **compresse** le matériau.
+- L'**élasticité** limite la compression et l'étend en une **raréfaction**.
+- La raréfaction retourne à une compression.
+- Cela continue jusqu'à ce que l'**amortissement** arrête progressivement cette oscillation.
+
+**Fréquences** :
+
+- Les ondes ultrasonores en médecine : **> 2,5 MHz**
+- L'être humain peut entendre entre 20 Hz et 20 kHz (les animaux peuvent entendre davantage)
+
+💡 Le terme « ultra » signifie au-delà — ces ondes sont au-delà de la fréquence audible humaine.
+
+## Modes d'acquisition échographique
+
+### Mode A (Amplitude)
+
+Le mode A est le **mode le plus simple**, aujourd'hui obsolète :
+
+- Principe : claper des mains et écouter l'écho.
+
+$$\text{distance} = \frac{\text{temps écoulé} \times \text{vitesse du son}}{2}$$
+
+- Le temps et l'amplitude sont presque équivalents puisque la vitesse du son est à peu près constante dans les tissus.
+
+**Problème** : on ne sait pas d'où le son a rebondi (direction inconnue, forme de l'objet inconnue). On n'obtient qu'une seule ligne d'information.
+
+### Mode M (Motion)
+
+Le mode M est une **mesure A-mode répétée** :
+
+- Très haute fréquence d'échantillonnage : jusqu'à **1 000 impulsions par seconde**
+- Utile pour évaluer les taux et les mouvements
+- Encore utilisé extensivement en **imagerie cardiaque et fœtale**
+
+💡 Le mode M permet de visualiser le mouvement d'une structure (ex. paroi du cœur) au fil du temps sur un seul axe.
+
+### Mode B (Brightness)
+
+Le mode B est le mode d'imagerie 2D standard :
+
+- **B** signifie Brightness (luminosité).
+- Une image est obtenue en **translatant ou inclinant** le transducteur.
+- On superpose plusieurs lignes A-mode avec différentes orientations pour former une image 2D.
+- Applications : imagerie fœtale, imagerie cardiaque (normale, continue).
+
+### Effet Doppler (Doppler Effect)
+
+L'effet Doppler est exploité pour mesurer la **vitesse du flux sanguin** :
+
+- Lorsqu'une source sonore se rapproche, les ondes sont **comprimées** (fréquence plus haute).
+- Lorsqu'elle s'éloigne, les ondes sont **étirées** (fréquence plus basse).
+
+#### Mode Doppler en onde continue (Continuous Wave — CW)
+
+Compare la fréquence de l'onde transmise $f_T$ avec la fréquence de l'onde reçue $f_R$ :
+
+La **fréquence Doppler** est :
+
+$$f_D = f_R - f_T = \frac{-2v_a}{c + v_a} f_T \approx \frac{-2|v_a|\cos\theta}{c} f_T$$
+
+- Le signal Doppler peut être rendu **audible**, où la hauteur est analogue à la vitesse.
+
+#### Mode Doppler en onde pulsée (Pulsed Wave — PW)
+
+N'utilise **pas** le principe Doppler au sens strict :
+
+- Au lieu de cela, le signal reçu est supposé être une **réplique mise à l'échelle et retardée** de celui transmis :
+
+$$s(t) = A\sin(2\pi f_T (t - \Delta t))$$
+
+- $\Delta t$ est le **temps entre la transmission et la réception** de l'impulsion, qui dépend de la distance entre le transducteur et le diffuseur.
+- Un seul échantillon de chacune des impulsions reçues est acquis, à $t_R$ :
+
+$$s(t_R) = A\sin(2\pi f_T (t_R - \Delta t))$$
+
+- Si le diffuseur se déplace avec une vitesse $v_a$, la distance augmente avec $v_a T_{\text{PRF}}$ ($T_{\text{PRF}}$ : période de répétition des impulsions) → cela augmente le temps $\Delta t$.
+
+## Applications de l'imagerie ultrasonore
+
+L'imagerie ultrasonore couvre un large spectre d'applications :
+
+- **Échographie 3D** : imagerie fœtale en 3 dimensions, permettant de visualiser le visage du fœtus.
+- **Échographie intravasculaire (Intravascular Ultrasound — IVUS)** : un transducteur miniaturisé est introduit dans un vaisseau sanguin pour imager sa paroi de l'intérieur.
+- **Échographie Doppler** : visualisation du flux sanguin (en rouge pour le flux vers le transducteur, en bleu pour le flux s'en éloignant).
+- Applications cardiaques, obstétricales, abdominales, vasculaires…
+
+💡 L'échographie est la seule modalité d'imagerie médicale couramment utilisée pour le **suivi de grossesse** en routine, grâce à son innocuité (pas de rayonnement) et sa portabilité.
+
+---
+
+# Références
+
+Ce cours s'appuie sur les ressources suivantes :
+
+- Computational Photography (Levoy, Adams, Pulli, Stanford)
+- Computational Photography SIGGRAPH Course (Raskar & Tumblin)
+- Digital and Computational Photography (Durand & Freeman, MIT)
+- Computational Photography (Efros, CMU)
+- Computational Photography (Gkioulekas, CMU)
+- Computational Imaging (Wetzstein, Stanford)
+- Computational Photography (Fergus, NYU)
+- Computational Imaging (Dragotti, Imperial College)
+- Computer Vision (Seitz & Szeliski, UWashington)
+- Introduction to Visual Computing and Visual Modeling (Kutulakos, UToronto)
