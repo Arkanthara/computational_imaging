@@ -1,0 +1,335 @@
+---
+title: "Imagerie computationnelle — Révision"
+---
+
+# Vue d'ensemble
+
+**3 thèmes :** Photographie computationnelle · Champ lumineux · Ouverture codée
+
+```{mermaid}
+flowchart LR
+  A[Monde réel] --> B[Optiques généralisées]
+  B --> C[Représentation codée]
+  C --> D[Computation généralisée]
+  D --> E[Image finale]
+```
+
+::: {.callout-note title="À retenir — Paradigme computationnel"}
+Optiques + Calcul sont **co-conçus**. L'image capturée n'a pas besoin d'être visuellement interprétable.
+:::
+
+---
+
+# 1 · Photographie computationnelle (Computational Photography)
+
+## Fonction plénoptique (Plenoptic Function)
+
+$$L(x,\, y,\, z,\, \theta,\, \phi)$$
+
+| Paramètre | Signification |
+|---|---|
+| $(x, y, z)$ | Position spatiale (3D) |
+| $\theta$ | Angle zénithal |
+| $\phi$ | Angle azimutal |
+
+→ Espace **5D** · Une photo = un minuscule échantillon de $L$
+
+---
+
+## Conv. vs Computationnel
+
+| | Conventionnel | Computationnel |
+|---|---|---|
+| Optiques | Standard | Généralisées |
+| Capteur | Image finale | Représentation codée |
+| Calcul | Amélioration | Décodage |
+| Sorties | 1 image | $\geq 1$ image(s) |
+
+---
+
+## Caméra sténopé vs lentille (Pinhole vs Lens)
+
+| | Sténopé (Pinhole) | Lentille (Lens) |
+|---|---|---|
+| Netteté | Tout net (∞ DoF) | 1 plan net |
+| Lumière | Très inefficace | Efficace |
+
+**Équation de conjugaison :**
+
+$$\frac{1}{D'} + \frac{1}{D} = \frac{1}{f} \qquad m = \frac{f}{D' - f}$$
+
+---
+
+## Pile focale (Focal Stack)
+
+**Pipeline en 3 étapes :**
+
+1. **Capturer** — varier la mise au point (bague focus ou rail macro)
+2. **Aligner** — corriger le changement de magnification $m$
+3. **Fusionner** — moyenne pondérée par netteté locale
+
+**Attribution des poids :**
+
+- Appliquer opérateur **Laplacien** → mesure netteté locale
+- Lisser les poids avec un **flou gaussien**
+
+**Fusion pondérée :**
+
+$$I_{\text{net}}(x,y) = \frac{\sum_k w_k(x,y)\cdot I_k(x,y)}{\sum_k w_k(x,y)}$$
+
+::: {.callout-warning title="Piège — Zoom ≠ Mise au point"}
+Bague zoom → change $f$ (angle de vue). Bague focus → change $D'$ (plan focal). **Ce sont deux opérations distinctes.**
+:::
+
+---
+
+## Techniques d'inférence de profondeur
+
+| Technique | Entrée | Sortie | Remarque |
+|---|---|---|---|
+| Stéréo confocal | Pile focus+ouverture | Par pixel | Plus dense |
+| Depth from Focus | Pile focale | Par patch | — |
+| Focal Flow | Pile dense | Par patch | Efficace, zones texturées seulement |
+| Depth from Defocus | 2 images | Par patch | Minimal |
+
+**Depth from Defocus :**
+
+$$g_i = f * h_{\sigma_i} \quad \Rightarrow \quad \text{estimer } \sigma \Rightarrow \text{profondeur}$$
+
+**Focal Flow :** inspiration biologique → **araignées sauteuses** (jumping spiders)
+
+---
+
+# 2 · Champ lumineux (Light Field Photography)
+
+## Définition
+
+Le **champ lumineux** = distribution géométrique des rayons dans l'espace.
+
+- Formalisé comme la fonction plénoptique sur l'espace **5D**
+- En espace libre → réduit à **4D** via paramétrisation à 2 plans
+
+**Paramétrisation 2 plans (Two-Plane Parameterization) :**
+
+| Plan | Rôle |
+|---|---|
+| Plan $st$ | Position sur la lentille principale |
+| Plan $uv$ | Position sur le capteur |
+
+Un rayon = un couple $(s, t, u, v)$
+
+::: {.callout-note title="À retenir"}
+Le même ensemble de rayons peut être capturé par **caméra plénoptique** OU par **caméra sténopé déplacée** vers plusieurs points de vue.
+:::
+
+---
+
+## 3 options de capture
+
+| Option | Méthode | Avantage | Inconvénient |
+|---|---|---|---|
+| 1 | Réseau de caméras (Stanford Array) | Qualité maximale | Coûteux, encombrant |
+| 2 | 1 caméra déplacée (LEGO motor) | Simple, économique | Scènes statiques uniquement |
+| 3 | Caméra plénoptique | 1 seule capture | Résolution réduite |
+
+---
+
+## Architecture caméra plénoptique
+
+```{mermaid}
+flowchart LR
+  A[Sujet] --> B[Lentille principale]
+  B --> C[Réseau de microlentilles]
+  C --> D[Capteur CMOS]
+```
+
+- **Etymologie :** *plenus* (latin, « plein ») + *optikos* (grec, « vision »)
+- **Inventeur :** Gabriel Lippmann, 1908 — « photographie intégrale »
+- **Analogie biologique :** œil composé des insectes
+
+**Compromis résolution :**
+
+$$\text{Résolution spatiale} \approx \frac{N}{k} \times \frac{N}{k}$$
+
+→ $N$ = pixels totaux, $k$ = pixels par microlentille
+
+---
+
+## Rendus numériques
+
+| Rendu | Opération sur les microlentilles |
+|---|---|
+| Réduction ouverture (Stop down) | Sommer seulement la **portion centrale** |
+| Changement point de vue | **Déplacer la fenêtre** extraite |
+| Refocalisation (Refocus) | Sommer des fenêtres de **plusieurs** microlentilles |
+
+::: {.callout-tip title="Intuition — Refocalisation"}
+Refocaliser = décaler les fenêtres de microlentilles avant de sommer → zones sur le nouveau plan focal s'additionnent constructivement, autres se brouillent.
+:::
+
+---
+
+## Caméra Lytro — Résumé
+
+| Composant | Rôle |
+|---|---|
+| Réseau de lentilles (Lens Array) | Microlentilles |
+| Capteur à champ lumineux | CMOS + microlentilles |
+| Light Field Engine | Traitement dédié |
+| Marvell Avastar 88W8787 | WiFi + Bluetooth |
+
+| Avantages | Inconvénients |
+|---|---|
+| Portable | Résolution totale réduite |
+| Refocalisation a posteriori | Ouverture fixe |
+
+---
+
+# 3 · Caméra à ouverture codée (Coded Aperture)
+
+## Objectif
+
+**1 seule image d'entrée** → 2 sorties :
+
+- **Carte de profondeur** (Depth Map) — par région
+- **Image tout-net** (All-Focused Image)
+
+---
+
+## PSF et défocus
+
+**PSF (Point Spread Function) = Fonction d'Étalement du Point**
+
+- Objet net → PSF = point
+- Objet flou → PSF = tache ayant **la forme de l'ouverture**
+- Taille du PSF ∝ distance au plan focal
+
+**Modèle convolution locale :**
+
+$$y' = f_k \otimes x$$
+
+- $y'$ = sous-fenêtre observée (floue)
+- $f_k$ = PSF calibré à la profondeur $k$
+- $x$ = sous-fenêtre nette inconnue
+
+---
+
+## Challenges
+
+| Challenge | Description |
+|---|---|
+| Ambiguïté scène lisse / défocus | Zone homogène ≈ zone floue visuellement |
+| Déconvolution mal posée | $f \otimes x = y$ a plusieurs solutions $x$ |
+| Ambiguïté d'échelle | Mauvaise profondeur peut aussi donner image plausible |
+
+---
+
+## Idée 1 : Prior sur images naturelles
+
+**Observation :** images naturelles ont des **gradients épars** (sparse gradients).
+
+**Formulation variationnelle :**
+
+$$x = \arg\min_x \; \underbrace{\|f \otimes x - y\|^2}_{\text{fidélité}} + \lambda \underbrace{\sum_i \rho(\nabla x_i)}_{\text{prior}}$$
+
+| Prior $\rho$ | Effet |
+|---|---|
+| $\|\nabla x\|^2$ (gaussien) | Diffuse les gradients → lisse |
+| $\|\nabla x\|^{0.8}$ (épars) | Localise les gradients → contours nets |
+
+::: {.callout-tip title="Intuition"}
+Le prior épars sélectionne la solution qui ressemble le plus à une vraie image naturelle parmi toutes celles qui sont cohérentes avec l'observation.
+:::
+
+---
+
+## Idée 2 : Ouverture codée (Coded Aperture)
+
+**Principe :** masque binaire dans le plan de l'ouverture → PSF pseudo-aléatoire, distinct des images naturelles.
+
+```{mermaid}
+flowchart LR
+  A[Ouverture conventionnelle\nPSF ≈ naturel] -->|difficile à discriminer| B[Ambiguïté d'échelle]
+  C[Ouverture codée\nPSF pseudo-aléatoire] -->|clairement non-naturel| D[Discrimination fiable]
+```
+
+**Domaine fréquentiel :**
+
+$$\text{Convolution spatiale} \Leftrightarrow \text{Multiplication fréquentielle}$$
+
+$$\hat{X} = \frac{\hat{Y}}{\hat{F}} \quad \Rightarrow \quad \text{zéros de } \hat{F} \Rightarrow \text{division par zéro} \Rightarrow \text{ringing}$$
+
+| Configuration | + | - |
+|---|---|---|
+| Sans zéros spectraux | Inversible facilement | Discrimination faible |
+| Avec zéros spectraux | Meilleure discrimination | Inversion difficile (→ prior) |
+
+**Conception du filtre (Filter Design) :**
+
+- Critère : maximiser **divergence KL** entre profondeurs différentes
+- Contraintes : masque binaire physiquement réalisable
+
+::: {.callout-warning title="Point critique — Pourquoi « codée » ?"}
+L'ouverture codée réduit l'ambiguïté d'échelle. La bonne profondeur est la **seule** qui donne une image naturelle après déconvolution. Les mauvaises produisent des artefacts clairement artificiels.
+:::
+
+---
+
+# 4 · Caméra à optiques généralisées
+
+## Wavefront Coding (Codage de front d'onde)
+
+- **Remplacement** de la lentille par une **plaque de phase cubique** (cubic phase plate)
+- PSF approximativement **invariant à la profondeur** (depth-invariant PSF) sur une plage donnée
+- **1 seule déconvolution** suffit pour toute la scène
+
+| | Lentille standard | Wavefront Coding |
+|---|---|---|
+| PSF en focus | Point | Tache complexe |
+| PSF hors focus | Tache variable | Tache stable |
+| Déconvolution | Locale (par profondeur) | Globale (1 seule) |
+
+---
+
+## Lentille réseau (Lattice Lens)
+
+- **Réseau de lentillons** à focales variables devant la lentille principale
+- PSF **non depth-invariant** → déconvolution locale (comme ouverture codée)
+- Capture un **sous-ensemble utile** du champ lumineux 4D
+
+**Écart de dimensionnalité (Dimensionality Gap, Ng 2005) :**
+
+| Quantité | Dimensions |
+|---|---|
+| Champ lumineux complet | 4D |
+| Image + Profondeur utiles | 3D |
+| Écart | 1D superflu |
+
+---
+
+# Récapitulatif général
+
+| Système | Entrée | Sorties | Principe clé |
+|---|---|---|---|
+| Pile focale | $N$ images | Image tout-nette | Poids Laplacien |
+| Caméra plénoptique | 1 capture | Refocus, multi-vues | Réseau microlentilles |
+| Ouverture codée | 1 image | Profondeur + tout-nette | PSF pseudo-aléatoire |
+| Wavefront coding | 1 image | Tout-nette (large DoF) | PSF depth-invariant |
+| Lentille réseau | 1 image | Profondeur + tout-nette | Lentillons à focale variable |
+
+::: {.callout-note title="Fil conducteur"}
+Tous ces systèmes partagent la même logique : **encoder plus d'information** dans l'image capturée (au prix d'une image « brute » dégradée), puis **décoder numériquement** pour récupérer ce qui intéresse.
+:::
+
+---
+
+# Formules clés
+
+| Formule | Signification |
+|---|---|
+| $\frac{1}{D'} + \frac{1}{D} = \frac{1}{f}$ | Conjugaison lentille mince |
+| $m = \frac{f}{D'-f}$ | Magnification |
+| $I_{\text{net}} = \frac{\sum_k w_k I_k}{\sum_k w_k}$ | Fusion pile focale |
+| $y' = f_k \otimes x$ | Défocus = convolution |
+| $x = \arg\min \|f \otimes x - y\|^2 + \lambda \sum \rho(\nabla x_i)$ | Déconvolution avec prior |
+| $\hat{X} = \hat{Y}/\hat{F}$ | Déconvolution fréquentielle |
