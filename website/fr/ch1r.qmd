@@ -1,0 +1,241 @@
+---
+title: "Introduction à l'imagerie computationnelle — Révision"
+---
+
+## Définitions fondamentales
+
+::: {.callout-note title="Imagerie computationnelle (Computational Imaging)"}
+Formation **indirecte** d'images à partir de mesures brutes via des algorithmes de calcul intensif. Intégration étroite capteur ↔ algorithme.
+:::
+
+| | Imagerie traditionnelle | Imagerie computationnelle |
+|---|---|---|
+| **Optique** | Capture l'image finale | Encode une représentation intermédiaire |
+| **Calcul** | Améliore l'image reconnaissable | **Reconstruit** l'image (problème inverse) |
+| **Résultat** | 1 image améliorée | 1 ou plusieurs images finales |
+
+---
+
+## Les 3 piliers
+
+- **Mathématiques** : optimisation, traitement du signal, ML
+- **Physique** : optique géométrique / ondulatoire / E&M
+- **Calcul** : algorithmes de reconstruction, IA
+
+::: {.callout-tip title="Pipeline CI"}
+Monde réel → **Optique généralisée** → Représentation codée → **Calcul généralisé** → Images finales
+:::
+
+---
+
+## Niveaux de modélisation optique
+
+| Modèle | Lumière | Usage |
+|---|---|---|
+| Optique géométrique (Geometric Optics) | Rayons | Caméras classiques |
+| Optique ondulatoire (Wave Optics) | Onde | Microscopie, holographie |
+| Électromagnétisme (E&M) | Champ EM complet | Nano-imagerie, THz |
+
+---
+
+## Deux étapes fondamentales
+
+1. **Encodage optique** (Optical Encoding) — nouvelle optique, capteurs, illumination
+2. **Récupération computationnelle** (Computational Recovery) — algorithmes de reconstruction
+
+---
+
+## Domaines d'application
+
+| Domaine | Exemple |
+|---|---|
+| Médical | IRM, CT, PET, échographie 3D |
+| Astronomie | SKA, radiotélescopes |
+| Nano-imagerie | SP-STM, nc-AFM, MRFM |
+| Automobile | LiDAR, RADAR, caméras |
+| Photographie | HDR+, Night Mode, multi-capteurs |
+| Art | MA-XRF, IR, UV, X-ray |
+| NLOS | Imagerie derrière un obstacle |
+
+---
+
+## Imagerie médicale — Classification
+
+| Méthode | Porteur | Type |
+|---|---|---|
+| Échographie (Ultrasound) | Ondes de pression | Rétrodiffusion |
+| Radiographie X | Rayonnement ionisant | Transmission |
+| CT / C-arm | Rayonnement ionisant | Transmission |
+| SPECT / PET | Rayonnement ionisant | Émission |
+| IRM (MRI) | Précession de spin nucléaire | Résonance magnétique |
+
+**Pipeline :** acquisition multi-signaux 1D/2D → reconstruction 3D (problème inverse)
+
+**Modalités IRM avancées :**
+
+- **fMRI** : activité cérébrale (signal BOLD)
+- **MRA** : vaisseaux sanguins
+- **MRS** : composition chimique tissulaire
+- **CDI** : distribution de courants électriques
+
+---
+
+## SKA — Chiffres clés
+
+| | SKA1-Low | SKA1-Mid |
+|---|---|---|
+| Site | Murchison, Australie | Karoo, Afrique du Sud |
+| Antennes | 131 072 dipôles | 197 paraboles |
+| Fréquences | 50–350 MHz | 0,35–15,4 GHz |
+| Débit brut | ~2 Pb/s | ~9 Tb/s |
+| Stockage | ~300 PB/an | ~300 PB/an |
+| Calcul | ~130 PFlops | ~130 PFlops |
+
+---
+
+## Nano-imagerie — Techniques clés
+
+| Technique | Principe | Résolution |
+|---|---|---|
+| SP-STM | Courant tunnel polarisé en spin | Atomique |
+| nc-AFM | Force d'échange magnétique | Atomique |
+| MRFM | Force mécanique sur spins nucléaires | ~1 nm |
+| NV-NanoMRI | Défaut de spin dans diamant | ~0,1 nm |
+| ESR-STM | Courant tunnel + spin | < 0,1 nm |
+| Coherent X-ray | Diffraction X cohérente sans lentille | 5 nm (2D) / 10 nm (3D) |
+
+---
+
+## Photographie computationnelle — Techniques
+
+| Technique | Principe |
+|---|---|
+| HDR+ | Fusion multi-expositions en rafale |
+| Night Mode | ~15 images alignées + fusion temporelle |
+| Coded Aperture | Modification de la PSF pour encoder profondeur |
+| Super-résolution | Fusion de multiples images basse résolution |
+| Focus stacking | Fusion de mises au point multiples |
+
+---
+
+## Deep Optics (Optique profonde)
+
+::: {.callout-tip title="Principe"}
+Co-optimisation **bout-en-bout** de la couche physique (lentille/masque) et de la couche numérique (réseau de neurones).
+:::
+
+| Phase | Action |
+|---|---|
+| Entraînement (Training) | Optimisation en simulation, gradient à travers optique + réseau |
+| Inférence (Inference) | Fabrication physique de l'optique + déploiement du réseau |
+
+**Interprétations :** encodeur optique + décodeur électronique **OU** réseau hybride optique-électronique
+
+---
+
+## Imagerie NLOS (Non-Line-Of-Sight)
+
+::: {.callout-note title="Principe"}
+Imager un objet caché en exploitant les **rebonds de lumière** sur surfaces diffuses.
+:::
+
+**Dispositif :**
+
+- Laser picoseconde → illumination point du mur
+- Capteur SPAD → détection à photon unique, résolu en temps
+- Miroir galvanométrique → balayage du mur
+
+**Pipeline :**
+
+1. Mesure du temps de vol des photons (1er, 2ème, 3ème rebond)
+2. Données brutes : volume (x', y', t) — non reconnaissable
+3. Reconstruction 3D par back-projection ou compressed sensing
+
+::: {.callout-warning title="Piège"}
+Le signal du 3ème rebond est **10–100× plus faible** que le 1er rebond → nécessite algorithmes robustes au bruit.
+:::
+
+---
+
+## MA-XRF (Macro X-ray Fluorescence) — Art
+
+**Principe :** rayon X → éjection électron → photon fluorescence caractéristique de l'élément
+
+**Datacube :** (x, y) spatial × énergie 0–40 keV (4096 canaux)
+
+**Éléments → Pigments :**
+
+| Élément | Pigment |
+|---|---|
+| Pb (plomb) | Blanc de plomb |
+| Hg (mercure) | Vermillon (rouge) |
+| Cu (cuivre) | Azurite / vert de cuivre |
+| Fe (fer) | Ocres / rouges |
+| Ca (calcium) | Gesso (préparation) |
+| Zn (zinc) | Blanc de zinc |
+
+---
+
+## Stratigraphie d'une peinture (de bas en haut)
+
+Canvas → Ground Layer → Underdrawing → Imprimatura → Paint Layers → Varnish/Glazes
+
+---
+
+## Imagerie compressive (Compressive Imaging / Compressed Sensing)
+
+::: {.callout-note title="Principe"}
+Exploiter la **parcimonie** (sparsité) des images naturelles pour réduire le nombre de mesures.
+:::
+
+**Applications :**
+
+- Caméra à pixel unique (Single-Pixel Camera)
+- Imagerie hyperspectrale compressive
+- Imagerie de champ de lumière compressive (Light Field)
+
+---
+
+## Problème inverse — Formulation générale
+
+$$y = Ax + n$$
+
+| Symbole | Signification |
+|---|---|
+| $y$ | Mesures (données brutes) |
+| $A$ | Opérateur de mesure (physique du système) |
+| $x$ | Image inconnue à reconstruire |
+| $n$ | Bruit |
+
+::: {.callout-warning title="Piège critique"}
+Le problème est souvent **mal posé** (ill-posed) → nécessite **régularisation** (a priori sur $x$).
+:::
+
+---
+
+## Thèmes du cours — Vue d'ensemble
+
+| Module | Contenu clé |
+|---|---|
+| Système visuel humain | Anatomie œil, acuité, contraste, couleur |
+| Photographie numérique | Optique, ouverture, bruit, Bayer, pipeline ISP |
+| Photographie computationnelle | HDR, tone mapping, coded apertures |
+| Deep Learning | CNN, DnCNN, U-Net |
+| Optimisation | Gradient proximal, deep priors |
+| Imagerie compressive | Single-pixel, CS, hyperspectral |
+| Optique ondulatoire & Deep Optics | Diffraction, phase retrieval, holographie CGH |
+| Affichages computationnels | Gaze-contingent, light field, holographique |
+
+---
+
+## Évaluation — Rappel
+
+| Composante | Poids | Seuil |
+|---|---|---|
+| Théorie (2 CC / oral) | 40 % | ≥ 4.0/6.0 |
+| TPs | 25 % | ≥ 4.0/6.0 |
+| Mini-projet | 35 % | ≥ 4.0/6.0 |
+
+::: {.callout-warning title="Condition critique"}
+**Chaque composante** doit être ≥ 4.0/6.0 indépendamment.
+:::
