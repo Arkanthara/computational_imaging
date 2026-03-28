@@ -1,7 +1,8 @@
 on:
   workflow_dispatch:
   push:
-    branches: course
+    branches:
+      - course
 
 name: Quarto Publish
 
@@ -13,9 +14,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      
-      - name: Add typst for ceTZ diagrams
-        uses: typst-community/setup-typst@v4
+
+      # - name: Add Typst for CeTZ diagram rendering (chapters 2–4)
+      #   uses: typst-community/setup-typst@v4
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
@@ -23,13 +24,13 @@ jobs:
           tinytex: true
           chromium: true
 
-      # - name: Add extension for CeTZ diagram rendering
-      #   run: |
-      #     cd en
-      #     quarto install extension pandoc-ext/diagram --no-prompt
-      #     cd ../fr
-      #     quarto install extension pandoc-ext/diagram --no-prompt
-      #     cd ..
+      - name: Add extension for diagram rendering (CeTZ and TikZ)
+        run: |
+          cd website/en
+          quarto install extension pandoc-ext/diagram --no-prompt
+          cd ../fr
+          quarto install extension pandoc-ext/diagram --no-prompt
+          cd ..
 
       - name: Render French project
         uses: quarto-dev/quarto-actions/render@v2
