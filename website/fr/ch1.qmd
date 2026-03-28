@@ -1,0 +1,770 @@
+---
+title: "Introduction à l'imagerie computationnelle"
+---
+
+## Présentation du cours
+
+### Objectifs pédagogiques
+
+Ce cours, dispensé par Taras Holotyak (Université de Genève, département d'informatique), a pour but de fournir à la fois une **introduction solide** au domaine de l'imagerie computationnelle (Computational Imaging) et des **compétences pratiques** directement applicables.
+
+Les trois axes principaux du cours sont :
+
+- Les **principes fondamentaux** de l'imagerie computationnelle
+- Un **panorama de l'état de l'art** des systèmes modernes
+- Une **analyse approfondie** des applications concrètes
+
+### Évaluation
+
+La note finale repose sur trois composantes :
+
+| Composante | Poids |
+|---|---|
+| Partie théorique (2 contrôles continus ou examen oral) | 40 % |
+| Travaux pratiques (TPs) | 25 % |
+| Mini-projet (rapport + présentation) | 35 % |
+
+::: {.callout-warning title="Condition de validation"}
+Chaque composante (théorie, TPs, mini-projet) doit obtenir une note **positive ≥ 4.0/6.0**. Une note insuffisante dans l'une d'entre elles bloque la validation, même si la moyenne globale est satisfaisante.
+:::
+
+### Ouvrages recommandés
+
+Le cours s'appuie sur un ensemble de références complémentaires, couvrant différentes facettes du domaine :
+
+- *Foundations of Computational Imaging* – Charles A. Bouman (SIAM)
+- *Computational Imaging* – Bhandari, Kadambi, Raskar (MIT Press)
+- *Computational Photography* – Ramesh Raskar & Jack Tumblin
+- *Computational Optical Imaging* – Liu, Zhou, Shütian (Springer)
+- *Computational Methods for Inverse Problems in Imaging* (Springer)
+- *Fourier Optics and Computational Imaging* – Kedar Khare (Wiley)
+- *Medical Imaging Technology* – Lai, Octorina Dewi (Springer)
+- *Biomedical Imaging and Computational Modeling in Biomechanics* (Springer)
+- *Computational Imaging Through Atmospheric Turbulence* – Chan & Nichols
+- *Computational Optical Phase Imaging* – Liu, Wang, Veetil (Springer)
+- *Computational Imaging VIII* – Bouman (SPIE)
+
+---
+
+## Introduction à l'imagerie computationnelle
+
+### Pourquoi « imagerie » ?
+
+#### La vision comme canal sensoriel dominant
+
+L'être humain est fondamentalement un **animal visuel**. Parmi tous ses sens, la vue est de loin le plus sollicité pour acquérir de l'information sur le monde.
+
+On estime que :
+
+- Environ **75 %** de l'information perçue par l'être humain transite par le **canal visuel** (la vue)
+- L'**ouïe** ne représente que 13 %
+- Le **toucher** 6 %, le **goût** et l'**odorat** environ 3 % chacun
+
+::: {.callout-tip title="Intuition"}
+Concevoir des systèmes qui « voient » le monde de manière efficace est donc d'une importance capitale pour interagir avec l'environnement, qu'il s'agisse de robots, de caméras médicales ou de télescopes.
+:::
+
+Ce constat explique pourquoi l'**imagerie** — c'est-à-dire la formation, l'acquisition et l'interprétation d'images — occupe une place centrale en informatique, physique et ingénierie.
+
+### Pourquoi « computationnelle » ?
+
+#### Définition formelle
+
+::: {.callout-note title="À retenir"}
+**L'imagerie computationnelle** (Computational Imaging) est le processus de formation *indirecte* d'images à partir de mesures brutes, en utilisant des **algorithmes** qui requièrent une quantité significative de calcul.
+
+À la différence de l'imagerie traditionnelle, un système d'imagerie computationnel implique une **intégration étroite** entre le système d'acquisition (le capteur) et le traitement numérique (l'algorithme) pour produire les images souhaitées.
+:::
+
+#### Différence fondamentale avec l'imagerie traditionnelle
+
+La distinction essentielle réside dans le **rôle du calcul** :
+
+**Imagerie traditionnelle (Traditional Imaging)**
+
+1. L'optique capture une image qui ressemble directement à la scène réelle
+2. Le calcul **améliore** cette image déjà reconnaissable (défloutage, amélioration du contraste, etc.)
+
+*Pipeline :* Monde réel → Optique → Image capturée → Calcul → Image améliorée
+
+**Imagerie computationnelle (Computational Imaging)**
+
+1. L'optique **encode** la scène dans une représentation intermédiaire (souvent non reconnaissable directement)
+2. Le calcul **décode** cette représentation pour produire une ou plusieurs images finales
+
+*Pipeline :* Monde réel → Optique généralisée → Représentation codée → Calcul généralisé → Images finales
+
+::: {.callout-tip title="Intuition"}
+En imagerie traditionnelle, la caméra fait déjà « tout le travail optique » et l'ordinateur peaufine. En imagerie computationnelle, le capteur et l'algorithme sont **co-conçus** : l'un ne peut fonctionner sans l'autre.
+:::
+
+#### L'objectif fondamental
+
+Le but premier de l'imagerie computationnelle est de **reconstruire des images reconnaissables par l'humain à partir de données mesurées**, en s'appuyant sur des algorithmes avancés. En imagerie traditionnelle, on cherche plutôt à **traiter des images déjà reconnaissables** pour améliorer leur qualité ou en extraire de l'information.
+
+### Qu'est-ce que l'imagerie computationnelle ?
+
+#### Une révolution à l'interface du physique et du numérique
+
+La révolution actuelle dans les techniques de captation offre la possibilité d'accéder au monde physique de manière **sans précédent**. Mais cette révolution ne peut se réaliser que grâce à une **interaction habile entre le monde physique et le monde numérique**.
+
+L'imagerie computationnelle prône que, pour développer des systèmes d'imagerie efficaces, il est nécessaire de **dépasser le pipeline classique découplé** — où la physique du capteur, le traitement d'image et l'application finale sont considérés séparément.
+
+À la place, il faut repenser l'imagerie comme un **modèle intégré d'acquisition et d'inférence**.
+
+#### Les trois piliers de l'imagerie computationnelle
+
+Le domaine se situe à l'intersection de trois champs :
+
+- **Mathématiques** : traitement du signal, optimisation, apprentissage automatique
+- **Physique** : optique géométrique, optique ondulatoire, électromagnétisme
+- **Calcul (Computation)** : algorithmes de reconstruction, intelligence artificielle
+
+::: {.callout-note title="À retenir"}
+L'imagerie computationnelle appartient à la fois au **monde physique/analogique** (comment la lumière interagit avec le capteur) et au **monde numérique** (comment les données brutes sont traitées). Cette dualité est sa marque distinctive.
+:::
+
+#### Les couches optiques
+
+L'optique peut être modélisée à différents niveaux de détail :
+
+- **Optique géométrique (Geometric Optics)** : la lumière est traitée comme des rayons. C'est le modèle de base pour les caméras et objectifs classiques. Unité : radiance (spectrale). Propriétés : longueur d'onde, polarisation, direction.
+- **Optique ondulatoire (Wave Optics)** : la lumière est une onde. On tient compte des phénomènes de diffraction et d'interférence. Nécessaire pour les systèmes à haute résolution ou fonctionnant près de la limite de diffraction.
+- **Électromagnétisme (E&M)** : le modèle le plus général. Applicable dans les cas extrêmes (nanomètre, térahertz, etc.).
+
+::: {.callout-tip title="Intuition"}
+Pour une caméra de smartphone standard, l'optique géométrique suffit. Pour un microscope à super-résolution ou un hologramme, il faut l'optique ondulatoire. Pour les interactions à l'échelle atomique, il faut l'électromagnétisme complet.
+:::
+
+#### Les composantes d'un système d'imagerie computationnel
+
+Un système complet combine :
+
+1. **L'optique** (lentilles, masques codés, miroirs, filtres)
+2. **Le capteur** (CCD, CMOS, détecteurs spécialisés)
+3. **Le calcul** (algorithmes de reconstruction, réseau de neurones)
+
+**Deux approches connexes :**
+
+- **Imagerie computationnelle** : optique + capteur + calcul → image(s) finale(s)
+- **Affichages computationnels (Computational Displays)** : calcul + optique + électronique → stimulation du système visuel humain (l'humain est dans la boucle)
+
+#### Deux étapes fondamentales
+
+Tout système d'imagerie computationnel se décompose en :
+
+1. **Encodage optique** (Optical Encoding) : encoder l'information de la scène de manière optique grâce à une nouvelle optique, de nouveaux capteurs, de nouvelles sources lumineuses
+2. **Récupération computationnelle** (Computational Recovery) : décoder l'information à l'aide de nouveaux algorithmes
+
+### Exemple biologique : le cœur de l'imagerie computationnelle
+
+La nature a inventé l'imagerie computationnelle bien avant l'humanité. La **crevette-mante** (*Odontodactylus scyllarus*) possède l'un des systèmes visuels les plus sophistiqués du règne animal.
+
+Ses yeux composés contiennent jusqu'à **16 types de photorécepteurs** (contre 3 pour l'humain), capables de percevoir le spectre UV, la lumière polarisée circulaire, et bien d'autres propriétés de la lumière. Ce système « encode » une quantité phénoménale d'informations optiques, et le cerveau de l'animal les « décode » pour naviguer, chasser et communiquer.
+
+::: {.callout-tip title="Intuition"}
+Le système visuel de la crevette-mante est un exemple parfait d'intégration entre capteur (les yeux) et calcul (le cerveau) : ni l'un ni l'autre n'est utile seul. C'est exactement le principe de l'imagerie computationnelle.
+:::
+
+### Domaines d'application modernes
+
+L'imagerie computationnelle touche de nombreux secteurs :
+
+- **Photographie numérique** (smartphones, appareils reflex)
+- **Imagerie médicale** (IRM, scanner, échographie 3D, PET)
+- **Véhicules autonomes** (LIDAR, caméras, radars)
+- **Astronomie** (radiotélescopes, télescopes spatiaux)
+- **Microscopie** (nano-imagerie, imagerie quantique)
+- **Industrie** (inspection, contrôle qualité)
+- **Réalité virtuelle et augmentée** (affichages holographiques)
+- **Analyse artistique** (fluorescence X, imagerie multispectrale)
+
+---
+
+## Exemples motivants en imagerie computationnelle
+
+### Échelle : du macro au micro
+
+L'imagerie computationnelle opère sur une **plage d'échelles extraordinaire**, allant des structures cosmiques aux phénomènes subatomiques :
+
+| Objet | Échelle (mètres) |
+|---|---|
+| Univers observable | $10^{26}$ |
+| Galaxie | $10^{19}$ |
+| Système solaire | $10^{13}$ |
+| Terre | $10^7$ |
+| Humain | $10^0$ |
+| Cellule | $10^{-5}$ |
+| Molécule | $10^{-9}$ |
+| Atome | $10^{-12}$ |
+| Noyau atomique | $10^{-14}$ |
+| Échelle de Planck | $10^{-35}$ |
+
+Ce tableau illustre le défi fondamental : les systèmes d'imagerie doivent être adaptés à chaque échelle, car les principes physiques (et donc les algorithmes) changent radicalement d'un ordre de grandeur à l'autre.
+
+### Microscopie à l'échelle nanométrique
+
+#### Imagerie de spin par STM et AFM non-contact
+
+La détection de spin à la surface de matériaux avec une résolution à l'**échelle atomique** a été réalisée grâce à deux méthodes compatibles :
+
+**Microscopie à effet tunnel à polarisation de spin (SP-STM, Spin-Polarised Scanning Tunnelling Microscopy)**
+
+- Détecte localement une composante de spin du courant tunnel
+- Permet de visualiser les structures magnétiques à l'échelle atomique
+- Le courant mesuré dépend de l'orientation relative du spin de la pointe et de l'échantillon
+
+**Microscopie à force atomique non-contact (nc-AFM, Non-Contact Atom Force Microscopy)**
+
+- Détecte les forces locales liées à l'échange magnétique
+- Sensible aux interactions entre la pointe et les spins de surface
+- Complémentaire à la SP-STM pour une caractérisation complète
+
+::: {.callout-tip title="Intuition"}
+Ces techniques permettent littéralement de « voir » comment les spins sont orientés sur une surface, atome par atome. Ce n'est pas une image au sens photographique — c'est une reconstruction à partir de signaux électriques ou mécaniques extrêmement faibles.
+:::
+
+#### Imagerie par résonance magnétique à l'échelle nanométrique
+
+**Microscopie à force de résonance magnétique (MRFM, Magnetic Resonance Force Microscopy)**
+
+La MRFM utilise des **capteurs de force mécaniques** pour détecter le signal magnétique faible de **spins nucléaires individuels**.
+
+Trois approches complémentaires pour la nano-IRM :
+
+1. **MRFM** : un résonateur nano-mécanique associé à un nano-aimant génère une force sur les spins de l'échantillon. Une microbande joue le rôle d'antenne pour les impulsions radiofréquences d'inversion de spin NMR. Plage de résolution : ~1 nm, portée ~100 nm.
+
+2. **NV-NanoMRI** (Nitrogen Vacancy NanoMRI) : un défaut de spin électronique dans un diamant, situé à quelques nanomètres de la surface, sert de capteur magnétique. Résolution ~0.1 nm, portée ~10 nm.
+
+3. **ESR-STM** (Electron Spin Resonance – Scanning Tunneling Microscopy) : un courant tunnel entre la pointe de balayage et le substrat conducteur constitue le signal. Résolution < 0.1 nm, portée ~1 nm.
+
+::: {.callout-note title="À retenir"}
+Ces trois techniques couvrent différentes plages de résolution et de portée, permettant une caractérisation magnétique depuis l'échelle de 100 nm jusqu'à l'échelle atomique. Dans chaque cas, l'image finale est **reconstruite algorithmiquement** à partir de signaux indirects — c'est de l'imagerie computationnelle par excellence.
+:::
+
+#### Imagerie magnétique par rayons X cohérents
+
+L'imagerie magnétique par rayons X cohérents (Coherent X-ray Magnetic Imaging) est une approche **sans lentille** (lensless) de la microscopie magnétique.
+
+Ses points forts :
+
+- Accès simultané au **contraste de phase** et d'**absorption** spécifiques aux éléments chimiques
+- Résolution spatiale limitée par la longueur d'onde : **5 nm en 2D et 10 nm en 3D**
+
+Cette technique a connu une évolution remarquable depuis 2004 :
+
+- 2004 : Holographie de Fourier magnétique (Magnetic FTH)
+- 2011 : Ptychographie magnétique (Magnetic Ptychography)
+- 2015 : Suivi de la dynamique des skyrmions
+- 2017 : Cartographie des textures de spin en 3D
+- 2021 : Filmage de la dynamique de spin à l'échelle femtoseconde
+- 2023 : Capture des fluctuations magnétiques
+- Futur : Imagerie aux échelles naturelles, application généralisée
+
+::: {.callout-tip title="Intuition"}
+Un skyrmion est une configuration magnétique en tourbillon, de l'ordre de quelques nanomètres. Le filmer en temps réel à l'échelle femtoseconde ($10^{-15}$ s) est un exploit qui n'est possible que grâce à l'intégration entre une source de rayons X cohérents et des algorithmes de reconstruction avancés.
+:::
+
+### Applications en astrophysique
+
+#### Les grandes questions de l'Univers
+
+L'astrophysique computationnelle cherche à répondre à certaines des questions les plus profondes :
+
+- Qu'est-ce que la **matière noire** et l'**énergie noire** ?
+- Comment les premières étoiles et galaxies se sont-elles formées ?
+- L'Univers est-il seul à abriter la vie (**SETI**) ?
+- Comment les ondes gravitationnelles confirment-elles la **relativité générale** ?
+- Quelle est la structure à grande échelle de l'Univers (filaments, vides cosmiques) ?
+
+Le modèle cosmologique standard situe le Big Bang il y a **13,7 milliards d'années**. Les premières étoiles sont apparues ~400 millions d'années après. Depuis, l'Univers est en expansion accélérée sous l'effet de l'énergie noire.
+
+#### SKA : Square Kilometre Array
+
+Le **Square Kilometre Array (SKA)** est le plus grand radiotélescope jamais construit, réparti sur deux sites :
+
+**SKA1-Low** (Australie occidentale, Murchison)
+
+- 131 072 antennes basses fréquences (512 stations × 256 dipôles)
+- Fréquences : 50–350 MHz
+- Lignes de base : 65 km (résolution 11" à 110 MHz)
+
+**SKA1-Mid** (Karoo, Afrique du Sud)
+
+- 197 antennes paraboliques (133 × 15 m + 64 × 13,5 m MeerKAT)
+- Fréquences : 0,35–15,4 GHz
+- Lignes de base : 150 km (résolution 0,22" à 1,7 GHz)
+
+**Domaines scientifiques couverts :**
+
+- Tests de la relativité générale (gravité extrême, ondes gravitationnelles)
+- Aube cosmique et réionisation (premières étoiles et galaxies)
+- Évolution des galaxies (z~2-3)
+- Magnétisme cosmique (origine et évolution)
+- Cosmologie (matière noire, structure à grande échelle)
+- Berceaux de vie (planètes, molécules, SETI)
+
+#### Volume de données colossal
+
+Le SKA génère un flux de données sans précédent :
+
+- **SKA1-Low** : ~2 Pb/s en sortie des antennes, ~7 Tb/s après le processeur de signal central
+- **SKA1-Mid** : ~9 Tb/s en sortie des antennes, ~5 Tb/s après le processeur de signal central
+- **Volume annuel** : ~300 PB/an par instrument
+- **Puissance de calcul nécessaire** : ~130 PFlops par instrument
+
+::: {.callout-warning title="Défi computationnel massif"}
+Le SKA ne produira pas directement des images astronomiques. Il produira des visibilités (corrélations entre paires d'antennes). La transformation de ces données brutes en images radio astronomiques nécessite des algorithmes de reconstruction d'images extrêmement puissants, tournant sur des supercalculateurs dédiés situés à Perth et au Cap. C'est de l'imagerie computationnelle à une échelle planétaire.
+:::
+
+### Imagerie médicale
+
+#### Classification des modalités d'imagerie médicale
+
+L'imagerie médicale utilise différents **porteurs d'information** (information carriers) pour sonder le corps humain de manière non invasive :
+
+| Méthode | Porteur d'information | Type |
+|---|---|---|
+| Échographie (Ultrasound) | Ondes de pression haute fréquence | Rétrodiffusion / réflexion |
+| Radiographie (X-ray) | Rayonnement ionisant | Transmission |
+| Tomographie calculée (CT, C-arm) | Rayonnement ionisant | Transmission |
+| Imagerie nucléaire (SPECT, PET) | Rayonnement ionisant | Émission |
+| IRM (MRI) | Précession de spin nucléaire | Résonance magnétique |
+
+**Pipeline général de l'imagerie médicale :**
+
+1. **Acquisition** de multiples signaux 1D et 2D (projections, signaux de résonance, échos ultrasonores)
+2. **Reconstruction** de l'objet 3D à partir de ces signaux
+
+::: {.callout-note title="À retenir"}
+Aucune de ces modalités ne produit directement une image 3D. Dans tous les cas, la reconstruction de l'objet tridimensionnel est un **problème inverse** résolu algorithmiquement. L'imagerie médicale *est* de l'imagerie computationnelle.
+:::
+
+#### Exemples d'images médicales
+
+**Tomographie calculée (CT – Computed Tomography)**
+
+- Utilise des rayons X sous de multiples angles
+- Reconstruction par **rétroprojection filtrée** ou algorithmes itératifs
+- Résultat : coupes axiales, coronales, sagittales, ou rendu 3D du squelette et des organes
+
+**Radiographie X projetée**
+
+- Image 2D de la transmission des rayons X
+- Utilisée pour l'os, les poumons, les articulations
+
+**Tomographie par émission de positrons (PET – Positron Emission Tomography)**
+
+- Injection d'un traceur radioactif (ex : glucose marqué)
+- Détection des photons gamma émis par annihilation des positrons
+- Reconstruction de la distribution métabolique dans le corps
+
+**Échographie 3D (3D Ultrasound)**
+
+- Séquences d'images 2D balayées mécaniquement ou électroniquement
+- Reconstruction volumique par interpolation
+- Très utilisée en obstétrique (visualisation fœtale)
+
+#### Modalités avancées de l'IRM
+
+L'imagerie par résonance magnétique (IRM / MRI) se décline en plusieurs modalités :
+
+**IRM fonctionnelle (fMRI – Functional MRI)**
+
+- Mesure les variations d'oxygénation du sang (signal BOLD)
+- Cartographie de l'activité cérébrale lors de tâches cognitives
+- Résolution temporelle : quelques secondes
+
+**Angiographie par résonance magnétique (MRA – MR Angiography)**
+
+- Visualisation des vaisseaux sanguins sans injection de produit de contraste
+- Détection des anévrismes, sténoses artérielles
+
+**Spectroscopie par résonance magnétique (MRS – Magnetic Resonance Spectroscopy)**
+
+- Mesure la composition chimique des tissus (métabolites)
+- Utile pour la caractérisation tumorale
+
+**Imagerie par densité de courant (CDI – Current Density Imaging)**
+
+- Reconstruction de la distribution des courants électriques dans le cerveau ou le cœur
+- Combine IRM et stimulation électrique externe
+
+### Photographie computationnelle
+
+#### Imagerie par dispositifs mobiles
+
+Les smartphones modernes intègrent des **systèmes d'imagerie computationnels sophistiqués**. Un appareil haut de gamme peut comporter :
+
+- Plusieurs objectifs de focales différentes (grand-angle, standard, téléobjectif)
+- Un capteur de profondeur (Time-of-Flight ou stéréo)
+- Un capteur infrarouge pour la mise au point rapide
+- Un processeur d'image dédié (ISP) et une puce neuronale
+
+::: {.callout-tip title="Intuition"}
+La qualité photographique des smartphones n'est pas due à la taille de leurs capteurs (très petits) ni à leurs optiques (très basiques), mais à la puissance des algorithmes de traitement qui combinent plusieurs images pour en synthétiser une de qualité supérieure.
+:::
+
+#### Photographie numérique avancée
+
+**HDR+ (High Dynamic Range Plus)**
+
+- Capture plusieurs expositions en rafale ultra-rapide
+- Fusion des expositions pour récupérer à la fois les hautes lumières et les ombres
+- Algorithme de fusion adaptatif basé sur l'alignement des trames
+
+**Mode Nuit (Night Mode)**
+
+- Capture une longue séquence d'images à faible exposition
+- Alignement sub-pixel pour corriger les micro-tremblements
+- Fusion temporelle pour accumuler la lumière sans flou de bougé
+
+::: {.callout-note title="À retenir"}
+Le Mode Nuit de Google (Night Sight) est un exemple emblématique : il ne capture pas une longue pose unique, mais **combine ~15 images** prises en ~1 seconde. Le résultat est une image nette, lumineuse et peu bruitée — impossible avec une seule capture. C'est de l'imagerie computationnelle pure.
+:::
+
+#### Imagerie multi-capteurs et hyperspectrale
+
+Les caméras à multiples capteurs (comme le Light L16 avec 16 objectifs) permettent :
+
+- Capture simultanée depuis différentes focales et angles
+- **Super-résolution** par fusion des images
+- Bokeh synthétique (flou d'arrière-plan contrôlable après la prise de vue)
+- Profondeur de champ variable en post-traitement
+
+L'imagerie hyperspectrale va plus loin en capturant des dizaines à des centaines de bandes spectrales, permettant l'identification de matériaux, de végétation, de polluants, etc.
+
+### Industrie automobile : véhicules autonomes
+
+#### Multi-modalité sensorielle
+
+Un véhicule autonome est un système d'imagerie computationnel multi-modal par excellence. Il combine :
+
+- **Caméras (Cameras)** : détection et suivi des piétons, cyclistes, feux tricolores, espaces libres et autres éléments de la scène routière
+- **LiDAR (Light Detection and Ranging)** : capteurs laser haute précision détectant les objets fixes et mobiles, fournissant un nuage de points 3D dense
+- **Radars longue portée (Long-Range Radars)** : détection des véhicules et mesure de leur vitesse sur de grandes distances
+- **Radars articulés (Articulating Radars)** : détection des véhicules en mouvement sur un large champ de vision
+- **Radars courte portée (Short-Range Radars)** : détection des obstacles proches du véhicule
+
+#### LiDAR 3D pour la perception
+
+Le LiDAR (par exemple le Velodyne VLS-128) est l'un des capteurs clés pour les véhicules autonomes :
+
+- Émet des **impulsions laser** dans toutes les directions
+- Mesure le **temps de retour** de chaque impulsion (Time-of-Flight)
+- Reconstruit un **nuage de points 3D** de l'environnement en temps réel
+- Portée typique : 100–200 m, précision : quelques centimètres
+
+::: {.callout-tip title="Intuition"}
+Le LiDAR ne voit pas une image au sens photographique. Il mesure des temps de vol d'impulsions lumineuses et en déduit des distances. La transformation de ces mesures en une représentation 3D utilisable est un problème d'imagerie computationnelle.
+:::
+
+### Solutions basées sur l'intelligence artificielle
+
+#### Optique profonde (Deep Optics)
+
+L'optique profonde (Deep Optics) est une approche qui **optimise conjointement** l'optique physique et le traitement numérique de manière bout en bout (end-to-end).
+
+**Principes :**
+
+Le système est divisé en deux couches :
+
+- **Couche physique** (Physical Layer) : la lentille ou un autre composant optique (masque codé, réseau de diffraction, etc.)
+- **Couche numérique** (Digital Layer) : un réseau de neurones de traitement
+
+**Phase d'entraînement (Training) :**
+
+- L'optimisation se fait bout-en-bout en simulation
+- Le gradient de la fonction de perte est propagé à travers la couche numérique *et* à travers la simulation du composant optique
+- L'optique et le réseau sont co-optimisés simultanément
+
+**Phase d'inférence (Inference) :**
+
+- La lentille (ou autre composant) optimisée est **fabriquée physiquement**
+- Le réseau entraîné est déployé
+- Les deux couches fonctionnent ensemble pour résoudre la tâche cible
+
+**Interprétations possibles :**
+
+- Le système peut être vu comme un **encodeur optique + décodeur électronique**
+- Ou comme un **réseau de neurones hybride optique-électronique**, où la couche physique joue le rôle de premières couches du réseau
+
+::: {.callout-note title="À retenir"}
+L'optique profonde efface la frontière entre conception optique et apprentissage automatique. Au lieu de concevoir l'optique séparément puis d'apprendre un algorithme de traitement, on optimise les deux simultanément pour la tâche finale (ex : reconnaissance d'objets, reconstruction 3D).
+:::
+
+### Analyse des œuvres d'art
+
+#### Examiner les peintures anciennes
+
+L'imagerie computationnelle offre des outils non invasifs pour étudier les peintures sans les détériorer.
+
+**Structure d'une peinture (stratigraphie)**
+
+Une peinture ancienne est constituée de plusieurs couches superposées (de bas en haut) :
+
+1. **Canvas** : la toile ou le panneau de bois
+2. **Ground Layer** (couche de préparation) : enduit blanc (gesso)
+3. **Underdrawing** (dessin préparatoire) : tracés à la craie, au charbon ou à l'encre
+4. **Imprimatura** : couche mince de peinture colorée
+5. **Paint Layers** (couches de peinture) : application successive de couleurs
+6. **Varnish/Glazes** : vernis de protection et glacis transparents
+
+Chaque couche apporte une information historique et artistique. L'objectif est de les **imager séparément** sans toucher à l'œuvre.
+
+#### Imagerie non invasive traditionnelle
+
+Plusieurs techniques d'imagerie classiques permettent de sonder différentes couches :
+
+| Technique | Ce qu'elle révèle |
+|---|---|
+| **Infrarouge (IR)** | Dessin préparatoire sous la couche de peinture |
+| **Visible** | La peinture telle qu'on la voit |
+| **Ultraviolet (UV)** | Les restaurations, les vernis et les retouches |
+| **Rayons X** | La couche de fond (lead white), les repentirs, la structure de la toile |
+
+::: {.callout-tip title="Intuition"}
+Un tableau peut cacher des œuvres entières sous sa surface. L'imagerie X-ray a révélé que certains Picasso cachaient des compositions antérieures repeintes par l'artiste. L'imagerie IR a permis de découvrir des études et des changements de composition dans les œuvres de da Vinci.
+:::
+
+#### Fluorescence X macro (MA-XRF)
+
+**Principe physique de la MA-XRF (Macro X-ray Fluorescence)**
+
+1. Un faisceau de rayons X primaire frappe la surface de la peinture
+2. Le faisceau **éjecte** un électron d'une couche interne d'un atome (effet photoélectrique)
+3. Un électron d'une couche externe vient combler le vide
+4. Cette transition libère un **photon de fluorescence X** d'énergie caractéristique de l'élément chimique
+5. Ces photons sont détectés par un détecteur à sélection d'énergie
+
+**Le datacube MA-XRF**
+
+La MA-XRF produit des données **volumétriques** :
+
+- Dimensions spatiales X et Y : position sur le tableau (typiquement 1 à 100 millions de pixels)
+- Dimension Z (énergie) : spectre X entre 0 et 40 keV, échantillonné sur 4096 canaux
+
+Chaque pixel du tableau possède un **spectre MA-XRF** : l'emplacement des pics dans ce spectre identifie les éléments chimiques présents (calcium, plomb, mercure, cuivre, zinc, fer, manganèse...).
+
+**Extraction des cartes élémentaires**
+
+À partir du datacube, on peut extraire une **carte de distribution** pour chaque élément chimique présent dans la peinture.
+
+*Exemple sur Goya (Dona Isabel de Porcel, NG1473, avant 1805) :*
+
+- L'image RGB montre le portrait d'une femme
+- L'image X-ray révèle une autre figure masculine cachée en dessous
+
+*Extraction des cartes élémentaires :*
+
+- **Calcium** → couche de préparation (gesso)
+- **Manganèse** → pigments bruns (terres d'ombre)
+- **Fer** → pigments ocre et rouges
+- **Mercure** → vermillon (HgS rouge)
+- **Plomb** → blanc de plomb (fond et rehauts clairs)
+- **Cuivre** → vert de cuivre ou azurite (bleus et verts)
+
+*Exemple sur Van Gogh (Les Tournesols) :*
+
+L'algorithme de déconvolution appliqué au datacube révèle la distribution spatiale du cuivre, du zinc, du fer et du plomb dans la composition — permettant d'identifier précisément les pigments utilisés et leur agencement.
+
+#### Extraction par apprentissage automatique
+
+La MA-XRF permet également, combinée au ML, de **séparer des couches de peinture superposées**.
+
+Modèle utilisé : le système prend en entrée l'image RGB *et* l'image X-ray, puis prédit deux images séparées :
+
+- $\hat{x}_1$ : la peinture visible (surface)
+- $\hat{x}_2$ : la peinture cachée (sous-jacente)
+
+*Résultats sur Goya :*
+
+- Input 1 : portrait de femme (RGB)
+- Input 2 : empreinte de deux visages superposés (X-ray)
+- Output 1 : visage de la femme (isolé)
+- Output 2 : visage de l'homme caché (isolé)
+
+::: {.callout-note title="À retenir"}
+La séparation de couches de peinture par ML est un problème d'**imagerie inverse non supervisée** : il n'existe pas de « vérité terrain » (ground truth) pour entraîner le modèle. Des architectures spécialisées (contraintes physiques, regularisation) sont nécessaires.
+:::
+
+### Imagerie en dehors de la ligne de visée (NLOS)
+
+#### Définition du problème
+
+L'imagerie en dehors de la ligne de visée (NLOS – Non-Line-Of-Sight Imaging) est l'un des problèmes les plus fascinants et contre-intuitifs de l'imagerie computationnelle.
+
+**Question :** Est-il possible de former l'image d'un objet que l'on ne peut pas voir directement, car il est **caché derrière un obstacle** ?
+
+**Réponse computationnelle :** Oui, en exploitant les **rebonds de lumière** sur des surfaces diffuses.
+
+#### Principe physique
+
+La lumière ne se propage pas seulement en ligne droite : elle se diffuse sur les surfaces. Une surface blanche (un mur) réémet la lumière dans toutes les directions. Si un objet caché éclaire un mur visible, le mur porte des traces subtiles de cet objet.
+
+**Dispositif expérimental :**
+
+- **Laser picoseconde** : émet des impulsions lumineuses ultra-courtes (durée ~ps = $10^{-12}$ s)
+- **Miroir galvanométrique à 2 axes** : dirige le laser vers différents points du mur
+- **Séparateur de faisceau (beamsplitter)** : sépare le faisceau émis du signal retour
+- **Capteur SPAD** (Single-Photon Avalanche Diode) : détecteur à photon unique, ultra-sensible et temporellement résolu
+- **Occulteur** : cache l'objet à imager
+
+**Principe de mesure :**
+
+1. Le laser éclaire un point P du mur
+2. La lumière se diffuse dans toutes les directions depuis P
+3. Une fraction atteint l'objet caché, qui la rétrodiffuse à son tour
+4. Une fraction de cette lumière rétrodiffusée revient au mur, puis au capteur
+5. Le capteur mesure le **temps d'arrivée** de chaque photon avec une précision de l'ordre de quelques dizaines de picosecondes
+
+**Explication temporelle :**
+
+La différence entre le premier rebond (direct : laser → mur → capteur) et le troisième rebond (laser → mur → objet → mur → capteur) encode la **position de l'objet**.
+
+*Exemple :*
+
+- 1er rebond : 2,7 ns (40 cm de trajet supplémentaire)
+- 3ème rebond : 4,3 ns
+- Différence : 4,3 - 2,7 = 1,6 ns → correspond à ~24 cm de trajet supplémentaire
+
+#### Données brutes et reconstruction
+
+**Mesures brutes :**
+
+Les données acquises forment un **volume 3D** de dimensions (x', y', t) :
+
+- x' et y' : position du point d'illumination sur le mur
+- t : temps de vol
+
+Ces données sont visualisées comme une projection d'intensité maximale (Maximum Intensity Projection) — elles ne ressemblent pas du tout à l'objet caché.
+
+**Reconstruction :**
+
+À partir de ces mesures temporellement résolues, un algorithme (basé sur la **back-projection filtrée** ou des méthodes d'optimisation inverse) reconstruit le volume 3D de l'objet caché.
+
+*Résultats expérimentaux (Université de Genève) :*
+
+- Scène cachée : une statue (discobole) et un pot de fleurs derrière un occulteur
+- Mesures : volume de temps-résolution bruyant, sans structure visible
+- Reconstruction 3D : les deux objets sont clairement identifiables dans le volume reconstruit
+
+::: {.callout-warning title="Défi algorithmique"}
+La reconstruction NLOS est un **problème inverse sévèrement sous-déterminé et bruité**. Le signal du 3ème rebond est 10 à 100 fois plus faible que celui du 1er rebond. Des algorithmes de déconvolution rapide (ex. : algorithme de Phasor Fields) ou de type compressed sensing sont nécessaires pour obtenir une reconstruction exploitable.
+:::
+
+**Applications potentielles :**
+
+- Aide à la conduite autonome (voir au coin d'une rue)
+- Opérations de sauvetage (localiser des personnes dans une pièce sans y entrer)
+- Imagerie médicale endoscopique (voir derrière des replis tissulaires)
+- Missions spatiales
+
+---
+
+## Thèmes principaux du cours
+
+### Système visuel humain (Human Visual System)
+
+Le cours inclut une étude du système visuel humain, car comprendre **comment l'œil et le cerveau traitent l'information visuelle** est fondamental pour concevoir des systèmes d'imagerie efficaces.
+
+Sujets abordés :
+
+- **Anatomie de l'œil** : cornée, cristallin, rétine, photorécepteurs (bâtonnets et cônes)
+- **Acuité visuelle, couleur et vision 3D** : comment discrimine-t-on les détails ? Comment percevons-nous les couleurs et la profondeur ?
+- **Sensibilité au contraste** (Contrast Sensitivity Function) : quelles fréquences spatiales l'œil perçoit-il le mieux ?
+- **Conflits dans les affichages** (Conflicts in Displays) : pourquoi les affichages VR/AR peuvent-ils provoquer des nausées ? Comment les limites perceptuelles guident-elles la conception ?
+- **Erreurs de réfraction** (Refractive Errors) : myopie, hypermétropie, astigmatisme — et comment les systèmes d'imagerie peuvent les compenser
+
+Le système visuel humain peut lui-même être modélisé comme un système d'imagerie computationnel : **capteurs** (photorécepteurs) → **réseau** (nerf optique, corps genouillé latéral) → **calcul** (cortex visuel).
+
+### Photographie numérique (Digital Photography)
+
+Ce module explore les fondements de la photographie numérique :
+
+- **Optique** : formation d'images, aberrations, lentilles
+- **Ouverture** (Aperture) : relation entre ouverture, profondeur de champ et quantité de lumière
+- **Profondeur de champ** (Depth of Field) : quels objets sont nets ? Comment la contrôler ?
+- **Champ de vue** (Field of View) : relation entre focale et angle de vue
+- **Exposition** (Exposure) : compromis entre temps d'exposition, ouverture et ISO
+- **Bruit** (Noise) : bruit de photons (shot noise), bruit thermique, bruit de lecture
+- **Tableaux de filtres colorés** (Color Filter Arrays) : mosaïque de Bayer — comment un capteur monochrome capture-t-il la couleur ?
+- **Pipeline de traitement d'image** (Image Processing Pipeline) : dématriçage, balance des blancs, correction gamma, compression
+
+### Photographie computationnelle (Computational Photography)
+
+Au-delà de la photographie numérique classique, la photographie computationnelle exploite le calcul pour aller plus loin :
+
+- **Imagerie à grande dynamique** (HDR – High Dynamic Range Imaging) : capturer des scènes avec de forts contrastes lumineux
+- **Mappage tonal** (Tone Mapping) : compression d'une image HDR pour l'affichage sur un écran standard
+- **Photographie en rafale & mode nuit** (Burst Photography & Night Sight) : fusion de multiples images pour améliorer la qualité
+- **Ouvertures codées** (Coded Apertures) : modifier la fonction d'étalement du point (PSF) pour encoder la profondeur ou faciliter la déconvolution
+- Et bien d'autres techniques (super-résolution, focus stacking, panoramas, etc.)
+
+### Apprentissage profond pour l'imagerie computationnelle (Deep Learning for Computational Imaging)
+
+L'apprentissage profond (Deep Learning) a révolutionné l'imagerie computationnelle. Ce module couvre :
+
+- **Réseaux de neurones convolutifs** (CNN – Convolutional Neural Networks) : fondamentaux, couches de convolution, pooling, activation
+- **DnCNN** (Denoising CNN) : architecture profonde pour le débruitage d'images
+- **U-Net** : architecture encodeur-décodeur avec connexions de saut, utilisée massivement en imagerie médicale et en reconstruction
+- Et d'autres architectures avancées (transformers, diffusion models, etc.)
+
+### Optimisation et apprentissage profond
+
+La résolution de problèmes inverses en imagerie nécessite des outils d'optimisation :
+
+- **Méthodes de gradient proximal** (Proximal Gradient Methods) : algorithmes itératifs pour minimiser des fonctions non lisses (ex : ISTA, FISTA)
+- **Optimisation itérative avec a priori profonds** (Iterative Optimization with Deep Priors) : incorporer la connaissance a priori apprise par un réseau de neurones dans une boucle d'optimisation
+- **Résolution de problèmes inverses généraux en imagerie** : formulation unifiée des problèmes de reconstruction
+
+::: {.callout-note title="À retenir"}
+Un problème inverse en imagerie s'écrit typiquement : $y = Ax + n$, où $y$ sont les mesures, $A$ est l'opérateur de mesure (la physique du système), $x$ est l'image inconnue et $n$ est le bruit. Le trouver $x$ à partir de $y$ est souvent mal posé et nécessite une régularisation (a priori sur $x$).
+:::
+
+### Imagerie compressive (Compressive Imaging)
+
+L'imagerie compressive (Compressed Sensing) exploite la **parcimonie** des signaux naturels pour réduire drastiquement le nombre de mesures nécessaires.
+
+Applications :
+
+- **Caméra à pixel unique** (Single-Pixel Camera) : une seule photodiode + masques aléatoires successifs → reconstruction d'une image 2D
+- **Imagerie hyperspectrale compressive** (Compressive Hyperspectral Imaging) : acquisition de datacubes spectraux avec un nombre de mesures réduit
+- **Imagerie de champ de lumière compressive** (Compressive Light Field Imaging) : capture de la direction de la lumière avec moins de pixels
+
+Ces techniques permettent de concevoir des capteurs moins coûteux, plus rapides ou fonctionnant dans des régimes où les capteurs classiques sont difficiles à fabriquer (infrarouge, térahertz).
+
+### Introduction à l'optique ondulatoire et à l'optique profonde
+
+Ce module approfondit les phénomènes ondulatoires et leurs applications :
+
+- **Diffraction et interférence** (Diffraction & Interference) : comportement ondulatoire de la lumière
+- **La limite de diffraction** (The Diffraction Limit) : résolution maximale théorique d'un système optique
+- **Optimisation bout-en-bout de l'optique et du traitement d'image** : co-design optique-algorithmique (Deep Optics)
+- **Retrieval de phase** (Phase Retrieval) : reconstruire l'amplitude et la phase d'un champ d'onde à partir de mesures d'intensité seulement
+- **Holographie générée par ordinateur** (Computer-Generated Holography) : calcul d'hologrammes pour les affichages 3D
+
+### Affichages computationnels (Computational Displays)
+
+L'affichage est la face symétrique de l'acquisition. Ce module explore :
+
+- **Affichages à mise au point contingente au regard** (Gaze-Contingent Focus Displays) : la mise au point change dynamiquement en fonction de l'endroit où l'utilisateur regarde (Konrad et al., SIGCHI 2016; Padmanaban et al., PNAS 2017)
+- **Affichages à champ de lumière proche de l'œil** (Near-Eye Light Field Displays) : reproduction du champ de lumière 4D devant l'œil pour des expériences de réalité virtuelle plus confortables (Huang et al., SIGGRAPH 2015; Wetzstein et al., SIGGRAPH 2011-2012)
+- **Affichages holographiques** (Holographic Displays) : reproduction d'un champ d'onde complet (amplitude et phase) pour une expérience 3D vraiment convaincante (Padmanaban et al., SIGGRAPH Asia 2019; Peng et al., SIGGRAPH Asia 2020; Choi et al., Optica 2021)
+
+---
+
+## Références
+
+Le cours s'appuie également sur plusieurs cours universitaires de référence mondiale :
+
+- *Computational Photography* – Levoy, Adams, Pulli (Stanford)
+- *Computational Photography SIGGRAPH Course* – Raskar & Tumblin
+- *Digital and Computational Photography* – Durand & Freeman (MIT)
+- *Computational Photography* – Efros (CMU)
+- *Computational Photography* – Gkioulekas (CMU)
+- *Computational Imaging* – Wetzstein (Stanford)
+- *Computational Photography* – Fergus (NYU)
+- *Computational Imaging* – Dragotti (Imperial College)
+- *Computer Vision* – Seitz & Szeliski (University of Washington)
+- *Introduction to Visual Computing and Visual Modeling* – Kutulakos (UToronto)
