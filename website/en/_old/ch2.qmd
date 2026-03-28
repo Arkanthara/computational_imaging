@@ -1,0 +1,685 @@
+# Chapter 2 - Human visual system
+
+**Course 14X062 — Computational Imaging**
+*Taras Holotyak — University of Geneva, Department of Computer Science*
+
+---
+
+## Systèmes d'Imagerie Biologiques
+
+## Chronologie géologique
+
+La vision est le résultat d'une longue évolution biologique s'étendant sur des centaines de millions d'années. Voici les grandes étapes de l'apparition des systèmes d'imagerie dans le règne animal :
+
+| Époque | Créature | Âge approximatif |
+|---|---|---|
+| Paléozoïque | Nautilus belauensis | ~450 millions d'années |
+| Mésozoïque | Octopus | ~200 millions d'années |
+| Mésozoïque | Reptiles | ~200 millions d'années |
+| Mésozoïque | Oiseaux | ~155 millions d'années |
+| Crétacé | Araignées | ~130 millions d'années |
+| Crétacé | Mammifères | ~125 millions d'années |
+| Quaternaire | Homo sapiens (via Australopithecus → Homo habilis → Homo erectus → Homo neanderthalensis) | ~3 millions d'années |
+
+## Évolution de l'œil
+
+L'œil a évolué de manière progressive à travers six étapes fonctionnelles clés :
+
+1. **Région de cellules photosensibles** — présence de photorécepteurs et de fibres nerveuses sans structure directionnelle
+
+2. **Zone déprimée/repliée** — permet une sensibilité directionnelle limitée
+
+3. **Œil à sténopé (pinhole)** — chambre remplie d'eau, sensibilité directionnelle fine, imagerie limitée
+
+4. **Développement d'une humeur transparente** — la chambre se ferme, une rétine apparaît avec une humeur transparente
+
+5. **Développement d'un cristallin distinct** — apparition de la cornée et d'un cristallin, focalisation améliorée
+
+6. **Développement de l'iris et de la cornée séparée** — structure finale avec : lens, aqueous humor, cornea, iris, optic nerve, retina, vitreous humor
+
+---
+
+## Human Visual System
+
+## Historical interpretations
+
+### Extromissive theories
+
+Early theories of vision assumed that the eye *emitted* something toward objects.
+
+**Plato (~350 BC)** proposed that a light similar to that of the sun flows from our eyes. Chalcidius (Middle Ages) summarized this tripartite vision:
+
+> * “The cause of vision is threefold: the light of innate heat passing through the eyes, the external light congener with our own light, and the light which flows from visible bodies. »*
+
+Other non-material theories (spiritual, the “evil eye”) fell under the same extromissive paradigm.
+
+### Difficulties of extromissive theories
+
+These theories encountered many problems:
+
+- Why do we see distant objects **instantly** when we open our eyes?
+- Why don't the visual systems of several people looking at the same object **interfere**?
+- What happens if the eyes are closed when the visual mind returns?
+- **Aristotle (~330 BC)** proposed that objects create “material images” carried through the atmosphere and entering the eye — but how can images of *large* objects enter the eye?
+
+### Alhazen and the intromissive theory
+
+**Abu Ali al-Hassan ibn al-Hasan ibn al-Haytham (Alhazen, ~1040)** — considered the greatest optical scientist of the Middle Ages — breaks with extromissive theories:
+
+- **Self-luminous body**: the sun, the moon, the flames emit light
+- Light **travels in a straight line**
+- When light hits an object, it **radiates in all directions**
+- **Middle concept**: transparent vs opaque
+- **Pointillist theory** of vision: we perceive a collection of points on the surface of objects
+- **Geometric theory** explaining the one-to-one correspondence between the world and the image formed in our eyes
+
+### Image formation
+
+The physical mechanism of image formation is based on two phenomena:
+
+- A ray of light leaves the source and travels **in a straight line**
+- When hitting an object, the light is:
+  - **reflected** (angle of reflection = angle of incidence relative to the normal)
+  - **refracted** (deviation at the interface of two media)
+- If the object is a lens, the **refracted** light is that useful for imaging
+
+```{mermaid}
+graph LR
+    S[Source lumineuse] --> R[Rayon incident]
+    R --> O[Surface]
+    O --> Refl[Rayon réfléchi]
+    O --> Refr[Rayon réfracté]
+```
+
+### Ptolemy, Alhazen and refraction
+
+**Ptolemy (~150 BC)** already knew refraction. Alhazen raised a fundamental problem:
+
+> *Since light from a surface point reaches the entire surface of the eye, how come we see only one image from a point?*
+
+- His (incorrect) answer: only the ray entering **perpendicular** to the eye affects vision; the others are too refracted, therefore “weakened”
+- The reality: the **optical properties of the lens** combine all these rays into a single focused point under favorable conditions
+
+### Johannes Kepler (1571–1630)
+
+Kepler founded modern theories of optics:
+
+- Light has the property of **flowing** from its source to a distant point
+- From any point, the light flow follows an **infinity of straight lines**
+- Light is capable of propagating to **infinity**
+- These lines are called **rays**
+
+**Kepler's retinal theory**:
+
+Although rays from *many* surface points reach the same point on the lens, they approach it from **different directions**. They are therefore refracted in different directions and **separated by the lens** — this is the basis of image formation.
+
+### Modern theories of vision
+
+Three main trends contribute to our contemporary understanding of vision:
+
+- **Psychology of perception** → functionalities and behaviors
+- **Neurophysiology** → explanatory mechanisms
+- **Computational vision** → formal models (and new problems)
+
+Modern score of human vision:
+
+- **Low level vision (early)**: parallelism, multiplexing, partitioning
+- **High level vision**: modularity, object recognition
+
+---
+
+## Summary of the Human Visual System (HVS)
+
+HVS is characterized by the following parameters:
+
+### Visual acuity
+
+- 20/20 acuity corresponds to a resolution of approximately $1$ arc minute
+- The Snellen chart allows this acuity to be measured (from 20/200 to 20/20 and beyond)
+
+### Field of vision
+
+- **Horizontal**: $\approx 200°$ ($\approx 120°$ binocular + $\approx 40°$ monocular per eye)
+- **Vertical**: $\approx 135°$
+  - Central vision: $60°$
+  - Upper periphery: $30°$
+  - Lower periphery: $40$–$45°$
+
+### Temporal resolution
+
+- Critical fusion frequency: $\approx 60$ Hz (depends on contrast and luminance)
+
+### Dynamic range
+
+- **Instant**: 6.5 stops ($f$-stops)
+- **After adaptation**: 46.5 stops (i.e. $\approx 14$ orders of magnitude in total)
+- For comparison: current screens cover approximately 3 orders of magnitude
+
+### Color
+
+- Everything in the CIE xy diagram is noticeable
+- Perceptual distances are linear in space **CIE Lab**
+
+### Accommodation
+
+- Range: $\approx 8$ cm up to $\infty$
+- Degrades with age (around 50 years: $\approx 50$ cm up to $\infty$)
+
+---
+
+## Overview of the Human Visual System
+
+HVS can be broken down into a processing chain:
+
+```{mermaid}
+graph LR
+    A[Yeux\ncapteurs] --> B[Réseau nerveux\nNGC / LGN]
+    B --> C[Cortex visuel\ncalcul]
+    A:::low
+    B:::low
+    C:::high
+    classDef low fill:#aef,stroke:#333
+    classDef high fill:#fad,stroke:#333
+```
+
+- **Low level processing**: sensors (eye) + network (optic nerve, LGN)
+- **High-level processing**: visual cortex (recognition, interpretation)
+
+---
+
+## Anatomy of the human eye
+
+The eye is a complex optical structure composed of the following elements (from front to back):
+
+**Previous structures:**
+
+- **Cornea** — transparent surface, main refractive interface ($\approx 2/3$ of total diopter power)
+- **Aqueous humor** — fluid-filled anterior chamber
+- **Iris** — muscular diaphragm controlling the opening of the pupil
+- **Pupil** — variable aperture ($\varnothing \approx 2$–$8$ mm)
+- **Crystalline** — flexible lens, focus adjustment by ciliary muscles
+- **Zonular fibers** — connect the lens to the ciliary muscles
+- **Posterior chamber**
+
+**Posterior structures:**
+
+- **Vitreous humor** — transparent gel filling the posterior cavity
+- **Hyaloid canal**
+- **Retina** — photoreceptor layer (sensing surface)
+- **Choroid** — vascular layer nourishing the retina
+- **Sclera** — white, tough outer layer
+- **Optic disc (blind spot)** — point of emergence of the optic nerve, without photoreceptors
+- **Fovea** — high resolution area in the center of the retina
+- **Retinal blood vessels**
+- **Optic nerve** — transmits visual signals to the brain
+
+---
+
+## Retina
+
+### Three-layer structure
+
+The retina contains three functional layers:
+
+1. **Receptor cells (external layer)** — cones and rods: conversion of light → electrical signal
+2. **Collector cells (intermediate layer)** — bipolar, horizontal, amacrine cells: local integration
+3. **Retinal ganglion cells (inner layer)** — axons forming the optic nerve
+
+*Paradox*: light passes through the inner layers before reaching the photoreceptors in the outer layer.
+
+### Fundamental trade-off: sensitivity vs. spatial resolution
+
+The retina implements **two parallel systems**:
+
+**Rod system — scotopic vision:**
+
+- High sensitivity (low light levels)
+- Extensive convergence towards collecting and ganglion cells
+- ⇒ **Low resolution** image persists even in low light
+
+**Cone system — photopic vision:**
+
+- Sensitive to high light levels
+- Very limited convergence
+- ⇒ **High resolution** image in good brightness
+
+---
+
+## Photoreceptor Mosaic
+
+### Cones and sticks
+
+- **Rods**: $\approx 10^8$ — brightness detection (grayscale), scotopic vision
+- **Cones**: $\approx 10^7$ — color perception, photopic vision
+
+The cones come in **three types** depending on their spectral sensitivity:
+
+1. **S (Short)** — short wavelengths (~419 nm) → **blue**
+2. **M (Medium)** — medium wavelengths (~531 nm) → **green**
+3. **L (Long)** — long wavelengths (~559 nm) → **red**
+
+The **insufficient bandwidth** of the optic nerve ($\approx 10^6$ fibers for $\approx 10^8$ photoreceptors) necessarily implies **coding/compression** of the visual signal.
+
+### Spatial distribution (densities)
+
+- **No sensor** on the optical disc (blind spot)
+- **Maximum concentration of cones** on the fovea (center of the retina)
+- **Sticks** dominant on the periphery
+
+### Maximum sensitivity
+
+After dark adaptation, a **single rod can respond to a single photon** — this is the ultimate physical limit of light detection.
+
+### Spectral response
+
+The overall response of the eye results from the combination of the three types of cones S, M, L:
+
+- Response **blue (S)**: low amplitude
+- Answer **green (M)**: dominant
+- Response **red (L)**: shifted towards long wavelengths (near thermal infrared)
+- **total** response (black): bell curve covering the visible spectrum ($\approx 380$–$700$ nm)
+
+### Limits of human vision
+
+The design of the human eye has several notable imperfections:
+
+- **Blood vessels and other cells** placed *in front* of photoreceptors (inverted eye)
+- **Shadows** projected onto the photoreceptors by these structures
+- **Non-uniform brightness** on the retina
+- **Inverted image** on the retina (the brain corrects)
+- **High resolution only in the fovea** (very small area) — unlike some birds or cheetahs which have different foveal organizations
+- **Blind spot** at the optic disc
+
+### Eye vs digital camera
+
+| Parameter | Human eye | Digital camera |
+|---|---|---|
+| Photodetectors | Cones (S, M, L) + sticks | CMOS/CCD sensor with Bayer filter |
+| Resolution | Non-uniform (fovea: high, periphery: low) | Uniform |
+| Dynamic Range | $\approx 46{,}5$ stops (with adaptation) | $\approx 12$–$15$ stops |
+| Treatment | Retina + cortex | DSP + post-processing |
+
+---
+
+## Retinal Ganglion Cells
+
+### General function
+
+Ganglion cells constitute the **first stage of visual processing**. Their fundamental role is to **replace absolute brightness levels** with a retinotopic map of *differences*.
+
+### Center-surround organization
+
+The receptive fields of ganglion cells are organized into two antagonistic concentric zones:
+
+- **ON-center (OFF-surround) cells**: activated by light in the center, inhibited at the periphery
+- **OFF-center (ON-surround) cells**: inhibited in the center, activated at the periphery
+
+**Why this organization?**
+
+Objects are not associated with an absolute level of brightness, but with **differences in brightness** between them and their background. These differences can be amplified without having to represent the huge range of absolute values.
+
+⇒ Foundation of **perception of objects** independent of absolute lighting conditions.
+
+### M and P cells
+
+A second level of partition distinguishes **M (Magnocellular)** and **P (Parvocellular)** cells:
+
+**M cells:**
+
+- Receive signals from a **large number** of photoreceptors
+- ⇒ Good light sensitivity, **high temporal resolution**, low spatial resolution
+- Greater, faster nerve conduction velocities, more transient responses
+- Specialized: **perception of movement**, response to sudden stimuli
+- No color sensitivity
+
+**P cells:**
+
+- Receive signals from a **small number** of photoreceptors
+- ⇒ **High spatial resolution**, low temporal resolution
+- Color sensitivity
+- Specialized: **color, texture, patterns** (major role in the perception of objects)
+
+These two types respectively supply the **magnocellular** and **parvocellular** layers of the Lateral Geniculate Nucleus (LGN).
+
+---
+
+## Oculomotor Processes
+
+### Accommodation
+
+The lens adapts its curvature (and therefore its diopter power) to maintain focus:
+
+- **Far vision**: ciliary muscles relaxed, zonular fibers tense → flattened lens
+- **Close vision**: ciliary muscles contracted, zonular fibers relaxed → lens bulging
+
+Typical ranges:
+
+- At 16 years old: $\approx 8$ cm up to $\infty$
+- At age 50: $\approx 50$ cm up to $\infty$ (presbyopia)
+
+### Vergence and depth indices
+
+Two main types of depth cues:
+
+**Binocular (stereopia):**
+
+- **Vergence** (oculomotor): angle of convergence/divergence of the two eyes
+- **Binocular disparity** (visual): difference between the two retinal images
+
+**Monocular:**
+
+- **Accommodation** (oculomotor): state of tension of the ciliary muscles
+- **Retinal Blur** (visual): degree of sharpness depending on the distance
+
+### Refractive errors
+
+| Condition | Description | Correction |
+|---|---|---|
+| **Emmetrope** | Normal vision, rays focused on the retina | None |
+| **Myopia** | Rays focused *in front* of the retina | Concave (divergent) lens |
+| **Hyperopia** | Rays focused *behind* the retina | Convex (convergent) lens |
+| **Astigmatism** | Rays do not converge at a single point | Cylindrical lens |
+
+---
+
+## Primary Visual Cortex
+
+## Visual Pathways
+
+The visual signal leaves the eye via the **optic nerve** (bundle of ganglion cell axons) and divides into several pathways:
+
+```{mermaid}
+graph TD
+    OG[Œil gauche] --> OC[Chiasma optique]
+    OD[Œil droit] --> OC
+    OC --> LGN_G[LGN hémisphère gauche]
+    OC --> LGN_D[LGN hémisphère droit]
+    LGN_G --> V1_G[Cortex visuel primaire V1\nhémisphère gauche]
+    LGN_D --> V1_D[Cortex visuel primaire V1\nhémisphère droit]
+    OC --> CS[Colliculus supérieur]
+    OC --> PN[Noyau pulvinar]
+```
+
+*Decussation at the optic chiasm*: the nasal fibers (temporal field) cross, the temporal fibers (nasal field) remain ipsilateral. ⇒ Each hemisphere processes the **contralateral visual field**.
+
+## The Lateral Geniculate Nucleus (LGN)
+
+Relay structure between the retina and the visual cortex:
+
+- **One LGN per cerebral hemisphere**
+- Organized into **6 layers**:
+  - **2 magnocellular layers**: receive signals from M cells → better temporal resolution
+  - **4 parvocellular layers**: receive signals from P cells → better spatial resolution + spectral sensitivity
+
+Important properties:
+
+- The neurons of all layers show a **center-surround** organization.
+- **Retinotopia** maintained in all layers: the spatial organization of the retina is preserved
+
+⇒ New example of **division of work** and **multiplexing**
+
+## Visual Processing Zones (V1 and beyond)
+
+### Discovery of Hubel and Wiesel (Nobel Prize)
+
+**David H. Hubel & Torsten N. Wiesel (1962)** identified three types of cells in the primary visual cortex (V1):
+
+**Cells with center-surround organization:**
+
+- Similar to those of the LGN
+
+**Simple cells:**
+
+- Similar to center-surround cells but with excitatory/inhibitory regions **elongated**
+- Respond to **contours at a specific orientation and position**
+- Receptive field = combination of several aligned center-surround fields
+
+**Complex cells:**
+
+- Process more **abstract** visual information
+- **Partially independent** of location in the visual field
+- Respond to oriented contours over a *range* of positions
+
+### Orientation sensitivity in V1
+
+The simple and complex cells of V1 exhibit **orientation selectivity**: they respond strongly to a stimulus presenting a particular orientation, and little (or not) to other orientations.
+
+### Processing hierarchy
+
+Visual processing follows a **feedforward hierarchy**:
+
+$$\text{Centre-entourage} \rightarrow \text{Cellules simples} \rightarrow \text{Cellules complexes}$$
+
+Emergent properties at each level:
+
+- Responses become increasingly **specific to the shape of the stimulus** (oriented contours, bars)
+- But more and more **general compared to the observation conditions** (from a single position to a range of positions)
+- These two tendencies combined are **essential for object recognition**
+
+Recent research (Gilbert, 1992): **lateral interactions** play an important role (not just feedforward).
+
+### Hypercolumns in the visual cortex
+
+V1 is organized in **hypercolumns**, whose spatial structure minimizes the distance between neurons representing similar stimuli along three dimensions:
+
+- **Original eye** (left or right)
+- **Orientation**
+- **Retinotopic localization**
+
+Hebb's principle:
+> *“Neurons that fire together connect together. »*
+
+### Contrast sensitivity: CSF
+
+The **Contrast Sensitivity Function (CSF)** describes the sensitivity of the visual system to different spatial frequencies:
+
+- Peak sensitivity is around $4$–$6$ cycles per degree (cpd)
+- Beyond $\approx 60$ cpd: limit of cone packing density
+- The curve **moves** according to the observation distance
+
+### Specialized areas of the visual cortex
+
+Beyond V1, several specialized areas are identified:
+
+- **V2, V3, V3A, V4**: hierarchical processing of shapes, colors, orientations
+- **MT/V5**: movement
+- **FFA (Fusiform Face Area)**: face recognition / visual expertise
+- **PPA (Parahippocampal Place Area)**: recognition of places
+
+### Dorsal and ventral routes
+
+Two main pathways emerge from V1:
+
+```{mermaid}
+graph LR
+    V1[V1\nCortex strié] --> Dorsal[Flux dorsal\nVers cortex pariétal]
+    V1 --> Ventral[Flux ventral\nVers cortex temporal]
+    Dorsal --> Where[Où ?\nLocalisation, mouvement]
+    Ventral --> What[Quoi ?\nReconnaissance d'objets]
+```
+
+**Dorsal flow (Where pathway)**:
+
+- Direction: V1 → V2 → V3 → MT/MST → parietal cortex
+- Function: spatial localization, perception of movement, visuo-motor control
+
+**Ventral flow (What pathway)**:
+
+- Direction: V1 → V2 → V4 → TEO → TE → inferior temporal cortex
+- Function: recognition of shapes, colors, objects, faces
+
+### Ventral flow model
+
+As we move up the ventral flow hierarchy:
+
+| Level | Receptive field size | Latency | Property |
+|---|---|---|---|
+| NGL | $\approx 1°$ | — | Simple directions |
+| V1 | $1°$ | 40–60ms | Orientation selectivity |
+| V2 | $1{,}3°$ | 50–70ms | — |
+| V4 | $4{,}8°$ | 60–80ms | Color, shapes |
+| TEO | $5{,}8°$ | 70–90ms | Feature configurations |
+| TE | $\approx 12°$ | 80–100ms | Independence of view |
+
+### Intrinsic and extrinsic connectivity of the ventral flow
+
+The ventral flow is not limited to a simple feedforward chain. It includes:
+
+- **Recurrent subnetworks** at several scales
+- **Extended bidirectional connections** between subnets
+- Extrinsic connections to: the ventral striatum, the neostriatum, the amygdala, the orbitofrontal cortex, the ventrolateral prefrontal cortex
+
+*(Kravitz, Saleem, Baker, Ungerleinder, Mishkin, TICS 2013)*
+
+### Neuroscience and computational vision synthesis
+
+**Key lessons:**
+
+- Neurons show **increasing specificity** higher up the visual pathway
+- Simple and complex cells of V1 are **orientation selective**
+- Convolution with a linear kernel followed by simple nonlinearities is a good model for the retina, LGN and V1 — but **not beyond** (no satisfactory models yet)
+- Good vision systems are probably **hierarchical** and “primarily” feedforward
+
+**Links with computational vision:**
+
+- The orientation selectivity of simple/complex cells of V1 inspired the descriptors **SIFT** and **HOG**
+- The feedforward view of the ventral flow with layers of simple/complex cells led to the **Neocognitron**, then to the **convolutional networks (CNN)**
+- We now know that the ventral flow is much more complex, with bidirectional connections and feedback — still little exploited in computational vision.
+
+---
+
+## Network Models Inspired by the Human Visual System
+
+## The Neocognitron (Fukushima, 1980)
+
+The **Neocognitron** is a self-organized neural network for pattern recognition, insensitive to translations.
+
+It establishes a direct correspondence with the hierarchy of Hubel and Wiesel:
+
+$$\text{Rétine} \rightarrow \text{LGB} \rightarrow \text{Simple} \rightarrow \text{Complexe} \rightarrow \text{Hypercomplexe inf.} \rightarrow \text{Hypercomplexe sup.} \rightarrow \text{Cellule grand-mère ?}$$
+
+Structure :
+
+- Alternation of layers $U_S$ (simple type, modifiable synapses) and $U_C$ (complex type, fixed synapses)
+- Each $U_S$ layer extracts increasingly abstract features
+- Each layer $U_C$ provides partial invariance to the position
+
+## Convolution Networks (LeCun et al., 1998)
+
+**“Gradient-Based Learning Applied to Document Recognition”**
+*(Yann LeCun, Léon Bottou, Yoshua Bengio, Patrick Haffner)*
+
+**LeNet** architecture for handwritten character recognition (MNIST, $28 \times 28$ pixels):
+
+```{mermaid}
+graph LR
+    I[Image\n28×28] --> C1[Convolution C1\n6@28×28]
+    C1 --> S2[Pooling S2\n6@14×14]
+    S2 --> C3[Convolution C3\n16@10×10]
+    C3 --> S4[Pooling S4\n16@5×5]
+    S4 --> F5[Dense F5\n120]
+    F5 --> F6[Dense F6\n84]
+    F6 --> Out[Sortie\n10 classes]
+```
+
+- **Convolution operations** model the simple cells of V1 (oriented filters)
+- **Pooling operations** model complex cells (local position invariance)
+- **Hierarchical stacking** reflects the ventral hierarchy V1 → V2 → V4 → TE
+
+---
+
+## Apps
+
+## Stereoscopic Displays
+
+### History
+
+The exploitation of binocular disparity to create an illusion of depth dates back to **Charles Wheatstone (1838)** with the invention of the stereoscope.
+
+Evolution over 176 years:
+
+- **1838**: Wheatstone stereoscope (two mirrors with two slightly shifted images)
+- **1865**: Common use for stereo photographs (e.g.: portrait of Abraham Lincoln)
+- **2014+**: Polarized / liquid crystal glasses for cinema and 3D TV
+
+### Principle
+
+Two slightly shifted images (binocular disparity) are presented separately to each eye. The brain merges these images by perceiving **three-dimensional depth**.
+
+## Virtual Reality (VR) and Augmented Reality (AR)
+
+### Timeline
+
+| Epoch | Technology | Representatives |
+|---|---|---|
+| 1838 | Stereoscopes | Wheatstone, Brewster... |
+| 1968 | First VR/AR headset | Ivan Sutherland |
+| 2012–present | VR explosion | Meta (Oculus), Apple, Sony... |
+
+### Advanced display technologies for VR
+
+**Gaze-contingent Focus Displays:**
+
+- Using **eye tracking** to mechanically move the focal plane
+- Adapts sharpness depending on where the user is looking
+
+**Near-eye Light Field Displays:**
+
+- Reproduces a **field of light** (light field) simulating several focal planes simultaneously
+- Allows natural accommodation
+
+**Holographic Displays:**
+
+- Holographic reconstruction of the light wavefront
+- Ultimate solution to resolve the vergence-accommodation conflict
+
+##Vergence-Accommodation Conflict
+
+### Fundamental problem
+
+In the real world, **vergence and accommodation are coupled**: when the eyes converge on an object at distance $d$, the lens automatically accommodates for $d$.
+
+In a **classic stereoscopic display**:
+
+- Vergence is determined by the **disparity of the image** (virtual position of the object)
+- Accommodation is determined by **physical distance from the screen** (fixed)
+
+⇒ **Vergence-Accommodation Conflict (VAC)**: the two signals are in disagreement.
+
+### Effects of vergence-accommodation conflict
+
+- Visual discomfort
+- Eye fatigue (*visual fatigue*)
+- Nausea
+- **Duplicate vision** (*diplopic vision*)
+- Eye fatigue (*eyestrain*)
+- Degradation of perceived image quality
+- Potential pathologies in developing visual systems (children)
+
+### Comfort zone
+
+The **Comfort Zone** defines the range of acceptable disparity without significant discomfort, depending on the viewing distance and the context:
+
+| Device | Typical distance | Comfort zone |
+|---|---|---|
+| Mobile | $\approx 0{,}3$ m | Very narrow |
+| Desktop | $\approx 0{,}6$ m | Narrow |
+| Television | $\approx 3$ m | Moderate |
+| Cinema | $\approx 10$–$20$ m | Large |
+
+The comfort zone is delimited by two curves (near and far) in space (vergence distance, accommodation distance). The greater the viewing distance, the wider the comfort zone.
+
+---
+
+## References
+
+- *Computational Photography* — Levoy, Adams, Pulli (Stanford)
+- *Computational Photography SIGGRAPH Course* — Raskar & Tumblin
+- *Digital and Computational Photography* — Durand & Freeman (MIT)
+- *Computational Photography* — Efros (CMU)
+- *Computational Photography* — Gkioulekas (CMU)
+- *Computational Imaging* — Wetzstein (Stanford)
+- *Computational Photography* — Fergus (NYU)
+- *Computational Imaging* — Dragotti (Imperial College)
+- *Computer Vision* — Seitz & Szeliski (UWashington)
+- *Introduction to Visual Computing and Visual Modeling* — Kutulakos (UToronto)

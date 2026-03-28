@@ -1,0 +1,310 @@
+---
+title: "Computational Medical Imaging — Review"
+---
+
+# Pipeline & Contact Details
+
+##Medical imaging pipeline
+
+**Object → Device → Raw data → Algorithm → Reconstructed image**
+
+## Anatomical plans
+
+| Map | Separates | Etymology |
+|------|--------|-----------|
+| **Axial** (= transverse) | Sup/Inf | — |
+| **Sagittal** | Left / Right | *sagitta* = arrow |
+| **Coronal** | Ant/Post | *corona* = crown |
+
+## Coordinate codes
+
+| Letter | Management |
+|--------|-----------|
+| S/I | Upper / Lower |
+| L/R | Left / Right |
+| A/P | Anterior / Posterior |
+
+⚠️ Left/Right = **patient’s point of view**
+
+💡 Example: **LSA** → x: L→R, y: S→I, z: A→P (used in CT)
+
+---
+
+# Terms — Overview
+
+| Modality | Vector | Type |
+|----------|---------|------|
+| **Ultrasound (US)** | High frequency pressure waves | Reflection |
+| **X-ray / CT** | Ionizing radiation | Transmission |
+| **SPECT / PET** | Metabolic emission Broadcast |
+| **MRI (MRI)** | Nuclear spin precession | Magnetic resonance |
+
+## Anatomical vs. Functional
+
+| | Anatomical | Functional |
+|-|-----------|------------|
+| Modality | MRI, CT, X-ray | PET, fMRI, SPECT |
+| Watch | Physical structure | Physiological activity |
+| Deceased patient | Same image | Black image (PET) |
+
+---
+
+# Data types
+
+| Dimensions | Structure | Modality |
+|-----------|-----------|----------|
+| **1D** | Scalar value | ELISA, fluorescence, sequencing |
+| **2D** | Pixel matrix | X-ray |
+| **2D series** | 3D tensor (x,y,t) | Fluoroscopy, video |
+| **2D color** | 3D tensor (x,y,RGB) | Histological slides |
+| **3D** | Tensor voxels | CT, MRI |
+| **4D** | Tensor voxels + time | fMRI, PET |
+
+⚠️ Universal format: **DICOM** (data + patient metadata)
+
+---
+
+# Challenges in medical imaging
+
+- Big images, **small datasets**
+- Non-standardized acquisition
+- **long-tail** distribution of diseases
+- Labels **rare and noisy**
+- **Heterogeneous and unbalanced** data
+- Subjectivity in ground truth
+- Anonymization sometimes impossible (e.g. facial scans)
+
+---
+
+# Learning Strategies
+
+| Strategy | Data | Exit |
+|-----------|---------|--------|
+| **Supervised** | Patch-level labels | Direct local detection |
+| **Semi-supervised** | Labels + non-labeled | Improved representation |
+| **MIL** (Multi-Instance Learning) | Low image-level labels | Local + global detection |
+| **Transfer Learning** | Domain A rich → Domain B poor | Cross-domain adaptation |
+
+💡 **MIL**: positive bag if ≥ 1 positive instance → useful in anatomopathology
+
+---
+
+# Radiography (X-ray)
+
+## Physical
+
+$$E = h \cdot f = \frac{hc}{\lambda} \quad \Rightarrow E \sim \text{keV}$$
+
+##3 photon-matter interactions
+
+| Interaction | Mechanism | Imaging effect |
+|-------------|-----------|----------------|
+| **Photoelectric** | Total photon absorption | ✅ Desirable — forms contrast |
+| **Compton** | Partial absorption, deviation | ⚠️ Noise (non-linear radius) |
+| **Pair production** | E > 1.02 MeV, e⁻/e⁺ pair | Used in PET |
+
+💡 Dense tissue (bone) → absorbs more → **white**. Air/muscle → absorbs less → **dark**
+
+## Image quality — depends on
+
+- Anode tip quality, patient thickness
+- Phosphor, film resolution, sampling procedure
+- Required resolution: **≥ 2000² pixels**
+
+## Apps
+
+| Application | Principle | Particularity |
+|-------------|----------|---------------|
+| **Fluoroscopy** | Real-time X-rays | Portable C-arm |
+| **Angiography** | Iodine contrast IV | Invisible vessels without contrast |
+| **DSA** | Pre-contrast mask subtraction | Replaced by CT Angiography |
+
+---
+
+# CT (Computed Tomography)
+
+## History
+
+| Year | Actor | Contribution |
+|-------|--------|-------------|
+| 1917 | Radon | Radon transform |
+| 1963 | Cormack | Tomographic reconstruction analysis |
+| 1972 | Hounsfield | 1st CT system |
+| 1979 | Hounsfield + Cormack | Nobel Physiology/Medicine |
+
+## Radon transform
+
+$$p_\theta(r,\theta) = \int_{-\infty}^{\infty} \mu(x,y)\,\delta(x\cos\theta + y\sin\theta - r)\,\mathrm{d}x\,\mathrm{d}y$$
+
+- **Infinite projections** → perfect reconstruction
+- In practice: **Filtered Back-Projection (FBP)**
+
+## Beam geometries
+
+| Type | Description | Usage |
+|------|-------------|-------|
+| **Parallel** | One source per department | Impractical |
+| **Fan-beam** | Single source, 2D fan | Standard inspection |
+| **Cone-beam** | 2D detector, one rotation | 3D Angiography |
+
+## 3D Modalities
+
+| Fashion | Principle | Characteristic |
+|------|----------|----------------|
+| **Single-slit** | Step-and-shoot | Simple, slow |
+| **Helical** | Simultaneous table + rotation | Fast, pitch = TF/Δz |
+| **Multislice** | Multiple rows of detectors | Near real time |
+| **Cone-beam** | 1 single rotation | FDK reconstruction |
+
+## Advantages / Disadvantages CT
+
+| ✅ Benefits | ⚠️ Disadvantages |
+|-------------|-----------------|
+| No overlay | Moderate-high radiation |
+| Multiplanar (axial/coronal/sagittal) | 47% collective medical dose (UK) |
+| Non-invasive angiography | Contrast → renal risk, allergy |
+| Fast, available | More expensive than x-ray |
+
+---
+
+# Nuclear Imaging
+
+## Principle
+
+1. Radiolabeled tracer (radionuclide) injection
+2. Tracer → anatomical site with metabolic activity
+3. Detection of emitted X-rays
+
+💡 SNR much better than fMRI
+
+## SPECT vs PET
+
+| Criterion | SPECT | PET |
+|---------|-------|-----|
+| Photon | Single (collimator required) | γ pair at 180° |
+| Resolution | 6–8mm | 2–3mm |
+| Decay tracer | Slow | Fast |
+| Tracer production | No on-site required | Cyclotron nearby |
+| Cost | Cheaper | More expensive |
+| Pictures | 64×64 or 128×128 px | — |
+
+⚠️ SPECT: attenuation → **underestimation** in depth → correction by integrated CT
+
+## PET — Mechanism
+
+1. FDG (¹⁸F) injected
+2. Decay → **positron emission**
+3. Positron + electron → **annihilation** → 2 γ photons at 180°
+4. Detection of coincident pairs only
+
+Applications: oncology, cardiology, neurology
+
+---
+
+# MRI (Magnetic Resonance Imaging)
+
+## Key story
+
+| Year | Event |
+|-------|-----------|
+| 1946 | NMR demonstrated (Bloch + Purcell) |
+| 1973 | 1st MRI image (Lauterbur) — Nobel 2003 |
+| Early 1980s | 1st commercial systems |
+| 1993 | fMRI in humans |
+
+## Physical principle
+
+$$\nu = \gamma |B_0| \quad (\text{fréquence de résonance})$$
+
+For H: $\gamma = 42{,}58$ MHz/T
+
+**Sequence**: $B_0$ aligns protons → RF pulse disturbs → return to equilibrium → signal captured
+
+## Relaxations T1 and T2
+
+| | T1 | T2 |
+|-|----|----|
+| Name | Spin-lattice relaxation | Spin-spin relaxation |
+| Described | Return $M_z$ to equilibrium | Decay $M_{xy}$ |
+| Formula | $M_z = M_0(1-e^{-t/T_1})$ | $M_{xy} = M_{xy0}\,e^{-t/T_2}$ |
+| Relationship | — | **Always $T_2 \leq T_1$** |
+
+💡 T1 and T2 are **tissue specific** → source of MRI contrast
+
+## MRI modes
+
+| Fashion | Description |
+|------|-------------|
+| **Standard** | Multiple RF pulse sequences |
+| **PPE** | Fast acquisition, fewer motion artifacts |
+| **MRS** | Nuclei other than H (P, Na, F) |
+| **fMRI** | BOLD contrast (blood oxygenation) |
+
+## MRI applications
+
+| Application | Principle | Use |
+|-------------|----------|-------------|
+| **MRA** | Paramagnetic / flow-related contrast | Stenosis, aneurysms |
+| **MRS** | Fabric chemical spectrum | Cancer, epilepsy, Parkinson's |
+| **fMRI** | BOLD (oxygenated/deoxygenated Hb) | Brain activity |
+| **CDI** | MRI phase → current densities | Electrical mapping |
+| **Interventional** | Procedure guidance | ~0.2 T → reduced sensitivity |
+
+## MRI vs CT
+
+| Criterion | CT | MRI |
+|---------|----|----|
+| Contrast | Attenuation T1, T2, density, flow… |
+| Availability/cost | ✅ More available, cheaper | ❌ More expensive |
+| Disbarment | ⚠️ Yes | ✅ No |
+| Repetition | ⚠️ Cumulative Disbarment | ✅ Preferable |
+| Bones/calcifications | ✅ Great | ❌ Less suitable |
+| Soft tissues | Medium | ✅ Superior |
+| Tumors | Less good | ✅ Generally superior |
+
+---
+
+# Ultrasound (Ultrasound Imaging)
+
+## Physical properties
+
+- **Longitudinal compression waves**
+- Medical frequency: **> 2.5 MHz** (inaudible to humans)
+- Piezoelectricity (Pierre Curie, 1880) → generation and detection
+
+## Acquisition methods
+
+| Fashion | Meaning | Principle | Usage |
+|------|--------------|----------|-------|
+| **A** | Amplitude | Simple echo, 1 line | Obsolete |
+| **M** | Motion | A-repeated mode (1000 pulses/s) | Heart, fetus |
+| **B** | Brightness | Translation/tilt transducer → 2D image | Standard |
+| **CW Doppler** | Continuous Wave | Comparison $f_T$ vs $f_R$ | Continuous flow speed |
+| **PW Doppler** | Pulsed Wave | Delayed signal, not strict Doppler | Flow location |
+
+## CW Doppler formula
+
+$$f_D = f_R - f_T \approx \frac{-2|v_a|\cos\theta}{c} f_T$$
+
+## US Advantages / Disadvantages
+
+| ✅ Benefits | ⚠️ Disadvantages |
+|-------------|-----------------|
+| Non-invasive, radiation-free | High speckle noise |
+| Inexpensive, portable | Low spatial resolution |
+| Real time (excellent $\Delta t$) | Depends on operator + anatomy |
+
+---
+
+# Critical points / Pitfalls ⚠️
+
+- **Left/Right** in imaging = **patient** point of view (not observer)
+- **Compton** → noise (not useful signal in radiography)
+- **DSA** → replaced by CT angiography (less invasive)
+- **SPECT** → attenuation underestimates activity at depth
+- **PET** → fast decay tracers → nearby cyclotron required
+- **$T_2 \leq T_1$** always
+- **fMRI** → **indirect** signal (BOLD = oxygenation, not direct neuronal activity)
+- **Cone-beam CT** → end sampling issues
+- **Interventional MRI** → weak field (~0.2 T) → reduced sensitivity
+- **CT** → 7% radiological examinations but **47% collective dose** (UK)

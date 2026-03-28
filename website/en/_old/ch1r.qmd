@@ -1,0 +1,109 @@
+# Chapter 1 – Revision summary
+
+## Introduction
+
+**Computational imaging** indirectly forms images from measurements using sophisticated algorithms. It closely integrates the capture system and calculation, unlike traditional imaging.
+
+- **Traditional imaging**: the optics form an image close to the final image; the calculation takes place *a posteriori* to improve (debruising, deconvolution).
+- **Computational imaging**: optics *encode* the scene into an intermediate representation; the calculation *decodes* to reconstruct one or more images.
+
+```{.mermaid}
+graph LR
+    A[Physical world] --> B[Optical encoding]
+    B --> C[Intermediate representation]
+    C --> D[Algorithmic decoding]
+    D --> E[Reconstructed image(s)]
+```
+
+## Objectives and evaluation
+
+| Party | Weighting | Details |
+|--------|--------|---------|
+| Theoretical | 40% | 2 CCs or oral exam |
+| TPs | 25% | Average TPs |
+| Mini‑project | 35% | Report + presentation |
+
+**Condition**: each part ≥ 4.0/6.
+
+---
+
+## Key Examples by Domain
+
+### Nanoscopy
+- **SP‑STM / nc‑AFM**: spin detection at the atomic scale.
+- **MRFM**: single spin magnetic resonance.
+- **Coherent X-ray imaging**: magnetism without lens, resolution 5-10nm.
+
+### Astrophysics
+- Aperture synthesis, deconvolution.
+- Massive data volumes (SKA: exabytes).
+- Reconstruction of sky maps, dark matter study.
+
+### Medical
+| Method | Information bearer | Principle |
+|---------|----------------|----------|
+| Ultrasound | Pressure waves | Backscatter |
+| X-ray/CT | Ionizing radiation | Transmission / 3D reconstruction |
+| SPECT/PET | Tracer emission | Functional Imaging |
+| MRI | Spin precession | Multidimensional contrast |
+
+**Steps**: 1D/2D signal acquisition → 3D reconstruction.
+
+### Computational photography
+- HDR, night mode, image blending, bokeh.
+
+### Automotive
+- Autonomous cars: cameras, lidar, fusion, real-time 3D imaging.
+
+### AI / Deep optics
+- Joint optical-processing optimization (end-to-end simulation).
+- Hybrid opto‑electronic network: optical encoder + decoder network.
+
+### Art Analysis
+- **MA‑XRF**: cube (x, y, energy) → elementary pigment maps.
+- Learning for separation of pictorial layers (e.g. Goya).
+
+### Non-line-of-sight (NLOS) imaging
+- Hidden scene reconstruction by diffused light analysis.
+- Applications: security, robotics, rescue.
+
+---
+
+## Main topics
+
+### Human visual system
+- Eye anatomy, acuity, color/3D vision.
+- Contrast sensitivity, display conflicts, refractive errors.
+
+### Digital photography
+- Optics, aperture, depth of field, exposure, noise.
+- Bayer filters, processing pipeline.
+
+### Computational photography
+- HDR, tone mapping, burst mode, coded apertures.
+
+### Deep learning for imaging
+- CNN, DnCNN (denoising), U‑Net (segmentation/reconstruction).
+
+### Optimization and deep learning
+- Proximal gradient methods, deep priors.
+- Solving inverse problems.
+
+### Compressive imaging
+- Single pixel camera, hyperspectral, compressive light field.
+
+### Wave optics and deep optics
+- Diffraction, interference, diffraction limit.
+- Joint optimization, phase reconstruction, holography.
+
+### Computational displays
+- Light field displays (VR/AR), dynamic holography.
+
+---
+
+## Fundamental concepts
+
+- **Inverse problem**: reconstruction from indirect measurements.
+- **Encoding-decoding**: optics encodes the information, calculation decodes it.
+- **Joint optimization**: simultaneous optical design and algorithms.
+- **Priors**: a priori knowledge (e.g. regularization, deep networks).

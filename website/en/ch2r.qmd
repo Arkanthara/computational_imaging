@@ -1,0 +1,363 @@
+---
+title: "The Human Visual System — Review"
+---
+
+# Evolution of visual systems
+
+## Key timeline
+
+| Species | Age (millions of years) | Particularity |
+|--------|------------------------|---------------|
+| Nautilus belauensis | ~450 | Pinhole eye, without lens |
+| Octopus | ~200 | Flexible lens, contrast/motion detection |
+| Reptiles | ~200 | Slit pupil, fine light control |
+| Spiders | ~130 | Multi-eyes, differentiated functions |
+| Birds | ~155 | Acuity > human, sometimes 2 foveas |
+| Mammals | ~125 | Stereoscopic vision, depth perception |
+| Homo sapiens | ~3 | Binocular frontal vision |
+
+## Stages of evolution of the eye
+
+1. Photosensitive spot → no direction
+2. Depressed area → limited directional sensitivity
+3. Pinhole eye → blurred but directional image
+4. Closed chamber → transparent fluid
+5. Developed lens → focus
+6. Separate iris + cornea → complete vertebrate eye
+
+---
+
+# Historical theories of vision
+
+## Chronology of theories
+
+| Author | Date | Theory |
+|--------|------|---------|
+| Plato | 350 BC AD | **Extromissive**: the eye emits light |
+| Aristotle | 330 BC AD | Material images carried by air |
+| Alhazen | 1040 | **Intromissive**: the light goes towards the eye |
+| Ptolemy | 150 BC AD | Known refraction phenomenon |
+| Kepler | 1571–1630 | Retinal theory, image formed on the retina |
+
+::: {.callout-warning title="Classic trap"}
+The **extromissive** theories (the eye emits) are false. It is Alhazen who reverses the paradigm: objects send light towards the eye.
+:::
+
+## Contributions from Alhazen
+
+- Self-luminous body (sun, moon, flame)
+- Light in straight lines
+- Irradiation in all directions
+- Transparent/opaque media
+- Pointillist theory + image geometry
+
+## Modern theories — 3 currents
+
+- **Psychology of perception** → features
+- **Neurophysiology** → mechanistic explanations
+- **Computational Vision** → new problems
+
+---
+
+# Characteristics of HVS
+
+## Summary table
+
+| Property | Value |
+|-----------|--------|
+| Visual Acuity | 20/20 ≈ 1 arc minute |
+| Horizontal field (Field of View) | ~200° (120° binocular + 40° monocular ×2) |
+| Vertical field | ~135° |
+| Temporal resolution | ~60Hz |
+| Instantaneous dynamic range | 6.5 f-stops (~5 orders of magnitude) |
+| Adapted dynamic range | 46.5 f-stops (~14 orders of magnitude) |
+| Accommodation | ~8 cm → ∞ (young) / ~50 cm → ∞ (50 years old) |
+| Color | CIE xy space; linear distances in CIE Lab |
+
+::: {.callout-warning title="Trap"}
+Current displays cover only ~3 orders of magnitude vs ~14 for the adapted eye → hence HDR techniques.
+:::
+
+---
+
+# Eye Anatomy
+
+## Key structures
+
+| Structure | Role |
+|-----------|------|
+| Cornea | ~70% of total refraction |
+| Lens | Accommodation (variable curvature) |
+| Iris | Diaphragm — controls the pupil |
+| Retina | Photoreceptor layer |
+| Fovea | High resolution zone (max cone density) |
+| Optic disc | Optic nerve output = **blind spot** |
+| Optic nerve | Signal → brain |
+| Watery/glassy humor | Light transmission, eye shape |
+
+---
+
+# The Retina
+
+## Organization
+
+**3 layers** (from inside to outside):
+
+1. Retinal Ganglion Cells (RGC) — innermost
+2. Collecting cells — bipolar, horizontal, amacrine
+3. Photoreceptors — cones + rods — outermost
+
+::: {.callout-warning title="Trap"}
+Light passes through layers 1 and 2 **before** reaching the photoreceptors → “inverted” eye relative to a camera.
+:::
+
+## Cones vs Sticks
+
+| Property | Cones | Rods |
+|-----------|--------------|-----------------|
+| Number | ~10⁷ | ~10⁸ |
+| Photopic | Bright light | Scotopic | Low light |
+| Color | Yes (3 types) | No (grayscale) |
+| Resolution | High | Low |
+| Convergence | Limited | Strong |
+| Location | Fovea | Periphery |
+
+## The 3 types of cones
+
+| Type | Wavelength | Color |
+|------|-----------------|---------|
+| S (Shorts) | ~419nm | Blue |
+| M (Medium) | ~531nm | Green (dominant) |
+| L (Long) | ~559nm | Red |
+
+::: {.callout-note title="To remember"}
+A rod after dark adaptation can respond to **a single photon**.
+:::
+
+## Distribution on the retina
+
+- **Fovea**: max density of cones, almost no rods
+- **Periphery**: dominant rods (peak ~15–20° eccentricity)
+- **Optic disc**: no photoreceptor → blind spot
+
+## Limitations of the eye
+
+- Blood vessels in front of photoreceptors
+- Retinal image **inverted** (corrected by the brain)
+- High resolution only in **fovea**
+- Blind spot
+- Non-uniform brightness
+
+---
+
+# Retinal Ganglion Cells (RGC)
+
+## Role
+
+Replace absolute brightness levels with a **difference map** (retinotopic map of differences).
+
+## Center-Surround Organization
+
+- **On-center / Off-surround**: activated if light in the center
+- **Off-center / On-surround**: activated if there is light around
+
+→ Amplification of **local contrasts** without representing absolute values.
+
+## M vs P cells
+
+| Property | M (Magnocellulars) | P (Parvocellular) |
+|-----------|---------------------|---------------------|
+| Input | Large number of photoreceptors | Small number |
+| Spatial resolution | Low | High |
+| Temporal resolution | High | Low |
+| Color | No | Yes |
+| Cell size | Large | Small |
+| Conduction speed | Fast | Slow |
+| Role | Motion, rapid detection | Color, texture, objects |
+| LGN Channel | Magnocellular (2 layers) | Parvocellular (4 layers) |
+
+---
+
+# Oculomotor Processes
+
+## Accommodation
+
+- **Far vision**: ciliary muscles relaxed → lens flattened
+- **Close vision**: contracted ciliary muscles → bulging lens
+- Decreases with age → **presbyopia**
+
+## Depth indices
+
+| Type | Cue oculomotor | Cue visual |
+|------|-----------------|-----------|
+| Binocular (Stereopsis) | Vergence | Binocular disparity |
+| Monocular | Accommodation | Retinal Blur |
+
+## Refractive errors
+
+| Condition | Problem | Correction |
+|-----------|----------|------------|
+| Emmetropia | Normal | None |
+| Myopia (Myopia) | Focus before the retina | Concave lens |
+| Hyperopia (Hypermetropia) | Focus behind the retina | Convex lens |
+| Astigmatism | No single household | Cylindrical lens |
+
+---
+
+# Visual Cortex
+
+## Visual pathway — Pipeline
+```{mermaid}
+flowchart LR
+    R[Rétine] --> NO[Nerf optique\nOptic Nerve]
+    NO --> CO[Chiasma optique\nOptic Chiasm]
+    CO --> LGN[LGN\nNoyau Géniculé Latéral]
+    LGN --> V1[Cortex V1\nPrimaire]
+    V1 --> VS[Flux ventral\nWhat]
+    V1 --> DS[Flux dorsal\nWhere]
+```
+
+::: {.callout-note title="To remember"}
+Visual field **left** → hemisphere **right** (and vice versa) — decussation at the chiasm.
+:::
+
+## LGN (Lateral Geniculate Nucleus)
+
+- 1 LGN per hemisphere
+- **2 magnocellular layers** ← M cells → temporal resolution
+- **4 parvocellular layers** ← P cells → spatial resolution + color
+- All layers maintain **retinotopy**
+
+## V1 — 3 types of cells (Hubel & Wiesel, Nobel Prize 1981)
+
+| Type | Property |
+|------|-----------|
+| Center-Perimeter | Detection of contrasting light points |
+| Simple Cells | Edges oriented to specific position and orientation |
+| Complexes (Complex Cells) | Oriented edges, partial position tolerance |
+
+**Hierarchy**: Center-Perimeter → Simple → Complex
+
+## Hypercolumns
+
+Spatial organization of V1 minimizing the distance between neurons coding:
+
+- The original eye (left/right)
+- Preferred orientation
+- Retinotopic localization
+
+**Hebb's rule**: neurons that fire together wire together.
+
+## Contrast Sensitivity Function (CSF)
+
+- Peak at **4–6 cpd** (cycles per degree)
+- High frequency decay (limit ~60 cpd)
+- Decay at low frequencies (lateral inhibition)
+- Moves according to **viewing distance**
+
+## Dorsal vs Ventral Flow
+
+| Feed | Management | Function | Areas |
+|------|-----------|----------|-------|
+| **Ventral** (What) | V1 → V4 → IT temporal | Recognition of objects, color, identity | V1, V2, V4, TEO, TE |
+| **Dorsal** (Where) | V1 → MT → Parietal | Location, movement | V1, V2, V3, MT/MST |
+
+## Progression along the ventral flow
+
+| Area | RF (°) | Latency (ms) | Invariance |
+|------|--------|-------------|------------|
+| NGL | 1 | — | None |
+| V1 | 1 | 40–60 | Zero position |
+| V2 | 1.4 | 50–70 | — |
+| V4 | 4.8 | 60–80 | Color, shape |
+| TEO | 5.8 | 70–90 | View-dependent |
+| TE | 12 | 80–100 | **View-independent** |
+
+## Specialized areas
+
+- **FFA** (Fusiform Face Area) → faces
+- **PPA** (Parahippocampal Place Area) → places, scenes
+
+---
+
+# Computational Models Inspired by HVS
+
+## From organic to artificial
+
+| Organic | Artificial |
+|------------|-----------|
+| Simple cells V1 (orientations) | Convolutional filters, SIFT, HOG |
+| Complex cells (spatial pooling) | Max-pooling |
+| Simple → complex hierarchy | CNN (Convolutional Neural Networks) |
+| Ventral flow feedforward | Deep architectures |
+
+## Neocognitron (Fukushima)
+
+- 1st network inspired by Hubel & Wiesel
+- Alternating layers S (simple) and C (complex)
+- Translation invariant → precursor of CNNs
+
+## LeNet (LeCun et al., 1998)
+
+- Backpropagation learning
+- Architecture: Conv → Pool → Conv → Pool → Dense → Dense → Output
+- Applied to digit recognition (MNIST)
+
+::: {.callout-warning title="Known limit"}
+The actual ventral flow is **bidirectional** with significant feedback connections — not yet fully exploited in computer vision.
+:::
+
+---
+
+# Applications
+
+## Stereoscopic Displays
+
+- Principle: present a **slightly different** image to each eye
+- Exploits **binocular disparity**
+- Wheatstone (1838) → modern 3D glasses (176 years later)
+
+## Virtual Reality (VR/AR)
+
+| Generation | Technology | Actors |
+|------------|-------------|---------|
+| 1838 | Stereoscopes | Wheatstone, Brewster |
+| 1968 | Pioneering VR | Ivan Sutherland |
+| 2012–now | VR explosion | Meta, Apple, Sony |
+
+**Advanced technologies**:
+
+- Gaze-Contingent Focus Displays (eye-tracking + variable optics)
+- Near-eye Light Field Displays
+- Holographic Displays (full wavefront)
+
+## Vergence-Accommodation Conflict
+
+::: {.callout-warning title="Critical point"}
+In classic stereo displays: eyes **converge** towards the perceived 3D position but **accommodate** on the physical screen → inevitable conflict.
+:::
+
+**Effects**: visual discomfort, fatigue, nausea, double vision, pathologies in children.
+
+**Comfort zone**: depends on the viewing distance (cinema > TV > desktop > mobile).
+
+| Condition | Real world | Classic stereo display |
+|-----------|------------|--------------------------|
+| Vergence | Object distance | Object distance (simulated) |
+| Accommodation | Object distance | **screen distance** (fixed) |
+| Result | ✅ Match | ❌ Mismatch |
+
+---
+
+# Relationships between key concepts
+```{mermaid}
+flowchart TD
+    A[Photorécepteurs\nCônes + Bâtonnets] --> B[RGC\nCentre-Pourtour]
+    B --> C[LGN\nM + P couches]
+    C --> D[V1\nCellules simples/complexes]
+    D --> E[Flux Ventral\nQuoi ?]
+    D --> F[Flux Dorsal\nOù ?]
+    E --> G[Reconnaissance\nobjet/visage/lieu]
+    F --> H[Localisation\nmouvement]
+    D --> I[CNN / SIFT / HOG\nInspiration IA]
+```

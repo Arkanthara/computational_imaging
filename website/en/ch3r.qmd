@@ -1,0 +1,335 @@
+---
+title: "Computational Imaging — Review"
+---
+
+# Overview
+
+**3 themes:** Computational photography · Light field · Coded aperture
+
+```{mermaid}
+flowchart LR
+  A[Monde réel] --> B[Optiques généralisées]
+  B --> C[Représentation codée]
+  C --> D[Computation généralisée]
+  D --> E[Image finale]
+```
+
+::: {.callout-note title="Takeaways — Computational Paradigm"}
+Optics + Computing are **co-designed**. The captured image does not need to be visually interpretable.
+:::
+
+---
+
+# 1 · Computational Photography
+
+## Plenoptic Function
+
+$$L(x,\, y,\, z,\, \theta,\, \phi)$$
+
+| Parameter | Meaning |
+|---|---|
+| $(x, y, z)$ | Spatial position (3D) |
+| $\theta$ | Zenith angle |
+| $\phi$ | Azimuth angle |
+
+→ Space **5D** · One photo = a tiny sample of $L$
+
+---
+
+## Conv. vs Computational
+
+| | Conventional | Computational |
+|---|---|---|
+| Optics | Standard | Generalized |
+| Sensor | Final image | Coded representation |
+| Calculation | Improvement | Decoding |
+| Outputs | 1 image | $\geq 1$ image(s) |
+
+---
+
+## Pinhole Camera vs Lens
+
+| | Pinhole | Lens |
+|---|---|---|
+| Sharpness | Everything in focus (∞ DoF) | 1 plane in focus |
+| Light | Very ineffective | Effective |
+
+**Conjugation equation:**
+
+$$\frac{1}{D'} + \frac{1}{D} = \frac{1}{f} \qquad m = \frac{f}{D' - f}$$
+
+---
+
+## Focal Stack
+
+**3-step pipeline:**
+
+1. **Capture** — vary focus (focus ring or macro rail)
+2. **Align** — correct magnification change $m$
+3. **Merge** — weighted average by local sharpness
+
+**Allocation of weights:**
+
+- Apply **Laplacian** operator → local sharpness measurement
+- Smooth the weights with a **Gaussian blur**
+
+**Weighted merge:**
+
+$$I_{\text{net}}(x,y) = \frac{\sum_k w_k(x,y)\cdot I_k(x,y)}{\sum_k w_k(x,y)}$$
+
+::: {.callout-warning title="Trap — Zoom ≠ Focus"}
+Zoom ring → changes $f$ (viewing angle). Focus ring → changes $D'$ (focal plane). **These are two separate operations.**
+:::
+
+---
+
+## Depth inference techniques
+
+| Technique | Input | Output | Note |
+|---|---|---|---|
+| Confocal stereo | Stack focus+aperture | Per pixel | Denser |
+| Depth from Focus | Focal Stack | By patch | — |
+| Focal Flow | Dense stack | Per patch | Effective, textured areas only |
+| Depth from Defocus | 2 images | By patch | Minimal |
+
+**Depth from Defocus:**
+
+$$g_i = f * h_{\sigma_i} \quad \Rightarrow \quad \text{estimate } \sigma \Rightarrow \text{depth}$$
+
+**Focal Flow:** biological inspiration → **jumping spiders**
+
+---
+
+# 2 · Light Field Photography
+
+## Definition
+
+The **light field** = geometric distribution of rays in space.
+
+- Formalized as the plenoptic function on **5D** space
+- In free space → reduced to **4D** via 2-plane parameterization
+
+**Two-Plane Parameterization:**
+
+| Plane | Role |
+|---|---|
+| Plane $st$ | Position on the main lens |
+| Plane $uv$ | Position on sensor |
+
+A ray = a couple $(s, t, u, v)$
+
+::: {.callout-note title="To remember"}
+The same set of rays can be captured by **plenoptic camera** OR by **pinhole camera moved** to multiple viewpoints.
+:::
+
+---
+
+## 3 Capture Options
+
+| Option | Method | Advantage | Disadvantage |
+|---|---|---|---|
+| 1 | Camera network (Stanford Array) | Maximum quality | Expensive, bulky |
+| 2 | 1 camera moved (LEGO motor) | Simple, economical | Static scenes only |
+| 3 | Plenoptic camera | 1 single capture | Reduced resolution |
+
+---
+
+## Plenoptic camera architecture
+
+```{mermaid}
+flowchart LR
+  A[Subject] --> B[Main Lens]
+  B --> C[Microlens Array]
+  C --> D[CMOS Sensor]
+```
+
+- **Etymology:** *plenus* (Latin, “full”) + *optikos* (Greek, “vision”)
+- **Inventor:** Gabriel Lippmann, 1908 — "integral photography"
+- **Biological analogy:** compound eye of insects
+
+**Resolution compromise:**
+
+$$\text{Spatial resolution} \approx \frac{N}{k} \times \frac{N}{k}$$
+
+→ $N$ = total pixels, $k$ = pixels per microlens
+
+---
+
+## Digital renderings
+
+| Rendering | Microlens Operation |
+|---|---|
+| Aperture reduction (Stop down) | Sum only the **central portion** |
+| Viewpoint shift | **Shift window** extraction |
+| Refocusing | Sum windows from **multiple** microlenses |
+
+::: {.callout-tip title="Intuition — Refocus"}
+Refocus = shift the microlens windows before summing → areas on the new focal plane add constructively, others blur.
+:::
+
+---
+
+## Lytro Camera — Summary
+
+| Component | Role |
+|---|---|
+| Lens Array | Microlenses |
+| Light field sensor | CMOS + microlenses |
+| Light Field Engine | Dedicated processing |
+| Marvell Avastar 88W8787 | WiFi + Bluetooth |
+
+| Advantages | Disadvantages |
+|---|---|
+| Portable | Reduced total resolution |
+| Post-capture refocusing | Fixed aperture |
+
+---
+
+# 3 · Coded Aperture camera
+
+## Objective
+
+**1 single input image** → 2 outputs:
+
+- **Depth Map** — by region
+- **All-Focused Image**
+
+---
+
+## PSF and defocus
+
+**PSF (Point Spread Function)**
+
+- In-focus object → PSF = point
+- Out-of-focus object → PSF = blur with **the shape of the aperture**
+- Size of PSF ∝ distance to focal plane
+
+**Local convolution model:**
+
+$$y' = f_k \otimes x$$
+
+- $y'$ = observed sub-window (blurred)
+- $f_k$ = PSF calibrated at depth $k$
+- $x$ = unknown sharp sub-window
+
+---
+
+## Challenges
+
+| Challenge | Description |
+|---|---|
+| Smooth scene ambiguity/defocus | Homogeneous zone ≈ visually blurred zone |
+| Ill-posed deconvolution | $f \otimes x = y$ has several solutions $x$ |
+| Scale ambiguity | Wrong depth can also give plausible image |
+
+---
+
+## Idea 1: Prior on natural images
+
+**Observation:** natural images have **sparse gradients**.
+
+**Variational formulation:**
+
+$$x = \arg\min_x \; \underbrace{\|f \otimes x - y\|^2}_{\text{fidélité}} + \lambda \underbrace{\sum_i \rho(\nabla x_i)}_{\text{prior}}$$
+
+| Prior $\rho$ | Effect |
+|---|---|
+| $\|\nabla x\|^2$ (Gaussian) | Diffuse gradients → smooth |
+| $\|\nabla x\|^{0.8}$ (scattered) | Locates gradients → sharp edges |
+
+::: {.callout-tip title="Intuition"}
+The sparse prior selects the solution that most closely resembles a real natural image among all those that are consistent with the observation.
+:::
+
+---
+
+## Idea 2: Coded Aperture
+
+**Principle:** binary mask in the aperture plane → pseudo-random PSF, distinct from natural images.
+
+```{mermaid}
+flowchart LR
+  A[Ouverture conventionnelle\nPSF ≈ naturel] -->|difficile à discriminer| B[Ambiguïté d'échelle]
+  C[Ouverture codée\nPSF pseudo-aléatoire] -->|clairement non-naturel| D[Discrimination fiable]
+```
+
+**Frequency domain:**
+
+$$\text{Convolution spatiale} \Leftrightarrow \text{Multiplication fréquentielle}$$
+
+$$\hat{X} = \frac{\hat{Y}}{\hat{F}} \quad \Rightarrow \quad \text{zéros de } \hat{F} \Rightarrow \text{division par zéro} \Rightarrow \text{ringing}$$
+
+| Configuration | + | - |
+|---|---|---|
+| Without spectral zeros | Easily reversible | Low discrimination |
+| With spectral zeros | Better discrimination | Difficult inversion (→ prior) |
+
+**Filter Design:**
+
+- Criterion: maximize **KL divergence** between different depths
+- Constraints: physically feasible binary mask
+
+::: {.callout-warning title="Critical point — Why “coded”?"}
+Coded aperture reduces scale ambiguity. The correct depth is the **only** which gives a natural image after deconvolution. Bad ones produce clearly artificial artifacts.
+:::
+
+---
+
+# 4 · Generalized optics camera
+
+## Wavefront Coding
+
+- **Replacement** of the lens with a **cubic phase plate** (cubic phase plate)
+- PSF approximately **depth-invariant** (depth-invariant PSF) over a given range
+- **1 single deconvolution** is enough for the entire scene
+
+| | Standard lens | Wavefront Coding |
+|---|---|---|
+| PSF in focus | Point | Complex stain |
+| PSF out of focus | Variable stain | Stable stain |
+| Deconvolution | Local (by depth) | Overall (only 1) |
+
+---
+
+## Lattice Lens
+
+- **Array of lenses** with variable focal lengths in front of the main lens
+- PSF **non depth-invariant** → local deconvolution (like coded aperture)
+- Captures a **useful subset** of the 4D light field
+
+**Dimensionality Gap, Ng 2005:**
+
+| Quantity | Dimensions |
+|---|---|
+| Full light field | 4D |
+| Useful Image + Depth | 3D |
+| Gap | 1D superfluous |
+
+---
+
+# General summary
+
+| System | Entrance | Outings | Key principle |
+|---|---|---|---|
+| Focal Stack | $N$ images | All-clear image | Laplacian weight |
+| Plenoptic camera | 1 catch | Refocus, multi-view | Microlens array |
+| Coded opening | 1 picture | Depth + all-clear | Pseudo-random PSF |
+| Wavefront coding | 1 picture | All-clear (wide DoF) | PSF depth-invariant |
+| Network lens | 1 picture | Depth + all-clear | Varifocal lenses |
+
+::: {.callout-note title="Common thread"}
+All these systems share the same logic: **encode more information** in the captured image (at the cost of a degraded "raw" image), then **digitally decode** to recover what is of interest.
+:::
+
+---
+
+# Key formulas
+
+| Formula | Meaning |
+|---|---|
+| $\frac{1}{D'} + \frac{1}{D} = \frac{1}{f}$ | Thin lens conjugation |
+| $m = \frac{f}{D'-f}$ | Magnification |
+| $I_{\text{net}} = \frac{\sum_k w_k I_k}{\sum_k w_k}$ | Focal stack fusion |
+| $y' = f_k \otimes x$ | Defocus = convolution |
+| $x = \arg\min \|f \otimes x - y\|^2 + \lambda \sum \rho(\nabla x_i)$ | Deconvolution with prior |
+| $\hat{X} = \hat{Y}/\hat{F}$ | Frequency deconvolution |

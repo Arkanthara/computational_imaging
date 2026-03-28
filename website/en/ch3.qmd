@@ -1,0 +1,729 @@
+---
+title: "Computational imaging — Computational photography, light field and coded aperture"
+---
+
+This chapter covers three main families of computational imaging systems: computational photography and its focal stack techniques, plenoptic photography based on the light field, and the conventional camera equipped with a coded aperture. These systems share a common philosophy: modify the optical acquisition chain in order to encode more information in the captured image, then use a calculation to extract outputs that would be impossible with an ordinary camera.
+
+---
+
+## Computational Photography
+
+### The imaging model
+
+#### Conventional photography
+
+In a conventional camera, the imaging pipeline follows a linear sequence:
+
+1. **Real world** → the light rays coming from the scene
+2. **Optical** (standard lens) → projects the rays onto the sensor
+3. **Captured image** → raw representation of the scene
+4. **Calculation** → improves the captured image (deblurring, colorimetric correction, etc.)
+5. **Improved final image**
+
+::: {.callout-note title="To remember"}
+In this model, the optics capture something that already looks like the end result. The calculation is limited to *improving* the image: removing noise, correcting chromatic aberrations, demosaicating CFA pixels, etc.
+:::
+
+#### Computational photography
+
+Computational Photography reverses this logic:
+
+1. **Real world**
+2. **Generalized optics** — lens is modified, non-standard
+3. **Encoded representation of the real world** — the intermediate image is no longer a “readable” photo
+4. **Generalized calculation** — decodes the encoded representation
+5. **Final image(s)** — potentially multiple images or data
+
+::: {.callout-tip title="Intuition"}
+Instead of directly capturing a final image, we encode the world in a rich intermediate representation. The calculation then decodes this representation to produce *multiple* or *impossible* outputs with conventional optics. The optics and calculation are co-designed.
+:::
+
+**Examples of optical co-design + computation:**
+
+- **Color mosaicing** (CFA, Color Filter Array) encodes color information → demosaicing reconstructs the RGB image.
+- **Plenoptic photography** encodes ray direction → computation reconstructs refocused images.
+- **Coded aperture** encodes depth in the blur → computation extracts a depth map.
+
+### Camera Settings
+
+Before discussing advanced systems, key optical parameters are involved in all imaging systems:
+
+- **Aperture** (f/#) — the effective diameter of the diaphragm, expressed as f-number
+- **Depth of field** — the range of distances that appear sharp
+- **Field of view** — the angular extent of the scene
+- **Exposure** — the amount of light accumulated by the sensor
+- **Noise** — random signal fluctuations
+- **Color filter array** (Bayer mosaic) — the pattern on the sensor
+- **Image processing pipeline** — downstream software corrections
+
+### Pinhole Camera vs Lens Camera
+
+#### Pinhole Camera
+
+The pinhole camera replaces the lens with a very small aperture.
+
+- **Advantage:** Everything is in focus at any distance — infinite depth of field.
+- **Major disadvantage:** Very inefficient use of light. The tiny aperture transmits very few photons.
+
+::: {.callout-tip title="Intuition"}
+A pinhole camera is optically equivalent to a point-by-point projector: each passing ray contributes to exactly one pixel. No stray rays blur the image, but total light is extremely low, requiring very long exposure times.
+:::
+
+#### Lens Camera
+
+The lens concentrates the rays coming from the same point of the scene towards the same pixel of the sensor, according to the conjugation equation:
+
+$$\frac{1}{D'} + \frac{1}{D} = \frac{1}{f}$$
+
+where $D$ is the object-lens distance, $D'$ the lens-sensor distance, and $f$ the focal length.
+
+- **Advantage**: very light efficient — many rays contribute to each pixel.
+- **Disadvantage**: only the focal plane is sharp. Objects outside this plane produce a blur called **defocus** (or out-of-focus blur).
+
+::: {.callout-warning title="Fundamental compromise"}
+Switching from a pinhole to a lens gains light efficiency but introduces a depth of field limitation. Computational photography seeks precisely to overcome this compromise.
+:::
+
+---
+
+## Focal Stack and fusion
+
+### Focal stack principle
+
+Focal stack is a technique that answers the question: how to get a completely sharp image with a lens camera?
+
+The idea is analogous to **HDR** (High Dynamic Range) applied to exposure:
+
+- In HDR: we capture a *stack of different exposures*, then we merge.
+- In focal stack: we capture a *stack of focused images* at different distances, then we merge.
+
+**Procedure :**
+
+1. Capture a series of images with different focus distances (covering the scene from foreground to background).
+2. Merge these images into a single, fully focused image (*all in-focus image*).
+
+::: {.callout-tip title="Intuition"}
+Imagine a chessboard with pieces distributed in depth. No single focus brings all parts into focus simultaneously. On the other hand, if we capture three images — focused in front, in the middle, behind — we have the sharp area of ​​each. Merging selects the sharp area of ​​each image to construct the overall result.
+:::
+
+### How to capture a focal stack?
+
+To capture a focal stack, you need to vary the **focusing distance** between shots. Two practical approaches exist:
+
+- **Rotate the focus ring** (focus ring, not the zoom ring) — changes the sensor-lens distance $D'$.
+- **Move the object or camera** — modifies the object-lens distance $D$ — method adapted to macro photography, often controlled by a motor (StackShot type motorized stage).
+
+The system parameters are:
+
+- $f$ — lens focal length
+- $D$ — lens-object distance
+- $D'$ — lens-sensor distance
+- $f/\#$ — lens aperture, f-number
+
+### Merging a focal stack
+
+Merging a focal stack follows three steps:
+
+1. **Align images** (align images)
+2. **Assign weights per pixel** representing local “sharpness” (*in-focus-ness*)
+3. **Calculate the weighted average** and divide by the sum of the weights
+
+#### Step 1: Aligning Images
+
+Why do you need to align? When you change the focusing distance, you also slightly change the **field of view** — more precisely the **magnification** (magnification $m$).
+
+The formula for transverse magnification is:
+
+$$m = \frac{f}{D' - f}$$
+
+As $D'$ varies, $m$ varies — so the images have slightly different scales. If we know $f$ and all the values ​​of $D'$, we calculate the exact resizing ratio and we correct the alignment by a simple isotropic *scaling*.
+
+::: {.callout-note title="To remember"}
+Aligning a focal stack is primarily **isotropic resizing** (scaling), unlike HDR alignment which may require more complex transformations (if the camera or scene moves during acquisition).
+:::
+
+#### Step 2: Assigning weights — measuring local sharpness
+
+How do you know if a pixel is sharp in a given image? We measure the **local sharpness** using the **Laplacian operator**:
+
+- Apply the Laplacian to the image → sharp areas give a strong response (well-defined contours, high spatial frequencies present).
+- Apply a slight **Gaussian blur** to the result → smooth the weight maps spatially to avoid abrupt transitions and artifacts.
+
+::: {.callout-tip title="Intuition"}
+The Laplacian measures the second order variation of the intensity. A blurred area is almost uniform → Laplacian close to zero. A sharp zone has sharp edges → high Laplacian. It is a high spatial frequency detector which acts as a sharpness indicator.
+:::
+
+#### Step 3: Weighted Merge
+
+$$I_{\text{net}} = \frac{\sum_k w_k \cdot I_k}{\sum_k w_k}$$
+
+where $I_k$ is the $k$-th image in the stack and $w_k$ is the associated weight map. Sharp pixels in $I_k$ have high weight $w_k$; blurred pixels have a low weight.
+
+**Typical Focal Stack Applications:**
+
+- **Macro-photography** (close-up photography): very reduced depth of field → essential focal length battery.
+- **Microscopy**: same problem on a smaller scale.
+- **Landscape photography**: achieve complete sharpness from the foreground to infinity.
+
+---
+
+## Depth Inference Techniques
+
+The focal stack is not only used to produce a sharp image: it also allows you to **infer the depth** of each point in the scene. Four main techniques exist, differing in the type of input data and the precision of the output.
+
+### Confocal Stereo
+
+- **Input**: 2D stack varying both **focus** and **aperture** (*focus-aperture stack*).
+- **Output**: depth estimation **per pixel**.
+- **Principle**: analyze the *focus-aperture* image of each pixel to find its true depth. The focus+aperture combination provides sufficient information to resolve the depth/texture ambiguity.
+
+**Reference:** [Hassinof & Kutulakos, ECCV 2006]
+
+### Depth from Focus
+
+- **Input**: standard focal stack.
+- **Output**: depth estimation **by patch** (local area).
+- **Principle**: identify, for each patch, in which image of the stack it is sharpest. Depth is the focus distance of this image.
+
+### Focal Flow
+
+- **Input**: dense focal stack (e.g. from the autofocus system).
+- **Output**: depth estimation **by patch**, very efficient because without convolution.
+- **Principle**:
+  - Model the circle of confusion as a Gaussian blur kernel with variance $\sigma$ varying according to depth.
+  - Estimate the **optical flow** between successive images of the focal stack.
+  - Connect the change in optical flow between frames to the depth of the scene.
+- **Limitation**: only works on **textured** areas (uniform areas have no measurable optical flow).
+- **Biological inspiration**: inspired by the visual system of the **jumping spider**. This spider has a secondary eye tube with two lenses naturally creating a focal stack effect — allowing it to estimate distances to its prey without head movement.
+
+**References:** [Alexander et al., ECCV 2016; Guo et al., ICCV 2017, PNAS 2019]
+
+::: {.callout-tip title="Intuition"}
+The jumping spider does not need to move to judge distances: its accessory eye creates a natural focal dispersion between two retinal layers. Measuring the blur between the two images immediately gives him the distance to the prey. This is exactly the principle of focal flow.
+:::
+
+### Depth from Defocus
+
+- **Input**: only **two images** with different defocus levels (two apertures or two focus distances).
+- **Output**: depth estimation **by patch**.
+- **Principle**: each image is modeled as:
+
+$$g_i(x,y) = f(x,y) * h_{\sigma_i}(x,y)$$
+
+where $f$ is the unknown sharp scene and $h_{\sigma_i}$ the blur kernel of standard deviation $\sigma_i$. By comparing $g_1$ and $g_2$, we can estimate $\sigma$ (and therefore the depth) without knowing $f$ explicitly.
+
+### Comparison table
+
+| Technical | Entry required | Exit | Features |
+|---|---|---|---|
+| Confocal Stereo | Stack focus + aperture | Per pixel | Very precise, expensive in data |
+| Depth from focus | Focal Stack | By patch | Standard approach |
+| Focal flow | Dense focal stack | By patch | Fast, textured areas only |
+| Depth from defocus | 2 images only | By patch | Minimal in data |
+
+---
+
+## Plenoptic photography — Light Field Theory
+
+### Motivations
+
+A classic photograph only captures a 2D **projection** of the scene: it loses almost all of the directional information of the light.
+
+A **plenoptic camera** (light field camera) records how light varies not only in spatial position, but also in **direction**. It captures the *vectors* of light rays: where they come from, and how they are manipulated by the lenses.
+
+::: {.callout-note title="To remember"}
+An ordinary photograph responds to: *what intensity of light arrives at this point on the sensor?* A plenoptic camera responds to: *what intensity of light arrives at this point, coming from this direction?* This additional directional information is what makes refocusing and changing point of view possible after capture.
+:::
+
+### The Plenoptic Function
+
+The light field can be defined as the **geometric distribution of light rays** circulating in space.
+
+The most general representation is the **5D plenoptic function**:
+
+$$L(x, y, z, \theta, \phi)$$
+
+Or :
+
+- $(x, y, z)$ — spatial position of the observation point (3 dimensions)
+- $\theta$ — polar angle of the direction of the ray
+- $\phi$ — azimuthal angle of the direction of the ray
+
+::: {.callout-tip title="Intuition"}
+Imagine yourself standing in a room. For each point where you could stand $(x,y,z)$ and each direction where you could look $(\theta, \phi)$, the plenoptic function gives the brightness you would perceive. It is an exhaustive and total description of all the light in the scene — an “infinite catalog” of rays.
+:::
+
+### Radiance and light field
+
+Physically, the value of the plenoptic function corresponds to the **radiance** (energy luminance) at a given point and in a given direction. In free space (without diffusion or absorption), the radiance of a ray remains constant along its trajectory.
+
+This conservation property makes it possible to reduce the description of 5D to **4D**: a ray is entirely defined by its intersection with two parallel planes — this is the **two-plane parametrization**, denoted $(s, t, u, v)$:
+
+- **st** plane — the first plane (for example, the lens plane)
+- **uv** plane — the second plane (for example, the plane of the sensor or an output window)
+
+### Measuring rays with a pinhole camera
+
+A pinhole camera placed at a point measures *all* the rays passing through that point — it's a sample of the light field. By moving the same pinhole camera successively to several positions, the complete light field is reconstructed.
+
+The same set of rays can be captured by:
+
+- A single pinhole camera moved to multiple points of view.
+- Several cameras arranged in a network, taking their images simultaneously.
+
+---
+
+## How to capture a light field?
+
+There are three main approaches to capturing a light field.
+
+### Option 1 — Multiple Camera Network
+
+Use a large number of cameras positioned on a 2D grid.
+
+**Iconic example:** the **Stanford Camera Array**, comprising dozens to several hundred cameras arranged in a tight array. This system is also called Synthetic Aperture because the entire network behaves like a very large single lens.
+
+- **Advantage**: simultaneous capture → no motion blur.
+- **Disadvantage**: very expensive, bulky and difficult to synchronize and calibrate.
+
+**Reference:** [Willburn et al., SIGGRAPH 2005]
+
+**Biological analogy:** The compound eye of insects (like the mosquito) is the biological analog of a camera array: each **ommatidium** captures a slightly different direction of ambient light.
+
+### Option 2 — Single camera, multiple shots
+
+Move a single camera successively to several positions using a motor.
+
+**Example:** a camera mounted on a LEGO motor which moves it horizontally according to a grid.
+
+- **Advantage**: inexpensive.
+- **Disadvantage**: Requires a completely static scene between shots.
+
+### Option 3 — Plenoptic Camera
+
+Insert a **microlens array** (microlens array, MLA) between the main lens and the photosensitive sensor, to simultaneously capture angular and spatial information in a single shot.
+
+::: {.callout-note title="To remember"}
+The term **plenoptic** comes from the Latin *plenus* (full, whole) and the Greek *optikos* (relating to sight). It designates a “full” vision capturing all the light information available in a single acquisition.
+:::
+
+**Historical origin:** This concept was conceptualized by Gabriel **Lippmann** in 1908, who called it **integral photography**. The article describing the principle appeared in *Scientific American* on **August 19, 1911** — more than a century ago. Practical implementation only became possible thanks to modern digital sensors.
+
+---
+
+## Architecture of a plenoptic camera
+
+### Conventional camera vs plenoptic camera
+
+**Conventional camera:**
+
+- Subject → **main lens** (*main lens*) → **sensor** (*photosensor*)
+- Each pixel integrates all the rays arriving from the main objective without discriminating their angle of incidence.
+
+**Plenoptic camera:**
+
+- Subject → **main objective** → **microlens array** → **sensor**
+- Each micro-lens projects a small image from the lens diaphragm onto the group of pixels in the sensor behind it.
+- Each group of pixels encodes the **angular direction** of the rays arriving at this point in image space.
+
+::: {.callout-tip title="Intuition"}
+In a conventional camera, each pixel responds to *from which point in the scene is this light coming?* In a plenoptic camera, each group of pixels under a micro-lens responds to *from which direction of the main lens is this light coming from?* We deliberately trade a fraction of spatial resolution for angular resolution — this is the fundamental trade-off of plenoptic photography.
+:::
+
+### ST-UV setting in the plenoptic camera
+
+In the context of the plenoptic camera, the two-plane configuration translates concretely into:
+
+- **St plane** — plane of the main lens (where each micro-lens is placed)
+- **UV plane** — sensor plane (the pixels behind each micro-lens encode the angular $u,v$ coordinates)
+
+A ray is entirely characterized by the micro-lens through which it passes (st coordinates) and the specific pixel under that micro-lens (uv coordinates).
+
+---
+
+## Digital rendering from a light field
+
+Once the light field has been captured, all subsequent operations can be carried out **digitally**, after the shot.
+
+### Digitally Stopping Down the Aperture
+
+Reducing the aperture digitally consists of only summing the **central portion** of the pixels of each micro-lens:
+
+$$\text{Stopping down} = \text{sommer seulement la portion centrale de chaque micro-lentille}$$
+
+- Large aperture → sum all the pixels of the micro-lens → shallow depth of field, strong bokeh.
+- Small aperture → only sum the central pixels → large depth of field, sharp.
+
+::: {.callout-tip title="Intuition"}
+This is the digital equivalent of closing the aperture of a physical lens. The central pixels of the microlens correspond to the rays that pass through the center of the aperture (low angle of incidence) — exactly those that a closed diaphragm would let through.
+:::
+
+### Digitally Moving the Observer
+
+Moving the point of view corresponds to **shifting the extraction window** of the pixels under each micro-lens:
+
+$$\text{Déplacement du point de vue} = \text{décaler la fenêtre extraite de chaque micro-lentille}$$
+
+By systematically extracting the left (or right, or top, etc.) pixels from each micro-lens, we synthesize an image seen from a slightly different angle — thus creating a digital parallax.
+
+### Digital Refocusing
+
+Digital refocusing is the most spectacular operation: **freely choose the sharpness plane after shooting**.
+
+$$\text{Refocalisation} = \text{sommer des fenêtres décalées extraites de plusieurs micro-lentilles}$$
+
+By summing sub-windows extracted from neighboring micro-lenses with a calculated offset, we simulate the digital movement of the sensor plane — which corresponds to changing the focus.
+
+::: {.callout-important title="Key principle"}
+Digital refocusing is a **digital integration of light rays**: by accumulating the contributions of several micro-lenses with the correct offsets, we reconstruct the image that would have been produced by a sensor placed at a different distance from the lens. It is a synthesis of the focus entirely made after capture.
+:::
+
+**Illustration of the result:**
+
+- A single image captured with the plenoptic camera can be refocused on near or distant objects.
+- You can also produce a “clean” image by combining refocuses at different depths — like a focal stack extracted from a single capture.
+
+---
+
+## The Lytro Camera
+
+### General presentation
+
+The **Lytro** camera is the first commercial realization of a consumer plenoptic camera. It concretely embodies the theoretical principles of the light field.
+
+Two models exist:
+
+- **Lytro** — compact and portable model (form factor: rectangular parallelepiped)
+- **Lytro Illum Pro** — professional version with interchangeable lens and higher resolution
+
+### Internal architecture
+
+The Lytro camera integrates four main components:
+
+- **Lens Array** — the micro-lens array placed directly in front of the sensor
+- **Light Field Sensor** (Light Field Sensor) — the CMOS sensor augmented with micro-lenses
+- **Light Field Engine** (Light Field Engine) — the dedicated signal processor for plenoptic processing
+- **Marvell Avastar 88W8787 SoC** — integrated chip providing WiFi and Bluetooth capabilities for data transfer
+
+### The light field sensor (Light Field Sensor)
+
+The sensor combines two complementary technologies:
+
+**CMOS sensor:**
+
+- Standard technology of modern digital cameras.
+- Converts light into electrical charges stored in cells, read and converted to digital values.
+- Sensitive, fast and inexpensive.
+
+**Micro lens array:**
+
+- Attached directly to the CMOS sensor surface.
+- Divides the sensor pixels into groups, with each group corresponding to a micro-lens.
+- Each micro-lens projects an image of the main lens aperture onto its associated pixels.
+- The result: each pixel of the sensor encodes not only *where* the light arrives on the sensor, but also *from what angular direction* it comes.
+
+::: {.callout-tip title="Intuition"}
+We can visualize the micro-lens array as a “ray sorter”: instead of each pixel receiving light directly from the scene via the main lens, it receives it via a small intermediate lens which directs a precise direction from the lens towards it. Each micro-lens is like a small “directional window”.
+:::
+
+### Advantages and disadvantages of the Lytro camera
+
+| Appearance | Advantage | Disadvantage |
+|---|---|---|
+| Portability | Highly portable, compact size | — |
+| Post-capture flexibility | Digital refocusing after shooting | — |
+| Full resolution | — | Reduced effective resolution (spatial/angular trade-off) |
+| Opening | — | Fixed aperture (no physical control of depth of field) |
+
+::: {.callout-important title="Fundamental Resolution Tradeoff"}
+The total resolution of the sensor is shared between **spatial** resolution and **angular** resolution. The more angles we want (more different views) per point in the scene, the fewer pixels we have per view. A plenoptic camera always has a lower effective spatial resolution than a conventional camera with the same sensor.
+:::
+
+---
+
+## Conventional camera with coded aperture
+
+### Objective and motivations
+
+The objective of this section is to show how a minor modification of the lens — replacing the standard circular aperture with a **binary mask** (coded aperture) — makes it possible to extract from a **single image**:
+
+1. A depth map — the distances of objects in the scene
+2. An **all-focused image** — digitally deconvolved
+
+::: {.callout-tip title="Intuition"}
+A coded aperture transforms defocus blur into an **informative** and **identifiable** signal. Instead of an ambiguous circular blur, we get a blur bearing the mask's distinctive signature — unique enough to be numerically identified (giving depth) and inverted (giving the sharp image).
+:::
+
+### Lens, defocus and point spread function (PSF)
+
+#### Perfect focus
+
+When an object is exactly on the focal plane:
+
+- All rays coming from a point on the object converge towards a single pixel of the sensor.
+- The **PSF** (Point Spread Function) is an ideal point, very concentrated.
+
+#### Defocus (object out of focal plane)
+
+When an object is out of the focal plane (either in front or behind):
+
+- Rays coming from a point no longer converge on a single pixel.
+- They form a **circle of confusion** on the sensor.
+- The PSF is no longer a point but an extended spot whose **shape resembles that of the aperture** of the lens.
+
+::: {.callout-note title="To remember"}
+The **PSF** describes how a source point is spread across the sensor. For a conventional defocus camera, the PSF is a scaled version of the aperture shape (pentagon, hexagon or circle depending on the aperture). The **size** of the PSF increases with distance from the focal plane — and therefore reveals depth.
+:::
+
+The size of the PSF is directly related to depth: the farther the object is from the focal plane, the larger the PSF. This is the basis of depth inference by defocusing.
+
+### Model: defocus as local convolution
+
+In a defocused image, each local region can be modeled as a **local convolution**:
+
+$$y' = f_k \otimes x$$
+
+Or :
+
+- $y'$ — local subwindow of the observed defocused image
+- $x$ — corresponding sub-window of the sharp image (unknown)
+- $f_k$ — blur kernel calibrated to depth $k$ (PSF at this depth)
+- $\otimes$ — 2D convolution operator
+
+::: {.callout-tip title="Intuition"}
+Each depth $k$ corresponds to a PSF $f_k$ of different size. The inference problem consists of finding, for each region of the image, which PSF $f_k$ produced the observed blur — and therefore what is the depth $k$ of this region. This is a model selection problem.
+:::
+
+**Numerical examples:**
+
+- Depth $k=1$ (near object) → PSF large, circle of confusion wide
+- Depth $k=2$ (object at intermediate distance) → average PSF
+- Depth $k=3$ (distant object, close to the focal plane) → PSF small, almost a point
+
+**Algorithm overview:**
+
+- Try to deconvolute the local window with each calibrated filter $f_k$.
+- Select the scale that gives the most “natural” result.
+- The estimated depth is that corresponding to this scale.
+
+### Challenges of the conventional approach
+
+Two major problems prevent this approach from working directly with a standard circular aperture:
+
+#### Challenge 1 — Discriminate defocus blur from a smooth scene
+
+A uniformly colored region of the scene may look like a heavily defocused region. It is difficult to distinguish **depth blur** from **inherently smooth content** of the scene.
+
+**Example:** A slightly defocused white wall produces the same observation as a perfectly sharp white wall — in both cases, a uniform area without texture.
+
+#### Challenge 2 — Reversing defocus blur is an ill-posed problem
+
+Deconvolution is an ill-posed problem. Formally:
+
+$$f \otimes x = y$$
+
+For a given PSF $f$ and an observed image $y$, there exists an **infinity** of solutions $x$ satisfying this equation. Two solutions with the same convolution can look like very different images. Especially :
+
+- Classic algorithms like **Richardson-Lucy** introduce **ringing artifacts** — parasitic oscillations at the contours of objects.
+- The standard circular PSF has **zero frequencies** in its spectrum → some spatial frequencies are completely lost → impossible to reconstruct them.
+
+### Proposed solutions
+
+#### Solution 1 — Natural Images Prior
+
+Natural images have a distinctive statistical property: their **gradients are sparse**.
+
+- A natural image has mainly uniform areas with sharp edges → non-zero gradient only at the edges (sparse distribution).
+- An unnatural image (noise, ringing artifacts) has dense gradients everywhere (non-sparse distribution).
+
+We incorporate this knowledge into the deconvolution via a **regularization** term:
+
+$$x = \arg\min_x \left\| f \otimes x - y \right\|^2 + \lambda \sum_i \rho(\nabla x_i)$$
+
+Or :
+
+- $\|f \otimes x - y\|^2$ — **data attachment term**: the reconstructed image convolved with the PSF must give the observed image
+- $\lambda \sum_i \rho(\nabla x_i)$ — **regularization term**: penalizes large gradients to favor natural images
+- $\lambda$ — balance parameter between the two terms
+
+**Choice of function $\rho$:**
+
+- $\rho(\nabla x) = \|\nabla x\|^2$ — **Gaussian prior** (*"spread" gradients*): favors weak gradients everywhere, gives a smooth result, not favorable to sharp edges.
+- $\rho(\nabla x) = \|\nabla x\|^{0.8}$ — **sparse priori** (*"localizes" gradients*): concentrates the gradients at the edges, gives a result with sharp contours and flat areas.
+
+The experimental comparison clearly shows that the sparse prior significantly outperforms Richardson-Lucy and the Gaussian prior for edge restoration.
+
+::: {.callout-tip title="Intuition"}
+The sparse prior says: “a good natural image should have few gradients, concentrated at the edges of objects”. By minimizing the total energy (data fidelity + gradient penalty), we guide the deconvolution towards a solution that *looks* like a real photo rather than a noisy or oscillating signal.
+:::
+
+#### Solution 2 — Coded Aperture
+
+Rather than acting only on the calculation, we physically modify the optical system: we insert a **pseudo-random binary mask** (*occluder*) in the plane of the aperture of the objective.
+
+**Effect on PSF:**
+
+- With a classic aperture (smooth circle or polygon) → smooth PSF, difficult to distinguish from a naturally blurred scene.
+- With a coded aperture (pseudo-random binary pattern) → PSF bearing the characteristic signature of the mask → easily identifiable and discriminable from the natural content of the scene.
+
+::: {.callout-note title="To remember"}
+Coded aperture transforms the defocus PSF into a **unique identifier**. Each depth produces a *scaled* version of that pattern — scale reveals depth, and the presence of the pattern unambiguously distinguishes defocus from a naturally smooth scene.
+:::
+
+**Consequence on depth estimation:** Since the encoded PSF is distinct from the natural content of the images, it becomes possible to **identify the depth** even in poorly textured areas.
+
+### Zero Frequencies — Design Compromise (Zero Frequencies Trade-off)
+
+The shape of the coded aperture mask determines the frequency spectrum of the PSF. A key design choice concerns **zero frequencies** (spectral zeros):
+
+**Mask without zero frequencies:**
+
+- ✅ The filter can be easily inverted (zero-free spectrum → stable division in Fourier space)
+- ❌ Weaker depth discrimination (less distinctive PSF)
+
+**Mask with zero frequencies:**
+
+- ✅ Spectral zeros improve depth discrimination (very distinctive PSF)
+- ❌ Difficult inversion (division by zero in the frequency domain → numerical instability)
+- ✅ Inversion is made possible **thanks to the priori on natural images**: even if certain frequencies are lost, the priori guides the reconstruction
+
+::: {.callout-important title="Key principle"}
+The optimal coded aperture is designed so that its PSF is maximally discriminable from the natural content of the images. Using a prior on natural images allows zero frequencies to be accepted in the PSF — which improves depth discrimination without sacrificing deconvolution quality. The two ideas (priori + coded opening) are complementary.
+:::
+
+### Results and results of coded opening
+
+**Qualitative results observed:**
+
+- From a single defocused image captured with the coded aperture, the algorithm produces:
+  - A colorimetric depth map (red = near, blue = far)
+  - A clear image (all-focus) after deconvolution with the correct estimated kernel
+
+**Advantages/disadvantages balance sheet:**
+
+| Appearance | Advantage | Disadvantage |
+|---|---|---|
+| Entrance | Image AND depth from **single take** | — |
+| Spatial resolution | No loss of spatial resolution | — |
+| Hardware modification | Minimal lens modification | — |
+| Depth accuracy | — | Coarse depth, impossible in textureless areas |
+| Light | Deconvolution increases effective depth of field | Slight loss of light (mask blocks some rays) |
+
+---
+
+## Camera with Generalized Optics
+
+### General principle
+
+Previous systems modified the **aperture** (coded aperture). A more radical approach is to change the **optics themselves** — the shape or arrangement of the lenses.
+
+The main idea is: **change the optics, not just the aperture** (*change optics, not aperture*).
+
+The objective is to design a PSF which, combined with appropriate digital processing, makes it possible to obtain both a clear image and a depth map from a single acquisition.
+
+### Wavefront Coding
+
+**Wavefront coding** modifies the surface of a lens in such a way as to introduce a **controlled aberration** (typically a cubic phase) that makes the PSF **approximately depth invariant** over a certain range of distances.
+
+**Standard lens vs. wavefront encoded lens comparison:**
+
+- **Standard lens**:
+  - Exact focus → PSF = ideal point, very sharp
+  - Out of focus → PSF = extended spot very different depending on depth
+
+- **Wavefront encoded lens**:
+  - In-focus AND out-of-focus → PSF ≈ the same spread shape (approximately depth-invariant)
+  - The rays no longer converge towards a single point but disperse in a controlled and reproducible manner
+
+**Digital processing:**
+
+Since the PSF is approximately the same for all depths, a **single global deconvolution** with this single PSF restores sharpness across the entire scene. No need to estimate depth locally.
+
+::: {.callout-tip title="Intuition"}
+The wavefront encoded lens acts as a “uniform blur”: everything is slightly blurred in the same way, regardless of depth. A single deconvolution restores all sharpness. This is advantageous when you want a large depth of field without estimating a depth map.
+:::
+
+### Lattice Lens
+
+The **lattice lens** (*lattice lens*) adds an **array of lenslets** (small lenses) with variable focal length in front of the main lens.
+
+**Architecture :**
+
+- 2D array of variable focal length micro-lenses → arranged in front of the main lens
+- Each micro-lens deflects the rays slightly differently depending on its position
+- Result: the PSF varies according to the depth of the object → depth information encoded in the image
+
+::: {.callout-note title="To remember"}
+The array lens is conceptually similar to the microlens array of the plenoptic camera — but here the microlenses are placed **in front** of the main lens, not between the lens and sensor. The effect is different: we create spatially structured and depth-varying PSFs rather than separating the angles.
+:::
+
+### Spectral analysis: the dimensionality gap
+
+The full light field is 4D (st-uv coordinates). But in an image and depth oriented application, all the useful information is found in a 3D subspace:
+
+- Light field spectrum: **4D**
+- Image spectrum: **2D**
+- Depth: **1D**
+- **Useful total: 3D** — this is what Ng (2005) calls the **dimensionality gap**
+
+Only the **3D subspace corresponding to the physical focus distance** is useful. The grating lens is designed to precisely capture this subspace, ignoring the remaining 1D of the light field that does not contain relevant information for image+depth reconstruction.
+
+**Practical consequence:** The grating lens is more efficient (in terms of sensor pixel usage) than the full plenoptic camera for depth-oriented applications.
+
+**Limitations:**
+
+- PSF is **not** depth invariant → local deconvolution required, similar to coded aperture.
+- The PSFs at different depths have very distinct shapes → allow the depth to be estimated locally.
+
+**Reference:** [Ng, 2005]
+
+---
+
+## Comparative synthesis of approaches
+
+```{mermaid}
+flowchart TD
+    A[Scène 3D] --> B[Caméra conventionnelle]
+    A --> C[Pile focale]
+    A --> D[Caméra plénoptique]
+    A --> E[Ouverture codée]
+    A --> F[Codage de front d onde]
+    A --> G[Lentille à réseau]
+
+    B --> B1[Image 2D — un seul plan focal net]
+    C --> C1[Image tout nette + profondeur grossière]
+    D --> D1[Refocalisation et multi-vues numériques]
+    E --> E1[Profondeur + image nette — une seule prise]
+    F --> F1[Profondeur de champ étendue]
+    G --> G1[Profondeur + image nette — efficace]
+```
+
+### Summary table
+
+| System | Hardware modification | Main outputs | Key advantage | Limitation |
+|---|---|---|---|---|
+| Conventional camera | None | 2D image | Simplicity | Limited depth of field |
+| Focal Stack | None (multiple sockets) | Sharp image + depth | No hardware modification | Static scene required |
+| Plenoptic camera | Micro lens array | Refocus, multi-view | All in one take | Reduced resolution |
+| Coded opening | Mask in the diaphragm | Depth + sharp image | Minimal modification | Coarse depth |
+| Wavefront Coding | Modified lens | Large depth of field | Depth invariant PSF | No depth map |
+| Grating lens | Lenslet network | Depth + sharp image | Targeted capture of the 3D light field | Local deconvolution |
+
+---
+
+## Bibliographic references
+
+- Levoy, Adams, Pulli — *Computational Photography*, Stanford University
+- Raskar & Tumblin — *Computational Photography SIGGRAPH Course*
+- Durand & Freeman — *Digital and Computational Photography*, MIT
+- Efros — *Computational Photography*, Carnegie Mellon University
+- Gkioulekas — *Computational Photography*, Carnegie Mellon University
+- Wetzstein — *Computational Imaging*, Stanford University
+- Fergus — *Computational Photography*, New York University
+- Dragotti — *Computational Imaging*, Imperial College London
+- Seitz & Szeliski — *Computer Vision*, University of Washington
+- Kutulakos — *Introduction to Visual Computing and Visual Modeling*, University of Toronto
+- Willburn et al. — *SIGGRAPH 2005* (Stanford Camera Array — synthetic aperture)
+- Hassinof & Kutulakos — *ECCV 2006* (Confocal stereo)
+- Alexander et al. — *ECCV 2016*; Guo et al. — *ICCV 2017, PNAS 2019* (Focal flow, jumping spider)
+- Ng — *2005* (Dimensionality gap, grating lens)

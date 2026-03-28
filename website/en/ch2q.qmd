@@ -1,0 +1,343 @@
+---
+title: "The Human Visual System — Quiz"
+filters:
+  - quizdown
+execute:
+  enabled: false
+---
+
+## Level 1 — Fundamentals
+```{quizdown}
+### Quel scientifique a le premier proposé que la lumière va des objets vers l’œil, et non l’inverse ?
+
+> Pense au scientifique du Moyen Âge considéré comme le plus grand opticien de son époque.
+
+1. [ ] Platon
+    > Incorrect : Platon défendait une théorie extromissive — l’œil émettrait de la lumière.
+1. [ ] Aristote
+    > Incorrect : Aristote proposait des images matérielles transportées par l’atmosphère.
+1. [x] Alhazen
+    > Correct : Alhazen (Ibn al-Haytham, 1040) renverse le paradigme en établissant que les objets envoient la lumière vers l’œil.
+1. [ ] Kepler
+    > Incorrect : Kepler a établi la théorie rétinienne, mais après Alhazen.
+```
+```{quizdown}
+### Quelle est la fonction principale de la fovéa ?
+
+> Pense à la zone de la rétine qui concentre le plus un certain type de photorécepteurs.
+
+1. [ ] Detecter les faibles niveaux de lumiere
+1. [x] Fournir la vision haute resolution en bonne luminosite
+    > Correct : la fovéa concentre la densité maximale de cônes et est le siège de la vision fine (acuité maximale).
+1. [ ] Transmettre les signaux au nerf optique
+1. [ ] Controler le diametre de la pupille
+```
+```{quizdown}
+### Quel est le rôle du cristallin dans l’œil humain ?
+
+> Pense à l’élément de l’œil dont la courbure est modifiée par les muscles ciliaires.
+
+1. [ ] Proteger l'oeil des rayons ultraviolets
+1. [ ] Reguler la quantite de lumiere entrant dans l'oeil
+1. [x] Ajuster la focalisation de l'image sur la retine
+    > Correct : le cristallin est une lentille biconvexe dont la courbure change pour permettre l’accommodation (vision nette à différentes distances).
+1. [ ] Convertir la lumiere en signaux electriques
+```
+```{quizdown}
+### La résolution temporelle du système visuel humain est approximativement de :
+
+> Pense à la fréquence minimale d’affichage pour qu’un mouvement paraisse continu à l’œil.
+
+1. [ ] 24 Hz
+1. [ ] 30 Hz
+1. [x] 60 Hz
+    > Correct : le système visuel humain a une résolution temporelle d’environ 60 Hz (dépendant du contraste et de la luminance).
+1. [ ] 120 Hz
+```
+```{quizdown}
+### Quel type de photorécepteur est responsable de la vision des couleurs ?
+
+> Rappelle-toi la distinction entre les deux types de photorécepteurs et leurs conditions d’activation.
+
+1. [ ] Les batonnnets (Rods)
+1. [x] Les cones (Cones)
+    > Correct : les cônes sont responsables de la vision des couleurs (vision photopique). Les bâtonnets ne produisent qu’une vision en niveaux de gris (vision scotopique).
+1. [ ] Les cellules bipolaires
+1. [ ] Les cellules ganglionnaires
+```
+```{quizdown}
+### Quelles sont les affirmations correctes concernant les bâtonnets (Rods) ?
+
+> Pense aux conditions d’utilisation et aux propriétés des bâtonnets par rapport aux cônes.
+
+- [x] Ils sont sensibles aux faibles niveaux de lumiere (vision scotopique)
+    > Correct : les bâtonnets fonctionnent en faible luminosité, c’est leur avantage principal.
+- [ ] Ils permettent la vision des couleurs
+    > Incorrect : les bâtonnets ne perçoivent que les niveaux de gris.
+- [x] Ils sont plus nombreux que les cones (environ 10 fois plus)
+    > Correct : il y a environ 10^8 bâtonnets contre 10^7 cônes.
+- [x] Apres adaptation a l'obscurite, un bâtonnet peut repondre a un seul photon
+    > Correct : la sensibilité extrême des bâtonnets adaptés est l’une des propriétés les plus remarquables du système visuel.
+- [ ] Ils sont concentres principalement dans la fovea
+    > Incorrect : les bâtonnets sont situés en périphérie de la rétine ; la fovéa est dominée par les cônes.
+```
+```{quizdown}
+### Quelle est la plage dynamique instantanée de l’œil humain ?
+
+> Compare avec la plage dynamique après adaptation complète et avec celle des écrans actuels.
+
+1. [ ] 3 f-stops
+1. [ ] 14 f-stops
+1. [x] 6,5 f-stops
+    > Correct : la plage dynamique instantanée est d’environ 6,5 f-stops (environ 5 ordres de grandeur). La plage totale après adaptation est de 46,5 f-stops.
+1. [ ] 46,5 f-stops
+    > Incorrect : 46,5 f-stops correspond à la plage dynamique totale après adaptation complète à la lumière ou à l’obscurité.
+```
+```{quizdown}
+### Où se situe la tache aveugle (blind spot) dans l’œil humain ?
+
+> Pense à l’endroit où les fibres nerveuses quittent l’œil.
+
+1. [ ] Au centre de la fovea
+1. [ ] A la peripherie de la retine
+1. [x] Au niveau du disque optique
+    > Correct : le disque optique (optic disc) est le point de sortie du nerf optique. Il ne contient aucun photorécepteur, creant ainsi la tache aveugle.
+1. [ ] Sur la cornee
+```
+
+---
+
+## Level 2 — Comprehension
+```{quizdown}
+### Quelle est la principale difference fonctionnelle entre les cellules M et les cellules P ganglionnaires ?
+
+> Pense au compromis entre resolution spatiale et resolution temporelle.
+
+1. [ ] Les cellules M traitent les couleurs, les cellules P traitent le mouvement
+1. [x] Les cellules M ont une meilleure resolution temporelle, les cellules P une meilleure resolution spatiale
+    > Correct : les cellules M (magnocellulaires) ont une bonne resolution temporelle et sensibilite lumineuse mais pas de sensibilite chromatique. Les cellules P (parvocellulaires) ont une bonne resolution spatiale et sont sensibles aux couleurs.
+1. [ ] Les cellules M et P ont les memes proprietes mais sont localisees differemment
+1. [ ] Les cellules M sont plus petites et plus lentes que les cellules P
+    > Incorrect : c'est l'inverse — les cellules M sont plus grandes et ont des vitesses de conduction plus rapides.
+```
+```{quizdown}
+### Quelles affirmations decrivent correctement les proprietes des cellules simples (Simple Cells) de V1 ?
+
+> Rappelle-toi les travaux de Hubel et Wiesel sur le cortex visuel primaire.
+
+- [x] Elles repondent preferentiellement a des bords orientes dans une direction specifique
+    > Correct : les cellules simples sont les detecteurs de bords orientes — leur propriete fondamentale.
+- [x] Leur reponse peut etre construite a partir de plusieurs cellules centre-pourtour alignees
+    > Correct : c'est le modele de construction des cellules simples a partir des RGC.
+- [ ] Elles sont independantes de la position du stimulus dans le champ visuel
+    > Incorrect : c'est une propriete des cellules complexes, pas des cellules simples.
+- [ ] Elles sont situees dans le noyau geniculé latéral (LGN)
+    > Incorrect : les cellules simples sont situees dans le cortex visuel primaire (V1), pas dans le LGN.
+- [x] Elles constituent la premiere etape dans la hierarchie centre-pourtour vers complexe
+    > Correct : la hierarchie est bien Centre-Pourtour, puis Simple, puis Complexe.
+```
+```{quizdown}
+### Dans le flux ventral (Ventral Stream), que se passe-t-il a mesure qu'on s'eloigne de V1 vers les aires temporales superieures ?
+
+> Pense aux deux tendances observees dans la progression le long du flux ventral.
+
+1. [ ] Les champs recepteurs deviennent plus petits et la specificite diminue
+1. [x] Les champs recepteurs s'agrandissent et la tolerance a la position augmente
+    > Correct : dans le flux ventral, les champs recepteurs (RF) grandissent progressivement (de ~1 degre en V1 a ~12 degres dans TE) et les reponses deviennent de plus en plus independantes de la position exacte du stimulus (view independence).
+1. [ ] Les champs recepteurs restent stables mais la sensibilite chromatique augmente
+1. [ ] La latence de reponse diminue a mesure qu'on monte dans la hierarchie
+    > Incorrect : la latence augmente de 40-60 ms en V1 a 80-100 ms dans TE.
+```
+```{quizdown}
+### Pourquoi l'organisation centre-pourtour des cellules ganglionnaires est-elle avantageuse ?
+
+> Pense a ce que les objets ont en commun : ils ne sont pas definis par leur luminosite absolue.
+
+1. [ ] Elle permet de detecter les couleurs plus precisement
+1. [ ] Elle augmente la sensibilite aux faibles niveaux de lumiere absolue
+1. [x] Elle code les differences de luminosite plutot que les valeurs absolues, permettant l'amplification du signal sans saturation
+    > Correct : les objets sont definis par leurs differences de luminosite avec l'arriere-plan. Coder les differences evite de devoir representer l'enormité de la gamme des valeurs absolues — c'est la base de la perception des objets.
+1. [ ] Elle reduit la quantite d'information envoyee au cerveau par compression
+```
+```{quizdown}
+### Quelle est la difference entre le flux dorsal et le flux ventral ?
+
+> Pense aux questions auxquelles chaque flux repond.
+
+1. [ ] Le flux dorsal traite les couleurs, le flux ventral traite le mouvement
+1. [x] Le flux dorsal traite la localisation et le mouvement (ou ?), le flux ventral traite la reconnaissance (quoi ?)
+    > Correct : le flux dorsal (Where stream) va vers le cortex parietal et gere la localisation spatiale et la perception du mouvement. Le flux ventral (What stream) va vers le cortex temporal inferieur et gere la reconnaissance des objets.
+1. [ ] Les deux flux traitent les memes informations mais a des vitesses differentes
+1. [ ] Le flux dorsal est responsable de la vision consciente, le flux ventral de la vision inconsciente
+```
+```{quizdown}
+### Qu'est-ce que la presbytie et quelle en est la cause ?
+
+> Pense au processus d'accommodation et a ce qui change avec l'age.
+
+1. [ ] Une deformation de la cornee rendant l'image floue a toutes les distances
+1. [ ] Une reduction du diametre de la pupille en fonction de l'age
+1. [x] Une reduction de la plage d'accommodation due au durcissement progressif du cristallin
+    > Correct : avec l'age, le cristallin durcit et les muscles ciliaires ne peuvent plus modifier sa forme suffisamment. La plage passe d'environ 8 cm - infini a 16 ans a environ 50 cm - infini a 50 ans.
+1. [ ] Une diminution du nombre de cones dans la fovea
+```
+```{quizdown}
+### Le conflit vergence-accommodation (Vergence-Accommodation Conflict) dans les affichages stereoscopiques provient de :
+
+> Pense a ce que font les yeux dans le monde reel par rapport a ce qui se passe devant un ecran 3D classique.
+
+1. [ ] Une frequence de rafraichissement trop basse de l'ecran
+1. [ ] Une disparite binoculaire excessive entre les deux images
+1. [x] Un decouplage entre la distance de convergence des yeux et la distance de mise au point sur l'ecran physique
+    > Correct : dans le monde reel, vergence et accommodation sont couplee a la meme distance. Sur un ecran stereo, les yeux convergent vers la position 3D percue mais doivent accommoder sur l'ecran physique (distance fixe) — c'est le conflit.
+1. [ ] Une difference de luminance entre les images gauche et droite
+```
+
+---
+
+## Level 3 — Mastery
+```{quizdown}
+### Remets les etapes de l'evolution de l'oeil dans le bon ordre chronologique.
+
+> Pense a la sequence evolutive depuis les organismes les plus simples jusqu'a l'oeil des vertebres.
+
+1. Tache de cellules photosensibles sans direction
+2. Zone deprimee permettant une sensibilite directionnelle limitee
+3. Oeil stenope avec chambre remplie d'eau
+4. Developpement d'un cristallin distinct
+5. Iris et cornee separes formant l'oeil vertebre complet
+```
+```{quizdown}
+### Remets les etapes de la voie visuelle dans l'ordre, depuis l'oeil jusqu'au cortex.
+
+> Pense au chemin emprunte par l'information visuelle depuis la retine jusqu'au traitement cortical.
+
+1. Retine (photorécepteurs et cellules ganglionnaires)
+2. Nerf optique (Optic Nerve)
+3. Chiasma optique (Optic Chiasm)
+4. Noyau Geniculé Lateral (LGN)
+5. Cortex visuel primaire (V1)
+```
+```{quizdown}
+### Un patient presente une lesion isolee du flux ventral (Ventral Stream). Quel deficit est le plus probable ?
+
+> Pense aux fonctions specifiques du flux ventral par opposition au flux dorsal.
+
+1. [ ] Incapacite a localiser les objets dans l'espace
+    > Incorrect : la localisation spatiale est une fonction du flux dorsal (Where stream).
+1. [ ] Perte de la vision peripherique
+    > Incorrect : la vision peripherique n'est pas specifiquement associee au flux ventral.
+1. [x] Incapacite a reconnaitre les objets (agnosie visuelle) malgre une capacite de localisation preservee
+    > Correct : des lesions du flux ventral produisent des deficits de reconnaissance (agnosie visuelle, prosopagnosie) tout en preservant la capacite a localiser et eviter les obstacles.
+1. [ ] Perte de la perception du mouvement
+    > Incorrect : la perception du mouvement est une fonction du flux dorsal et de l'aire MT.
+```
+```{quizdown}
+### Un ingenieur conçoit un affichage VR et souhaite eliminer le conflit vergence-accommodation. Quelles technologies permettent reellement de le resoudre ?
+
+> Pense aux technologies qui reproduisent le comportement optique du monde reel plutot que de simuler une image 2D sur un ecran plat.
+
+- [ ] Augmenter la frequence de rafraichissement a 120 Hz
+    > Incorrect : la frequence de rafraichissement ne resout pas le conflit vergence-accommodation — les deux restent decouples.
+- [x] Affichages a champ de lumiere (Light Field Displays)
+    > Correct : les affichages a champ de lumiere reproduisent les rayons lumineux provenant de differentes profondeurs, permettant une accommodation naturelle.
+- [x] Affichages holographiques (Holographic Displays)
+    > Correct : les affichages holographiques reproduisent le front d'onde complet de la lumiere — solution ultime pour eliminer le conflit.
+- [ ] Augmenter la resolution de l'ecran
+    > Incorrect : une resolution plus elevee ameliore la nettete mais ne resout pas le decouplage vergence-accommodation.
+- [x] Affichages a focus contingent du regard (Gaze-Contingent Focus Displays)
+    > Correct : en combinant eye-tracking et optique variable, ces affichages ajustent dynamiquement la zone de nettete selon ou regarde l'utilisateur.
+```
+```{quizdown}
+### La fonction de sensibilite au contraste (Contrast Sensitivity Function, CSF) du systeme visuel humain presente un pic de sensibilite a environ :
+
+> Pense a l'unite de mesure utilisee pour la frequence spatiale et aux valeurs associees aux limites du systeme visuel.
+
+1. [ ] 1 cycle par degre (cpd)
+1. [x] 4 a 6 cycles par degre (cpd)
+    > Correct : la CSF atteint son pic de sensibilite entre 4 et 6 cpd. En dessous, la sensibilite diminue (inhibition laterale) ; au-dessus aussi (limite de resolution liee a la densite des cones, environ 60 cpd).
+1. [ ] 60 cycles par degre (cpd)
+    > Incorrect : 60 cpd correspond a la limite superieure de resolution liee a la densite des cones dans la fovea, pas au pic de sensibilite.
+1. [ ] 120 cycles par degre (cpd)
+```
+```{quizdown}
+### Quelles affirmations sur le Noyau Geniculé Lateral (LGN) sont correctes ?
+
+> Rappelle-toi la structure en couches du LGN et ses connexions avec les cellules ganglionnaires.
+
+- [x] Le LGN contient deux couches magnocellulaires alimentees par les cellules M
+    > Correct : les deux couches magnocellulaires recoivent les signaux des cellules M a meilleure resolution temporelle.
+- [x] Le LGN contient quatre couches parvocellulaires alimentees par les cellules P
+    > Correct : les quatre couches parvocellulaires recoivent les signaux des cellules P a meilleure resolution spatiale et sensibilite chromatique.
+- [ ] Il y a un seul LGN partage entre les deux hemispheres
+    > Incorrect : il y a un LGN dans chaque hemisphere cerebral.
+- [x] Toutes les couches du LGN maintiennent l'organisation retinotopique
+    > Correct : la retinotopie (correspondance spatiale entre retine et cortex) est preservee dans toutes les couches du LGN.
+- [ ] Le LGN est un simple relais passif sans traitement propre
+    > Incorrect : le LGN integre des signaux de retour (feedback) depuis V1 et d'autres structures — c'est un noeud actif de controle.
+```
+```{quizdown}
+### Quelle innovation du neocognitron de Fukushima a ete directement reprise dans les reseaux de neurones convolutionnels (CNN) modernes ?
+
+> Pense au principe architectural fondamental qui permet l'invariance a la translation.
+
+1. [ ] L'utilisation de la retropropagation du gradient pour l'apprentissage
+    > Incorrect : le neocognitron utilisait un apprentissage non supervise, pas la retropropagation. C'est LeCun qui a introduit la retropropagation dans les CNN.
+1. [x] L'alternance de couches de detection de caracteristiques (simples) et de couches de regroupement spatial (complexes)
+    > Correct : l'alternance couches S (simples, equivalentes a la convolution) et couches C (complexes, equivalentes au pooling) est le principe fondateur repris dans les CNN.
+1. [ ] L'utilisation de donnees d'entrainement labelisees en grande quantite
+1. [ ] La connexion totale entre toutes les couches du reseau
+    > Incorrect : le neocognitron utilisait des connexions locales et partagees — principe oppose aux couches entierement connectees.
+```
+```{quizdown}
+### Un utilisateur ressent des nausees et de la fatigue oculaire apres 30 minutes d'utilisation d'un casque VR. Quelle en est la cause la plus probable du point de vue du systeme visuel ?
+
+> Pense au phenomene specifique aux affichages stereoscopiques classiques qui cree une incoherence dans le systeme visuel.
+
+1. [ ] La resolution trop elevee de l'affichage fatigue les photorécepteurs
+1. [ ] La frequence de rafraichissement trop basse provoque un scintillement perceptible
+1. [x] Le conflit vergence-accommodation cree une incoherence entre les signaux oculomoteurs et visuels
+    > Correct : le conflit vergence-accommodation est la cause principale de l'inconfort, de la fatigue visuelle et des nausees lors de l'utilisation prolongee de casques VR stereoscopiques classiques.
+1. [ ] La luminosite excessive de l'ecran sature les cones
+```
+```{quizdown}
+### Quelle est la relation correcte entre les cellules simples de V1 et les cellules centre-pourtour du LGN ?
+
+> Pense a la construction hierarchique des reponses neuronales.
+
+1. [ ] Les cellules simples de V1 sont des copies identiques des cellules centre-pourtour
+1. [ ] Les cellules centre-pourtour se transforment directement en cellules complexes sans passer par les cellules simples
+1. [x] Une cellule simple peut etre construite a partir de plusieurs cellules centre-pourtour alignees selon un axe preferentiel
+    > Correct : l'alignement spatial de plusieurs cellules centre-pourtour crée la selectivite a l'orientation des cellules simples — c'est le modele de Hubel et Wiesel.
+1. [ ] Les cellules simples de V1 recoivent directement les signaux des photorécepteurs sans passer par le LGN
+```
+```{quizdown}
+### Parmi les caracteristiques suivantes, lesquelles constituent de reelles limitations de l'oeil humain ?
+
+> Il s'agit ici de distinguer les proprietes normales des vraies imperfections du systeme visuel.
+
+- [x] L'image formee sur la retine est inversee
+    > Correct : la lumiere traversant le cristallin forme une image renversee sur la retine. Le cerveau corrige cette inversion.
+- [x] La haute resolution est limitee a la zone foveale
+    > Correct : la vision haute resolution n'existe que dans la fovea, qui couvre environ 2 degres du champ visuel.
+- [ ] L'oeil ne peut voir que trois couleurs primaires
+    > Incorrect : ce n'est pas une limitation — c'est le principe meme du systeme trichromate qui permet de percevoir toutes les couleurs visibles.
+- [x] Les vaisseaux sanguins se trouvent devant les photorécepteurs
+    > Correct : l'organisation inversee de la retine humaine place les vaisseaux et les neurones devant les photorécepteurs, ce qui est une imperfection anatomique.
+- [x] La tache aveugle au niveau du disque optique
+    > Correct : l'absence de photorécepteurs au point de sortie du nerf optique cree une zone sans vision que le cerveau comble par interpolation.
+```
+```{quizdown}
+### Quelle etait la contribution specifique de Kepler a la comprehension de la vision, au-dela de ce qu'Alhazen avait etabli ?
+
+> Pense au probleme specifique qu'Alhazen n'avait pas resolu correctement.
+
+1. [ ] Demonstrer que la lumiere voyage en lignes droites
+    > Incorrect : c'est une contribution d'Alhazen.
+1. [ ] Proposer que les objets envoient de la lumiere vers l'oeil
+    > Incorrect : c'est la contribution fondamentale d'Alhazen, pas de Kepler.
+1. [x] Expliquer comment le cristallin separe les rayons provenant de differents points de la scene pour former une image nette sur la retine
+    > Correct : Kepler a compris que les rayons provenant de directions differentes, meme s'ils arrivent au meme point du cristallin, sont refractes dans des directions differentes et separés, formant une image nette. Alhazen pensait a tort que seul le rayon perpendiculaire contribuait a la vision.
+1. [ ] Decourir l'existence des batonnets et des cones dans la retine
+    > Incorrect : la decouverte des photorécepteurs est bien posterieure a Kepler.
+```

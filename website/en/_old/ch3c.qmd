@@ -1,0 +1,111 @@
+# Chapter 3C - Deepening and training
+
+## How to use this page
+
+- Review the detail chapter first.
+- Use this page to link the techniques together.
+- Work on mini-scenarios and method choices.
+
+---
+
+## 1) Vue système des techniques du chapitre
+
+```{mermaid}
+flowchart TD
+    A["Photo computationnelle"] --> B["Focus stacking"]
+    A --> C["Depth from focus/defocus"]
+    A --> D["Light field"]
+    A --> E["Ouverture codée"]
+    A --> F["Optiques généralisées"]
+```
+
+---
+
+##2) When to use which method?
+
+| Need | Typical method | Main asset | Main limit |
+|---|---|---|---|
+| High quality all-rounder | Focus stacking | Strong visual result | Multiple acquisition |
+| Fast depth with few holds | Depth from defocus | 2 images are enough | Limited local accuracy |
+| Finer depth | Confocal stereo | High granularity | More complex setup |
+| Post-capture refocus | Light field | Flexibility after setting | Reduced spatial resolution |
+| Depth + deblurring on an image | Coded opening | Compact system | Model/Texture Aware |
+| Stable deblurring on depth range | Wavefront coding | Quasi-invariant PSF | Specialized optics |
+
+---
+
+##3) “Inverse problem” reasoning
+
+### Model
+
+- Describe image formation (convolution, PSF, noise).
+
+### Regularize
+
+- Introduce plausible constraints (priors on gradients/textures/depth).
+
+### Infer
+
+- Optimize or estimate hidden variables (sharp image, depth).
+
+### To validate
+
+- Evaluate on texture, edges, uniform areas, robustness to noise.
+
+---
+
+##4) Mini Exam Scenarios
+
+### Scenario A - Product macro in e-commerce
+
+- Objective: sharp image (entire object).
+- Recommended choice: focus stacking.
+- Justification: strong requirement for overall clarity.
+
+### Scenario B - Constrained budget mobile robot
+
+- Objective: depth from a single camera.
+- Possible choice: coded opening.
+- Justification: cost/complexity compromise with depth + sharp image.
+
+### Scenario C - Creative camera for post-production
+
+- Objective: change the focus after capture.
+- Recommended choice: plenoptic camera.
+- Justification: digital refocusing and virtual views.
+
+---
+
+##5) Mathematical points to know how to explain
+
+- Thin lens: $1/f = 1/D + 1/D'$.
+- Merge focus stack: $I_{fused} = (\sum w_k I_k)/(\sum w_k)$.
+- Degradation: $y = f \otimes x + n$.
+- Regularized deconvolution: $\hat{x}=\arg\min \|f\otimes x-y\|^2 + \lambda P(\nabla x)$.
+
+---
+
+##6) Flash Questions
+
+- Why does focal flow often fail on poorly textured areas?
+- Why does a coded aperture help depth discrimination?
+- What is the central compromise of plenoptic cameras?
+- In which case is a quasi-invariant PSF decisive?
+
+---
+
+##7) Checklist before exam
+
+- I know how to compare the 4 depth methods.
+- I know how to explain the spatial/angular compromise of the light field.
+- I know how to explain the frequency logic of the coded opening.
+- I know how to distinguish coded aperture, wavefront coding and lattice lens.
+
+---
+
+##8) Common Mistakes
+
+- Believing that a single method is optimal everywhere.
+- Forgetting alignment in focus stacking.
+- Confusing digital refocusing and deconvolution.
+- Forget that the local texture strongly conditions the depth quality.

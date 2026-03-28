@@ -1,0 +1,318 @@
+---
+title: "Computational Imaging — Quiz"
+filters:
+  - quizdown
+execute:
+  enabled: false
+---
+
+## Level 1 — Fundamentals
+
+```{quizdown}
+### How many dimensions does the complete plenoptic function have?
+
+> Consider the parameters needed to describe a light ray at any point in space.
+
+1. [ ] 3
+1. [ ] 4
+1. [x] 5
+    > Correct: The plenoptic function L(x, y, z, \theta, \phi) is defined on 5D space — 3 for spatial position and 2 for direction.
+1. [ ] 7
+```
+
+```{quizdown}
+### What is the main difference between conventional and computational photography?
+
+> Consider the respective roles of optics and digital processing in each paradigm.
+
+1. [ ] Computational photography uses a larger sensor.
+1. [ ] Computational photography does not require a lens.
+1. [x] In computational photography, optics and computation are co-designed: the captured image is a coded representation, not necessarily visually readable.
+    > Correct: this is the founding principle. Generalized optics encode, generalized computation decodes. The raw image may be visually unreadable.
+1. [ ] Computational photography only improves resolution.
+```
+
+```{quizdown}
+### What properties characterize the pinhole camera?
+
+> Compare the advantages and disadvantages against a lens camera.
+
+- [x] Infinite depth of field — everything is in focus
+    > Correct: an infinitesimally small aperture allows only one ray per source point, so everything is in focus.
+- [ ] Very efficient with light
+    > Incorrect: the infinitesimally small aperture transmits very few photons — this is one of its major flaws.
+- [x] Very inefficient with light
+    > Correct: small aperture = few photons collected.
+- [ ] Only one plane is in focus
+    > Incorrect: this is the characteristic of a lens camera, not a pinhole camera.
+```
+
+```{quizdown}
+### Que représente la magnification m dans le système optique d'une caméra à lentille ?
+
+> Pense à comment la taille de l'image change quand on modifie la distance lentille-capteur.
+
+1. [ ] Le rapport entre la focale et la distance objet.
+1. [x] Le rapport entre la focale f et la quantité (D' - f), où D' est la distance lentille-capteur.
+    > Correct : m = f / (D' - f). Ce paramètre est crucial pour l'alignement des images d'une pile focale, car il change avec la mise au point.
+1. [ ] La résolution du capteur divisée par la focale.
+1. [ ] Le diamètre de l'ouverture divisé par la focale.
+```
+
+```{quizdown}
+### What component is placed between the main lens and the sensor in a plenoptic camera?
+
+> Consider what allows capturing angular information in addition to spatial information.
+
+1. [ ] A low-pass filter
+1. [ ] A prism for decomposition
+1. [x] A microlens array
+    > Correct: each microlens projects a sub-image onto a sensor area, thus encoding the different angular directions of light.
+1. [ ] A binary mask
+```
+
+```{quizdown}
+### Le mot "plénoptique" (plenoptic) vient de quelles origines etymologiques ?
+
+> Pense au sens des racines latine et grecque qui composent ce mot.
+
+1. [ ] Du latin plenus (plein) et du grec graphein (écrire)
+1. [x] Du latin plenus (plein) et du grec optikos (qui concerne la vision)
+    > Correct : plenus = plein, optikos = vision. Littéralement : "voir tout", ce qui résume bien l'objectif de capturer l'intégralité du champ lumineux.
+1. [ ] Du grec plenios (lumière) et du latin optare (choisir)
+1. [ ] Du latin plenus (plein) et du grec topos (lieu)
+```
+
+---
+
+## Level 2 — Comprehension
+
+```{quizdown}
+### Dans la pile focale (focal stack), pourquoi est-il necessaire d'aligner les images avant de les fusionner ?
+
+> Pense a ce qui change optiquement quand on modifie la distance de mise au point.
+
+1. [ ] Parce que la caméra bouge physiquement entre les prises.
+1. [x] Parce que changer la distance de mise au point modifie la magnification, donc le champ de vue de chaque image est légèrement différent.
+    > Correct : quand D' change, m = f / (D' - f) change aussi. Les images ont des tailles légèrement différentes et doivent être recalées avant fusion.
+1. [ ] Parce que la luminosité varie entre les prises.
+1. [ ] Parce que la couleur des pixels change avec la mise au point.
+```
+
+```{quizdown}
+### Quelle operation mathematique est utilisee pour mesurer la nettete locale d'un pixel dans la pile focale ?
+
+> Pense a l'opérateur qui réagit fortement aux contours et aux zones à haute fréquence spatiale.
+
+1. [ ] La transformée de Fourier locale
+1. [ ] La moyenne des pixels voisins
+1. [x] L'opérateur Laplacien
+    > Correct : le Laplacien mesure la variation locale d'intensité. Une zone nette produit une forte réponse Laplacienne (contours francs), une zone floue produit une réponse faible.
+1. [ ] Le filtre médian
+```
+
+```{quizdown}
+### Parmi ces affirmations sur le champ lumineux 4D, lesquelles sont correctes ?
+
+> Rappelle-toi de la paramétrisation à deux plans et de ce qu'elle encode.
+
+- [x] Un rayon est représenté par ses positions sur deux plans parallèles (plan st et plan uv).
+    > Correct : c'est la paramétrisation à deux plans. Le plan st correspond typiquement à la lentille, le plan uv au capteur.
+- [ ] Le champ lumineux 4D encode uniquement l'information de profondeur.
+    > Incorrect : il encode à la fois l'information spatiale ET angulaire, ce qui permet la refocalisation, le changement de point de vue, etc.
+- [x] Le même champ lumineux peut être capturé par une caméra plénoptique ou par une caméra sténopé déplacée vers plusieurs points de vue.
+    > Correct : c'est un résultat fondamental — les deux approches mesurent le même ensemble de rayons.
+- [ ] Le champ lumineux 4D est strictement nécessaire pour reconstruire une image 2D.
+    > Incorrect : une image 2D ne nécessite qu'une projection du champ, pas sa capture complète.
+```
+
+```{quizdown}
+### Quels sont les deux types de sortie produits par une caméra a ouverture codee a partir d'une seule image d'entree ?
+
+> Pense aux deux informations complémentaires que l'on souhaite extraire d'une scène 3D.
+
+- [x] Une carte de profondeur (Depth Map)
+    > Correct : l'ouverture codée permet d'estimer la profondeur de chaque région de la scène depuis une seule image.
+- [ ] Une sequence video reconstruite
+- [x] Une image tout-net (All-Focused Image)
+    > Correct : en combinant l'estimation de profondeur avec la déconvolution, on reconstruit une image où tous les plans sont nets.
+- [ ] Un modele 3D de la scene
+```
+
+```{quizdown}
+### Pourquoi la deconvolution est-elle un probleme "mal pose" (ill-posed) ?
+
+> Pense à ce que signifie mathématiquement résoudre f convolué avec x = y pour trouver x.
+
+1. [ ] Parce que le filtre f est toujours inconnu.
+1. [ ] Parce que le capteur introduit du bruit.
+1. [x] Parce que l'équation f convolué avec x = y admet en général plusieurs solutions x différentes qui sont toutes cohérentes avec l'observation y.
+    > Correct : la convolution perd de l'information (notamment aux fréquences où le filtre s'annule). Plusieurs images nettes différentes peuvent donner la même image floue.
+1. [ ] Parce que la convolution n'est pas une opération inversible dans le domaine spatial.
+```
+
+```{quizdown}
+### Dans la deconvolution avec prior, que represente le terme lambda dans la formule d'optimisation ?
+
+> Formule : x = argmin ||f x - y||^2 + lambda * somme rho(nabla xi)
+
+1. [ ] La taille du noyau de flou.
+1. [x] Le paramètre de régularisation qui contrôle l'équilibre entre fidélité aux données et respect du prior.
+    > Correct : un lambda grand donne plus de poids au prior (image plus lisse, plus "naturelle"), un lambda petit donne plus de poids à la fidélité aux données observées.
+1. [ ] L'inverse de la profondeur estimée.
+1. [ ] Le nombre d'itérations de l'algorithme.
+```
+
+```{quizdown}
+### Quel est l'avantage du prior epars (rho = norme gradient puissance 0.8) par rapport au prior gaussien (rho = norme gradient au carre) pour la deconvolution ?
+
+> Pense à la distribution des gradients dans une image naturelle.
+
+1. [ ] Il converge plus vite numériquement.
+1. [ ] Il ne nécessite pas de connaitre le noyau de flou.
+1. [x] Il préserve mieux les contours nets en localisant les gradients, plutôt que de les diffuser uniformément.
+    > Correct : la norme puissance 0.8 est plus proche d'une norme L1 que L2 — elle favorise les solutions avec peu de gradients forts (contours) et de nombreuses zones uniformes, ce qui correspond aux images naturelles.
+1. [ ] Il élimine totalement les artefacts de ringing.
+```
+
+```{quizdown}
+### Pourquoi l'ouverture codee ameliore-t-elle la discrimination entre differentes profondeurs par rapport a une ouverture conventionnelle ?
+
+> Pense à la structure visuelle du PSF dans chaque cas et à sa ressemblance avec des images naturelles.
+
+1. [ ] Parce qu'elle rend le PSF plus petit, donc le flou est réduit.
+1. [ ] Parce qu'elle augmente la quantité de lumière collectée.
+1. [x] Parce que le PSF pseudo-aléatoire de l'ouverture codée est structurellement très différent des images naturelles, ce qui rend les profondeurs incorrectes facilement détectables.
+    > Correct : avec une ouverture conventionnelle, le PSF ressemble à une tache lisse — difficile à distinguer d'une zone naturellement floue. Le PSF codé est si caractéristique qu'une mauvaise profondeur produit des artefacts clairement non-naturels.
+1. [ ] Parce qu'elle génère un PSF invariant à la profondeur.
+```
+
+---
+
+## Level 3 — Mastery
+
+```{quizdown}
+### Remets les etapes de la fusion d'une pile focale dans le bon ordre.
+
+> Pense au pipeline complet depuis les images brutes jusqu'à l'image tout-nette finale.
+
+1. Capturer les images avec differentes mises au point
+2. Aligner les images en corrigeant la magnification
+3. Calculer les poids de nettete via le Laplacien
+4. Lisser les cartes de poids par flou gaussien
+5. Calculer la moyenne ponderee normalisee
+```
+
+```{quizdown}
+### Un ingénieur capture une pile focale d'un objet de 10 cm de long en macrophotographie. Après fusion, il observe des halos (artefacts) aux bords des zones nettes. Quelle en est la cause la plus probable ?
+
+> Pense aux étapes de traitement des poids dans la pile focale et à ce qui se passe aux transitions entre zones nettes et floues.
+
+1. [x] Les poids Laplaciens n'ont pas été suffisamment lissés, créant des transitions abruptes entre zones de mise au point différentes.
+    > Correct : sans lissage gaussien des poids, les frontières entre zones assignées à différentes images de la pile créent des discontinuités visibles (halos, bandes). Le flou gaussien sur les poids est crucial pour des transitions douces.
+1. [ ] La bague de focus a été tournée trop rapidement entre les prises.
+1. [ ] La résolution du capteur est insuffisante pour la macrophotographie.
+1. [ ] L'alignement des images a été effectué avec une mauvaise valeur de focale.
+```
+
+```{quizdown}
+### Dans une caméra plénoptique avec un capteur de N x N pixels et des microlentilles couvrant chacune k x k pixels, quelle est la résolution spatiale approximative de l'image finale reconstruite ?
+
+> Pense au compromis fondamental introduit par le réseau de microlentilles.
+
+1. [ ] N x N pixels (inchangé)
+1. [ ] N/2 x N/2 pixels
+1. [x] (N/k) x (N/k) pixels
+    > Correct : chaque microlentille occupe k x k pixels du capteur pour encoder l'information angulaire. Il reste donc N/k microlentilles dans chaque direction, donnant une résolution spatiale de (N/k) x (N/k). C'est le compromis fondamental résolution spatiale / angulaire.
+1. [ ] (N*k) x (N*k) pixels
+```
+
+```{quizdown}
+### Remets les etapes de l'algorithme d'estimation de profondeur par ouverture codee dans le bon ordre.
+
+> Pense à la logique de déconvolution à différentes échelles et à la sélection du meilleur résultat.
+
+1. Selectionner une fenetre locale de l'image floue
+2. Pour chaque profondeur candidate, deconvoluer avec le PSF calibre correspondant
+3. Evaluer la qualite naturelle de chaque image deconvoluee (prior)
+4. Retenir l'echelle dont le resultat est le plus naturel
+5. Utiliser cette echelle comme estimation de profondeur et l'image correspondante comme image nette locale
+```
+
+```{quizdown}
+### Un système de wavefront coding utilise une plaque de phase cubique. Quelle propriété clé du PSF résultant permet de simplifier le traitement par rapport à l'ouverture codée classique ?
+
+> Compare le comportement du PSF en fonction de la profondeur dans les deux approches.
+
+1. [ ] Le PSF est plus petit qu'avec une lentille conventionnelle.
+1. [ ] Le PSF n'a pas de zéros dans son spectre fréquentiel.
+1. [x] Le PSF est approximativement invariant à la profondeur, ce qui permet d'utiliser une seule déconvolution globale pour toute la scène.
+    > Correct : c'est l'avantage clé du wavefront coding. Avec une ouverture codée classique, le PSF change de taille selon la profondeur et il faut une déconvolution locale par région. Ici, un seul PSF "fixe" est valable sur toute une plage de profondeurs.
+1. [ ] Le PSF est une fonction gaussienne parfaite, facile à inverser.
+```
+
+```{quizdown}
+### Pourquoi la technique de flux focal (focal flow) ne fonctionne-t-elle que sur les zones texturees ?
+
+> Pense à ce qu'est le flux optique et aux conditions nécessaires pour l'estimer.
+
+1. [ ] Parce que les zones lisses absorbent trop de lumière.
+1. [ ] Parce que les microlentilles ne couvrent que les zones texturées.
+1. [x] Parce que le flux optique ne peut être estimé que là où il existe un gradient d'intensité — les zones uniformes ne produisent pas de signal de flux exploitable.
+    > Correct : le flux optique mesure le déplacement apparent de structures visuelles entre images. Sans texture (zone uniforme), il n'y a pas de structure à suivre, donc pas de flux mesurable, donc pas d'estimation de profondeur possible.
+1. [ ] Parce que la convolution gaussienne efface les zones lisses.
+```
+
+```{quizdown}
+### Quels enonces décrivent correctement l'ecart de dimensionnalite (dimensionality gap) introduit par Ng (2005) ?
+
+> Pense aux dimensions du champ lumineux complet et à celles réellement utiles pour reconstruire image + profondeur.
+
+- [x] Le champ lumineux complet est de dimension 4D.
+    > Correct : avec la paramétrisation à deux plans, un rayon est décrit par 4 coordonnées (s, t, u, v).
+- [x] Pour reconstruire une image plus sa carte de profondeur, seules 3 dimensions sont utiles : 2D image + 1D profondeur.
+    > Correct : c'est la dimension utile — image 2D + profondeur 1D = 3D. Il y a donc 1 dimension "en trop" dans le champ lumineux complet.
+- [ ] L'écart de dimensionnalité signifie que le champ lumineux est sous-échantillonné.
+    > Incorrect : il ne s'agit pas d'un problème d'échantillonnage, mais d'un constat que le champ lumineux 4D contient plus d'information que ce qui est strictement nécessaire pour image + profondeur.
+- [x] La lentille réseau exploite cet écart en ne capturant que le sous-ensemble de rayons correspondant à la variété 3D utile.
+    > Correct : c'est précisément l'idée de la lentille réseau — capturer intelligemment uniquement la partie utile du champ lumineux 4D.
+```
+
+```{quizdown}
+### Un chercheur dispose d'une seule image floue d'une scène et souhaite estimer la profondeur par ouverture codee. Il observe que deux échelles de PSF différentes produisent des images déconvoluées qui semblent toutes les deux naturelles. Quelle est l'explication la plus probable et la solution ?
+
+> Pense aux conditions dans lesquelles l'ambiguïté d'échelle persiste malgré l'ouverture codée.
+
+1. [ ] Le capteur est défectueux — il faut le remplacer.
+1. [ ] L'ouverture codée est mal fabriquée — son motif est trop régulier.
+1. [x] La région analysée est peu texturée ou homogène, ce qui rend tous les PSFs visuellement similaires dans cette zone — il faut soit utiliser une région plus texturée voisine, soit appliquer un prior plus fort.
+    > Correct : même avec une ouverture codée, les régions peu texturées produisent des observations qui sont compatibles avec plusieurs profondeurs. La discrimination est plus facile sur les zones riches en hautes fréquences spatiales.
+1. [ ] Le prior utilisé est trop fort — il écrase toutes les différences entre échelles.
+```
+
+```{quizdown}
+### Quelles affirmations sur la comparaison entre les trois methodes de capture du champ lumineux sont correctes ?
+
+> Compare reseau de cameras, camera unique deplacee et camera plenoptique selon plusieurs criteres.
+
+- [x] Le réseau de caméras (Stanford Array) offre la meilleure qualité mais est coûteux et encombrant.
+    > Correct : chaque caméra capture avec sa pleine résolution, mais l'installation est complexe et onéreuse.
+- [x] La caméra unique déplacée ne peut capturer que des scènes statiques.
+    > Correct : déplacer la caméra prend du temps — tout objet en mouvement dans la scène créera des incohérences entre les vues.
+- [ ] La caméra plénoptique offre la même résolution spatiale qu'une caméra conventionnelle équivalente.
+    > Incorrect : la résolution spatiale est réduite d'un facteur k (taille des microlentilles) car une partie des pixels est utilisée pour encoder l'information angulaire.
+- [x] La caméra plénoptique est la seule des trois à capturer le champ lumineux en une seule prise instantanée.
+    > Correct : c'est son avantage principal — elle permet de capturer des scènes dynamiques tout en préservant la capacité de refocalisation a posteriori.
+```
+
+```{quizdown}
+### Parmi les techniques d'inférence de profondeur à partir de piles focales, laquelle nécessite le moins de captures et comment ?
+
+> Compare les entrées requises par chaque technique : depth from defocus, depth from focus, confocal stereo, focal flow.
+
+1. [ ] La pile focale standard (depth from focus), car elle utilise toutes les images.
+1. [x] La profondeur depuis le défocus (depth from defocus), car elle ne nécessite que 2 images avec des niveaux de flou différents.
+    > Correct : avec seulement 2 images g1 = f * h_sigma1 et g2 = f * h_sigma2, on peut estimer le paramètre sigma local (taille du flou) et en déduire la profondeur. Toutes les autres techniques nécessitent plus de captures.
+1. [ ] Le stéréo confocal, car il combine focus et ouverture en une seule pile.
+1. [ ] Le flux focal (focal flow), car il travaille uniquement sur des paires successives.
+```

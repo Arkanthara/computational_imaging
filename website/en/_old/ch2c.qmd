@@ -1,0 +1,111 @@
+# Chapter 2C - Deepening and training
+
+## How to use this page
+
+- Use this page after the detail chapter.
+- Focus on biological mechanisms and trade-offs.
+- Revise with comparative tables and flash questions.
+
+---
+
+## 1) Panorama fonctionnel du HVS
+
+```{mermaid}
+flowchart LR
+    A["Optique oculaire"] --> B["Rétine"]
+    B --> C["Codage contraste"]
+    C --> D["LGN"]
+    D --> E["V1"]
+    E --> F["Voie dorsale"]
+    E --> G["Voie ventrale"]
+```
+
+- Bas niveau : transduction, local coding, multiplexing.
+- Haut niveau : invariance, recognition, interpretation.
+
+---
+
+##2) Biological trade-offs to memorize
+
+### Sensitivity vs spatial resolution
+
+- Sticks: high sensitivity, low resolution.
+- Cones: better resolution and color, less efficient in low light.
+
+### Temporal vs spatial resolution
+
+- Channel M: fast, movement, less detailed.
+- Channel P: more detailed, color, slower.
+
+### Central vs peripheral vision
+
+- Fovéa: maximum precision.
+- Peripheral: wide field and movement detection.
+
+---
+
+##3) Modern interpretation of retinal coding
+
+### Why center-surround?
+
+- Objects are defined by local contrast, not absolute luminance.
+- Difference coding reduces the necessary dynamics.
+
+### Algorithmic consequence
+
+- Oriented/derivative filters are naturally relevant in artificial vision.
+
+---
+
+##4) Focus cortex: from selectivity to invariance
+
+- Simple cells: orientation + position.
+- Complex cells: partial stability to translation.
+- Hierarchy: increasing specificity + increasing robustness.
+
+---
+
+##5) Critical application: VR/AR and visual comfort
+
+### Origin of the VAC conflict
+
+- Real world: vergence and accommodation coupled.
+- Stereo screen: vergence controlled by disparity, accommodation fixed on the screen.
+
+### Common symptoms
+
+- fatigue, discomfort, nausea, diplopia, decreased performance.
+
+### Technological avenues
+
+- light field near-eye;
+- holographic displays;
+- variable focal planes depending on the gaze.
+
+---
+
+##6) Flash Questions
+
+- Why are M cells not optimal for color?
+- Why is a low contrast image more difficult to perceive?
+- How does retinotopy help cortical organization?
+- Why can a VR system cause discomfort even with a clear image?
+
+---
+
+##7) Checklist before exam
+
+- I master the rod/cone roles.
+- I master M/P roles.
+- I can describe retina -> LGN -> V1 -> dorsal/ventral.
+- I can explain VAC in 3 precise sentences.
+- I can relate a biological principle to a computer model.
+
+---
+
+##8) Common Mistakes
+
+- Confusing binocular disparity and accommodation.
+- Say that the entire retina has the same resolution.
+- Assume purely feedforward processing in biology.
+- Forget that perception and comfort do not only depend on sharpness.

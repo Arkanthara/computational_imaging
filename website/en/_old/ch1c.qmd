@@ -1,0 +1,100 @@
+# Chapter 1C - Deepening and training
+
+## How to use this page
+
+- Read the detailed chapter first.
+- Use this page to consolidate concepts.
+- Work on mini-cases and active revision questions.
+
+---
+
+## 1) Quick Mind Map of Chapter 1
+
+```{mermaid}
+flowchart TD
+    A["Scène physique"] --> B["Encodage optique"]
+    B --> C["Mesure brute"]
+    C --> D["Modèle inverse"]
+    D --> E["Reconstruction"]
+    E --> F["Application"]
+    F --> G["Médical"]
+    F --> H["Astro"]
+    F --> I["Art"]
+    F --> J["Autonome"]
+    F --> K["NLOS"]
+```
+
+## 2) Important conceptual nuances
+
+### CI is not just "post-processing"
+
+- Classic post-processing: improve an already interpretable image.
+- CI: reconstruct information that is not directly visible in the raw measurement.
+
+### Co-design is central
+
+- Designing optics and algorithms separately is often suboptimal.
+- Designing acquisition + reconstruction together allows better noise-resolution-cost compromises.
+
+### The inverse problem is the mathematical heart
+
+- Measurement: partial observation, noisy, often not unique.
+- Inference: regularization and prior to choose a physically plausible solution.
+
+---
+
+## 3) Guided mini-cases
+
+### Case A - Night mode smartphone
+
+- Situation: dark scene, small sensor, high noise.
+- CI strategy:
+  - multi-image acquisition;
+  - alignment ;
+  - robust fusion;
+  - denoising + restoration of details.
+
+### Case B - MA-XRF in heritage
+
+- Situation: superimposed and invisible pigments in RGB.
+- CI strategy:
+  - spectral acquisition (x, y, energy);
+  - spectral deconvolution;
+  - elementary cards;
+  - physicochemical interpretation.
+
+### Case C - NLOS
+
+- Situation: hidden object out of line of sight.
+- CI strategy:
+  - pulsed illumination;
+  - temporal measurement of rebounds;
+  - inversion of light transport.
+
+---
+
+## 4) Active comprehension questions
+
+- Why can optical encoding make the reconstruction more stable?
+- In what case is better optics not sufficient without a suitable algorithm?
+- Why are CI applications often multi-data?
+- How does a prior help an ill-posed problem?
+
+---
+
+## 5) Revision checklist before exam
+
+- I know how to define CI in a precise sentence.
+- I know how to explain the difference with traditional imagery.
+- I can draw the string encoding -> measurement -> decoding.
+- I can cite at least 4 areas of application and their measurement logic.
+- I can explain the role of an inverse problem and a prior.
+
+---
+
+## 6) Common mistakes
+
+- Reduce CI to AI only.
+- Forget the physical constraints of acquisition.
+- Confuse visual improvement and reconstruction of information.
+- Ignore compromises (resolution, noise, light, cost, calculation).

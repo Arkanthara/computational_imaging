@@ -1,0 +1,1011 @@
+---
+title: "Computational medical imaging"
+---
+
+# General principles of medical imaging
+
+## Medical Imaging Pipeline
+
+Medical imaging transforms raw physiological/physical signals into clinically-useful images through a standardized workflow:
+
+1. **The patient/object** is subjected to an **imaging device** (CT scanner, MRI, ultrasound, etc.).
+2. The device produces **raw data** (projections, measurements, echoes, etc.).
+3. An **imaging algorithm** processes this raw data.
+4. A **reconstructed cross-sectional image** is produced for clinical use.
+
+💡 The algorithmic reconstruction step is at the heart of computational imaging: without it, the raw data is not directly readable.
+
+```{mermaid}
+flowchart LR
+    A[Patient / Object] --> B[Imaging Device]
+    B --> C[Raw Data]
+    C --> D[Reconstruction Algorithm]
+    D --> E[Reconstructed Image]
+```
+
+## Anatomical landmarks and coordinates (Medical Imaging Coordinates)
+
+### Anatomical directions
+
+To describe the position of a structure in the human body, we use standardized directions:
+
+- **Upper / Lower**: up / down
+- **Left / Right**: from the patient's point of view (not the observer)
+- **Anterior / Posterior**: forward / backward
+
+⚠️ Left and right are always defined from **the patient's perspective**, which can be confusing when reading images.
+
+### Anatomical Reference Planes
+
+Three anatomical planes describe any cross-section:
+
+- **Axial (transverse) plane:** Perpendicular to the body's long axis; separates superior from inferior.
+- **Sagittal plane:** Divides the body into left and right. *Sagitta* (Latin) = arrow.
+- **Coronal plane:** Divides the body into anterior from posterior. *Corona* (Latin) = crown.
+
+💡 These three planes are mutually perpendicular. Any medical image section can be characterized in relation to one of them.
+
+## Coordinate System
+
+### Three-letter notation
+
+To denote the 3D orientation of a volume, we use a **3-letter code** indicating the positive direction of each axis (x, y, z).
+
+The letter codes are:
+
+| Letter | Direction |
+|--------|-----------|
+| S | Superior |
+| I | Lower |
+| L | Left |
+| R | Right |
+| A | Previous |
+| P | Posterior |
+
+### Example: the “LSA” system
+
+The **LSA** system indicates that:
+
+- The **x** axis goes from left (L) to right
+- The **y** axis goes from upper (S) to lower
+- The **z** axis goes from anterior (A) to posterior
+
+This system is used in particular in **computed tomography (CT)**. Another common system is **RPI** (Right-Posterior-Inferior).
+
+💡 Knowing the coordinate system is essential to manipulate 3D volumes in medical image analysis software.
+
+## Invasive and non-invasive imaging (Invasive / Non-Invasive Imaging)
+
+### Invasive imaging
+
+Invasive imaging requires physical intervention on the patient:
+
+- **Intracorporeal optics**: endoscope (from the Greek *endo* = interior), which allows you to visualize the interior of the body.
+- **Open surgery**: direct access to the organs.
+- **Cameras for minimally invasive surgery:** e.g., "camera pills" swallowed to visualize the digestive tract, or cameras inserted into blood vessels.
+
+### Non-invasive imaging (medical imaging in the usual sense)
+
+Non-invasive imaging does not require surgery. Two important distinctions:
+
+- **Planar images vs cross-sectional images** (Planar projections vs cross-sectional images)
+- **Static images vs dynamic series** (Static images vs dynamic series / “films”)
+
+💡 The majority of medical imaging modalities in this course are non-invasive, a major advantage for patient safety.
+
+## Imaging Modalities
+
+Four large families of medical imaging modalities exist, each based on a different **information vector**:
+
+| Modality | Information vector | Type |
+|---------|----------------------|------|
+| **Ultrasound (Ultrasound)** | High frequency pressure waves | Reflection/backscatter imaging |
+| **Radiography (X-ray)** | Ionizing radiation | Transmission Imaging |
+| **Computed tomography (CT, C-arm)** | Ionizing radiation | Transmission Imaging |
+| **Nuclear imaging (SPECT, PET)** | Metabolic X-ray emission | Emission Imaging |
+| **MRI (MRI)** | Nuclear spin precession | Magnetic resonance imaging |
+
+🧠 To remember: the choice of a modality depends on what we are trying to image (bone, soft tissue, metabolic activity, etc.) and clinical constraints (availability, cost, radiation, acquisition time).
+
+## Anatomical vs functional imaging (Anatomic vs Functional Imaging)
+
+### Anatomical imaging
+
+Anatomical imagery represents the **physical structure** of organs, regardless of their activity.
+
+- Example: a **brain MRI** (MRI brain scan) shows the structures of the brain in both a living person and a deceased person.
+- The picture is similar in both cases.
+
+### Functional imaging
+
+Functional imaging captures **physiological activity** in real time.
+
+- Example: a **PET scan** (Positron Emission Tomography) reveals the metabolic activity of the brain. Bright areas correspond to strong brain activity.
+- On a deceased patient, a PET shows nothing (black image).
+
+💡 The often cited educational formula:
+> *"An MRI shows you that you have a brain. A PET shows you that you are using it."*
+
+## Types of data in medical imaging
+
+### Case 1D — Point measurement
+
+Some diagnostic tests produce a **single scalar value** or 1D signal:
+
+- Optical density / turbidity / fluorescence
+- ELISA tests (immunological assay)
+- Antibiotic susceptibility testing (measurement of inhibition diameter)
+- Illumina DNA Sequencing
+
+💡 In these cases, the image may be an **intermediate** format that does not need to be stored or analyzed separately because the analysis is built into the device.
+
+### 2D case — Grayscale radiography
+
+Conventional radiography produces a **2D matrix of pixels**:
+
+- Uses **X-rays** to image bone and soft tissue
+- **Advantages**: low radiation dose, inexpensive, fast, widely available
+- **Disadvantages**: limited dynamic range of tissue density
+- **Data format**: grayscale image (2D matrix of white intensities), generally in **DICOM** (Digital Imaging and Communications in Medicine) format
+- Image size depends on device and scale
+
+⚠️ DICOM is the universal standard for storing and transmitting medical images. It encapsulates both image data and patient metadata.
+
+### 2D case — Imaging of colored slides (Color Slide Imaging)
+
+Digital pathology uses **digitization of microscopic slides**:
+
+- Scanning and photography of microscopy slides (including staining and fluorescence)
+- **Advantages**: shareable reports, automated analyses, reproducibility
+- **Disadvantages**: very large files (> 10 GB), sensitivity to variations between scanners and preparations
+- **Data format**: 3-channel color image (3D tensor with R, G, B intensities) — TIF / JPEG2000 / DICOM formats
+
+### 2D case — Computed tomography slices (CT Slices)
+
+The CT scanner produces a **set of 2D sections**:
+
+- X-rays make 1,000 to 5,000 helical passes, processed to reconstruct a pseudo-3D of any organ system
+- **Advantages**: excellent capture of anatomical details, fast, superior to radiography for contrast (organs, vessels)
+- **Disadvantages**: higher radiation dose, relatively expensive
+- **Data format**: reconstructed grayscale image (3D matrix of white intensities); individual 2D sections in grayscale — DICOM format
+
+### 2D case — Fluoroscopy Video
+
+Fluoroscopy produces a **time series of 2D images**:
+
+- X-rays collected in **time series** with contrast medium to guide procedures or assess changes over time (angiography)
+- **Advantages**: real-time imaging, widely available, relatively inexpensive
+- **Disadvantages**: more expensive and higher radiation dose than x-ray alone
+- **Data format**: series of 2D grayscale sections (3D tensor) — DICOM format
+
+### 3D case — MRI (Magnetic Resonance Imaging)
+
+MRI produces **3D volumes**:
+
+- 3D images constructed from disturbances by **radiofrequency pulses** of body atoms (protons > neutrons) aligned by a **strong magnetic field** (with or without contrast). Can be optimized for blood flow (functional MRI)
+- **Advantages**: multiplanar/3D imaging without contrast, better representation of soft tissues than in CT, without radiation, painless
+- **Disadvantages**: expensive, noisy, requires a lot of space, sensitive to patient movement (may require sedation)
+- **Data format**: 3D grayscale tensor; 2D grayscale sections; 4D time series — DICOM format
+
+### 4D case — PET (Positron Emission Tomography)
+
+PET (PET) produces **4D data** (3D + time):
+
+- Time series of **positrons detected** from radiolabeled fluorodeoxyglucose or O-15 to detect tissues/lesions with high metabolic activity
+- **Advantages**: measurement of function, painless
+- **Disadvantages**: low anatomical resolution (combination with CT/MRI required), very expensive, radioactive tracer
+- **Data format**: 4D DICOM tensor (5D color PET-CT/MRI or 3D fixed time point). SPECT and fMRI also offer dynamic functional imaging options
+
+### 2D–4D case — Ultrasound (Ultrasound)
+
+Ultrasound is very versatile in terms of dimensionality:
+
+- Uses **sound waves** and echo pattern to image internal structures (soft tissues, organs, vessels)
+- **Advantages**: real-time imaging, radiation-free, portable
+- **Disadvantages**: depends on the operator, the patient's anatomy, more expensive than x-ray
+- **Many types**: elastography, Doppler, triplex, transvaginal, endoscopic
+- **Data format**: can be rendered in 2D, 2D, 3D or 4D slices — DICOM format
+
+## General overview of medical imaging data
+
+In summary, the different modalities correspond to different data structures:
+
+- **Point measurement (1D, single value)**: optical density, turbidity, fluorescence
+- **Planar/projective imaging (2D pixel matrix)**: X-ray
+- **Tomographic/multi-slice imaging (3D pixel tensor)**: CT — series of images representing sections through a volume
+- **3D volume (3D voxel tensor)**: MRI
+- **Dynamic series (4D voxel tensor)**: fMRI / PET-CT/MRI
+
+## Medical Imaging Challenges
+
+Medical imaging raises many specific challenges that distinguish it from traditional computer vision:
+
+- **Many modalities with very large image sizes** (but small datasets): data is sparse and large simultaneously.
+- **Non-standardized acquisition**: great variability between devices, configurations, protocols.
+- **Long-tail distribution of disease patterns**: some diseases are very rare, which makes learning difficult.
+- **Rare and noisy labels**: annotating medical images requires rare expertise and is therefore expensive.
+- **Heterogeneous and unbalanced samples**: the classes are not balanced (many more normal cases than pathological ones).
+- **Subjectivity in ground-truth**: even experts may disagree.
+- **Anonymization sometimes impossible**: for example, facial scanners can identify an individual.
+
+## Data quality and learning strategies
+
+### Unsupervised Learning
+
+In medical imaging, the absence of labels encourages the use of unsupervised approaches.
+
+One approach is to train a **GAN** (Generative Adversarial Network) to reconstruct the next healthy MRI slices from previous slices. During inference, we compare the reconstruction to the real section to detect anomalies (by calculating the **L₂ loss** per scan).
+
+💡 The key idea: if the reconstruction is bad, it is because the cut is pathological (because the model has only learned healthy images).
+
+### Supervised Learning
+
+When labels are available, three variants exist depending on the level of annotation:
+
+**Classic supervised learning**:
+- Training data with patch-level labels
+- A supervised model learns the direct image → label correspondence
+
+**Semi-supervised learning**:
+- Mixture of labeled and unlabeled data
+- We exploit unlabeled data to improve the representation
+
+**Multiple Instance Learning (MIL)**:
+- Training data with weak labels at the whole image level
+- The image is divided into **patches** (instances) grouped into **bags**
+- The bag label is positive if at least one instance is positive
+- Allows **local detection** (localization of the lesion) from global labels (image-level)
+
+💡 MIL is particularly useful in digital pathology where annotating each cell is impossible, but the overall label (cancerous/non-cancerous) is available.
+
+### Transfer Learning
+
+Transfer learning makes it possible to compensate for the lack of labeled data in a target domain:
+
+- **Training data from domain A** (e.g. CT lungs with annotations) + possibly unlabeled data from **domain B**
+- The model is adapted to perform on a **test image of domain B** (e.g. different modality)
+
+💡 Rather than learning from scratch, we transfer knowledge from a data-rich domain to a data-poor domain.
+
+---
+
+# Radiography
+
+## History of the discovery of X-rays
+
+Radiography is the oldest medical imaging modality. It began in **1895** with the discovery of X-rays by **Wilhelm Conrad Röntgen** (1845–1923), a German physicist, who died of intestinal cancer.
+
+Key historical facts:
+
+- The **first published**
+- Röntgen received the **first Nobel Prize in Physics in 1901** *"in recognition of the extraordinary services he rendered through the discovery of the remarkable rays which bear his name"*.
+- X-rays were quickly used for diagnostic purposes, **before** the dangers of ionizing radiation were discovered.
+
+⚠️ The history of radiography is an important reminder: clinical use often precedes full understanding of the risks associated with a technology.
+
+## X-ray Physics
+
+### Nature of X-rays
+
+X-rays are **electromagnetic waves** made up of **photons**.
+
+Their energy is given by:
+
+$$E = h \cdot f = \frac{hc}{\lambda}$$
+
+Or :
+
+- $h$ = Planck constant ($4{,}135 \times 10^{-15}$ eVs)
+- $c$ = speed of light ($300 \times 10^6$ m/s)
+- $\lambda$ = wavelength (of the order of $10^{-10}$ m)
+
+The energy of X-rays is therefore of the order of **keV** (kiloelectronvolt).
+
+💡 On the electromagnetic spectrum, X-rays are located between ultraviolet and gamma rays, with a much shorter wavelength than visible light, which gives them strong penetrating power.
+
+### Generation of X-rays
+
+In an X-ray tube, electrons are accelerated by a voltage (cathode to anode) and strike the anode, releasing their energy by **Bremsstrahlung** (braking radiation):
+
+- This produces a **continuous spectrum** of emission.
+- **Specific peaks** appear at the energies of the orbital layers (characteristic radiation) when the L electrons from the anode fall back into the K layer.
+
+**Important parameters of the X-ray tube**:
+
+- **Quantity of photons emitted**: 6 to 100 mA
+- **Energy of emitted photons**: determined by the cathode-anode voltage, $V_{\text{cathode-anode}}$ between 50 and 125 kV
+
+### Interactions of X-rays with matter
+
+Three types of interaction exist between X-ray photons and matter:
+
+#### Photoelectric Absorption
+
+A photon is **entirely absorbed** by an atom, which releases an electron in the same direction (ionization).
+
+```
+photon → atome → électron
+```
+
+**Effect in radiography**:
+- Dense tissue (bone) absorbs more photons → less energy reaches the detector → appears **white** in the image.
+- Sparse tissue (muscle, air) absorbs less → more energy reaches the detector → appears **dark**.
+- This effect **controls the formation and contrast of the image**.
+
+💡 This is the **most desirable** effect in radiography.
+
+#### Compton Scattering
+
+Only **partial absorption** of the photon energy. The photon changes direction (at reduced energy) and an electron is released.
+
+**Effect in radiography**:
+- The deflected photon can be detected on the detector → **non-linear** radius.
+- As linear rays are assumed, this is problematic.
+- Photons due to Compton scattering are perceived as **noise**.
+
+⚠️ Compton diffusion is **less desirable** in radiography.
+
+#### Pair Production
+
+When the photon energy is > 1.02 MeV, an electron-positron pair can form. The positron then annihilates with another electron, producing two photons traveling in opposite directions.
+
+**Effect**: used in **nuclear imaging** (PET), not in conventional radiography (only occurs with high energy X-rays).
+
+### Fate of produced electrons
+
+The released electrons quickly recombine with other atoms in the tissue. They **will not be detected** during image generation (on the X-ray detector).
+
+## X-ray Detectors
+
+### Ordinary photographic film
+
+- Very ineffective: only 1 to 2% of the radiation is stopped.
+- Requires an unnecessarily high x-ray dose for the patient.
+
+### Intensifying Screens
+
+Placed on both sides of the film:
+
+- **Phosphorus** transforms X-ray photons into light photons.
+- Two types of luminescence:
+  - **Fluorescence**: emission within $10^{-8}$ following excitation
+  - **Phosphorescence**: delayed and prolonged emission
+- Conversion efficiency: 5 to 20%
+
+### X-ray Image Intensifiers (XRIIs)
+
+- Entrance window in aluminum or titanium
+- X-ray photons are absorbed by phosphorus
+- The electrons are channeled towards the photocathode
+
+## Radiographic image quality (X-ray Image Quality)
+
+Image quality depends on many factors:
+
+- **Anode tip quality**: Finer tips give better focus.
+- **Patient Thickness**: Thicker patients cause more scattering, which degrades resolution.
+- **Light scattering properties of phosphor** (for phosphor-based systems).
+- **Film resolution** (for film-based systems).
+- **Sampling procedure** (for digital readout systems).
+- **Reading laser spot size** (for digital readout systems).
+
+**Typical resolution**:
+
+- Screen-film combinations: generally sufficient (5–15 lp/mm, 100–33 µm)
+- Storage phosphors: sufficient for most applications except digital mammography (2.5–5 lp/mm, 200–100 µm)
+- Direct radiography: necessary for digital mammography
+
+🧠 The required resolution indicates an image size ≥ 2000² pixels.
+
+## X-ray applications
+
+### Fluoroscopy (Fluoroscopy)
+
+Fluoroscopy is a radiographic technique providing **real-time images**:
+
+- The chain is: X-ray source → patient → fluorescent → recorder
+- Uses a radiological image intensifier (XRII):
+  - Output brightness approximately $10^5$ times brighter than input image
+  - Flux gain (amplification of the number of photons) ≈ 100
+  - Minification gain (from large input to small output) ≈ 100
+  - Quantum noise (low number of photons) limiting image quality
+- **Flat panel** detectors:
+  - Increased sensitivity to X-rays, reduced patient radiation dose
+  - Improved temporal resolution (less motion blur)
+  - Better contrast ratio compared to image intensifiers
+
+**C-arm**: portable fluoroscope that can move around the surgical table and produce digital images for the surgeon.
+
+- Uses a limited number of projections to reconstruct a 2D “cut” through the 3D volume
+- High density objects (e.g. needle) or density gradients can create disturbing **fan artifacts**
+
+### Angiography (Angiography)
+
+Blood has the same X-ray density as the surrounding tissue. To view it:
+
+- An **iodine-based contrast agent** is injected into the bloodstream and imaged as it travels.
+- Angiography is used to detect:
+  - **Aneurysms**: abnormal blood-filled swellings of an artery or vein, resulting from localized weakness of the vessel wall
+  - **Vascular leaks**
+  - **Thromboses**: blood clots forming an obstruction of the blood vessel
+- Images can be still images or video sequences (25–30 frames per second)
+- **Retinal angiography**: commonly performed to identify vessel narrowing in patients with diabetic retinopathy and macular degeneration
+
+### Digital Subtraction Angiography (DSA)
+
+DSA improves the visibility of blood vessels by eliminating surrounding structures:
+
+- A **mask image** of the same area is acquired **before** administering contrast.
+- An image intensifier (fluoroscopy) is used, producing images at a rate of 1 to 6 frames per second, by **subtracting in real time** all subsequent images from the original mask image.
+- Hence the term “digital subtraction angiography”.
+
+⚠️ DSA is used less and less, being replaced by CT angiography, which is less invasive and less stressful for the patient.
+
+---
+
+# Computed Tomography (CT)
+
+## CT History
+
+### The breakthrough
+
+The key to CT is the acquisition of **numerous projections around the object** allowing 3D reconstruction of the object (or a 2D cross-section).
+
+### Pioneers of CT reconstruction
+
+- **1917: Johann Radon** establishes the mathematical framework for tomography, today called the Radon transform.
+- **1963: Allan Cormack** publishes a mathematical analysis of the reconstruction of tomographic images, without knowledge of Radon's work.
+- **1972: Godfrey Hounsfield** develops the first CT system, without knowledge of the work of either Radon or Cormack, and develops his own reconstruction method.
+- **1979: Hounsfield and Cormack** receive the Nobel Prize in Physiology or Medicine.
+
+💡 Remarkable fact: three people independently developed the same mathematical framework, illustrating the convergence of ideas in the history of science.
+
+## Properties of CT
+
+CT uses **X-rays** with a particular geometry:
+
+- Instead of a 3D cone beam, the rays are collimated to travel in a **2D fan-beam**.
+- A **2D projection of a cross section** of the body is detected by a large number of detectors.
+- This operation is repeated for **many orientations** as the x-ray tube and detectors rotate around the patient.
+- An image of the cross section is then **calculated from the projections**.
+- The result is called **sinogram**: a line for each projection angle.
+
+## Tomographic Reconstruction
+
+### Mathematical principles
+
+The data collected are **integrals** at position $r$, through a projection at angle $\theta$:
+
+The **Radon transform** of a 2D object is:
+
+$$p_\theta(r, \theta) = \int_{-\infty}^{\infty} \mu(x,y) \, \delta(x\cos\theta + y\sin\theta - r) \, \mathrm{d}x \, \mathrm{d}y$$
+
+where $\mu(x,y)$ is the **attenuation function** of the object.
+
+### Projection-Slice Theorem
+
+This fundamental theorem establishes the link between projections and reconstruction:
+
+- An **infinite number of projections** ⇒ perfect reconstruction of the object
+- The **inverse Radon transform** ⇒ estimation of the object function $\mu(x,y)$
+- **Unstable** with regard to noisy data
+
+The stabilized and discretized version is the Filtered Back-Projection (FBP) algorithm.
+
+⚠️ In practice, we only have a finite number of projections, which introduces finite resolution artifacts.
+
+## Beam Geometry
+
+### Parallel configuration (Parallel-Beam)
+
+The parallel configuration is **not practical** because it requires a new source location for each ray.
+
+### Fan-Beam configuration
+
+**fan-beam** acquisition allows you to obtain a “single shot” image from a single source position.
+
+```{mermaid}
+flowchart LR
+    A[Source X] --> B{Faisceau en éventail}
+    B --> C[Détecteurs linéaires]
+```
+
+### Cone-Beam — 3D
+
+3D fan-beam extension: the beam illuminates a **2D detector** in a single rotation.
+
+## 3D imaging modalities in CT
+
+### Single-Slit CT
+
+The simplest configuration:
+
+- Gives a single image in axial plane.
+- In axial “step-and-shoot” mode: the table is moved between each cut.
+
+### Helical CT
+
+Very popular in clinical practice:
+
+- The x-ray tube and detectors rotate as the patient moves along the axis of rotation.
+- Rapid acquisition of 3D data.
+- Slightly lower z resolution than step-and-shoot mode.
+- Can tilt the detector ±30° relative to the axis of rotation.
+- **Table feed (TF)** = axial translation by rotation of the tube.
+- **Pitch** = TF / Δz
+
+### Multi-slice CT (Multislice CT)
+
+Multiple rows of detectors sense a **cone of data** X, giving a 2D projection of the 3D patient.
+
+- With 1 to 3 revolutions per second, **near real-time** 3D imaging is possible, with translation speeds of up to 20 cm per second.
+
+### Volume CT (Cone-Beam CT)
+
+Most direct 3D imaging modality:
+
+- Uses a 2D detector
+- Requires only **one rotation** around the patient to obtain all data (within cone angle limits)
+- The reconstruction formula can be derived similarly to the fan-beam equation (uses various types of weightings)
+- The popular equation is that of **Feldkamp-Davis-Kress**
+- The rear projection proceeds along the rays of the cone beam
+
+**Benefits** :
+- Potentially very fast (only one rotation)
+- Often used for 3D angiography
+
+**Disadvantages**:
+- End Sampling Issues
+- The reconstruction sampling rate varies along z
+
+## CT Image Quality
+
+### Acquisition
+
+- Focal point size, detector element size, table feed, interpolation method, sampling distance, etc.
+
+### Reconstruction
+
+- Reconstruction kernel (filter), interpolation process, voxel size.
+
+### Noise
+
+- **Quantum noise**: due to the statistical nature of X-rays.
+- Increasing power reduces noise but **increases dose**.
+- Image noise also depends on the reconstruction algorithm, filters and interpolation methods.
+- A larger Δz reduces noise but **lowers axial resolution**.
+
+### Contrast
+
+- Depends on several physical factors: X-ray spectrum, beam hardening, diffusion.
+
+## Advantages and disadvantages of CT
+
+### Advantages of CT
+
+- Eliminates **overlapping** of structures outside the region of interest (ROI).
+- Small differences in physical density can be distinguished.
+- CT data can be viewed in the axial, coronal, sagittal plane (reformatted multiplanar imaging).
+- CT angiography avoids invasive insertion of an arterial catheter.
+- CT colonoscopy is as useful as barium enema for detecting tumors, with a potentially lower radiation dose.
+
+### Disadvantages of CT
+
+- **Moderate to high radiation** diagnostic technique:
+  - Improved radiation effectiveness → lower doses
+  - High resolution imaging → higher doses
+  - More complex scanning techniques → higher doses
+- Increased availability + increasing number of indications → strong increase in popularity.
+- CT accounts for 7% of all radiological examinations (UK) but contributes to **47% of the collective medical dose** of X-rays.
+- Overall increase in the total amount of medical radiation used, despite reductions in other areas.
+
+### Disadvantages of contrast agents
+
+- Some patients may have **severe allergic reactions**.
+- The contrast agent can cause **kidney damage (nephropathy)**:
+  - If renal function is normal, the risk of contrast nephropathy is negligible.
+  - Increased risk in patients with pre-existing renal insufficiency, diabetes, or reduced intravascular volume.
+  - For moderate renal impairment, use MRI rather than CT.
+  - Patients on dialysis do not require special precautions: with little kidney function remaining, dialysis will remove the contrast agent.
+
+---
+
+# Nuclear Imaging
+
+## General principle
+
+Nuclear imaging brings together two main modalities:
+
+- **SPECT**: Single Photon Emission Computed Tomography
+- **PET**: Positron Emission Tomography
+
+**Central idea**:
+
+1. Inject (into the bloodstream) a **tracer molecule** labeled with a radionuclide.
+2. There are **specific** tracer molecules for specific targets.
+   - Example: Deprenyl triggers the production of dopamine in the human brain.
+3. The molecule travels to the target anatomical site with metabolic activity (e.g. an area of ​​the brain).
+4. The tracer generates X-rays which can be detected.
+
+💡 Just like fMRI, it is a metabolic imaging modality, but with a **much higher signal-to-noise ratio (SNR)** (several orders of magnitude higher).
+
+##SPECT
+
+### Operating principle
+
+SPECT is mainly used to study **blood flow**, by injection of a radiopharmaceutical into the bloodstream (or by ingestion/inhalation).
+
+- The image obtained by a gamma camera is a **2D view of the 3D distribution** of a radionuclide.
+- SPECT imaging is performed using a **gamma camera** to acquire multiple 2D images.
+- The tomographic reconstruction produces a **3D dataset**.
+- From this dataset, thin sections can be displayed along any chosen axis, similar to MRI, CT, PET.
+
+### SPECT cameras
+
+- SPECT images are collected by a **pinhole gamma camera** rotating around the patient.
+- Projections are acquired at defined points during rotation, typically every 3 to 6 degrees.
+- A complete rotation of **360°** gives optimal reconstruction:
+  - 15 to 20 seconds per projection
+  - Total scan time: 15 to 20 minutes
+- **Multi-head** gamma cameras allow faster acquisition:
+  - Double-headed camera: 2 simultaneous projections
+  - Triple-headed cameras with 120° spacing
+
+### SPECT reconstruction
+
+- **Low resolution** images (64×64 or 128×128 pixels)
+- Pixel sizes: 3–6 mm
+- Reconstructed images compared to planar images: lower resolution, increased noise, reconstruction artifacts
+- Uneven distribution of nuclides can also cause artifacts
+- **Mitigation** → underestimation of depth activity
+  - Modern SPECT equipment is integrated with a CT scanner:
+    - CT images are a tissue attenuation map
+    - Integrated into SPECT reconstruction to correct attenuation
+  - Co-registered CT images provide anatomical information
+
+## PET (Positron Emission Tomography)
+
+### Operating principle
+
+PET is based on the physics of positron annihilation:
+
+1. A sugar (**fluorodeoxyglucose, FDG**) containing radioactive **¹⁸F** is injected.
+2. During decay, the isotope **emits a positron**.
+3. The positron **annihilates with an electron** ⇒ pair of γ photons moving in **opposite directions**.
+4. Gamma photons are **detected by the scanning device**.
+5. Only the **simultaneous pair** of photons is used for image reconstruction.
+
+**Clinical applications**:
+
+- **Cardiology**: diseases of the heart and blood vessels
+- **Oncology**: tumors (cancer)
+- **Neurology**: the nervous system
+
+### Differences between SPECT and PET
+
+| Criterion | SPECT | PET |
+|---------|-------|-----|
+| Photon type | Single photon (collimator required) | Pair of gamma photons at 180° |
+| Resolution | Low (6–8mm) | Better (2–3 mm) |
+| Tracer decay | Slow (possible lasting effects) | Fast |
+| Production of the tracer | Not necessarily on site | Nearby cyclotrons required |
+| Cost | Cheaper | More expensive |
+| SNR vs. fMRI | — | Much better |
+
+**Iterative methods** advantageous in these cases:
+
+- Limited number of screenings
+- Irregularly spaced projections and varying angles
+- Non-rectilinear ray paths (e.g. refraction in ultrasound imaging)
+- Corrective measures during reconstruction (e.g. metal artifacts)
+- Presence of statistical noise (Poisson) and diffusion (mainly in functional imaging: SPECT, PET)
+
+---
+
+# Magnetic Resonance Imaging (MRI)
+
+## History of MRI
+
+- **1946: Felix Bloch** (Stanford) and **Edward Purcell** (Harvard) demonstrate **nuclear magnetic resonance (NMR)**.
+- **1973: Paul Lauterbur** (Stony Brook University) publishes the **first MRI image** in Nature.
+  - He received the Nobel Prize in Physiology or Medicine in 2003.
+- **Late 1970s**: First human MRI images designed.
+- **Early 1980s**: First commercial MRI systems available.
+- **1993: Functional MRI** demonstrated in humans.
+
+## MRI concept
+
+MRI measures the **effects of the magnetic properties of tissues**:
+
+- These effects are **tissue specific**
+- Also specific to **blood perfusion and oxygenation** (functional MRI)
+
+MRI is very versatile (but also more expensive than CT).
+
+💡 Depending on the type of weighting chosen (T1, T2, proton density), the same tissue will appear differently, which offers unparalleled diagnostic richness.
+
+##Physical basics of MRI
+
+### Proton alignment
+
+The nuclei of hydrogen atoms (protons) align either **parallel** or **antiparallel** to a strong external static magnetic field $\vec{B}_0$.
+
+### Radio frequency pulse
+
+An RF wave at **resonance frequency** $\nu$ is transmitted in a plane perpendicular to the magnetic field:
+
+$$\nu = \gamma |B_0|$$
+
+where $\gamma$ is the **gyromagnetic ratio**. For hydrogen: $\gamma = 42{,}58$ MHz / T.
+
+This pulse puts the nuclei into a **non-aligned high energy state**.
+
+### Precession and signal
+
+When protons return to alignment, they **precurse** (oscillate). This precession **generates a new RF signal** picked up by an antenna.
+
+## MRI image formation
+
+To excite only protons in selected parts of the body:
+
+- **gradients** are added ⇒ spatial variation of $\vec{B}_0(\vec{r})$ ⇒ only the selected parts resonate at the transmission RF frequency $\nu$.
+- Tomographic methods (rear projection, etc.) make it possible to generate 2D images.
+- Stronger gradients allow for faster imaging or higher resolution.
+- Faster switching of gradients allows for faster scanning (limited by safety concerns regarding nerve stimulation).
+- Typical resolution: **~1 mm³**
+
+## How MRI works: T1 and T2 processes
+
+### T1 process (Spin-lattice relaxation)
+
+At equilibrium:
+
+- The **magnetization vector** $\vec{M}$ of the protons is aligned with $\vec{B}_0$: equilibrium magnetization $\vec{M}_0$
+- $M_z$: longitudinal magnetization
+- No transverse magnetization $M_x$ or $M_y$
+
+The **time constant T₁** describes how $M_z$ returns to equilibrium (*spin-lattice relaxation time*):
+
+$$M_z = M_0\left(1 - e^{-t/T_1}\right)$$
+
+$T_1$: time to reduce the difference between the longitudinal magnetization $M_z$ and its equilibrium value $M_0$ by a factor $e$.
+
+### Process T2 (Spin-spin relaxation)
+
+$T_2$ describes the **return to equilibrium of the transverse magnetization** $M_{xy}$ (*spin-spin relaxation time*):
+
+$$M_{xy} = M_{xy0} \, e^{-t/T_2}$$
+
+- Processes $T_2$ and $T_1$ occur **simultaneously**.
+- **Always: $T_2 \leq T_1$**
+- When $t \to \infty$: ​​$M_{xy} \to 0$ and $M_z \to M_0$
+
+💡 T1 and T2 are intrinsic properties of tissues, different depending on the type of tissue. It is this difference that allows contrast in MRI.
+
+## MRI modes
+
+### Standard MRI
+
+Includes several different **pulse sequences** (time series of different RF pulses to manipulate $M$).
+
+### Echo-Planar Imaging (Echo-Planar Imaging — EPI)
+
+Each RF excitation: followed by a train of gradients with different spatial encodings ⇒ fast data collection ⇒ fewer motion artifacts.
+
+### Magnetic resonance spectroscopy (MR Spectroscopy)
+
+Image of nuclei other than H: for example P (phosphorus), Na (sodium), F (fluorine).
+
+### Functional MRI (fMRI)
+
+Measures **changes in blood flow** in the brain. Hemoglobin is diamagnetic when oxygenated, paramagnetic when deoxygenated ⇒ the magnetic resonance signal of blood is different depending on the level of oxygenation.
+
+## MRI applications
+
+### Magnetic resonance angiography (MR Angiography — MRA)
+
+MRA is used to image blood vessels to assess:
+
+- **Stenosis**: abnormal narrowing
+- **Aneurysms**: localized, balloon-shaped bulge filled with blood (most often in the arteries)
+
+Techniques used:
+
+- **Injection of paramagnetic contrast agents**
+- **Flow-related enhancement**: stationary tissue has been in the imaging plane for a long time ⇒ not completely “relaxed” before the next RF excitation ⇒ responds differently from “fresh” blood that has just entered the imaging plane
+
+### Magnetic resonance spectroscopy (MRS)
+
+- The MRI shows the **location** of a tumor.
+- MR spectroscopy indicates how **aggressive (malignant)** it is.
+- MRS can be tuned to different chemical nuclei: H (hydrogen), P (phosphorus), Na (sodium), F (fluorine).
+- The MRS is used to study:
+  - Cancer (brain/breast/prostate)
+  - Epilepsy, Parkinson's disease, Huntington's disease (a genetic neurodegenerative disorder)
+
+### Functional MRI (fMRI)
+
+- Changes in brain activity are linked to **changes in blood flow and blood oxygenation**.
+- Active nerve cells **consume oxygen** carried by hemoglobin.
+- Hemoglobin is **diamagnetic** when oxygenated, **paramagnetic** when deoxygenated.
+- ⇒ The blood MR signal depends on the oxygenation level ⇒ **BOLD contrast** (Blood-Oxygen-Level Dependent)
+
+### Interventional MRI
+
+MRI scanner used to simultaneously guide a minimally invasive procedure:
+
+- Strong magnetic radio frequency field present
+- Quasi-static fields generated ⇒ **non-magnetic** environment, instruments and tools required
+- An open magnet gives the surgeon better access to the patient
+- ⇒ Often involves lower field magnets (~0.2 T) ⇒ Reduced sensitivity
+
+### Current Density Imaging (CDI)
+
+Used to map **electrical current pathways** through tissue:
+
+1. An external current is applied during the MRI session.
+2. Electric currents generate local magnetic fields.
+3. These magnetic fields affect the **phase of the magnetic dipoles** during an imaging sequence.
+4. CDI uses phase information from the MRI to reconstruct the **current densities** inside the object.
+
+## MRI vs CT (Comparison)
+
+| Criterion | CT | MRI |
+|---------|----|----|
+| Contrast | X-ray attenuation only | Numerous properties (T1, T2, density, flow, etc.) |
+| Availability | More available, faster, cheaper | More expensive, less available |
+| Tumor detection | Less good | Generally higher |
+| Repeated exams | Exposure to ionizing radiation | Preferable (without radiation) |
+| Bone tissue/calcifications | Excellent bone/soft tissue differentiation | Less suitable for calcifications |
+| Soft tissues | — | Better differentiation |
+| Contrast agents | Contain atoms with high atomic numbers (iodine, barium) | Para/diamagnetic properties |
+
+---
+
+# Ultrasound Imaging
+
+## History of ultrasound imaging
+
+### Milestone applications
+
+- Publication of *The Theory of Sound* (Lord Rayleigh, 1877).
+- Discovery of the **piezoelectric effect** (Pierre Curie, 1880): allowed the generation and detection of ultrasonic waves.
+- First practical use during **First World War** for detecting submarines.
+- Followed by:
+  - Non-destructive testing of metals (airplane wings, bridges)
+  - Seismology
+- **First clinical use** to locate brain tumors (Karl Dussik, Friederich Dussik, 1942).
+- First grayscale images produced in **1950**, in real time by a Siemens device in **1965**.
+- Electronic beam steering with phased-array technology in 1968.
+- Popular technique since the mid-70s.
+- Substantial improvements since the mid-1990s.
+
+## Properties of ultrasound
+
+### Benefits
+
+- Non-invasive
+- Inexpensive
+- Portable
+- Excellent temporal resolution
+
+### Disadvantages
+
+- Noisy (significant speckle noise)
+- Low spatial resolution
+
+### Clinical applications
+
+- **Ultrasound** (echo ultrasound): cardiac, fetal monitoring
+- **Doppler ultrasound**: blood flow
+- **Ultrasound CT**: mammography
+
+## Physical properties of ultrasonic waves
+
+Ultrasound waves are **longitudinal compression waves**:
+
+- The particles never travel far.
+- The transducer emits a sound pulse that **compresses** the material.
+- **Elasticity** limits compression and expands it into **rarefaction**.
+- Rarefaction returns to compression.
+- This continues until the **damping** gradually stops this oscillation.
+
+**Frequencies**:
+
+- Ultrasound waves in medicine: **> 2.5 MHz**
+- Humans can hear between 20 Hz and 20 kHz (animals can hear more)
+
+💡 The term “ultra” means beyond — these waves are beyond the human audible frequency.
+
+## Ultrasound acquisition modes
+
+### Mode A (Amplitude)
+
+Mode A is the **simplest mode**, now obsolete:
+
+- Principle: clap your hands and listen to the echo.
+
+$$\text{distance} = \frac{\text{temps écoulé} \times \text{vitesse du son}}{2}$$
+
+- Time and amplitude are almost equivalent since the speed of sound is approximately constant in tissue.
+
+**Problem**: We don't know where the sound bounced from (direction unknown, shape of object unknown). We only get one line of information.
+
+### M Mode (Motion)
+
+M-mode is a **repeated A-mode measurement**:
+
+- Very high sampling rate: up to **1000 pulses per second**
+- Useful for evaluating rates and movements
+- Still used extensively in **cardiac and fetal imaging**
+
+💡 M mode allows you to visualize the movement of a structure (e.g. heart wall) over time on a single axis.
+
+### Mode B (Brightness)
+
+Mode B is the standard 2D imaging mode:
+
+- **B** stands for Brightness.
+- An image is obtained by **translating or tilting** the transducer.
+- We superimpose several A-mode lines with different orientations to form a 2D image.
+- Applications: fetal imaging, cardiac imaging (normal, continuous).
+
+### Doppler Effect
+
+The Doppler effect is used to measure the **speed of blood flow**:
+
+- When a sound source comes closer, the waves are **compressed** (higher frequency).
+- When it moves away, the waves are **stretched** (lower frequency).
+
+#### Continuous Wave (CW) Doppler mode
+
+Compare the frequency of the transmitted wave $f_T$ with the frequency of the received wave $f_R$:
+
+The **Doppler frequency** is:
+
+$$f_D = f_R - f_T = \frac{-2v_a}{c + v_a} f_T \approx \frac{-2|v_a|\cos\theta}{c} f_T$$
+
+- The Doppler signal can be made **audible**, where height is analogous to speed.
+
+#### Pulsed Wave Doppler Mode (Pulsed Wave — PW)
+
+Does **not** use the Doppler principle in the strict sense:
+
+- Instead, the received signal is assumed to be a **scaled and delayed replica** of the transmitted one:
+
+$$s(t) = A\sin(2\pi f_T (t - \Delta t))$$
+
+- $\Delta t$ is the **time between transmission and reception** of the pulse, which depends on the distance between the transducer and the broadcaster.
+- A single sample of each of the received pulses is acquired, at $t_R$:
+
+$$s(t_R) = A\sin(2\pi f_T (t_R - \Delta t))$$
+
+- If the diffuser moves with speed $v_a$, the distance increases with $v_a T_{\text{PRF}}$ ($T_{\text{PRF}}$: pulse repetition period) → this increases the time $\Delta t$.
+
+## Applications of ultrasound imaging
+
+Ultrasound imaging covers a wide spectrum of applications:
+
+- **3D ultrasound**: 3-dimensional fetal imaging, allowing you to visualize the face of the fetus.
+- **Intravascular Ultrasound (IVUS)**: a miniaturized transducer is introduced into a blood vessel to image its wall from the inside.
+- **Doppler ultrasound**: visualization of blood flow (in red for flow towards the transducer, in blue for flow away from it).
+- Cardiac, obstetrical, abdominal, vascular applications…
+
+💡 Ultrasound is the only medical imaging modality commonly used for routine **pregnancy monitoring**, thanks to its safety (no radiation) and its portability.
+
+---
+
+# References
+
+This course draws on the following resources:
+
+- Computational Photography (Levoy, Adams, Pulli, Stanford)
+- Computational Photography SIGGRAPH Course (Raskar & Tumblin)
+- Digital and Computational Photography (Durand & Freeman, MIT)
+- Computational Photography (Efros, CMU)
+- Computational Photography (Gkioulekas, CMU)
+- Computational Imaging (Wetzstein, Stanford)
+- Computational Photography (Fergus, NYU)
+- Computational Imaging (Dragotti, Imperial College)
+- Computer Vision (Seitz & Szeliski, UWashington)
+- Introduction to Visual Computing and Visual Modeling (Kutulakos, UToronto)

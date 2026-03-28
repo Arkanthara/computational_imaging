@@ -1,0 +1,770 @@
+---
+title: "Introduction to computational imaging"
+---
+
+## Course presentation
+
+### Educational objectives
+
+This course, taught by Taras Holotyak (University of Geneva, Department of Computer Science), aims to provide both a **solid introduction** to the field of Computational Imaging and directly applicable **practical skills**.
+
+The three main axes of the course are:
+
+- The **fundamentals** of computational imaging
+- A **state-of-the-art overview** of modern systems
+- An **in-depth analysis** of concrete applications
+
+### Assessment
+
+The final score is based on three components:
+
+| Component | Weight |
+|---|---|
+| Theoretical part (2 continuous tests or oral exam) | 40% |
+| Practical work (TPs) | 25% |
+| Mini-project (report + presentation) | 35% |
+
+::: {.callout-warning title="Validation condition"}
+Each component (theory, practical work, mini-project) must obtain a **positive grade ≥ 4.0/6.0**. An insufficient grade in one of them blocks validation, even if the overall average is satisfactory.
+:::
+
+### Recommended works
+
+The course is based on a set of complementary references, covering different facets of the field:
+
+- *Foundations of Computational Imaging* – Charles A. Bouman (SIAM)
+- *Computational Imaging* – Bhandari, Kadambi, Raskar (MIT Press)
+- *Computational Photography* – Ramesh Raskar & Jack Tumblin
+- *Computational Optical Imaging* – Liu, Zhou, Shütian (Springer)
+- *Computational Methods for Inverse Problems in Imaging* (Springer)
+- *Fourier Optics and Computational Imaging* – Kedar Khare (Wiley)
+- *Medical Imaging Technology* – Lai, Octorina Dewi (Springer)
+- *Biomedical Imaging and Computational Modeling in Biomechanics* (Springer)
+- *Computational Imaging Through Atmospheric Turbulence* – Chan & Nichols
+- *Computational Optical Phase Imaging* – Liu, Wang, Veetil (Springer)
+- *Computational Imaging VIII* – Bouman (SPIE)
+
+---
+
+## Introduction to Computational Imaging
+
+### Why “imagery”?
+
+#### Vision as the dominant sensory channel
+
+Human beings are fundamentally a **visual animal**. Of all the senses, sight is by far the most used to acquire information about the world.
+
+It is estimated that:
+
+- Approximately **75%** of the information perceived by humans passes through the **visual channel** (sight)
+- **Hearing** only represents 13%
+- **touch** 6%, **taste** and **smell** approximately 3% each
+
+::: {.callout-tip title="Intuition"}
+Designing systems that “see” the world effectively is therefore of paramount importance for interacting with the environment, whether robots, medical cameras or telescopes.
+:::
+
+This observation explains why **imaging** — that is to say the formation, acquisition and interpretation of images — occupies a central place in computer science, physics and engineering.
+
+### Why “computational”?
+
+#### Formal definition
+
+::: {.callout-note title="To remember"}
+**Computational Imaging** is the process of *indirectly* forming images from raw measurements, using **algorithms** that require a significant amount of computation.
+
+Unlike traditional imaging, a computational imaging system involves **tight integration** between the acquisition system (the sensor) and the digital processing (the algorithm) to produce the desired images.
+:::
+
+#### Fundamental difference with traditional imagery
+
+The essential distinction lies in the **role of calculation**:
+
+**Traditional Imaging**
+
+1. Optics capture an image that directly resembles the real scene
+2. The calculation **improves** this already recognizable image (deblurring, contrast improvement, etc.)
+
+*Pipeline:* Real world → Optical → Captured image → Computing → Enhanced image
+
+**Computational Imaging**
+
+1. The optics **encode** the scene in an intermediate representation (often not directly recognizable)
+2. The calculation **decodes** this representation to produce one or more final images
+
+*Pipeline:* Real world → Generalized optics → Coded representation → Generalized computation → Final images
+
+::: {.callout-tip title="Intuition"}
+In traditional imaging, the camera already does “all the optical work” and the computer does the fine-tuning. In computational imaging, the sensor and the algorithm are **co-designed**: one cannot work without the other.
+:::
+
+#### The fundamental objective
+
+The primary goal of computational imaging is to **reconstruct human-recognizable images from measured data**, relying on advanced algorithms. In traditional imaging, we rather seek to **process already recognizable images** to improve their quality or extract information from them.
+
+### What is computational imaging?
+
+#### A revolution at the interface of physical and digital
+
+The current revolution in capture techniques offers the possibility of accessing the physical world in **unprecedented** ways. But this revolution can only be achieved through **skillful interaction between the physical world and the digital world**.
+
+Computational imaging advocates that, to develop effective imaging systems, it is necessary to move beyond the traditional decoupled pipeline — where sensor physics, image processing and the final application are considered separately.
+
+Instead, we need to rethink imaging as an **integrated model of acquisition and inference**.
+
+#### The three pillars of computational imaging
+
+The domain is located at the intersection of three fields:
+
+- **Mathematics**: signal processing, optimization, machine learning
+- **Physics**: geometric optics, wave optics, electromagnetism
+- **Calculation**: reconstruction algorithms, artificial intelligence
+
+::: {.callout-note title="To remember"}
+Computational imaging belongs to both the **physical/analog world** (how light interacts with the sensor) and the **digital world** (how raw data is processed). This duality is its distinctive mark.
+:::
+
+#### Optical layers
+
+Optics can be modeled at different levels of detail:
+
+- **Geometric Optics**: light is treated like rays. This is the basic model for classic cameras and lenses. Unit: radiance (spectral). Properties: wavelength, polarization, direction.
+- **Wave Optics**: light is a wave. Diffraction and interference phenomena are taken into account. Necessary for systems with high resolution or operating near the diffraction limit.
+- **Electromagnetism (E&M)**: the most general model. Applicable in extreme cases (nanometer, terahertz, etc.).
+
+::: {.callout-tip title="Intuition"}
+For a standard smartphone camera, geometric optics are sufficient. For a super-resolution microscope or a hologram, wave optics is needed. For interactions on the atomic scale, complete electromagnetism is required.
+:::
+
+#### The components of a computational imaging system
+
+A complete system combines:
+
+1. **Optics** (lenses, coded masks, mirrors, filters)
+2. **The sensor** (CCD, CMOS, specialized detectors)
+3. **Calculation** (reconstruction algorithms, neural network)
+
+**Two related approaches:**
+
+- **Computational imaging**: optics + sensor + calculation → final image(s)
+- **Computational Displays**: calculation + optics + electronics → stimulation of the human visual system (the human is in the loop)
+
+#### Two fundamental steps
+
+Any computational imaging system is broken down into:
+
+1. **Optical Encoding**: encode scene information optically using new optics, new sensors, new light sources
+2. **Computational Recovery**: decode information using new algorithms
+
+### Biological example: the heart of computational imaging
+
+Nature invented computational imaging long before humanity. The **mantis shrimp** (*Odontodactylus scyllarus*) has one of the most sophisticated visual systems in the animal kingdom.
+
+Its compound eyes contain up to **16 types of photoreceptors** (compared to 3 for humans), capable of perceiving the UV spectrum, circularly polarized light, and many other properties of light. This system “encodes” a phenomenal amount of optical information, and the animal’s brain “decodes” it to navigate, hunt and communicate.
+
+::: {.callout-tip title="Intuition"}
+The mantis shrimp's visual system is a perfect example of integration between sensor (the eyes) and computation (the brain): neither is useful alone. This is exactly the principle of computational imaging.
+:::
+
+### Modern areas of application
+
+Computational imaging affects many sectors:
+
+- **Digital photography** (smartphones, reflex cameras)
+- **Medical imaging** (MRI, scanner, 3D ultrasound, PET)
+- **Autonomous vehicles** (LIDAR, cameras, radars)
+- **Astronomy** (radio telescopes, space telescopes)
+- **Microscopy** (nano-imaging, quantum imaging)
+- **Industry** (inspection, quality control)
+- **Virtual and augmented reality** (holographic displays)
+- **Artistic analysis** (X-ray fluorescence, multispectral imaging)
+
+---
+
+## Motivating examples in computational imaging
+
+### Scale: from macro to micro
+
+Computational imaging operates on an **extraordinary range of scales**, from cosmic structures to subatomic phenomena:
+
+| Object | Scale (meters) |
+|---|---|
+| Observable Universe | $10^{26}$ |
+| Galaxy | $10^{19}$ |
+| Solar system | $10^{13}$ |
+| Earth | $10^7$ |
+| Human | $10^0$ |
+| Cell | $10^{-5}$ |
+| Molecule | $10^{-9}$ |
+| Atom | $10^{-12}$ |
+| Atomic nucleus | $10^{-14}$ |
+| Planck scale | $10^{-35}$ |
+
+This table illustrates the fundamental challenge: imaging systems must be adapted to each scale, because the physical principles (and therefore the algorithms) change radically from one order of magnitude to the next.
+
+### Microscopy at the nanoscale
+
+#### Spin imaging by non-contact STM and AFM
+
+Spin detection on the surface of materials with resolution at the **atomic scale** was achieved using two compatible methods:
+
+**Spin-Polarized Scanning Tunneling Microscopy (SP-STM)**
+
+- Locally detects a spin component of the tunnel current
+- Allows you to visualize magnetic structures at the atomic scale
+- The measured current depends on the relative spin orientation of the tip and the sample
+
+**Non-Contact Atom Force Microscopy (nc-AFM)**
+
+- Detects local forces linked to magnetic exchange
+- Sensitive to interactions between tip and surface spins
+- Complementary to SP-STM for complete characterization
+
+::: {.callout-tip title="Intuition"}
+These techniques literally allow you to “see” how the spins are oriented on a surface, atom by atom. It is not an image in the photographic sense — it is a reconstruction from extremely weak electrical or mechanical signals.
+:::
+
+#### Nanoscale magnetic resonance imaging
+
+**Magnetic Resonance Force Microscopy (MRFM)**
+
+MRFM uses **mechanical force sensors** to detect the weak magnetic signal from **individual nuclear spins**.
+
+Three complementary approaches for nano-MRI:
+
+1. **MRFM**: a nano-mechanical resonator associated with a nano-magnet generates a force on the spins of the sample. A microstrip acts as an antenna for the NMR spin inversion radio frequency pulses. Resolution range: ~1 nm, range ~100 nm.
+
+2. **NV-NanoMRI** (Nitrogen Vacancy NanoMRI): an electronic spin defect in a diamond, located a few nanometers from the surface, serves as a magnetic sensor. Resolution ~0.1 nm, range ~10 nm.
+
+3. **ESR-STM** (Electron Spin Resonance – Scanning Tunneling Microscopy): a tunneling current between the scanning tip and the conductive substrate constitutes the signal. Resolution < 0.1 nm, range ~1 nm.
+
+::: {.callout-note title="To remember"}
+These three techniques cover different resolution and range ranges, allowing magnetic characterization from the 100 nm scale to the atomic scale. In each case, the final image is **algorithmically reconstructed** from indirect signals — this is computational imaging par excellence.
+:::
+
+#### Coherent X-ray magnetic imaging
+
+Coherent X-ray Magnetic Imaging is a lensless approach to magnetic microscopy.
+
+Its strong points:
+
+- Simultaneous access to **phase contrast** and **absorption** specific to chemical elements
+- Spatial resolution limited by wavelength: **5 nm in 2D and 10 nm in 3D**
+
+This technique has undergone remarkable development since 2004:
+
+- 2004: Magnetic Fourier holography (Magnetic FTH)
+- 2011: Magnetic Ptychography
+- 2015: Monitoring the dynamics of skyrmions
+- 2017: Mapping of spin textures in 3D
+- 2021: Filming of spin dynamics on the femtosecond scale
+- 2023: Capturing magnetic fluctuations
+- Future: Imaging at natural scales, widespread application
+
+::: {.callout-tip title="Intuition"}
+A skyrmion is a swirling magnetic configuration, on the order of a few nanometers. Filming it in real time on the femtosecond scale ($10^{-15}$ s) is a feat that is only possible thanks to the integration between a coherent X-ray source and advanced reconstruction algorithms.
+:::
+
+### Applications in astrophysics
+
+#### The big questions of the Universe
+
+Computational astrophysics seeks to answer some of the deepest questions:
+
+- What is **dark matter** and **dark energy**?
+- How were the first stars and galaxies formed?
+- Is the Universe alone home to life (**SETI**)?
+- How do gravitational waves confirm **general relativity**?
+- What is the large-scale structure of the Universe (filaments, cosmic voids)?
+
+The standard cosmological model places the Big Bang **13.7 billion years ago**. The first stars appeared ~400 million years later. Since then, the Universe has been in accelerated expansion under the effect of dark energy.
+
+#### SKA: Square Kilometer Array
+
+The **Square Kilometer Array (SKA)** is the largest radio telescope ever built, spread over two sites:
+
+**SKA1-Low** (Western Australia, Murchison)
+
+- 131,072 low frequency antennas (512 stations × 256 dipoles)
+- Frequencies: 50–350 MHz
+- Baselines: 65 km (11" resolution at 110 MHz)
+
+**SKA1-Mid** (Karoo, South Africa)
+
+- 197 parabolic antennas (133 × 15 m + 64 × 13.5 m MeerKAT)
+- Frequencies: 0.35–15.4 GHz
+- Baselines: 150 km (0.22" resolution at 1.7 GHz)
+
+**Scientific areas covered:**
+
+- Tests of general relativity (extreme gravity, gravitational waves)
+- Cosmic dawn and reionization (first stars and galaxies)
+- Evolution of galaxies (z~2-3)
+- Cosmic magnetism (origin and evolution)
+- Cosmology (dark matter, large-scale structure)
+- Cradles of life (planets, molecules, SETI)
+
+#### Colossal volume of data
+
+The SKA generates an unprecedented data flow:
+
+- **SKA1-Low**: ~2 Pb/s at the antenna output, ~7 Tb/s after the central signal processor
+- **SKA1-Mid**: ~9 Tb/s at the antenna output, ~5 Tb/s after the central signal processor
+- **Annual volume**: ~300 PB/year per instrument
+- **Computing power required**: ~130 PFlops per instrument
+
+::: {.callout-warning title="Massive computational challenge"}
+The SKA will not directly produce astronomical images. It will produce visibilities (correlations between pairs of antennas). Transforming this raw data into astronomical radio images requires extremely powerful image reconstruction algorithms, running on dedicated supercomputers located in Perth and Cape Town. This is computational imaging on a planetary scale.
+:::
+
+### Medical imaging
+
+#### Classification of medical imaging modalities
+
+Medical imaging uses different **information carriers** to probe the human body in a non-invasive way:
+
+| Method | Information bearer | Type |
+|---|---|---|
+| Ultrasound (Ultrasound) | High frequency pressure waves | Backscatter/reflection |
+| Radiography (X-ray) | Ionizing radiation | Transmission |
+| Computed tomography (CT, C-arm) | Ionizing radiation | Transmission |
+| Nuclear imaging (SPECT, PET) | Ionizing radiation | Broadcast |
+| MRI (MRI) | Nuclear spin precession | Magnetic resonance |
+
+**General medical imaging pipeline:**
+
+1. **Acquisition** of multiple 1D and 2D signals (projections, resonance signals, ultrasonic echoes)
+2. **Reconstruction** of the 3D object from these signals
+
+::: {.callout-note title="To remember"}
+None of these modalities directly produces a 3D image. In all cases, the reconstruction of the three-dimensional object is an **inverse problem** solved algorithmically. Medical imaging *is* computational imaging.
+:::
+
+#### Examples of medical images
+
+**Computed Tomography (CT)**
+
+- Uses x-rays from multiple angles
+- Reconstruction by **filtered back projection** or iterative algorithms
+- Result: axial, coronal, sagittal sections, or 3D rendering of the skeleton and organs
+
+**Projected X-ray**
+
+- 2D image of X-ray transmission
+- Used for bones, lungs, joints
+
+**Positron Emission Tomography (PET)**
+
+- Injection of a radioactive tracer (e.g. labeled glucose)
+- Detection of gamma photons emitted by annihilation of positrons
+- Reconstruction of metabolic distribution in the body
+
+**3D ultrasound (3D Ultrasound)**
+
+- Mechanically or electronically scanned 2D image sequences
+- Volume reconstruction by interpolation
+- Widely used in obstetrics (fetal visualization)
+
+#### Advanced MRI Modalities
+
+Magnetic resonance imaging (MRI / MRI) is available in several modalities:
+
+**Functional MRI (fMRI – Functional MRI)**
+
+- Measures variations in blood oxygenation (BOLD signal)
+- Mapping of brain activity during cognitive tasks
+- Temporal resolution: a few seconds
+
+**Magnetic resonance angiography (MRA – MR Angiography)**
+
+- Visualization of blood vessels without injection of contrast product
+- Detection of aneurysms, arterial stenoses
+
+**Magnetic Resonance Spectroscopy (MRS)**
+
+- Measures the chemical composition of tissues (metabolites)
+- Useful for tumor characterization
+
+**Current Density Imaging (CDI)**
+
+- Reconstruction of the distribution of electrical currents in the brain or heart
+- Combines MRI and external electrical stimulation
+
+### Computational photography
+
+#### Imaging by mobile devices
+
+Modern smartphones incorporate **sophisticated computational imaging systems**. A high-end device may include:
+
+- Several lenses with different focal lengths (wide-angle, standard, telephoto)
+- A depth sensor (Time-of-Flight or stereo)
+- An infrared sensor for rapid focusing
+- A dedicated image processor (ISP) and neural chip
+
+::: {.callout-tip title="Intuition"}
+The photographic quality of smartphones is not due to the size of their sensors (very small) nor to their optics (very basic), but to the power of the processing algorithms which combine several images to synthesize one of superior quality.
+:::
+
+#### Advanced digital photography
+
+**HDR+ (High Dynamic Range Plus)**
+
+- Captures multiple exposures in ultra-fast burst
+- Blending exposures to recover both highlights and shadows
+- Adaptive blending algorithm based on frame alignment
+
+**Night Mode**
+
+- Captures a long sequence of images at low exposure
+- Sub-pixel alignment to correct micro-shake
+- Temporal fusion to accumulate light without motion blur
+
+::: {.callout-note title="To remember"}
+Google Night Mode (Night Sight) is an iconic example: it does not capture a single long exposure, but **combines ~15 images** taken in ~1 second. The result is a sharp, bright, low-noise image — impossible with a single capture. This is pure computational imaging.
+:::
+
+#### Multi-sensor and hyperspectral imaging
+
+Multi-sensor cameras (like the Light L16 with 16 lenses) allow:
+
+- Simultaneous capture from different focal lengths and angles
+- **Super-resolution** by merging images
+- Synthetic bokeh (background blur controllable after shooting)
+- Variable depth of field in post-processing
+
+Hyperspectral imaging goes further by capturing dozens to hundreds of spectral bands, allowing the identification of materials, vegetation, pollutants, etc.
+
+### Automotive industry: autonomous vehicles
+
+#### Multi-sensory modality
+
+An autonomous vehicle is a multi-modal computational imaging system par excellence. It combines:
+
+- **Cameras**: detection and tracking of pedestrians, cyclists, traffic lights, open spaces and other elements of the road scene
+- **LiDAR (Light Detection and Ranging)**: high-precision laser sensors detecting fixed and moving objects, providing a dense 3D point cloud
+- **Long-Range Radars**: detection of vehicles and measurement of their speed over large distances
+- **Articulating Radars**: detection of moving vehicles over a wide field of vision
+- **Short-Range Radars**: detection of obstacles close to the vehicle
+
+#### 3D LiDAR for perception
+
+LiDAR (e.g. Velodyne VLS-128) is one of the key sensors for autonomous vehicles:
+
+- Emits **laser pulses** in all directions
+- Measures the **return time** of each pulse (Time-of-Flight)
+- Reconstructs a **3D point cloud** of the environment in real time
+- Typical range: 100–200 m, accuracy: a few centimeters
+
+::: {.callout-tip title="Intuition"}
+LiDAR does not see an image in the photographic sense. It measures flight times of light pulses and deduces distances. La transformation de ces mesures en une représentation 3D utilisable est un problème d'imagerie computationnelle.
+:::
+
+### Solutions based on artificial intelligence
+
+#### Deep Optics
+
+Deep Optics is an approach that **jointly optimizes** physical optics and digital processing in an end-to-end manner.
+
+**Principles:**
+
+The system is divided into two layers:
+
+- **Physical Layer**: the lens or another optical component (coded mask, diffraction grating, etc.)
+- **Digital Layer**: a processing neural network
+
+**Training phase:**
+
+- Optimization is done end-to-end in simulation
+- The gradient of the loss function is propagated through the digital layer *and* through the simulation of the optical component
+- Optics and network are co-optimized simultaneously
+
+**Inference phase:**
+
+- The optimized lens (or other component) is **physically manufactured**
+- The trained network is deployed
+- Both layers work together to solve the target task
+
+**Possible interpretations:**
+
+- The system can be seen as an **optical encoder + electronic decoder**
+- Or like a **hybrid optical-electronic neural network**, where the physical layer plays the role of the first layers of the network
+
+::: {.callout-note title="To remember"}
+Deep optics blurs the line between optical design and machine learning. Instead of designing the optics separately and then learning a processing algorithm, we optimize both simultaneously for the final task (e.g. object recognition, 3D reconstruction).
+:::
+
+### Analysis of works of art
+
+#### Examine old paintings
+
+Computational imaging offers non-invasive tools to study paintings without damaging them.
+
+**Structure of a painting (stratigraphy)**
+
+An old painting is made up of several superimposed layers (from bottom to top):
+
+1. **Canvas**: the canvas or the wooden panel
+2. **Ground Layer** (preparation layer): white coating (gesso)
+3. **Underdrawing** (preparatory drawing): drawn with chalk, charcoal or ink
+4. **Imprimatura**: thin layer of colored paint
+5. **Paint Layers**: successive application of colors
+6. **Varnish/Glazes**: protective varnish and transparent glazes
+
+Each layer provides historical and artistic information. The objective is to **image them separately** without touching the work.
+
+#### Traditional non-invasive imaging
+
+Several classic imaging techniques make it possible to probe different layers:
+
+| Technical | What it reveals |
+|---|---|
+| **Infrared (IR)** | Preparatory drawing under the coat of paint |
+| **Visible** | Painting as we see it |
+| **Ultraviolet (UV)** | Restorations, varnishes and retouches |
+| **X-rays** | The base layer (lead white), the pentiments, the structure of the canvas |
+
+::: {.callout-tip title="Intuition"}
+A painting can hide entire works beneath its surface. X-ray imaging revealed that some Picassos were hiding earlier compositions repainted by the artist. IR imaging has uncovered studies and compositional changes in da Vinci's works.
+:::
+
+#### Macro X-ray fluorescence (MA-XRF)
+
+**Physical principle of MA-XRF (Macro X-ray Fluorescence)**
+
+1. A primary X-ray beam hits the paint surface
+2. The beam **ejects** an electron from an inner shell of an atom (photoelectric effect)
+3. An electron from an outer shell fills the gap
+4. This transition releases an **X-ray fluorescence photon** of energy characteristic of the chemical element
+5. These photons are detected by an energy-selective detector
+
+**The MA-XRF datacube**
+
+MA-XRF produces **volumetric** data:
+
+- Spatial dimensions X and Y: position on the table (typically 1 to 100 million pixels)
+- Z dimension (energy): X spectrum between 0 and 40 keV, sampled on 4096 channels
+
+Each pixel in the table has a **MA-XRF spectrum**: the location of the peaks in this spectrum identifies the chemical elements present (calcium, lead, mercury, copper, zinc, iron, manganese, etc.).
+
+**Extraction of elemental cards**
+
+From the datacube, we can extract a **distribution map** for each chemical element present in the paint.
+
+*Example on Goya (Dona Isabel de Porcel, NG1473, before 1805):*
+
+- The RGB image shows the portrait of a woman
+- X-ray image reveals another male figure hidden underneath
+
+*Extraction of elemental cards:*
+
+- **Calcium** → preparation layer (gesso)
+- **Manganese** → brown pigments (umbra)
+- **Iron** → ocher and red pigments
+- **Mercury** → vermilion (red HgS)
+- **Lead** → lead white (light background and highlights)
+- **Copper** → copper green or azurite (blues and greens)
+
+*Example on Van Gogh (The Sunflowers):*
+
+The deconvolution algorithm applied to the datacube reveals the spatial distribution of copper, zinc, iron and lead in the composition — allowing precise identification of the pigments used and their arrangement.
+
+#### Machine learning extraction
+
+MA-XRF also allows, combined with ML, to **separate superimposed layers of paint**.
+
+Model used: the system takes the RGB image *and* the X-ray image as input, then predicts two separate images:
+
+- $\hat{x}_1$: visible paint (surface)
+- $\hat{x}_2$: the hidden (underlying) painting
+
+*Results on Goya:*
+
+- Input 1: portrait of a woman (RGB)
+- Input 2: imprint of two superimposed faces (X-ray)
+- Output 1: woman's face (isolated)
+- Output 2: face of the hidden man (isolated)
+
+::: {.callout-note title="To remember"}
+Separating paint layers using ML is an **unsupervised inverse imaging** problem: there is no “ground truth” to train the model. Specialized architectures (physical constraints, regularization) are necessary.
+:::
+
+### Imaging outside line of sight (NLOS)
+
+#### Problem definition
+
+Non-Line-Of-Sight Imaging (NLOS) is one of the most fascinating and counterintuitive problems in computational imaging.
+
+**Question:** Is it possible to form an image of an object that we cannot see directly because it is **hidden behind an obstacle**?
+
+**Computational answer:** Yes, by exploiting **light bounces** on diffuse surfaces.
+
+#### Physical principle
+
+Light does not only propagate in a straight line: it diffuses on surfaces. A white surface (a wall) re-emits light in all directions. If a hidden object illuminates a visible wall, the wall bears subtle traces of that object.
+
+**Experimental device:**
+
+- **Picosecond laser**: emits ultra-short light pulses (duration ~ps = $10^{-12}$ s)
+- **2-axis galvanometric mirror**: directs the laser towards different points on the wall
+- **Beam splitter**: separates the transmitted beam from the return signal
+- **SPAD** sensor (Single-Photon Avalanche Diode): single photon detector, ultra-sensitive and temporally resolved
+- **Hidden**: hides the object to be imaged
+
+**Measuring principle:**
+
+1. The laser illuminates a point P on the wall
+2. Light scatters in all directions from P
+3. A fraction reaches the hidden object, which in turn backscatters it
+4. A fraction of this backscattered light returns to the wall, then to the sensor
+5. The sensor measures the **arrival time** of each photon with a precision of the order of a few tens of picoseconds
+
+**Temporal explanation:**
+
+The difference between the first bounce (direct: laser → wall → sensor) and the third bounce (laser → wall → object → wall → sensor) encodes the **position of the object**.
+
+*Example :*
+
+- 1st bounce: 2.7 ns (40 cm additional travel)
+- 3rd bounce: 4.3 ns
+- Difference: 4.3 - 2.7 = 1.6 ns → corresponds to ~24 cm of additional travel
+
+#### Raw data and reconstruction
+
+**Raw measurements:**
+
+The acquired data forms a **3D volume** of dimensions (x', y', t):
+
+- x' and y': position of the illumination point on the wall
+- t: flight time
+
+This data is visualized as a Maximum Intensity Projection — it doesn't look at all like the hidden object.
+
+**Reconstruction:**
+
+From these temporally resolved measurements, an algorithm (based on **filtered back-projection** or inverse optimization methods) reconstructs the 3D volume of the hidden object.
+
+*Experimental results (University of Geneva):*
+
+- Hidden scene: a statue (discobolus) and a flowerpot behind a concealer
+- Measurements: noisy time-resolution volume, without visible structure
+- 3D reconstruction: the two objects are clearly identifiable in the reconstructed volume
+
+::: {.callout-warning title="Algorithmic challenge"}
+NLOS reconstruction is a **severely underdetermined and noisy inverse problem**. The signal of the 3rd bounce is 10 to 100 times weaker than that of the 1st bounce. Fast deconvolution algorithms (e.g. Phasor Fields algorithm) or compressed sensing type are necessary to obtain a usable reconstruction.
+:::
+
+**Potential applications:**
+
+- Autonomous driving assistance (seeing on a street corner)
+- Rescue operations (locate people in a room without entering it)
+- Endoscopic medical imaging (see behind tissue folds)
+- Space missions
+
+---
+
+## Main topics of the course
+
+### Human Visual System
+
+The course includes a study of the human visual system, because understanding **how the eye and brain process visual information** is fundamental to designing effective imaging systems.
+
+Topics covered:
+
+- **Anatomy of the eye**: cornea, lens, retina, photoreceptors (rods and cones)
+- **Visual acuity, color and 3D vision**: how do we discriminate details? How do we perceive colors and depth?
+- **Contrast sensitivity** (Contrast Sensitivity Function): what spatial frequencies does the eye perceive best?
+- **Conflicts in Displays**: Why can VR/AR displays cause nausea? How do perceptual boundaries guide design?
+- **Refractive Errors**: myopia, hyperopia, astigmatism — and how imaging systems can compensate for them
+
+The human visual system can itself be modeled as a computational imaging system: **sensors** (photoreceptors) → **network** (optic nerve, lateral geniculate body) → **computation** (visual cortex).
+
+### Digital Photography
+
+This module explores the foundations of digital photography:
+
+- **Optics**: image formation, aberrations, lenses
+- **Aperture** (Aperture): relationship between aperture, depth of field and quantity of light
+- **Depth of Field**: which objects are in focus? How to control it?
+- **Field of View**: relationship between focal length and angle of view
+- **Exposure**: compromise between exposure time, aperture and ISO
+- **Noise**: photon noise (shot noise), thermal noise, reading noise
+- **Color Filter Arrays**: Bayer mosaic — how does a monochrome sensor capture color?
+- **Image processing pipeline** (Image Processing Pipeline): demosaicing, white balance, gamma correction, compression
+
+### Computational Photography
+
+Beyond classic digital photography, computational photography uses calculation to go further:
+
+- **High Dynamic Range Imaging** (HDR – High Dynamic Range Imaging): capture scenes with strong light contrasts
+- **Tone Mapping**: compression of an HDR image for display on a standard screen
+- **Burst Photography & Night Sight**: fusion of multiple images to improve quality
+- **Coded Apertures**: modify the point spread function (PSF) to encode depth or facilitate deconvolution
+- And many other techniques (super-resolution, focus stacking, panoramas, etc.)
+
+### Deep Learning for Computational Imaging
+
+Deep learning has revolutionized computational imaging. This module covers:
+
+- **Convolutional Neural Networks** (CNN): fundamentals, convolution layers, pooling, activation
+- **DnCNN** (Denoising CNN): deep architecture for image denoising
+- **U-Net**: encoder-decoder architecture with jump connections, used extensively in medical imaging and reconstruction
+- And other advanced architectures (transformers, diffusion models, etc.)
+
+### Optimization and deep learning
+
+Solving inverse problems in imaging requires optimization tools:
+
+- **Proximal Gradient Methods**: iterative algorithms to minimize non-smooth functions (e.g. ISTA, FISTA)
+- **Iterative Optimization with Deep Priors** (Iterative Optimization with Deep Priors): incorporate the a priori knowledge learned by a neural network into an optimization loop
+- **Resolution of general inverse problems in imaging**: unified formulation of reconstruction problems
+
+::: {.callout-note title="To remember"}
+An inverse problem in imaging is typically written: $y = Ax + n$, where $y$ are the measurements, $A$ is the measurement operator (the physics of the system), $x$ is the unknown image and $n$ is the noise. Finding $x$ from $y$ is often poorly posed and requires regularization (a priori on $x$).
+:::
+
+### Compressive Imaging
+
+Compressive imaging (Compressed Sensing) exploits the **parsimony** of natural signals to drastically reduce the number of necessary measurements.
+
+Applications:
+
+- **Single-Pixel Camera**: a single photodiode + successive random masks → reconstruction of a 2D image
+- **Compressive Hyperspectral Imaging** (Compressive Hyperspectral Imaging): acquisition of spectral datacubes with a reduced number of measurements
+- **Compressive Light Field Imaging**: captures the direction of light with fewer pixels
+
+These techniques make it possible to design sensors that are less expensive, faster or operating in regimes where conventional sensors are difficult to manufacture (infrared, terahertz).
+
+### Introduction to wave optics and deep optics
+
+This module delves deeper into wave phenomena and their applications:
+
+- **Diffraction and interference** (Diffraction & Interference): wave behavior of light
+- **The diffraction limit** (The Diffraction Limit): theoretical maximum resolution of an optical system
+- **End-to-end optimization of optics and image processing**: optical-algorithmic co-design (Deep Optics)
+- **Phase Retrieval**: reconstruct the amplitude and phase of a wavefield from intensity measurements only
+- **Computer-Generated Holography**: calculation of holograms for 3D displays
+
+### Computational Displays
+
+The display is the symmetrical side of the acquisition. This module explores:
+
+- **Gaze-Contingent Focus Displays**: the focus dynamically changes depending on where the user is looking (Konrad et al., SIGCHI 2016; Padmanaban et al., PNAS 2017)
+- **Near-Eye Light Field Displays**: reproduction of the 4D light field in front of the eye for more comfortable virtual reality experiences (Huang et al., SIGGRAPH 2015; Wetzstein et al., SIGGRAPH 2011-2012)
+- **Holographic Displays**: reproduction of a complete wavefield (amplitude and phase) for a truly convincing 3D experience (Padmanaban et al., SIGGRAPH Asia 2019; Peng et al., SIGGRAPH Asia 2020; Choi et al., Optica 2021)
+
+---
+
+## References
+
+The course also draws on several world-class university courses:
+
+- *Computational Photography* – Levoy, Adams, Pulli (Stanford)
+- *Computational Photography SIGGRAPH Course* – Raskar & Tumblin
+- *Digital and Computational Photography* – Durand & Freeman (MIT)
+- *Computational Photography* – Efros (CMU)
+- *Computational Photography* – Gkioulekas (CMU)
+- *Computational Imaging* – Wetzstein (Stanford)
+- *Computational Photography* – Fergus (NYU)
+- *Computational Imaging* – Dragotti (Imperial College)
+- *Computer Vision* – Seitz & Szeliski (University of Washington)
+- *Introduction to Visual Computing and Visual Modeling* – Kutulakos (UToronto)

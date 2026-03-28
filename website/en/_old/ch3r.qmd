@@ -1,0 +1,133 @@
+# Chapter 3 - Revision summary
+
+---
+
+## Computational Photography
+
+## Pipeline
+
+**Conventionnel** : `Real world → Optics → Image → Computation (improvement)`
+
+**Computationnel** : `Real world → Generalized optics → Coded representation → Computation → Image(s)`
+
+> **Idée centrale** : shift complexity towards calculation to gain flexibility.
+
+---
+
+## Focal Stack — Things to remember
+
+**Goal**: Fully sharp image (*all-in-focus*) from several focused images.
+
+**Pipeline**:
+
+1. Change the focus ring (→ changes $D'$, not the zoom)
+2. Align (correct magnification change)
+3. Weigh each pixel according to its sharpness (Laplacian + Gaussian)
+4. Merge: $I_{\text{fused}} = \frac{\sum_k w_k I_k}{\sum_k w_k}$
+
+---
+
+## Depth techniques — Quick comparison
+
+| Technical | Entrance | Granularity | Note |
+|---|---|---|---|
+| Depth from focus | Focal Stack | Patch | Standard |
+| Depth from defocus | **2 images** | Patch | Minimal |
+| Confocal stereo | Battery + opening | **Pixel** | More precise |
+| Focal flow | Dense pile | Patch | Very fast, textured areas only |
+
+---
+
+##LightFieldPhotography
+
+## Key concepts
+
+- **Plenotic function**: $L(x,y,z,\theta,\phi)$ — **5D** (3D position + 2D direction)
+- **Configuration**: $st$ plane (lens) × $uv$ plane (sensor) → 4D in practice
+
+##3 ways to capture
+
+1. **Camera array** (Stanford Array) — high quality, bulky
+2. **Camera moved** — simple, static scene required
+3. **Plenoptic camera** ← main approach (lens + microlens array + sensor)
+
+## Digital operations (post-capture)
+
+- **Stopping-down**: add the central part of the microlenses → smaller virtual aperture
+- **Observer movement**: move the extraction window → another point of view
+- **Refocusing**: sum windows offset by several microlenses → virtual focusing
+
+## Lytro — Key figures
+
+- $4000 \times 4000$ pixels, $292 \times 292$ microlenses, **$14 \times 14$ px/lens**
+- $125\\mu m$ microlenses
+
+## Advantages / Disadvantages Lytro
+
+| ✅ | ❌ |
+|---|---|
+| Portable | Reduced resolution |
+| Post-capture refocus | Fixed opening |
+
+---
+
+## Camera with coded aperture
+
+## Fundamental problem
+
+$$y = f \otimes x + \text{bruit}$$
+
+→ Inversion **ill-posed** (ill-posed): infinity of possible solutions.
+
+**Frequency problem**: if $F(u,v)$ has zeros → irreversible loss of information.
+
+## Solution 1: Prior on sparse gradients
+
+$$\hat{x} = \arg\min_x \underbrace{\| f \otimes x - y \|^2}_{\text{fidélité}} + \lambda \underbrace{P(\nabla x)}_{\text{régularisation}}$$
+
+| Prior | Effect | Quality |
+|---|---|---|
+| None (Richardson-Lucy) | — | Strong Ringing |
+| $\|\nabla x\|^2$ (Gaussian) | Spread the gradients | Medium |
+| $\|\nabla x\|$ (scattered) | Locates gradients | ✅ Best |
+
+## Solution 2: Coded opening
+
+- Binary mask in aperture → encoded PSF ≠ natural image
+- Designed to **avoid frequency zeros** → deconvolution possible
+- Design criterion: **maximize discrimination between scales** (KL divergence)
+
+## Complete pipeline
+
+1. Deconvolve with **10 scales** of calibrated kernel
+2. Select minimum error scale by local window
+3. Regularize the depth map
+4. Deconvolve → sharp image
+
+**Result**: depth + sharp image from **a single image**, without loss of resolution.
+
+---
+
+## Camera with generalized optics
+
+##WavefrontCoding
+
+- Replaces the lens with a **cubic phase plate**
+- PSF **approximately depth invariant** → a single deconvolution is sufficient
+
+## Lattice Lens
+
+- Varifocal lens array in front of the lens
+- Captures a useful subset of the 4D light field
+- PSF **non** invariant → local deconvolution (like coded opening)
+
+$$\dim(\text{spectre utile}) = 3 \quad \text{sur 4D total}$$
+
+## Final comparison of approaches
+
+| Approach | PSF invariance | Depth of field |
+|---|---|---|
+| Standard lens | ❌ | Low |
+| Coded opening | ❌ | Scope |
+| Wavefront coding | ✅ (approx.) | Scope |
+| Lattice lens | ❌ | Scope |

@@ -1,0 +1,241 @@
+---
+title: "Introduction to Computational Imaging — Review"
+---
+
+## Basic definitions
+
+::: {.callout-note title="Computational Imaging"}
+**Indirect** formation of images from raw measurements via supercomputing algorithms. Tight sensor ↔ algorithm integration.
+:::
+
+| | Traditional imagery | Computational Imaging |
+|---|---|---|
+| **Optical** | Capture the final image | Encode an intermediate representation |
+| **Calculation** | Improves recognizable image | **Reconstructed** the image (inverse problem) |
+| **Result** | 1 enhanced image | 1 or more final images |
+
+---
+
+## The 3 pillars
+
+- **Mathematics**: optimization, signal processing, ML
+- **Physics**: geometric / wave optics / E&M
+- **Calculation**: reconstruction algorithms, AI
+
+::: {.callout-tip title="CI Pipeline"}
+Real world → **Generalized optics** → Coded representation → **Generalized computation** → Final images
+:::
+
+---
+
+## Optical modeling levels
+
+| Model | Light | Usage |
+|---|---|---|
+| Geometric Optics (Geometric Optics) | Rays | Classic cameras |
+| Wave Optics (Wave Optics) | Wave | Microscopy, holography |
+| Electromagnetism (E&M) | Full EM field | Nano-imaging, THz |
+
+---
+
+## Two fundamental steps
+
+1. **Optical Encoding** (Optical Encoding) — new optics, sensors, illumination
+2. **Computational Recovery** — reconstruction algorithms
+
+---
+
+## Areas of application
+
+| Domain | Example |
+|---|---|
+| Medical | MRI, CT, PET, 3D ultrasound |
+| Astronomy | SKA, radio telescopes |
+| Nano-imaging | SP-STM, nc-AFM, MRFM |
+| Automotive | LiDAR, RADAR, cameras |
+| Photography | HDR+, Night Mode, multi-sensor |
+| Art | MA-XRF, IR, UV, X-ray |
+| NLOS | Imaging behind an obstacle |
+
+---
+
+## Medical imaging — Classification
+
+| Method | Porter | Type |
+|---|---|---|
+| Ultrasound (Ultrasound) | Pressure waves | Backscatter |
+| X-ray | Ionizing radiation | Transmission |
+| CT/C-arm | Ionizing radiation | Transmission |
+| SPECT/PET | Ionizing radiation | Broadcast |
+| MRI (MRI) | Nuclear spin precession | Magnetic resonance |
+
+**Pipeline:** 1D/2D multi-signal acquisition → 3D reconstruction (inverse problem)
+
+**Advanced MRI Modalities:**
+
+- **fMRI**: brain activity (BOLD signal)
+- **MRA**: blood vessels
+- **MRS**: tissue chemical composition
+- **CDI**: distribution of electrical currents
+
+---
+
+## SKA — Key figures
+
+| | SKA1-Low | SKA1-Mid |
+|---|---|---|
+| Site | Murchison, Australia | Karoo, South Africa |
+| Antennas | 131,072 dipoles | 197 parables |
+| Frequencies | 50–350MHz | 0.35–15.4 GHz |
+| Raw flow | ~2 Pb/s | ~9 Tb/s |
+| Storage | ~300 PB/year | ~300 PB/year |
+| Calculation | ~130 PFlops | ~130 PFlops |
+
+---
+
+## Nanoimaging — Key techniques
+
+| Technical | Principle | Resolution |
+|---|---|---|
+| SP-STM | Spin-polarized tunnel current | Atomic |
+| nc-AFM | Magnetic exchange force | Atomic |
+| MRFM | Mechanical force on nuclear spins | ~1nm |
+| NV-NanoMRI | Spin defect in diamond | ~0.1nm |
+| ESR-STM | Tunnel current + spin | <0.1nm |
+| Coherent X-ray | Coherent X-ray diffraction without lens | 5nm (2D) / 10nm (3D) |
+
+---
+
+## Computational Photography — Techniques
+
+| Technical | Principle |
+|---|---|
+| HDR+ | Multi-exposure burst fusion |
+| Night Fashion | ~15 images aligned + temporal fusion |
+| Coded Aperture | Modifying the PSF to encode depth |
+| Super-resolution | Merging multiple low-resolution images |
+| Focus stacking | Multiple Focus Merge |
+
+---
+
+## Deep Optics
+
+::: {.callout-tip title="Principle"}
+**end-to-end** co-optimization of the physical layer (lens/mask) and the digital layer (neural network).
+:::
+
+| Phase | Action |
+|---|---|
+| Training | Optimization in simulation, gradient through optics + network |
+| Inference | Physical manufacturing of optics + network deployment |
+
+**Interpretations:** optical encoder + electronic decoder **OR** hybrid optical-electronic network
+
+---
+
+## NLOS (Non-Line-Of-Sight) Imaging
+
+::: {.callout-note title="Principle"}
+Image a hidden object by exploiting **light bounces** on diffuse surfaces.
+:::
+
+**Device :**
+
+- Picosecond laser → point illumination of the wall
+- SPAD sensor → single photon detection, time resolved
+- Galvanometric mirror → wall scanning
+
+**Pipeline:**
+
+1. Measurement of photon flight time (1st, 2nd, 3rd bounce)
+2. Raw data: volume (x', y', t) — not recognizable
+3. 3D reconstruction by back-projection or compressed sensing
+
+::: {.callout-warning title="Trap"}
+The signal of the 3rd bounce is **10–100× weaker** than the 1st bounce → requires noise-robust algorithms.
+:::
+
+---
+
+## MA-XRF (Macro X-ray Fluorescence) — Art
+
+**Principle:** X-ray → electron ejection → photon fluorescence characteristic of the element
+
+**Datacube:** (x, y) spatial × energy 0–40 keV (4096 channels)
+
+**Elements → Pigments:**
+
+| Element | Pigment |
+|---|---|
+| Pb (lead) | Lead white |
+| Hg (mercury) | Vermilion (red) |
+| Cu (copper) | Azurite / copper green |
+| Fe (iron) | Ochres / reds |
+| Ca (calcium) | Gesso (preparation) |
+| Zn (zinc) | Zinc white |
+
+---
+
+## Stratigraphy of a painting (from bottom to top)
+
+Canvas → Ground Layer → Underdrawing → Imprimatura → Paint Layers → Varnish/Glazes
+
+---
+
+## Compressive Imaging (Compressive Imaging / Compressed Sensing)
+
+::: {.callout-note title="Principle"}
+Exploit the **parsimony** (sparsity) of natural images to reduce the number of measurements.
+:::
+
+**Applications:**
+
+- Single-Pixel Camera
+- Compressive hyperspectral imaging
+- Compressive light field imaging (Light Field)
+
+---
+
+## Inverse problem — General formulation
+
+$$y = Ax + n$$
+
+| Symbol | Meaning |
+|---|---|
+| $y$ | Measurements (raw data) |
+| $A$ | Measurement operator (system physics) |
+| $x$ | Unknown image to be reconstructed |
+| $n$ | Noise |
+
+::: {.callout-warning title="Critical Trap"}
+The problem is often **ill-posed** → requires **regularization** (a priori on $x$).
+:::
+
+---
+
+## Course Topics — Overview
+
+| Module | Key content |
+|---|---|
+| Human visual system | Eye anatomy, acuity, contrast, color |
+| Digital Photography | Optics, aperture, noise, Bayer, ISP pipeline |
+| Computational Photography | HDR, tone mapping, coded apertures |
+| Deep Learning | CNN, DnCNN, U-Net |
+| Optimization | Proximal gradient, deep priors |
+| Compressive Imaging | Single-pixel, CS, hyperspectral |
+| Wave Optics & Deep Optics | Diffraction, phase retrieval, holography CGH |
+| Computational Displays | Gauze-contingent, light field, holographic |
+
+---
+
+## Evaluation — Reminder
+
+| Component | Weight | Threshold |
+|---|---|---|
+| Theory (2 CC / oral) | 40% | ≥4.0/6.0 |
+| TPs | 25% | ≥4.0/6.0 |
+| Mini-project | 35% | ≥4.0/6.0 |
+
+::: {.callout-warning title="Critical Condition"}
+**Each component** must be ≥ 4.0/6.0 independently.
+:::

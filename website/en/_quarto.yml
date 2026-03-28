@@ -6,6 +6,7 @@ project:
 website:
   page-footer:
     center: "Copyright © 2026 University of Geneva"
+    
   navbar:
     search: true
     right:
@@ -17,12 +18,49 @@ website:
           - text: "French"
             href: fr/index.html
 
-  # pdf:
-  #   toc: true
-  # docx:
-  #   toc: true
+  sidebar:
+    style: docked
+    search: true
+    contents:
+      - section: "Course"
+        contents:
+          - section: "Introduction"
+            contents:
+              - text: "Details"
+                href: ch1.qmd
+              - text: "Review"
+                href: ch1r.qmd
+              - text: "Quiz"
+                href: ch1q.qmd
+          - section: "Human Visual System"
+            contents:
+              - text: "Details"
+                href: ch2.qmd
+              - text: "Review"
+                href: ch2r.qmd
+              - text: "Quiz"
+                href: ch2q.qmd
+          - section: "Computational Photography"
+            contents:
+              - text: "Details"
+                href: ch3.qmd
+              - text: "Review"
+                href: ch3r.qmd
+              - text: "Quiz"
+                href: ch3q.qmd
+          - section: "Medical Imaging"
+            contents:
+              - text: "Details"
+                href: ch4.qmd
+              - text: "Review"
+                href: ch4r.qmd
+              - text: "Quiz"
+                href: ch4q.qmd
 
-
-
-# filters:
-#   - diagram
+format:
+  html:
+    theme:
+      dark: ../macchiato.scss
+      light: ../latte.scss
+    toc: true
+    embed-resources: true
