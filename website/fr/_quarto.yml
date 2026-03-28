@@ -6,11 +6,11 @@ project:
 website:
   page-footer:
     center: "Copyright © 2026 University of Geneva"
-
+    
   navbar:
     search: true
     right:
-      - text: Langage
+      - text: Langue
         icon: globe
         menu:
           - text: "Anglais"
@@ -24,30 +24,38 @@ website:
     contents:
       - section: "Cours"
         contents:
-          - section: "Chapitre 1 - Introduction"
+          - section: "Introduction"
             contents:
-              - text: "Detail"
+              - text: "Détails"
                 href: ch1.qmd
-              - text: "Approfondissement"
-                href: ch1c.qmd
-              - text: "Synthese"
+              - text: "Synthèse"
                 href: ch1r.qmd
-          - section: "Chapitre 2 - Systeme visuel humain"
+              - text: "Quiz"
+                href: ch1q.qmd
+          - section: "Système visuel humain"
             contents:
-              - text: "Detail"
+              - text: "Détails"
                 href: ch2.qmd
-              - text: "Approfondissement"
-                href: ch2c.qmd
-              - text: "Synthese"
+              - text: "Synthèse"
                 href: ch2r.qmd
-          - section: "Chapitre 3 - Photographie computationnelle"
+              - text: "Quiz"
+                href: ch2q.qmd
+          - section: "Photographie computationnelle"
             contents:
-              - text: "Detail"
+              - text: "Détails"
                 href: ch3.qmd
-              - text: "Approfondissement"
-                href: ch3c.qmd
-              - text: "Synthese"
+              - text: "Synthèse"
                 href: ch3r.qmd
+              - text: "Quiz"
+                href: ch3q.qmd
+          - section: "Imagerie médicale"
+            contents:
+              - text: "Détails"
+                href: ch4.qmd
+              - text: "Synthèse"
+                href: ch4r.qmd
+              - text: "Quiz"
+                href: ch4q.qmd
 
 format:
   html:

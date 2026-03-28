@@ -8,95 +8,95 @@ execute:
 
 ## Niveau 1 — Fondamentaux
 ```{quizdown}
-### Quel scientifique a le premier proposé que la lumière va des objets vers l'oeil, et non l'inverse ?
+### Quel scientifique a le premier proposé que la lumière va des objets vers l’œil, et non l’inverse ?
 
-> Pense au scientifique du Moyen Age considere comme le plus grand opticien de son epoque.
+> Pense au scientifique du Moyen Âge considéré comme le plus grand opticien de son époque.
 
 1. [ ] Platon
-    > Incorrect : Platon defendait une theorie extromissive — l'oeil emetrait de la lumiere.
+    > Incorrect : Platon défendait une théorie extromissive — l’œil émettrait de la lumière.
 1. [ ] Aristote
-    > Incorrect : Aristote proposait des images materielles transportees par l'atmosphere.
+    > Incorrect : Aristote proposait des images matérielles transportées par l’atmosphère.
 1. [x] Alhazen
-    > Correct : Alhazen (Ibn al-Haytham, 1040) renverse le paradigme en etablissant que les objets envoient la lumiere vers l'oeil.
+    > Correct : Alhazen (Ibn al-Haytham, 1040) renverse le paradigme en établissant que les objets envoient la lumière vers l’œil.
 1. [ ] Kepler
-    > Incorrect : Kepler a etabli la theorie retinienne, mais apres Alhazen.
+    > Incorrect : Kepler a établi la théorie rétinienne, mais après Alhazen.
 ```
 ```{quizdown}
-### Quelle est la fonction principale de la fovea ?
+### Quelle est la fonction principale de la fovéa ?
 
-> Pense a la zone de la retine qui concentre le plus un certain type de photorécepteurs.
+> Pense à la zone de la rétine qui concentre le plus un certain type de photorécepteurs.
 
 1. [ ] Detecter les faibles niveaux de lumiere
 1. [x] Fournir la vision haute resolution en bonne luminosite
-    > Correct : la fovea concentre la densite maximale de cones et est le siege de la vision fine (acuite maximale).
+    > Correct : la fovéa concentre la densité maximale de cônes et est le siège de la vision fine (acuité maximale).
 1. [ ] Transmettre les signaux au nerf optique
 1. [ ] Controler le diametre de la pupille
 ```
 ```{quizdown}
-### Quel est le role du cristallin dans l'oeil humain ?
+### Quel est le rôle du cristallin dans l’œil humain ?
 
-> Pense a l'element de l'oeil dont la courbure est modifiee par les muscles ciliaires.
+> Pense à l’élément de l’œil dont la courbure est modifiée par les muscles ciliaires.
 
 1. [ ] Proteger l'oeil des rayons ultraviolets
 1. [ ] Reguler la quantite de lumiere entrant dans l'oeil
 1. [x] Ajuster la focalisation de l'image sur la retine
-    > Correct : le cristallin est une lentille biconvexe dont la courbure change pour permettre l'accommodation (vision nette a differentes distances).
+    > Correct : le cristallin est une lentille biconvexe dont la courbure change pour permettre l’accommodation (vision nette à différentes distances).
 1. [ ] Convertir la lumiere en signaux electriques
 ```
 ```{quizdown}
-### La resolution temporelle du systeme visuel humain est approximativement de :
+### La résolution temporelle du système visuel humain est approximativement de :
 
-> Pense a la frequence minimale d'affichage pour qu'un mouvement paraisse continu a l'oeil.
+> Pense à la fréquence minimale d’affichage pour qu’un mouvement paraisse continu à l’œil.
 
 1. [ ] 24 Hz
 1. [ ] 30 Hz
 1. [x] 60 Hz
-    > Correct : le systeme visuel humain a une resolution temporelle d'environ 60 Hz (dependant du contraste et de la luminance).
+    > Correct : le système visuel humain a une résolution temporelle d’environ 60 Hz (dépendant du contraste et de la luminance).
 1. [ ] 120 Hz
 ```
 ```{quizdown}
 ### Quel type de photorécepteur est responsable de la vision des couleurs ?
 
-> Rappelle-toi la distinction entre les deux types de photorécepteurs et leurs conditions d'activation.
+> Rappelle-toi la distinction entre les deux types de photorécepteurs et leurs conditions d’activation.
 
 1. [ ] Les batonnnets (Rods)
 1. [x] Les cones (Cones)
-    > Correct : les cones sont responsables de la vision des couleurs (vision photopique). Les batonnets ne produisent qu'une vision en niveaux de gris (vision scotopique).
+    > Correct : les cônes sont responsables de la vision des couleurs (vision photopique). Les bâtonnets ne produisent qu’une vision en niveaux de gris (vision scotopique).
 1. [ ] Les cellules bipolaires
 1. [ ] Les cellules ganglionnaires
 ```
 ```{quizdown}
-### Quelles sont les affirmations correctes concernant les batonnets (Rods) ?
+### Quelles sont les affirmations correctes concernant les bâtonnets (Rods) ?
 
-> Pense aux conditions d'utilisation et aux proprietes des batonnets par rapport aux cones.
+> Pense aux conditions d’utilisation et aux propriétés des bâtonnets par rapport aux cônes.
 
 - [x] Ils sont sensibles aux faibles niveaux de lumiere (vision scotopique)
-    > Correct : les batonnets fonctionnent en faible luminosite, c'est leur avantage principal.
+    > Correct : les bâtonnets fonctionnent en faible luminosité, c’est leur avantage principal.
 - [ ] Ils permettent la vision des couleurs
-    > Incorrect : les batonnets ne percoivent que les niveaux de gris.
+    > Incorrect : les bâtonnets ne perçoivent que les niveaux de gris.
 - [x] Ils sont plus nombreux que les cones (environ 10 fois plus)
-    > Correct : il y a environ 10^8 batonnets contre 10^7 cones.
+    > Correct : il y a environ 10^8 bâtonnets contre 10^7 cônes.
 - [x] Apres adaptation a l'obscurite, un bâtonnet peut repondre a un seul photon
-    > Correct : la sensibilite extreme des batonnets adaptes est l'une des proprietes les plus remarquables du systeme visuel.
+    > Correct : la sensibilité extrême des bâtonnets adaptés est l’une des propriétés les plus remarquables du système visuel.
 - [ ] Ils sont concentres principalement dans la fovea
-    > Incorrect : les batonnets sont situes en peripherie de la retine ; la fovea est dominee par les cones.
+    > Incorrect : les bâtonnets sont situés en périphérie de la rétine ; la fovéa est dominée par les cônes.
 ```
 ```{quizdown}
-### Quelle est la plage dynamique instantanee de l'oeil humain ?
+### Quelle est la plage dynamique instantanée de l’œil humain ?
 
-> Compare avec la plage dynamique apres adaptation complete et avec celle des ecrans actuels.
+> Compare avec la plage dynamique après adaptation complète et avec celle des écrans actuels.
 
 1. [ ] 3 f-stops
 1. [ ] 14 f-stops
 1. [x] 6,5 f-stops
-    > Correct : la plage dynamique instantanee est d'environ 6,5 f-stops (environ 5 ordres de magnitude). La plage totale apres adaptation est de 46,5 f-stops.
+    > Correct : la plage dynamique instantanée est d’environ 6,5 f-stops (environ 5 ordres de grandeur). La plage totale après adaptation est de 46,5 f-stops.
 1. [ ] 46,5 f-stops
-    > Incorrect : 46,5 f-stops correspond a la plage dynamique totale apres adaptation complete a la lumiere ou a l'obscurite.
+    > Incorrect : 46,5 f-stops correspond à la plage dynamique totale après adaptation complète à la lumière ou à l’obscurité.
 ```
 ```{quizdown}
-### Ou se situe la tache aveugle (blind spot) dans l'oeil humain ?
+### Où se situe la tache aveugle (blind spot) dans l’œil humain ?
 
-> Pense a l'endroit ou les fibres nerveuses quittent l'oeil.
+> Pense à l’endroit où les fibres nerveuses quittent l’œil.
 
 1. [ ] Au centre de la fovea
 1. [ ] A la peripherie de la retine

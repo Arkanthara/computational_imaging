@@ -4,6 +4,8 @@ project:
   output-dir: ../_site
 
 website:
+  page-footer:
+    center: "Copyright © 2026 University of Geneva"
   navbar:
     search: true
     right:
@@ -14,23 +16,7 @@ website:
             href: index.html
           - text: "French"
             href: fr/index.html
-  sidebar:
-    style: docked
-    search: true
-    
-    contents:
-      - section: "Course"
-        contents: "ch*.qmd"
-      - section: "Exercises"
-        contents: "ex*.qmd"
 
-format:
-  html:
-    theme:
-      light: flatly
-      dark: darkly
-    toc: true
-    embed-resources: true
   # pdf:
   #   toc: true
   # docx:
