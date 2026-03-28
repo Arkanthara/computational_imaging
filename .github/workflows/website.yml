@@ -27,9 +27,9 @@ jobs:
       - name: Add extension for diagram rendering (CeTZ and TikZ)
         run: |
           cd website/en
-          quarto install extension pandoc-ext/diagram --no-prompt
+          quarto add parmsam/quarto-quizdown --no-prompt
           cd ../fr
-          quarto install extension pandoc-ext/diagram --no-prompt
+          quarto add parmsam/quarto-quizdown --no-prompt
           cd ..
 
       - name: Render French project
