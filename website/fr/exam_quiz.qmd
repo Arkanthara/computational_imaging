@@ -1,0 +1,853 @@
+---
+title: "Questions d'examen — Quiz"
+filters:
+  - quizdown
+execute:
+  enabled: false
+---
+
+
+# Question 1 — Definition of computational imaging 
+
+
+```{quizdown}
+### Dans un système d'imagerie computationnelle, quel est le rôle de l'optique ?
+
+> Pense à la différence fondamentale entre imagerie traditionnelle et computationnelle.
+
+1. [ ] Produire directement une image reconnaissable et de haute qualité
+1. [x] Encoder l'information de la scène dans une représentation intermédiaire
+    > Correct : l'optique encode, le calcul décode — les deux sont co-conçus et indissociables.
+1. [ ] Améliorer l'image capturée en supprimant le bruit
+1. [ ] Comprimer les données pour réduire la bande passante
+```
+
+```{quizdown}
+### Le problème inverse en imagerie computationnelle s'écrit y = Ax + n. Qu'est-ce que A représente ?
+
+> Pense aux composantes du modèle de formation d'image.
+
+1. [ ] L'image inconnue à reconstruire
+1. [ ] Le bruit de mesure
+1. [x] L'opérateur de mesure qui encode la physique du système
+    > Correct : A encode la physique du système (optique, capteur). C'est lui qui relie la scène x aux mesures y.
+1. [ ] Le vecteur des mesures brutes
+```
+
+```{quizdown}
+### Pourquoi le problème inverse en imagerie computationnelle nécessite-t-il une régularisation ?
+
+> Rappelle-toi des conditions de Hadamard pour qu'un problème soit bien posé.
+
+1. [ ] Parce que les algorithmes de reconstruction sont trop lents sans régularisation
+1. [ ] Parce que le bruit est toujours gaussien
+1. [ ] Parce que l'opérateur A est toujours diagonal
+1. [x] Parce que le problème est souvent mal posé : il peut n'avoir ni solution unique ni solution stable
+    > Correct : la régularisation introduit un a priori sur x pour contraindre l'espace des solutions et stabiliser la reconstruction.
+```
+
+```{quizdown}
+### Quelles propositions caractérisent correctement l'imagerie computationnelle par rapport à l'imagerie traditionnelle ?
+
+> Pense aux deux étapes fondamentales : encodage optique et récupération computationnelle.
+
+- [x] Le capteur et l'algorithme sont co-conçus et indissociables
+    > Correct : c'est la marque distinctive la plus profonde du domaine.
+- [ ] Le calcul intervient uniquement en aval pour améliorer une image déjà reconnaissable
+    > Incorrect : c'est la definition de l'imagerie traditionnelle.
+- [x] L'image intermédiaire capturée n'est pas nécessairement reconnaissable par un humain
+    > Correct : la représentation codée nécessite le calcul pour être décodée.
+- [x] L'intersection des mathématiques, de la physique et du calcul est constitutive du domaine
+    > Correct : les trois piliers disciplinaires sont indissociables.
+- [ ] L'optique peut être modifiée indépendamment de l'algorithme de reconstruction
+    > Incorrect : toute modification de l'optique implique une adaptation de l'algorithme.
+```
+
+
+# Question 2 — Main topics                                     
+
+
+```{quizdown}
+### Remets les grandes familles de thèmes du cours dans un ordre logique, de l'acquisition à l'affichage.
+
+> Pense au pipeline complet : de la perception humaine jusqu'à l'affichage en passant par la capture et le traitement.
+
+1. Système visuel humain
+2. Photographie numérique
+3. Photographie computationnelle
+4. Apprentissage profond et optimisation
+5. Imagerie compressive
+6. Optique ondulatoire et profonde
+7. Affichages computationnels
+```
+
+```{quizdown}
+### Quelle technique est rattachée à l'imagerie compressive dans le cours ?
+
+> Ce domaine exploite une propriété mathématique des signaux naturels pour réduire le nombre de mesures.
+
+1. [ ] La refocalisation numérique post-capture
+1. [ ] La reconstruction par rétroprojection filtrée
+1. [x] La caméra à pixel unique combinée à des masques aléatoires successifs
+    > Correct : c'est l'exemple emblématique de l'imagerie compressive — une seule photodiode reconstruit une image 2D grâce à la parcimonie du signal.
+1. [ ] La pile focale pour l'image tout-nette
+```
+
+
+# Question 3 — Computational imaging in digital photography    
+
+
+```{quizdown}
+### Le mode nuit des smartphones capture environ 15 images à faible exposition plutôt qu'une seule longue exposition. Pourquoi ?
+
+> Pense au problème physique majeur d'une longue exposition unique.
+
+1. [ ] Pour augmenter la résolution spatiale de l'image finale
+1. [x] Pour éviter le flou de bougé tout en accumulant suffisamment de lumière
+    > Correct : chaque image courte est nette (pas de bougé), et la fusion temporelle accumule la lumière comme le ferait une longue exposition.
+1. [ ] Pour réduire la consommation énergétique du capteur
+1. [ ] Pour capturer simultanément plusieurs distances de mise au point
+```
+
+```{quizdown}
+### Quelles techniques de photographie computationnelle reposent sur la capture de plusieurs images successives ?
+
+> Pense aux méthodes qui ne peuvent pas fonctionner avec une seule acquisition.
+
+- [x] HDR (High Dynamic Range)
+    > Correct : le HDR fusionne plusieurs expositions différentes.
+- [x] Mode nuit / Burst photography
+    > Correct : il fusionne environ 15 images courtes alignées.
+- [ ] Ouverture codée
+    > Incorrect : l'ouverture codée extrait profondeur et image nette depuis une seule prise.
+- [x] Pile focale
+    > Correct : elle capture une série d'images à différentes distances de mise au point.
+- [ ] Imagerie hyperspectrale par filtre unique
+    > Incorrect : cette technique peut acquérir le spectre en une seule prise avec le bon capteur.
+```
+
+```{quizdown}
+### Dans la photographie computationnelle sur smartphone, d'où provient principalement la qualité photographique supérieure aux limites optiques du capteur ?
+
+1. [ ] De la taille physique plus grande du capteur CMOS
+1. [ ] De l'optique de haute précision des objectifs
+1. [x] De la puissance des algorithmes de traitement qui compensent les limitations physiques
+    > Correct : les smartphones ont de petits capteurs et des optiques basiques. La qualité provient du traitement computationnel, pas de l'optique.
+1. [ ] Du nombre élevé de mégapixels du capteur
+```
+
+
+# Question 4 — Computational imaging in medical imaging        
+
+
+```{quizdown}
+### Quelle modalité d'imagerie médicale acquiert ses données dans l'espace de Fourier (k-space) ?
+
+> Pense à la modalité qui exploite la précession de spin des noyaux d'hydrogène.
+
+1. [ ] La tomographie par émission de positrons (PET)
+1. [ ] L'échographie
+1. [ ] La radiographie X
+1. [x] L'IRM (Imagerie par Résonance Magnétique)
+    > Correct : l'IRM mesure dans le k-space et reconstruit l'image par transformée de Fourier inverse.
+```
+
+```{quizdown}
+### Quelle est la caractéristique fondamentale commune à TOUTES les modalités d'imagerie médicale mentionnées dans le cours ?
+
+> Réflexion sur ce qui rend l'imagerie médicale intrinsèquement computationnelle.
+
+1. [ ] Elles utilisent toutes des rayonnements ionisants
+1. [ ] Elles produisent toutes directement une image 3D sans traitement
+1. [x] Aucune ne produit directement une image 3D — toutes nécessitent une reconstruction algorithmique
+    > Correct : CT, PET, IRM, échographie — dans tous les cas, la reconstruction 3D est un problème inverse résolu par algorithme.
+1. [ ] Elles sont toutes limitées à l'imagerie anatomique (pas fonctionnelle)
+```
+
+```{quizdown}
+### Associe chaque modalité médicale à son porteur physique et son type d'information.
+
+> Pense aux interactions physiques entre rayonnement et tissu biologique pour chaque modalité.
+
+- [x] PET — traceurs radioactifs — information fonctionnelle et métabolique
+    > Correct : le PET détecte les photons gamma émis par l'annihilation des positrons issus d'un traceur injecté.
+- [ ] IRM — rayons X — information anatomique
+    > Incorrect : l'IRM utilise la résonance magnétique des noyaux d'hydrogène, pas les rayons X.
+- [x] CT — rayons X multi-angles — image de coupe par rétroprojection
+    > Correct : le CT est une radiographie sous plusieurs angles permettant la reconstruction volumique.
+- [x] Échographie — ondes de pression haute fréquence — rétrodiffusion sur interfaces tissulaires
+    > Correct : l'échographie exploite la réflexion des ultrasons sur les interfaces biologiques.
+```
+
+
+# Question 5 — Computational imaging in microscopy             
+
+
+```{quizdown}
+### En microscopie optique classique, quelle est la limite de résolution imposée par le critère d'Abbe ?
+
+> La formule fait intervenir la longueur d'onde et l'ouverture numérique de l'objectif.
+
+1. [ ] Environ 20 micromètres pour la lumière visible
+1. [x] Environ 200 nanomètres pour la lumière visible
+    > Correct : la limite est d'environ lambda/(2*NA), soit ~200 nm pour la lumière visible.
+1. [ ] Environ 2 nanomètres pour la lumière visible
+1. [ ] Environ 2 millimètres pour la lumière visible
+```
+
+```{quizdown}
+### Quelle technique de nano-imagerie magnétique offre la résolution la plus fine parmi celles présentées dans le cours ?
+
+> Classe-les par résolution décroissante : MRFM, NV-NanoMRI, ESR-STM.
+
+1. [ ] MRFM (~1 nm de résolution, portée ~100 nm)
+1. [ ] NV-NanoMRI (~0,1 nm de résolution, portée ~10 nm)
+1. [x] ESR-STM (résolution inférieure à 0,1 nm, portée ~1 nm)
+    > Correct : l'ESR-STM atteint une résolution sub-angstrom, la plus fine des trois techniques présentées.
+```
+
+```{quizdown}
+### Pourquoi la pile focale est-elle indispensable en microscopie optique conventionnelle ?
+
+1. [ ] Parce que les objectifs de microscope ont une trop grande ouverture numérique
+1. [ ] Parce que le capteur ne peut pas enregistrer les hautes fréquences spatiales
+1. [x] Parce que la profondeur de champ des objectifs est extrêmement réduite, de l'ordre du micromètre
+    > Correct : à faible profondeur de champ, seule une mince tranche du spécimen est nette — la pile focale permet de fusionner des images à différentes focales pour obtenir une image entièrement nette.
+1. [ ] Parce que les échantillons biologiques bougent trop vite
+```
+
+
+# Question 6 — Computational imaging in astronomy              
+
+
+```{quizdown}
+### Le SKA (Square Kilometre Array) ne produit pas directement des images astronomiques. Que produit-il comme données brutes ?
+
+> Pense à la technique d'interférométrie sous-jacente.
+
+1. [ ] Des photographies directes de haute résolution
+1. [x] Des visibilités, c'est-à-dire des corrélations entre paires d'antennes
+    > Correct : les visibilités sont les données brutes. Des algorithmes (CLEAN, méthodes bayésiennes) les transforment en images radio astronomiques.
+1. [ ] Des spectres de luminosité intégrés sur tout le ciel
+1. [ ] Des cartes de température de brillance directement lisibles
+```
+
+```{quizdown}
+### Quelle est approximativement la puissance de calcul requise par instrument du SKA ?
+
+> Ordre de grandeur à retenir pour illustrer l'échelle computationnelle du projet.
+
+1. [ ] ~130 TFlops par instrument
+1. [ ] ~130 GFlops par instrument
+1. [x] ~130 PFlops par instrument
+    > Correct : le SKA nécessite environ 130 PetaFlops par instrument, illustrant l'échelle planétaire du défi computationnel.
+1. [ ] ~130 EFlops par instrument
+```
+
+```{quizdown}
+### L'imagerie astronomique par interférométrie à longue base (VLBI) simule un télescope dont le diamètre effectif est égal à quelle distance ?
+
+1. [ ] Au diamètre de chaque antenne individuelle
+1. [ ] À la moyenne des distances entre antennes
+1. [x] À la distance entre les antennes les plus éloignées du réseau
+    > Correct : c'est le principe de la synthèse d'ouverture — le réseau simule un télescope unique dont le diamètre équivaut à la plus grande ligne de base.
+1. [ ] À la longueur d'onde du signal radio observé
+```
+
+
+# Question 7 — Deep optics                                     
+
+
+```{quizdown}
+### En Deep Optics, qu'est-ce qui distingue fondamentalement la phase d'entraînement de la phase d'inférence ?
+
+> Pense à ce qui est fait en simulation versus ce qui est déployé physiquement.
+
+1. [ ] Durant l'entraînement, seul le réseau est optimisé ; durant l'inférence, seule l'optique est utilisée
+1. [x] Durant l'entraînement, optique et réseau sont co-optimisés en simulation ; durant l'inférence, la lentille optimisée est fabriquée physiquement et le réseau déployé
+    > Correct : l'entraînement est entièrement numérique (simulation différentiable de l'optique + rétropropagation). L'inférence implique la fabrication physique de la lentille.
+1. [ ] Durant l'entraînement, seuls les paramètres de la lentille sont modifiés
+1. [ ] Il n'y a pas de distinction — les deux phases sont identiques
+```
+
+```{quizdown}
+### Pourquoi la couche physique du système de Deep Optics doit-elle être paramétrisée de façon différentiable ?
+
+> Pense à la condition nécessaire pour que l'optimisation bout-en-bout par descente de gradient soit possible.
+
+1. [ ] Pour permettre la fabrication de la lentille par impression 3D
+1. [ ] Pour rendre le système optique invariant aux aberrations
+1. [x] Pour permettre au gradient de la perte de remonter à travers la simulation de l'optique jusqu'aux paramètres de la lentille
+    > Correct : sans différentiabilité, il est impossible de calculer le gradient par rapport aux paramètres géométriques de la lentille, et donc de les optimiser.
+1. [ ] Pour garantir que la PSF est invariante en profondeur
+```
+
+```{quizdown}
+### L'optique profonde remet en question un principe fondamental de la conception optique classique. Lequel ?
+
+1. [ ] La lentille doit être fabriquée en verre de haute pureté
+1. [x] La lentille doit produire une image visuellement belle et reconnaissable
+    > Correct : en Deep Optics, une lentille apparemment "défectueuse" (très aberrante) peut surpasser une lentille parfaite si elle encode l'information de façon plus discriminante pour la tâche visée.
+1. [ ] L'algorithme de reconstruction doit être linéaire
+1. [ ] La PSF doit être invariante par translation
+```
+
+
+# Question 8 — NLOS imaging                                    
+
+
+```{quizdown}
+### Quel rebond de lumière est exploité en imagerie NLOS pour localiser un objet caché ?
+
+> Compte les interactions : laser -> mur -> objet -> mur -> capteur.
+
+1. [ ] Le premier rebond (réflexion directe sur le mur)
+1. [ ] Le deuxième rebond
+1. [x] Le troisième rebond
+    > Correct : le chemin est laser -> mur visible -> objet caché -> mur visible -> capteur. C'est la différence temporelle entre ce trajet et le trajet direct qui encode la position de l'objet.
+1. [ ] Le quatrième rebond ou plus
+```
+
+```{quizdown}
+### Quel composant du dispositif NLOS permet de mesurer le temps d'arrivée des photons avec une précision de l'ordre de la picoseconde ?
+
+> Ce détecteur peut répondre à un photon unique.
+
+1. [ ] Un capteur CMOS classique
+1. [ ] Un photomultiplicateur (PMT) standard
+1. [x] Un capteur SPAD (Single-Photon Avalanche Diode)
+    > Correct : le SPAD est un détecteur à photon unique avec une résolution temporelle de l'ordre de quelques dizaines de picosecondes, indispensable pour résoudre les différences de trajet de quelques centimètres.
+1. [ ] Un interféromètre de Michelson
+```
+
+```{quizdown}
+### Le signal utile (3ème rebond) en imagerie NLOS est environ combien de fois plus faible que le signal direct ?
+
+1. [ ] 2 à 5 fois plus faible
+1. [ ] 10 000 fois plus faible
+1. [x] 10 à 100 fois plus faible
+    > Correct : c'est le principal défi algorithmique — extraire un signal faible noyé dans un fond de bruit bien plus intense.
+1. [ ] De la même intensité que le signal direct
+```
+
+
+# Question 9 — Parameters of HVS                               
+
+
+```{quizdown}
+### Quelle est la résolution angulaire de l'acuité visuelle normale (notation 20/20) ?
+
+> C'est la plus petite séparation angulaire que l'œil peut résoudre.
+
+1. [ ] 1 degré
+1. [ ] 1 seconde d'arc
+1. [x] 1 minute d'arc
+    > Correct : 20/20 correspond à environ 1 minute d'arc, soit la capacité à distinguer deux points séparés d'environ 1,5 mm à 5 mètres.
+1. [ ] 10 minutes d'arc
+```
+
+```{quizdown}
+### Quelle est la plage dynamique adaptée du système visuel humain, après adaptation complète à l'obscurité ?
+
+> Compare avec la plage instantanée (~5 ordres de grandeur) et avec les écrans actuels (~3 ordres).
+
+1. [ ] Environ 3 ordres de grandeur (identique aux écrans actuels)
+1. [ ] Environ 6 ordres de grandeur
+1. [ ] Environ 20 ordres de grandeur
+1. [x] Jusqu'à 14 ordres de grandeur (46,5 f-stops)
+    > Correct : c'est cette supériorité de l'œil humain sur les capteurs qui motive les techniques HDR en photographie computationnelle.
+```
+
+```{quizdown}
+### La Fonction de Sensibilité au Contraste (CSF) du système visuel humain présente une décroissance aux basses fréquences spatiales. Quelle est la cause de cette décroissance ?
+
+1. [ ] La limite de diffraction de la cornée
+1. [ ] La taille finie des photorécepteurs
+1. [x] L'inhibition latérale des cellules ganglionnaires rétiniennes
+    > Correct : l'inhibition latérale (organisation centre-pourtour) pénalise les très basses fréquences, ce qui explique le pic de sensibilité autour de 4-6 cpd plutôt qu'à 0 cpd.
+1. [ ] Le nombre insuffisant de bâtonnets dans la fovéa
+```
+
+```{quizdown}
+### Remets dans l'ordre croissant les longueurs d'onde de pic de sensibilité des quatre types de photorécepteurs de l'œil humain.
+
+> De la plus courte (bleu) à la plus longue (rouge), en passant par le pic des bâtonnets.
+
+1. Cônes S (bleu) — 419 nm
+2. Bâtonnets — 496 nm
+3. Cônes M (vert) — 531 nm
+4. Cônes L (rouge) — 559 nm
+```
+
+
+# Question 10 — Structure of the eye                           
+
+
+```{quizdown}
+### Quelle structure de l'œil assure environ 70% de la réfraction totale et dont la courbure est fixe ?
+
+> Ne pas confondre avec l'élément qui permet l'accommodation.
+
+1. [ ] Le cristallin
+1. [ ] L'humeur vitrée
+1. [x] La cornée
+    > Correct : la cornée assure ~70% du pouvoir réfractif mais sa courbure est fixe. C'est le cristallin (~30%) qui s'adapte pour l'accommodation.
+1. [ ] L'iris
+```
+
+```{quizdown}
+### En vision de près, comment les muscles ciliaires et les fibres zonulaires agissent-ils sur le cristallin ?
+
+> Le mécanisme est contra-intuitif : contraction des muscles -> relaxation des fibres.
+
+1. [ ] Muscles ciliaires relâchés -> fibres zonulaires relâchées -> cristallin aplati
+1. [x] Muscles ciliaires contractés -> fibres zonulaires relâchées -> cristallin bombé (plus convergent)
+    > Correct : la contraction des muscles ciliaires réduit leur diamètre, ce qui relâche la tension des fibres zonulaires, permettant au cristallin de prendre sa forme naturelle bombée.
+1. [ ] Muscles ciliaires contractés -> fibres zonulaires tendues -> cristallin aplati
+1. [ ] Muscles ciliaires relâchés -> fibres zonulaires tendues -> cristallin bombé
+```
+
+```{quizdown}
+### Le disque optique (papille) constitue la tache aveugle. Quelle propriété anatomique explique ce phénomène ?
+
+1. [ ] La concentration excessive de bâtonnets empêche la transmission du signal
+1. [ ] La choroïde absorbe toute la lumière en ce point
+1. [x] Le disque optique ne contient aucun photorécepteur — c'est le point de sortie du nerf optique
+    > Correct : les axones des cellules ganglionnaires convergent en ce point pour former le nerf optique, laissant aucune place aux photorécepteurs. Le cerveau interpole cette lacune.
+1. [ ] L'humeur vitrée réfracte la lumière de façon à ne rien projeter sur ce point
+```
+
+
+# Question 11 — Structure and properties of retina             
+
+
+```{quizdown}
+### La rétine humaine contient environ combien de bâtonnets et de cônes ?
+
+> Retiens les ordres de grandeur — la différence entre les deux est d'un facteur 10.
+
+1. [ ] ~10^6 bâtonnets et ~10^5 cônes
+1. [x] ~10^8 bâtonnets et ~10^7 cônes
+    > Correct : environ 100 millions de bâtonnets et 10 millions de cônes. Les bâtonnets sont 10 fois plus nombreux.
+1. [ ] ~10^8 bâtonnets et ~10^8 cônes (proportions égales)
+1. [ ] ~10^5 bâtonnets et ~10^8 cônes
+```
+
+```{quizdown}
+### Quelle est la conséquence de la forte convergence des bâtonnets vers les cellules ganglionnaires ?
+
+> Pense au compromis fondamental entre deux propriétés perceptives antagonistes.
+
+1. [ ] Haute résolution spatiale mais faible sensibilité à la lumière
+1. [x] Haute sensibilité à la lumière mais faible résolution spatiale
+    > Correct : de nombreux bâtonnets partagent une seule cellule ganglionnaire, ce qui cumule les signaux (gain en sensibilité) mais perd l'information de localisation précise (perte de résolution).
+1. [ ] Bonne vision des couleurs mais lenteur de traitement
+1. [ ] Vision optimale en plein jour mais insensibilité à l'obscurité
+```
+
+```{quizdown}
+### Les cellules ganglionnaires rétiniennes (RGC) de type P et de type M ont des rôles différents. Lequel des couples suivants est correct ?
+
+1. [ ] Cellules M : couleur et détail spatial — Cellules P : mouvement et résolution temporelle
+1. [x] Cellules M : mouvement et résolution temporelle — Cellules P : couleur et détail spatial
+    > Correct : les cellules Magnocellulaires (M) ont une grande convergence et sont spécialisées dans le mouvement ; les cellules Parvocellulaires (P) ont une faible convergence et encodent la couleur et le détail fin.
+1. [ ] Les deux types ont des fonctions identiques et se distinguent uniquement par leur taille
+1. [ ] Cellules M : vision scotopique — Cellules P : vision photopique
+```
+
+```{quizdown}
+### Pourquoi la vision nocturne est-elle meilleure en regardant légèrement de côté plutôt que directement ?
+
+> Pense à la distribution spatiale des bâtonnets sur la rétine.
+
+1. [ ] Parce que la cornée réfracte mieux la lumière en vision périphérique
+1. [ ] Parce que les cônes de la fovéa sont plus sensibles que les bâtonnets en faible lumière
+1. [x] Parce que les bâtonnets sont absents de la fovéa et ont une densité maximale entre 15 et 20 degrés d'excentricité
+    > Correct : regarder de côté projette l'objet faiblement lumineux sur la région périphérique riche en bâtonnets, beaucoup plus sensibles que les cônes de la fovéa en conditions scotopiques.
+1. [ ] Parce que l'iris s'ouvre davantage en vision périphérique
+```
+
+
+# Question 12 — Primary visual cortex                          
+
+
+```{quizdown}
+### Quelle découverte ont faite Hubel et Wiesel dans le cortex visuel primaire (V1), récompensée par le prix Nobel en 1981 ?
+
+> Ces neurones sont des détecteurs d'une propriété géométrique très spécifique du stimulus.
+
+1. [ ] Les neurones de V1 répondent à des fréquences de couleur spécifiques
+1. [ ] Les neurones de V1 encodent directement l'identité des objets
+1. [x] Les neurones de V1 répondent sélectivement à des bords orientés à une orientation et une position spécifiques
+    > Correct : les cellules simples de V1 sont des détecteurs de bords orientés. Leur découvertes ont directement inspiré les filtres appris dans les CNN.
+1. [ ] Les neurones de V1 sont organisés en colonnes encodant uniquement la profondeur
+```
+
+```{quizdown}
+### Quelle est la différence fonctionnelle entre une cellule simple et une cellule complexe de V1 ?
+
+> La tolérance à la position est le critère clé.
+
+1. [ ] La cellule simple répond aux mouvements rapides, la cellule complexe aux mouvements lents
+1. [ ] La cellule simple est sensible à la couleur, la cellule complexe est achromatique
+1. [x] La cellule simple est sélective à l'orientation ET à une position précise ; la cellule complexe est sélective à l'orientation mais tolérante à la position
+    > Correct : la cellule complexe peut être vue comme une agrégation de cellules simples de même orientation préférée, introduisant l'invariance spatiale locale.
+1. [ ] Aucune difference fonctionnelle — la distinction est uniquement morphologique
+```
+
+```{quizdown}
+### Le flux dorsal et le flux ventral traitent respectivement deux types d'information différents. Lesquels ?
+
+> Mémorise : ventral = "Quoi", dorsal = "Où".
+
+1. [ ] Ventral : mouvement — Dorsal : couleur
+1. [x] Ventral : reconnaissance d'objets (le "Quoi") — Dorsal : localisation et mouvement (le "Où")
+    > Correct : le flux ventral (V1->V4->IT) traite la forme, couleur et identité des objets. Le flux dorsal (V1->MT->pariétal) traite la localisation spatiale et le mouvement.
+1. [ ] Ventral : vision binoculaire — Dorsal : vision monoculaire
+1. [ ] Ventral : basse résolution — Dorsal : haute résolution
+```
+
+```{quizdown}
+### Remets dans l'ordre les étapes de la voie visuelle, de la rétine jusqu'au cortex visuel primaire.
+
+> Le signal visuel fait une étape intermédiaire dans le thalamus avant d'atteindre le cortex.
+
+1. Rétine (cellules ganglionnaires)
+2. Nerf optique
+3. Chiasma optique (decussation partielle)
+4. Noyau genouillé latéral (LGN)
+5. Cortex visuel primaire (V1)
+```
+
+
+# Question 13 — Network models                                 
+
+
+```{quizdown}
+### Quel modèle computationnel, proposé par Fukushima, est le précurseur direct des réseaux convolutifs (CNN) ?
+
+> Ce modèle transpose directement l'architecture hiérarchique de V1 découverte par Hubel et Wiesel.
+
+1. [ ] Le Perceptron multicouche (MLP)
+1. [ ] Le réseau de Hopfield
+1. [x] Le Neocognitron
+    > Correct : le Neocognitron alterne des couches S (filtres locaux, analogues aux cellules simples) et des couches C (pooling, analogues aux cellules complexes), réalisant la première reconnaissance invariante à la translation dans un réseau artificiel.
+1. [ ] Le réseau récurrent LSTM
+```
+
+```{quizdown}
+### Dans l'architecture LeNet, les couches de pooling jouent un rôle analogue à quel type de cellules de V1 ?
+
+> Ces cellules tolèrent les légères variations de position du stimulus.
+
+1. [ ] Les cellules centre-pourtour
+1. [ ] Les cellules simples
+1. [x] Les cellules complexes
+    > Correct : le pooling spatial introduit l'invariance à de légères translations — exactement comme les cellules complexes de V1 qui s'activent pour une orientation donnée indépendamment de la position exacte du stimulus.
+1. [ ] Les cellules ganglionnaires de type P
+```
+
+```{quizdown}
+### La sélectivité des filtres appris dans les premières couches des CNN ressemble à celle de quel type de neurones de V1 ?
+
+1. [ ] Des cellules ganglionnaires de type M
+1. [ ] Des cellules de dominance oculaire
+1. [x] Des cellules simples — filtres orientés de type Gabor
+    > Correct : les premières couches des CNN apprennent spontanément des filtres de type Gabor (sinusoïde x gaussienne), mathématiquement proches de la réponse des cellules simples de V1.
+1. [ ] Des neurones du LGN parvocellulaire uniquement
+```
+
+```{quizdown}
+### Les connexions feedback (retour des aires supérieures vers V1) sont-elles bien modélisées dans les CNN actuels ?
+
+1. [ ] Vrai — les CNN modernes incluent des connexions feedback explicites inspirées du flux ventral
+1. [x] Faux — le modèle convolution + non-linéarité ne capture pas ces connexions, qui restent une limite reconnue
+    > Correct : au-delà de V1, on ne dispose pas encore de modèles computationnels satisfaisants incluant les connexions bidirectionnelles. C'est une limite majeure des CNN par rapport au système visuel biologique.
+```
+
+
+# Question 14 — Conventional vs computational photography     
+
+
+```{quizdown}
+### Dans une caméra plénoptique, l'image brute capturée par le capteur ressemble-t-elle directement à la scène photographiée ?
+
+1. [ ] Vrai — la caméra plénoptique produit directement une image refocalisée
+1. [x] Faux — l'image brute est un ensemble d'empreintes angulaires sous les micro-lentilles, non reconnaissable sans algorithme de reconstruction
+    > Correct : c'est l'exemple emblématique de la photographie computationnelle — l'optique encode, le calcul décode. L'image brute n'est pas directement lisible.
+```
+
+```{quizdown}
+### Quelle propriété caractérise une caméra à sténopé (pinhole camera) par rapport à un objectif à lentille, et pourquoi la photographie computationnelle cherche-t-elle à combiner leurs avantages ?
+
+> Pense aux deux compromis antagonistes : lumière vs profondeur de champ.
+
+1. [ ] Le sténopé offre une résolution spatiale supérieure mais une sensibilité aux couleurs réduite
+1. [x] Le sténopé offre une profondeur de champ infinie (tout net) mais capture très peu de lumière, l'inverse d'un objectif à lentille
+    > Correct : la photographie computationnelle cherche précisément à dépasser ce compromis — obtenir une image nette sur toute la profondeur avec une bonne efficacité lumineuse.
+1. [ ] Le sténopé permet des expositions plus courtes mais avec plus de distorsion géométrique
+1. [ ] Il n'y a pas de différence significative entre les deux en termes de profondeur de champ
+```
+
+
+# Question 15 — Focal stack imaging                            
+
+
+```{quizdown}
+### Quel opérateur mathématique est utilisé pour mesurer la netteté locale de chaque image dans la pile focale ?
+
+> Cet opérateur est sensible aux variations rapides d'intensité — il détecte les contours.
+
+1. [ ] La transformée de Fourier
+1. [ ] Le gradient de premier ordre (opérateur Sobel)
+1. [x] L'opérateur Laplacien
+    > Correct : le Laplacien donne une réponse forte dans les zones nettes (contours bien définis) et proche de zéro dans les zones floues. Il est ensuite lissé par un filtre gaussien.
+1. [ ] La corrélation croisée normalisée
+```
+
+```{quizdown}
+### Pourquoi faut-il corriger le grandissement entre les images d'une pile focale avant de les fusionner ?
+
+> Pense à ce qui se passe sur la valeur du grandissement quand la distance objectif-capteur D' varie.
+
+1. [ ] Parce que la luminosité change selon la mise au point
+1. [x] Parce que faire varier D' change le grandissement m = f/(D'-f), ce qui modifie l'échelle de l'image
+    > Correct : quand on fait tourner la bague de mise au point, les images n'ont pas exactement le même grossissement. Un recadrage isotrope est nécessaire avant la fusion.
+1. [ ] Parce que la couleur des images varie selon la mise au point
+1. [ ] Parce que le champ de vision change uniquement en macro-photographie
+```
+
+```{quizdown}
+### Quelle information supplémentaire, en plus de l'image tout-nette, peut-on extraire d'une pile focale ?
+
+> La netteté maximale d'un pixel dans la pile est liée à une propriété géométrique de la scène.
+
+1. [ ] La carte de réflectance spectrale des matériaux
+1. [ ] La position des sources lumineuses dans la scène
+1. [x] La carte de profondeur — la mise au point optimale d'un pixel révèle sa distance à la caméra
+    > Correct : la profondeur d'un point de la scène correspond à la mise au point à laquelle ce point est le plus net dans la pile. C'est le principe du Depth from Focus.
+1. [ ] La vitesse de déplacement des objets dans la scène
+```
+
+
+# Question 16 — Depth inference                                
+
+
+```{quizdown}
+### La technique du flot focal (Focal Flow) a été inspirée du système visuel d'un animal particulier. Lequel ?
+
+> Cet animal possède un tube oculaire secondaire avec deux lentilles créant naturellement un effet de pile focale.
+
+1. [ ] La crevette-mante (Odontodactylus scyllarus)
+1. [ ] L'abeille mellifère
+1. [x] L'araignée sauteuse (jumping spider)
+    > Correct : l'araignée sauteuse possède un tube oculaire avec deux couches rétiniennes recevant des niveaux de flou différents — elle réalise biologiquement ce que le flot focal fait numériquement.
+1. [ ] Le pigeon colombe
+```
+
+```{quizdown}
+### La technique Depth from Defocus nécessite combien d'images en entrée ?
+
+> C'est la technique la plus parcimonieuse en données parmi les quatre présentées.
+
+1. [ ] Une seule image
+1. [x] Deux images avec des niveaux de défocus différents
+    > Correct : g1 = f * h_sigma1 et g2 = f * h_sigma2. Comparer les deux permet d'estimer sigma (donc la profondeur) sans connaître f explicitement.
+1. [ ] Une pile focale complète (10 images ou plus)
+1. [ ] Une pile combinant mise au point ET ouverture variable (pile 2D)
+```
+
+```{quizdown}
+### Quelle technique d'inférence de profondeur produit une estimation par pixel (et non par patch) ?
+
+> C'est la plus précise mais aussi la plus exigeante en données.
+
+1. [ ] Depth from Defocus
+1. [ ] Depth from Focus
+1. [ ] Flot focal (Focal Flow)
+1. [x] Stéréo confocale (Confocal Stereo)
+    > Correct : la stéréo confocale utilise une pile 2D (focus + aperture) et produit une estimation par pixel — la granularité la plus fine, au prix d'un volume de données bien supérieur.
+```
+
+
+# Question 17 — Light field photography: principles            
+
+
+```{quizdown}
+### La fonction plénoptique complète est 5D. Pourquoi peut-on la réduire à 4D pour décrire le champ lumineux dans un espace libre ?
+
+> Pense à ce qui se conserve le long du trajet d'un rayon lumineux en l'absence de diffusion ou d'absorption.
+
+1. [ ] Parce que l'œil humain ne perçoit pas la 5ème dimension
+1. [ ] Parce que les capteurs modernes ne peuvent enregistrer que 4 dimensions
+1. [x] Parce que la radiance d'un rayon est constante le long de sa trajectoire dans un espace libre, ce qui permet de paramétrer tout rayon par son intersection avec deux plans
+    > Correct : la conservation de la radiance permet le paramétrage à deux plans (s,t,u,v), réduisant la description de 5D à 4D.
+1. [ ] Parce que la couleur est traitée séparément et n'est pas incluse dans le champ lumineux
+```
+
+```{quizdown}
+### Quelle opération numérique sur le champ lumineux permet de simuler une réduction de l'ouverture après la prise de vue ?
+
+> Pense à quels pixels sous chaque micro-lentille correspondent aux rayons passant par le centre de l'ouverture.
+
+1. [ ] Sommer toutes les images de toutes les micro-lentilles sans décalage
+1. [x] Ne sommer que les pixels centraux sous chaque micro-lentille
+    > Correct : les pixels centraux correspondent aux rayons ayant traversé le centre de l'ouverture — exactement ceux qu'un diaphragme fermé laisserait passer. Cela augmente la profondeur de champ.
+1. [ ] Décaler les fenêtres d'extraction dans le sens opposé pour chaque micro-lentille
+1. [ ] Appliquer un filtre gaussien à chaque sous-image de micro-lentille
+```
+
+```{quizdown}
+### Quel est le compromis fondamental et incontournable de la caméra plénoptique ?
+
+1. [ ] La caméra plénoptique ne peut fonctionner qu'en lumière naturelle
+1. [x] La résolution totale du capteur est partagée entre résolution spatiale et résolution angulaire
+    > Correct : plus on veut de directions angulaires distinctes, moins on a de pixels par vue. La résolution spatiale effective est inférieure à celle d'une caméra conventionnelle de même capteur.
+1. [ ] La refocalisation numérique introduit nécessairement un flou de mouvement
+1. [ ] La caméra plénoptique ne peut capturer qu'une seule mise au point par prise de vue
+```
+
+```{quizdown}
+### Qui est à l'origine du concept de photographie intégrale (ancêtre de la caméra plénoptique) et en quelle année ?
+
+1. [ ] Yann LeCun, en 1998
+1. [ ] Ren Ng, en 2005
+1. [ ] Ernst Abbe, en 1873
+1. [x] Gabriel Lippmann, en 1908 (article Scientific American du 19 août 1911)
+    > Correct : Lippmann a conceptualisé la photographie intégrale en 1908. La réalisation pratique n'est devenue possible qu'avec les capteurs numériques modernes.
+```
+
+
+# Question 18 — Light field: hardware particularities           
+
+
+```{quizdown}
+### Quelle approche hardware de capture du champ lumineux permet de travailler avec des scènes dynamiques (objets en mouvement) ?
+
+> La contrainte clé est de capturer toutes les vues simultanément.
+
+1. [ ] Une caméra unique déplacée sur une platine motorisée
+1. [ ] Une caméra unique avec bague de mise au point motorisée
+1. [x] Un réseau de caméras multiples (comme le Stanford Camera Array)
+    > Correct : toutes les caméras du réseau capturent simultanément, éliminant tout problème de flou de mouvement inter-vues. Les autres approches requièrent une scène statique ou une seule prise (plénoptique).
+1. [ ] Toutes les approches sont équivalentes pour les scènes dynamiques
+```
+
+```{quizdown}
+### Dans une caméra plénoptique, où est placé le réseau de micro-lentilles (MLA) par rapport à l'objectif principal et au capteur ?
+
+> Sa position distingue la caméra plénoptique de la lentille à réseau (Question 20).
+
+1. [ ] Devant l'objectif principal
+1. [ ] Au même niveau que l'objectif principal
+1. [x] Entre l'objectif principal et le capteur, directement sur la surface du capteur
+    > Correct : le MLA est placé entre l'objectif et le capteur (ou directement collé sur le capteur CMOS). Il dirige vers chaque pixel la lumière provenant d'une direction angulaire précise de l'ouverture.
+1. [ ] Derrière le capteur, dans le système de traitement électronique
+```
+
+```{quizdown}
+### Quel composant de la caméra Lytro est chargé du traitement spécifique au champ lumineux ?
+
+> Ce n'est pas le capteur CMOS ni le module de connectivité.
+
+1. [ ] Le SoC Marvell Avastar 88W8787
+1. [ ] Le réseau de lentilles (Lens Array)
+1. [x] Le moteur de champ lumineux (Light Field Engine)
+    > Correct : le Light Field Engine est le processeur de signal dédié au traitement plénoptique. Le SoC Marvell gère la connectivité WiFi/Bluetooth.
+1. [ ] Le capteur de champ lumineux (Light Field Sensor) seul
+```
+
+
+# Question 19 — Coded apertures                                
+
+
+```{quizdown}
+### Quel est l'avantage principal d'utiliser une ouverture codée (masque binaire pseudo-aléatoire) plutôt qu'une ouverture circulaire standard ?
+
+> Pense au problème de discrimination entre flou de défocus et contenu naturellement uniforme.
+
+1. [ ] L'ouverture codée laisse passer plus de lumière que l'ouverture standard
+1. [ ] L'ouverture codée produit une image de meilleure résolution
+1. [x] La PSF porte une signature caractéristique du masque, facilement identifiable et discriminable du contenu naturellement lisse
+    > Correct : contrairement à la PSF circulaire lisse, la PSF codée est reconnaissable à toute profondeur. L'échelle du motif révèle la profondeur, et sa présence distingue le défocus du contenu naturel.
+1. [ ] L'ouverture codée élimine complètement le besoin de régularisation
+```
+
+```{quizdown}
+### Dans la formulation de déconvolution avec a priori épars, quel exposant du gradient est supérieur au priori gaussien (exposant 2) ?
+
+> Un exposant inférieur à 1 favorise les solutions avec des gradients concentrés sur quelques pixels (bords nets).
+
+1. [ ] Un exposant de 1,5 (semi-quadratique)
+1. [ ] Un exposant de 1,0 (régularisation L1)
+1. [x] Un exposant de 0,8 (priori hyper-laplacien ou sparse)
+    > Correct : rho(nabla x) = ||nabla x||^0.8 favorise la parcimonie des gradients (zones plates + bords nets), supérieur à Richardson-Lucy et au priori gaussien pour la déconvolution d'images naturelles.
+1. [ ] Un exposant de 0,0 (pénalisation de la norme L0)
+```
+
+```{quizdown}
+### Pourquoi combiner un masque avec des fréquences nulles ET un a priori épars est-il la solution optimale pour l'ouverture codée ?
+
+> Les deux problèmes à résoudre sont la discrimination de profondeur et la stabilité de la déconvolution.
+
+1. [ ] Parce que les fréquences nulles accélèrent le calcul et l'a priori réduit le bruit de quantification
+1. [ ] Parce qu'un masque sans fréquences nulles est physiquement impossible à fabriquer
+1. [x] Parce que les fréquences nulles améliorent la discrimination de profondeur, et l'a priori épars guide la reconstruction même quand certaines fréquences sont perdues (zéros spectraux)
+    > Correct : les deux sont complémentaires — le masque optimise l'encodage de la profondeur, et l'a priori compense l'impossibilité mathématique d'inverser les zéros du spectre.
+1. [ ] Parce que l'a priori épars permet de supprimer les fréquences nulles a posteriori
+```
+
+
+# Question 20 — Generalized optics                             
+
+
+```{quizdown}
+### La technique du Wavefront Coding modifie la surface d'une lentille pour introduire une aberration. Quel est l'effet recherché sur la PSF ?
+
+> L'objectif est que la PSF ne change pas (ou peu) selon la distance de l'objet.
+
+1. [ ] Rendre la PSF ponctuelle (idéalement nette) à toutes les profondeurs
+1. [ ] Faire varier la PSF de façon distinctive selon la profondeur pour l'estimer
+1. [x] Rendre la PSF approximativement invariante en profondeur, permettant une déconvolution globale unique
+    > Correct : une PSF invariante en profondeur permet une seule déconvolution globale qui restaure la netteté sur toute la scène — au prix de ne pas produire de carte de profondeur.
+1. [ ] Maximiser le rapport signal/bruit pour les objets très éloignés
+```
+
+```{quizdown}
+### La lentille à réseau (Lattice Lens) est placée devant l'objectif principal, contrairement à la caméra plénoptique. Quelle conséquence cela a-t-il sur la PSF ?
+
+> Compare avec le Wavefront Coding où la PSF est invariante.
+
+1. [ ] La PSF devient invariante en profondeur, comme en Wavefront Coding
+1. [ ] La PSF est toujours ponctuelle, quelle que soit la profondeur
+1. [x] La PSF varie selon la profondeur, permettant d'estimer la profondeur localement
+    > Correct : chaque micro-lentille du réseau dévie les rayons différemment selon la profondeur, créant une PSF caractéristique de chaque distance — c'est l'information qui permet l'estimation de profondeur.
+1. [ ] La PSF devient circulaire et uniforme, comme avec une ouverture standard
+```
+
+```{quizdown}
+### Quelle est la notion d'écart de dimensionnalité introduite par Ng (2005) en relation avec la lentille à réseau ?
+
+> Le champ lumineux complet est 4D. Quelle dimension correspond réellement à l'information utile pour image + profondeur ?
+
+1. [ ] Le champ lumineux est 5D mais seules 2D sont utiles (les deux coordonnées spatiales)
+1. [ ] Le champ lumineux complet 4D est entièrement nécessaire — il n'y a pas d'écart
+1. [x] Le champ lumineux est 4D mais l'information utile (image 2D + profondeur 1D) n'en occupe que 3D — la lentille à réseau capture précisément ce sous-espace
+    > Correct : cet écart de dimensionnalité justifie la lentille à réseau comme plus efficace que la caméra plénoptique complète pour les applications image+profondeur.
+1. [ ] Le champ lumineux est 3D et la 4eme dimension est redondante dans tous les cas
+```
+
+```{quizdown}
+### Parmi les systèmes suivants, lequel produit à la fois une grande profondeur de champ ET une carte de profondeur à partir d'une seule acquisition ?
+
+> Élimine ceux qui ne produisent pas de carte de profondeur, et ceux qui nécessitent plusieurs images.
+
+1. [ ] Wavefront Coding
+    > Incorrect : le Wavefront Coding produit une grande profondeur de champ mais pas de carte de profondeur (les PSFs sont identiques).
+1. [ ] Caméra plénoptique
+    > Incorrect : la caméra plénoptique permet la refocalisation et l'estimation de profondeur, mais avec une résolution spatiale réduite et sans profondeur de champ étendue par défaut.
+1. [x] Ouverture codée
+    > Correct : depuis une seule image, l'ouverture codée extrait simultanément une image tout-nette et une carte de profondeur (grossière).
+1. [x] Lentille à réseau
+    > Correct : la lentille à réseau produit image nette et profondeur depuis une seule acquisition en exploitant la variation de PSF avec la profondeur.
+```

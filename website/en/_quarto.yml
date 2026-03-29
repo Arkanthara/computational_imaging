@@ -57,6 +57,15 @@ website:
               - text: "Quiz"
                 href: ch4q.qmd
 
+      - section: "Exam"
+        contents:
+          - text: "Details"
+            href: exam_answers.qmd
+          - text: "Summary"
+            href: exam_syntheses.qmd
+          - text: "Quiz"
+            href: exam_quiz.qmd
+
 format:
   html:
     theme:
@@ -64,3 +73,4 @@ format:
       light: ../latte.scss
     toc: true
     embed-resources: true
+    page-layout: full

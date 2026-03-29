@@ -1,0 +1,596 @@
+# Question 1 — Definition of computational imaging
+
+## Summary
+
+**Definition:** Process of **indirect** image formation from raw measurements, using computation-intensive algorithms. It relies on the **co-design** of the acquisition system and the reconstruction algorithm (inseparable).
+
+**Pipeline:**
+
+- Traditional: Optics → Recognizable image → Computation (enhancement)
+- Computational: Generalized optics → **Coded representation** → Generalized computation → Final images
+
+**Two fundamental steps:**
+
+1. **Optical encoding** — new optics, sensors, light sources
+2. **Computational recovery** — new decoding/reconstruction algorithms
+
+**Three disciplinary pillars:** Mathematics (optimization, ML) · Physics (optics) · Computation (algorithms)
+
+**Mathematical formalism:**
+$$y = Ax + n$$
+- $y$: raw measurements, $A$: measurement operator (physics), $x$: unknown image, $n$: noise
+- **Ill-posed** problem (Hadamard) → requires **regularization** (prior on $x$)
+
+**Key difference vs classical image processing:** computation does not only enhance — it **decodes** a representation that is not directly readable.
+
+**Biological analogy:** mantis shrimp (16 photoreceptor types) — sensor and brain are inseparable.
+
+---
+
+# Question 2 — Main topics of computational imaging
+
+## Summary
+
+The course covers **8 topics** in a logical progression from acquisition to display:
+
+| # | Topic | Key concepts |
+|---|-------|--------------|
+| 1 | **Human Visual System** | Eye anatomy, acuity, CSF, VR/AR, refractive errors |
+| 2 | **Digital photography** | Basic optics, exposure, noise, Bayer mosaic, ISP pipeline |
+| 3 | **Computational photography** | HDR, night mode, coded apertures, focal stacks, light fields |
+| 4 | **Deep Learning for imaging** | CNN, DnCNN (denoising), U-Net (medical), transformers, diffusion |
+| 5 | **Optimization & deep priors** | Proximal gradient (ISTA/FISTA), general inverse problems |
+| 6 | **Compressive imaging** | Single-pixel camera, hyperspectral, compressed sensing |
+| 7 | **Wave & deep optics** | Diffraction, phase retrieval, holography, end-to-end Deep Optics |
+| 8 | **Computational displays** | Gaze-contingent, near-eye light field, holographic |
+
+---
+
+# Question 3 — Particularities of computational imaging in digital photography
+
+## Summary
+
+**Base constraint:** smartphones = tiny sensors with limited optics → quality comes from **algorithms**, not from optics.
+
+**Key opto-algorithmic co-design techniques:**
+
+- **HDR** — Capture $N$ exposures (under/normal/over) → align + merge + *tone mapping* to cover up to 14 orders of magnitude of dynamic range
+- **Night mode / Burst** — ~15 short images → sub-pixel alignment → temporal fusion (accumulate light without motion blur)
+- **Multi-sensors** — Fuse wide + standard + tele + ToF → super-resolution, synthetic bokeh, variable depth-of-field in post
+- **Coded aperture** — Binary mask in the diaphragm → extract depth + all-in-focus image from a single shot
+- **Focal stack** — Fuse images focused at different distances → global sharpness across the scene
+- **Hyperspectral imaging** — Dozens to hundreds of spectral bands → identify materials/vegetation/pollutants
+
+**Unifying principle:** optics **encodes** → algorithm **decodes**. The two are co-designed and inseparable.
+
+---
+
+# Question 4 — Particularities of computational imaging in medical imaging
+
+## Summary
+
+**Fundamental characteristic: no modality directly produces a 3D image** → all are intrinsically computational.
+
+**Modalities and physical carriers:**
+
+| Modality | Carrier | Reconstruction |
+|----------|---------|----------------|
+| Radiography (X-ray) | X-rays (transmission) | Direct projection |
+| CT scan | X-rays (multi-angle) | Filtered back-projection / iterative |
+| PET / SPECT | Radioactive emission (tracers) | Inverse reconstruction → functional/metabolic info |
+| MRI | Hydrogen spin precession | Inverse Fourier transform (k-space) |
+| Ultrasound | High-frequency pressure waves | Reflection/backscatter |
+
+**Advanced MRI modalities:** fMRI (BOLD → brain activity) · MRA (vessels) · MRS (metabolites) · CDI (electric currents)
+
+**Nano-MRI:** MRFM (~1 nm), NV-NanoMRI (~0.1 nm), ESR-STM (<0.1 nm) — algorithmic reconstruction from indirect signals.
+
+**Domain constraints:** absolute non-invasiveness · maximal diagnostic accuracy · near-real-time speed · U-Net widely adopted for reconstruction/segmentation/detection.
+
+---
+
+# Question 5 — Particularities of computational imaging in microscopy
+
+## Summary
+
+**Core challenge:** operate at the physical limits of optical resolution (Abbe criterion: $\sim\lambda/(2 \cdot NA) \approx 200$ nm), and sometimes beyond thanks to algorithms.
+
+**Techniques presented by resolution scale:**
+
+| Technique | Resolution | Principle |
+|-----------|-----------|----------|
+| **SP-STM** | Atomic | Spin-polarized tunnel current → magnetic structures atom-by-atom |
+| **nc-AFM** | Atomic | Magnetic exchange forces → surface spins |
+| **MRFM** | ~1 nm, range ~100 nm | Nano-mechanical resonator + nano-magnet |
+| **NV-NanoMRI** | ~0.1 nm, range ~10 nm | NV defect in diamond = magnetic sensor |
+| **ESR-STM** | <0.1 nm, range ~1 nm | Tunnel current = signal |
+| **Coherent X-ray imaging** | 5 nm (2D), 10 nm (3D) | Lensless, phase+absorption contrast |
+| **Focal stack** | Optical microscopy | Fuse images at multiple focal planes (sharpness via Laplacian) |
+
+**Essential particularity:** the image is **never directly observable** — it is **reconstructed algorithmically** from indirect signals (electrical, mechanical, optical).
+
+---
+
+# Question 6 — Particularities of computational imaging in astronomy
+
+## Summary
+
+**Fundamental particularity:** telescopes (especially radio telescopes) do **not** directly produce images but **visibilities** (correlations between antenna pairs) → algorithmic reconstruction is required.
+
+**The SKA — paradigmatic case:**
+
+| Instrument | Site | Antennas | Frequencies | Baselines |
+|------------|------|----------|-------------|-----------|
+| SKA1-Low | Australia (Murchison) | 131,072 dipoles (512 stations × 256) | 50–350 MHz | 65 km |
+| SKA1-Mid | South Africa (Karoo) | 197 dishes | 0.35–15.4 GHz | 150 km |
+
+**Data volumes:**
+- SKA1-Low: ~7 Tb/s after central processor, ~300 PB/year
+- Compute required: ~130 PFlops per instrument
+
+**Computational pipeline:** antennas (encode visibilities) → supercomputers Perth/Cape Town (decode into radio images) = sensor–algorithm co-design at planetary scale.
+
+**Underlying technique:** long-baseline interferometry (VLBI / *aperture synthesis*) — simulates a telescope of diameter equal to the separation of the farthest antennas. Algorithms: CLEAN, Bayesian methods.
+
+**Emblematic example:** first image of a black hole (M87*, 2019, Event Horizon Telescope) — planetary stations + ML-based reconstruction.
+
+**Scientific domains:** GR tests, cosmic dawn, dark matter/energy, SETI, cosmic magnetism.
+
+---
+
+# Question 7 — Principles of deep optics
+
+## Summary
+
+**Definition:** end-to-end (*end-to-end*) co-optimization of physical optics and a neural network for a final task.
+
+**Two-layer architecture:**
+
+- **Physical layer** — lens / coded mask / diffractive element / freeform phase surface, parameterized in a **differentiable** way
+- **Digital layer** — neural network decoder
+
+**Training phase:**
+
+1. Differentiable simulation of image formation (physics model)
+2. Loss gradient backpropagated through the network **and** through the optical simulation
+3. Lens parameters (surface heights, phase) optimized **simultaneously** with network weights via SGD
+
+**Inference phase:**
+
+1. Optimized lens **manufactured physically** (micro-fabrication, 3D printing)
+2. Trained network deployed alongside
+3. Both layers run together on real data
+
+**Two interpretations:**
+- Optical encoder + electronic decoder
+- Hybrid optical–electronic neural network (physical layer = first layers)
+
+**Key principle:** optics no longer needs to output a “pretty” image — it must encode the useful information optimally for the target task. Highly aberrated lenses can outperform “perfect” lenses for some tasks.
+
+**Applications:** extended depth-of-field, 3D from a single image, gaze-contingent displays, direct classification.
+
+---
+
+# Question 8 — Non-line-of-sight imaging
+
+## Summary
+
+**Definition:** reconstruct an object **hidden behind an obstacle** by exploiting light bounces on diffuse surfaces.
+
+**Physical principle — the 3rd bounce:**
+$$\text{Laser} \to \text{visible wall} \to \text{hidden object} \to \text{visible wall} \to \text{sensor}$$
+The time difference between the 1st bounce (direct) and the 3rd bounce encodes the **3D position** of the hidden object.
+
+**Experimental setup:**
+
+| Component | Role |
+|-----------|------|
+| **Picosecond laser** | Ultra-short pulses ($\sim 10^{-12}$ s) for time resolution |
+| **2-axis galvanometer mirror** | Scan the laser over many wall points |
+| **Beamsplitter** | Separates emission and return to avoid saturation |
+| **SPAD sensor** | Single-photon detector, ~ps time resolution |
+| **Occluder** | Hides the object to isolate the 3rd-bounce signal |
+
+**Acquired data:** 3D volume $(x', y', t)$ — not directly interpretable.
+
+**Reconstruction:** algorithms inspired by filtered back-projection (CT) or **Phasor Fields** (treat as spatio-temporal wavefield propagation).
+
+**Main challenge:** the useful signal (3rd bounce) is **10–100× weaker** than the direct signal → fast deconvolution or compressed-sensing-like methods required.
+
+**Applications:** autonomous driving (see around a corner) · rescue (locate behind a wall) · medical endoscopy.
+
+---
+
+# Question 9 — Parameters of human visual system
+
+## Summary
+
+| Parameter | Key value |
+|-----------|-----------|
+| **Visual acuity** | ~1 arcminute, 20/20 — maximum in fovea (~180 × 10³ cones/mm²) |
+| **Field of view** | 200° horizontal (120° binocular + 40° monocular each side), 135° vertical |
+| **Temporal resolution** | ~60 Hz (below → flicker perceived) |
+| **Dynamic range** | 5 orders (instantaneous) — 14 orders / 46.5 f-stops (adapted) |
+| **Color vision** | 3 cone types: S/M/L — perceptually linear space: **CIE Lab** |
+| **Spectral sensitivity** | S cones: 419 nm · M: 531 nm · L: 559 nm · Rods: 496 nm |
+| **Accommodation** | 8 cm–∞ at age 16 → 50 cm–∞ at age 50 (presbyopia = lens stiffening) |
+| **CSF** | Peak at **4–6 cpd**, limit ~60 cpd, low-frequency falloff (lateral inhibition) |
+| **Depth perception** | Stereopsis (vergence + binocular disparity) + monocular cues (accommodation + retinal blur) |
+
+**Important notes:**
+- The eye’s superior dynamic range motivates HDR techniques
+- The CSF explains the acceptability of JPEG compression (removing high frequencies)
+- Binocular vision (~120° central) is crucial for stereopsis
+
+---
+
+# Question 10 — Structure of the human eye
+
+## Summary
+
+**Eye diameter:** ~24 mm. Optical pipeline: cornea + lens (lenses) · iris (aperture stop) · retina (sensor).
+
+**Anterior structures:**
+
+| Element | Role | Key detail |
+|---------|------|-----------|
+| **Cornea** | ~70% of refraction | Fixed curvature, does not accommodate |
+| **Iris** | Diaphragm | Smooth muscles → pupil 2–8 mm depending on light |
+| **Anterior chamber** | Cornea–iris space | Filled with **aqueous humour** (nourishes cornea + lens) |
+
+**Lens — accommodation element:**
+- ~30% of refractive power
+- Ciliary muscles contracted → zonules relaxed → lens **rounder** (near vision)
+- Ciliary muscles relaxed → zonules taut → lens **flatter** (far vision)
+- Stiffens with age → **presbyopia**
+
+**Posterior structures:**
+
+| Element | Role |
+|---------|------|
+| **Vitreous body** | Gel (99% water), maintains shape |
+| **Retina** | Photosensitive sensor (photoreceptors) |
+| **Fovea** | Center of retina, ~1–2 mm, maximum cone density, high resolution |
+| **Optic disc** | Optic nerve exit — **blind spot** (no photoreceptors) |
+| **Choroid** | Vascular supply to outer retina |
+| **Sclera** | External protection (white layer) |
+
+**Inverted organization:** light crosses ganglion + bipolar neurons **before** reaching photoreceptors.
+
+**Refractive errors:**
+- Emmetropia: focus on retina (normal)
+- **Myopia**: focus before retina → concave lens
+- **Hypermetropia**: focus behind retina → convex lens
+- **Astigmatism**: irregular curvature → no single focus → cylindrical lens
+
+---
+
+# Question 11 — Structure and properties of retina
+
+## Summary
+
+**Three-layer structure** (inner → outer):
+
+1. **Retinal ganglion cells** (RGC) — output neurons → optic nerve
+2. **Collector cells** — bipolar (relay) + horizontal (lateral integration) + amacrine (modulation)
+3. **Receptor cells** — photoreceptors (rods + cones)
+
+> Note: inverted organization — light crosses layers 1 and 2 before reaching layer 3.
+
+**Rods — scotopic system:**
+
+- ~10⁸; extreme sensitivity (respond to 1 photon via phototransduction cascade × 10⁶)
+- Strong convergence → low resolution, no color, peak at 496 nm
+- Absent from fovea; maximum at 15–20° eccentricity
+
+**Cones — photopic system:**
+
+- ~10⁷; require high luminance
+- Near 1-to-1 wiring in fovea → high resolution
+- 3 types: **S** (419 nm) · **M** (531 nm) · **L** (559 nm)
+
+**Retinal ganglion cells (RGC):**
+
+- Encode **luminance differences** (not absolute levels)
+- **Center-surround** organization: on-center and off-center
+- Two classes: **M** (magnocellular — motion, temporal) and **P** (parvocellular — color, spatial detail)
+
+**Spatial distribution:**
+
+- Fovea: maximum cones, high resolution
+- Periphery: dominated by rods (max at 15–20°) → look slightly aside to see a faint star
+- Blind spot: optic disc, no photoreceptors
+
+**Optic nerve bandwidth:** insufficient to transmit all raw signals → visual encoding begins in the retina.
+
+---
+
+# Question 12 — Primary visual cortex
+
+## Summary
+
+**Visual pathway to V1:**
+$$\text{Retina} \to \text{Optic nerve} \to \text{Optic chiasm} \to \text{LGN} \to \text{V1}$$
+
+- **Optic chiasm:** nasal fibers cross → left visual field processed by right hemisphere (and vice versa)
+- **LGN:** 2 magnocellular layers (M cells) + 4 parvocellular layers (P cells) — retinotopic organization preserved
+
+**Three types of cells in V1 (Hubel & Wiesel, Nobel 1981):**
+
+| Type | Receptive field | Function |
+|------|------------------|----------|
+| **Center-surround** | Circular antagonistic | Continuation of retinal processing |
+| **Simple cells** | Elongated, fixed position | **Oriented edge** detectors at a specific position/orientation |
+| **Complex cells** | Elongated, position-tolerant | Orientation-selective, but less sensitive to exact location |
+
+**Hypercolumns:** V1 organization encoding simultaneously:
+- Eye-of-origin (left/right) → ocular dominance columns
+- Preferred orientation → orientation columns
+- Retinotopic location → global organization
+
+> Hebb’s rule: *neurons that fire together wire together*
+
+**CSF:** reflects frequency filtering properties of V1 (peak 4–6 cpd, limit ~60 cpd, lateral inhibition at low frequencies).
+
+**Streams beyond V1:**
+
+- **Ventral stream** (V1→V2→V4→TEO→TE): the “**What**” — object recognition, color, texture, identity
+- **Dorsal stream** (V1→V2→V3→MT→parietal cortex): the “**Where**” — location, motion
+
+**Impact on AI:** Hubel & Wiesel’s discoveries → neocognitron → CNN.
+
+---
+
+# Question 13 — Network models inspired by human visual system
+
+## Summary
+
+**Two core biological inspirations:**
+
+1. Orientation selectivity in V1 → **SIFT** and **HOG** descriptors (histograms of oriented gradients)
+2. Hierarchy of the ventral stream (simple → complex → hypercomplex) → **Neocognitron** → **CNN**
+
+**The Neocognitron (Fukushima):**
+
+- Architecture: input → retina → LGN → S layers (simple) → C layers (complex) → … → “grandmother” cell
+- **S layers** ↔ V1 simple cells: local oriented filters, position-specific
+- **C layers** ↔ V1 complex cells: spatial pooling, translation invariance
+- First network capable of translation-invariant recognition
+
+**LeNet (LeCun, Bottou, Bengio, Haffner — 1998):**
+
+$$\text{Image (28×28)} \to \text{Conv C1 (6 filters)} \to \text{Pool S2} \to \text{Conv C3 (16 filters)} \to \text{Pool S4} \to \text{Dense F5 (120)} \to \text{Dense F6 (84)} \to \text{10 classes}$$
+
+- Convolutions = learned Gabor-like filters (good approximation of simple cells)
+- Pooling = invariance to small translations (analogy with complex cells)
+
+**Increasing specificity in the hierarchy:**
+
+| Level | Biology (ventral stream) | CNN |
+|--------|--------------------------|-----|
+| Low | V1: oriented edges (Gabor) | Early layers: edges, colors |
+| Mid | V2–V4: combinations, shapes | Intermediate layers: object parts |
+| High | IT: faces, whole objects | Deep layers: abstract representations |
+
+**Limitation of the model:** **feedback** connections in the ventral stream (bidirectional, top-down back to V1) are absent from standard CNNs. Good visual architectures are likely hierarchical and mostly feedforward.
+
+---
+
+# Question 14 — Conventional photography vs. computational photography
+
+## Summary
+
+**Conventional (decoupled) pipeline:**
+$$\text{Real world} \to \text{Standard optics} \to \underbrace{\text{Readable image}}_{\text{already interpretable}} \to \text{Computation (enhancement)} \to \text{Final image}$$
+
+**Computational (coupled) pipeline:**
+$$\text{Real world} \to \text{Generalized optics} \to \underbrace{\text{Coded representation}}_{\text{not readable}} \to \text{Computation (decoding)} \to \text{Multiple final outputs}$$
+
+**Comparison table:**
+
+| Criterion | Conventional | Computational |
+|----------|--------------|--------------|
+| Role of optics | Form a readable image | **Encode** information |
+| Role of computation | Enhance an already readable image | **Decode** the coded representation |
+| Co-design | Independent | **Mandatory** (sensor ↔ algorithm) |
+| Outputs | One 2D image | Multiple (sharp image, depth, views, …) |
+
+**Co-design examples:**
+
+- **CFA mosaic (Bayer):** encodes color pixel-by-pixel → demosaicing reconstructs full RGB
+- **Plenoptic camera:** encodes ray direction (microlens array) → computation reconstructs refocused views
+- **Coded aperture:** encodes depth in blur (PSF) → computation extracts depth map + all-in-focus image
+
+**Physical trade-offs exceeded:**
+- Large aperture ↔ shallow depth of field → coded aperture / focal stack
+- Light ↔ sharpness → night mode (burst photography)
+- Pinhole (everything sharp, little light) ↔ lens (efficient, limited DoF) → computation aims to combine the advantages
+
+---
+
+# Question 15 — Focal stack imaging
+
+## Summary
+
+**Definition:** series of images captured at different focus distances, fused to produce an **all-in-focus** image.
+
+**Analogy:** as HDR extends dynamic range by combining several exposures, a focal stack extends depth of field by combining several focus settings.
+
+**Capturing the stack:**
+
+- Vary $D'$ (lens–sensor distance) via the **focus ring**
+- Or vary $D$ (object–lens distance) via **camera/object motion** (macro, motorized rail StackShot)
+
+**3-step fusion:**
+
+1. **Alignment** — correct magnification changes $m = f / (D' - f)$ via isotropic scaling
+2. **Sharpness measure** — apply the **Laplacian operator** to each image (strong response = sharp regions) + Gaussian smoothing of weight maps
+3. **Weighted fusion** — $I_{\text{sharp}} = \dfrac{\sum_k w_k \cdot I_k}{\sum_k w_k}$ where $w_k$ = sharpness map
+
+**Typical applications:** macro photography (very small DoF) · optical microscopy (DoF ~ µm) · landscape photography.
+
+**Bonus:** the focal stack also enables **depth inference** — the focus setting where a pixel is sharpest reveals its distance to the camera (→ Question 16).
+
+---
+
+# Question 16 — Depth inference technique
+
+## Summary
+
+**Common physical principle:** the size and shape of the **PSF** (*Point Spread Function*) are linked to depth — on-focus → point-like PSF; off-focus → growing circle of confusion.
+
+**Four techniques compared:**
+
+| Technique | Input | Output | Particularities |
+|-----------|--------|--------|----------------|
+| **Confocal stereo** | Focus **+** aperture stack (2D) | Per **pixel** | Very accurate, resolves depth/texture ambiguity; data-hungry [Hassinof & Kutulakos, ECCV 2006] |
+| **Depth from focus** | 1D focal stack | Per **patch** | Standard; Laplacian sharpness, depth = best-focus setting of the patch |
+| **Focal flow** | Dense focal stack | Per **patch** | No convolution; models PSF as Gaussian ($\sigma$ varies), measures **optical flow** between frames; works only in textured regions; inspired by the **jumping spider** [Alexander et al., ECCV 2016; Guo et al., ICCV 2017] |
+| **Depth from defocus** | **2 images** only | Per **patch** | Minimal data; $g_i = f * h_{\sigma_i}$, compare the two to extract $\sigma$ → depth |
+
+**Key trade-off:** depth accuracy ↔ amount of required data.
+
+---
+
+# Question 17 — Light field photography: main principles
+
+## Summary
+
+**Motivation:** classical photography captures a 2D projection (intensity only) → ray direction lost → focus, aperture, viewpoint fixed at capture.
+
+**Light field:** geometric distribution of light rays in space.
+
+**Plenoptic function:**
+- Full version: $L(x, y, z, \theta, \phi)$ — **5D**
+- Reduced (free space, radiance conserved along a ray): **4D** via **two-plane parameterization** $(s, t, u, v)$
+  - **st** plane = main lens (which microlens)
+  - **uv** plane = sensor (which pixel under the microlens)
+
+**Three post-capture numerical operations:**
+
+| Operation | Mechanism | Effect |
+|-----------|----------|-------|
+| **Stopping down** | Sum only central pixels under each microlens | Increases depth of field |
+| **Viewpoint change** | Shift the pixel-extraction window | Creates numerical parallax |
+| **Digital refocusing** | Sum shifted windows across neighboring microlenses | Simulates a new focal plane |
+
+**Fundamental trade-off:** total sensor resolution is shared between **spatial** and **angular** resolution (more views → fewer pixels per view).
+
+**Historical origin:** Gabriel **Lippmann** (1908) — *integral photography*, *Scientific American* article of **Aug 19, 1911**.
+
+---
+
+# Question 18 — Light field photography: hardware particularities
+
+## Summary
+
+**Three hardware approaches:**
+
+| Approach | Example | Advantage | Drawback |
+|----------|---------|----------|----------|
+| **Camera array** | Stanford Camera Array | Simultaneous capture, dynamic scenes | Expensive, complex calibration |
+| **Moving single camera** | Camera on a LEGO motor | Low cost, no calibration | Requires a **static** scene |
+| **Plenoptic camera** | Lytro | One shot, portable | Reduced spatial resolution |
+
+**Biological analogy (camera array):** insect compound eye — each **ommatidium** captures a different direction.
+
+**Plenoptic camera architecture:**
+
+$$\text{Subject} \to \text{Main lens} \to \underbrace{\text{Microlens array (MLA)}}_{\text{"ray sorter"}} \to \text{Sensor}$$
+
+Each microlens images the aperture onto its pixel group → each pixel encodes **a precise angular direction**.
+
+**Lytro — first commercial realization:**
+
+| Component | Role |
+|-----------|------|
+| Lens Array | MLA directly on the sensor |
+| Light Field Sensor | CMOS + microlenses |
+| Light Field Engine | Dedicated signal processor |
+| Marvell Avastar 88W8787 SoC | WiFi + Bluetooth transfer |
+
+**Resolution trade-off:** if each microlens covers $N \times N$ pixels → angular resolution = $N^2$ directions, spatial resolution divided by $N^2$ relative to a conventional camera.
+
+---
+
+# Question 19 — Imaging with coded apertures
+
+## Summary
+
+**Principle:** insert a **pseudo-random binary mask** in the aperture plane → turn the defocus PSF into a **unique identifier** that is discriminable from naturally smooth image content.
+
+**Basic physical model:**
+$$y' = f_k \otimes x$$
+where $y'$ = observed image, $x$ = unknown sharp scene, $f_k$ = PSF at depth $k$. Estimating $k$ means finding the $f_k$ that best explains the observation.
+
+**Two challenges with a standard aperture:**
+
+1. Smooth circular PSF is **indistinguishable** from naturally uniform content
+2. Deconvolution is **ill-posed** — zeros in the PSF spectrum → lost frequencies + ringing artifacts
+
+**Solution 1 — Prior on natural images:**
+
+Natural images have **sparse gradients** (flat regions + sharp edges) → regularization:
+$$x = \arg\min_x \left\| f \otimes x - y \right\|^2 + \lambda \sum_i \rho(\nabla x_i)$$
+
+- $\rho(\nabla x) = \|\nabla x\|^2$ → Gaussian prior (smooth, not ideal)
+- $\rho(\nabla x) = \|\nabla x\|^{0.8}$ → **sparse prior** (sharp edges + flat regions, better than Richardson–Lucy)
+
+**Solution 2 — Coded aperture:**
+
+- Binary mask → PSF carries the **mask signature** → identifiable at all depths
+- Each depth = scaled version of the pattern → **scale reveals depth**
+- Optimal combination: mask with zero frequencies (better discrimination) + sparse prior (stabilizes deconvolution despite zeros)
+
+**Result from a single image:** depth map + all-in-focus image.
+
+**Summary table:**
+
+| | Advantage | Limitation |
+|-|---------|------------|
+| Input | Single image | — |
+| Resolution | No spatial loss | — |
+| Hardware | Only a mask in the diaphragm | — |
+| Depth | — | Coarse; textureless regions problematic |
+| Light | — | Slight loss (mask blocks some rays) |
+
+---
+
+# Question 20 — Imaging with generalized optics
+
+## Summary
+
+**Principle:** modify **the lens itself** (not just the aperture) to encode more information in the measurement.
+
+**Technique 1 — Wavefront coding:**
+
+- Modify the lens surface to introduce a controlled **cubic phase aberration**
+- Result: PSF **approximately depth-invariant** over a range
+- Digital processing: a **single global deconvolution** restores sharpness over the whole scene
+- ✅ Large effective depth of field
+- ❌ No depth map (PSFs identical → no depth information)
+
+**Technique 2 — Lattice lens:**
+
+- 2D array of microlenses with **varying focal lengths** placed **in front of** the main lens
+  - ≠ plenoptic camera (MLA between lens and sensor)
+- PSF **varies with depth** → depth estimation possible
+- ✅ Produces depth + sharp image · ✅ Exploits the **dimensionality gap**
+- ❌ Requires local patch-wise deconvolution
+
+**Dimensionality gap (Ng, 2005):**
+
+- Full light field: **4D**
+- Useful information for image + depth: **3D** (2D image + 1D depth)
+- The lattice lens captures precisely this **3D subspace** → more efficient than capturing the full 4D light field when the goal is depth.
+
+**Course-wide recap table:**
+
+| System | Modification | Main advantage | Limitation |
+|--------|-------------|----------------|------------|
+| Conventional | None | Simplicity | Limited depth of field |
+| Focal stack | None (multiple shots) | Sharp image + depth | Static scene |
+| Plenoptic camera | MLA between lens and sensor | Refocusing, multi-views | Reduced spatial resolution |
+| Coded aperture | Mask in the diaphragm | Depth + sharp image in 1 shot | Coarse depth |
+| Wavefront coding | Lens with cubic phase | Large depth of field | No depth map |
+| Lattice lens | MLA in front of the lens | Efficient depth + sharpness | Local deconvolution |

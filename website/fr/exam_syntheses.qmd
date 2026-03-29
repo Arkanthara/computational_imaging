@@ -1,0 +1,596 @@
+# Question 1 — Definition of computational imaging
+
+## Synthèse
+
+**Définition :** Processus de formation **indirecte** d'images à partir de mesures brutes, via des algorithmes intensifs en calcul. Repose sur la **co-conception** du système d'acquisition et de l'algorithme de reconstruction (indissociables).
+
+**Pipeline :**
+
+- Traditionnel : Optique → Image reconnaissable → Calcul (amélioration)
+- Computationnel : Optique généralisée → **Représentation codée** → Calcul généralisé → Images finales
+
+**Deux étapes fondamentales :**
+
+1. **Encodage optique** — nouvelle optique, capteurs, sources lumineuses
+2. **Récupération computationnelle** — nouveaux algorithmes de décodage
+
+**Trois piliers disciplinaires :** Mathématiques (optimisation, ML) · Physique (optique) · Calcul (algorithmes)
+
+**Formalisme mathématique :**
+$$y = Ax + n$$
+- $y$ : mesures brutes, $A$ : opérateur de mesure (physique), $x$ : image inconnue, $n$ : bruit
+- Problème **mal posé** (Hadamard) → nécessite une **régularisation** (a priori sur $x$)
+
+**Différence clé avec le traitement d'image classique :** le calcul ne fait pas qu'améliorer — il **décode** une représentation qui n'est pas directement lisible.
+
+**Analogie biologique :** crevette-mante (16 types de photorécepteurs) — capteur et cerveau indissociables.
+
+---
+
+# Question 2 — Main topics of computational imaging
+
+## Synthèse
+
+Le cours couvre **8 thèmes** en progression logique de l'acquisition à l'affichage :
+
+| # | Thème | Concepts clés |
+|---|-------|---------------|
+| 1 | **Système visuel humain** | Anatomie œil, acuité, CSF, VR/AR, erreurs de réfraction |
+| 2 | **Photographie numérique** | Optique de base, exposition, bruit, mosaïque de Bayer, pipeline ISP |
+| 3 | **Photographie computationnelle** | HDR, mode nuit, ouvertures codées, pile focale, champ de lumière |
+| 4 | **Deep Learning pour imagerie** | CNN, DnCNN (débruitage), U-Net (médical), transformeurs, diffusion |
+| 5 | **Optimisation & a priori profonds** | Gradient proximal (ISTA/FISTA), problèmes inverses généraux |
+| 6 | **Imagerie compressive** | Caméra pixel unique, hyperspectral, sensing compressé |
+| 7 | **Optique ondulatoire & profonde** | Diffraction, phase retrieval, holographie, Deep Optics bout-en-bout |
+| 8 | **Affichages computationnels** | Gaze-contingent, champ de lumière proche œil, holographique |
+
+---
+
+# Question 3 — Particularities of computational imaging in digital photography
+
+## Synthèse
+
+**Contrainte de base :** smartphones = capteurs miniaturisés aux optiques limitées → la qualité vient des **algorithmes**, pas de l'optique.
+
+**Techniques clés de co-conception optique-algorithmique :**
+
+- **HDR** — Capturer $N$ expositions (sous/normal/sur) → aligner + fusionner + *tone mapping* pour couvrir 14 ordres de grandeur dynamique
+- **Mode Nuit / Burst** — ~15 images courtes → alignement sub-pixel → fusion temporelle (accumulation lumière sans flou de bougé)
+- **Multi-capteurs** — Fusion grand-angle + standard + téléobjectif + ToF → super-résolution, bokeh synthétique, profondeur de champ variable en post
+- **Ouverture codée** — Masque binaire dans le diaphragme → extraire profondeur + image nette depuis 1 seule prise
+- **Pile focale** — Fusion d'images à différentes mises au point → netteté totale sur toute la scène
+- **Imagerie hyperspectrale** — Dizaines à centaines de bandes spectrales → identification matériaux/végétation/polluants
+
+**Principe unificateur :** l'optique **encode** → l'algorithme **décode**. Les deux sont co-conçus et indissociables.
+
+---
+
+# Question 4 — Particularities of computational imaging in medical imaging
+
+## Synthèse
+
+**Caractéristique fondamentale : aucune modalité ne produit directement une image 3D** → toutes sont intrinsèquement computationnelles.
+
+**Modalités et porteurs physiques :**
+
+| Modalité | Porteur | Reconstruction |
+|----------|---------|----------------|
+| Radiographie (X-ray) | Rayons X (transmission) | Projection directe |
+| CT scan | Rayons X (multi-angles) | Rétroprojection filtrée / itératif |
+| PET / SPECT | Émission radioactive (traceurs) | Reconstruction inverse → info fonctionnelle/métabolique |
+| IRM (MRI) | Précession de spin noyaux H | Transformée de Fourier inverse (espace k) |
+| Échographie | Ondes de pression ultrasonores | Réflexion/rétrodiffusion |
+
+**Modalités avancées IRM :** fMRI (signal BOLD → activité cérébrale) · MRA (vaisseaux) · MRS (métabolites) · CDI (courants électriques)
+
+**Nano-IRM :** MRFM (~1 nm), NV-NanoMRI (~0,1 nm), ESR-STM (<0,1 nm) — reconstruction algorithmique depuis signaux indirects.
+
+**Contraintes spécifiques :** non-invasivité absolue · précision diagnostique maximale · vitesse quasi-réelle · U-Net massivement adopté pour reconstruction, segmentation, détection.
+
+---
+
+# Question 5 — Particularities of computational imaging in microscopy
+
+## Synthèse
+
+**Enjeu central :** opérer aux limites physiques de la résolution optique (critère d'Abbe : $\sim\lambda/(2 \cdot NA) \approx 200$ nm), voire au-delà grâce aux algorithmes.
+
+**Techniques présentées par échelle de résolution :**
+
+| Technique | Résolution | Principe |
+|-----------|-----------|---------|
+| **SP-STM** | Atomique | Courant tunnel polarisé en spin → structures magnétiques atome par atome |
+| **nc-AFM** | Atomique | Forces d'échange magnétique → spins de surface |
+| **MRFM** | ~1 nm, portée ~100 nm | Résonateur nano-mécanique + nano-aimant |
+| **NV-NanoMRI** | ~0,1 nm, portée ~10 nm | Défaut NV dans diamant = capteur magnétique |
+| **ESR-STM** | <0,1 nm, portée ~1 nm | Courant tunnel = signal |
+| **Imagerie X cohérente** | 5 nm (2D), 10 nm (3D) | Sans lentille, contraste phase+absorption |
+| **Pile focale** | Microscopie optique | Fusion d'images à différentes focales (mesure de netteté par Laplacien) |
+
+**Particularité essentielle :** l'image n'est **jamais directement observable** — elle est toujours **reconstruite algorithmiquement** depuis des signaux indirects (électriques, mécaniques, optiques).
+
+---
+
+# Question 6 — Particularities of computational imaging in astronomy
+
+## Synthèse
+
+**Particularité fondamentale :** les télescopes (notamment les radiotélescopes) ne produisent **pas directement des images** mais des **visibilités** (corrélations entre paires d'antennes) → reconstruction algorithmique nécessaire.
+
+**Le SKA — cas paradigmatique :**
+
+| Instrument | Site | Antennes | Fréquences | Lignes de base |
+|------------|------|----------|------------|----------------|
+| SKA1-Low | Australie (Murchison) | 131 072 dipôles (512 stations × 256) | 50–350 MHz | 65 km |
+| SKA1-Mid | Afrique du Sud (Karoo) | 197 paraboles | 0,35–15,4 GHz | 150 km |
+
+**Volumes de données :**
+- SKA1-Low : ~7 Tb/s après processeur central, ~300 PB/an
+- Puissance requise : ~130 PFlops par instrument
+
+**Pipeline computationnel :** antennes (encodage de visibilités) → supercalculateurs Perth/Cap (décodage en images radio) = co-conception capteur-algorithme à échelle planétaire.
+
+**Technique sous-jacente :** interférométrie à longue base (VLBI / *aperture synthesis*) — simule un télescope de diamètre = distance entre antennes les plus éloignées. Algorithmes : CLEAN, méthodes bayésiennes.
+
+**Exemple emblématique :** première image d'un trou noir (M87*, 2019, Event Horizon Telescope) — 6 stations planétaires + algorithmes ML pour reconstruction.
+
+**Domaines scientifiques :** relativité générale, aube cosmique, matière noire/énergie noire, SETI, magnétisme cosmique.
+
+---
+
+# Question 7 — Principles of deep optics
+
+## Synthèse
+
+**Définition :** co-optimisation **bout-en-bout** (*end-to-end*) de l'optique physique et du réseau de neurones pour une tâche finale.
+
+**Architecture en deux couches :**
+
+- **Couche physique** (*Physical Layer*) — lentille / masque codé / réseau de diffraction / surface à phase libre, paramétrisée de façon **différentiable**
+- **Couche numérique** (*Digital Layer*) — réseau de neurones de décodage
+
+**Phase d'entraînement :**
+
+1. Simulation différentiable de la formation d'image (modélise la physique)
+2. Gradient de la perte rétropropagé à travers le réseau **ET** à travers la simulation optique
+3. Paramètres de la lentille (hauteurs de surface, phase) optimisés **simultanément** avec les poids du réseau via SGD
+
+**Phase d'inférence :**
+
+1. Lentille optimisée **fabriquée physiquement** (micro-fabrication, impression 3D)
+2. Réseau entraîné déployé en parallèle
+3. Les deux couches fonctionnent ensemble sur données réelles
+
+**Deux interprétations :**
+- Encodeur optique + décodeur électronique
+- Réseau hybride optique-électronique (couche physique = premières couches du réseau)
+
+**Principe clé :** l'optique n'a **plus besoin de produire une image « belle »** — elle doit encoder l'information utile de façon optimale pour la tâche. Des lentilles aberrantes peuvent surpasser des lentilles parfaites.
+
+**Applications :** grande profondeur de champ, reconstruction 3D depuis 1 image, affichages gaze-contingent, classification d'objets directe.
+
+---
+
+# Question 8 — Non-line-of-sight imaging
+
+## Synthèse
+
+**Définition :** reconstituer l'image d'un objet **caché derrière un obstacle** en exploitant les rebonds de lumière sur les surfaces diffuses.
+
+**Principe physique — le 3ème rebond :**
+$$\text{Laser} \to \text{mur visible} \to \text{objet caché} \to \text{mur visible} \to \text{capteur}$$
+La différence temporelle entre le 1er rebond (direct) et le 3ème rebond encode la **position 3D de l'objet caché**.
+
+**Dispositif expérimental :**
+
+| Composant | Rôle |
+|-----------|------|
+| **Laser picoseconde** | Impulsions ultra-courtes ($\sim 10^{-12}$ s) pour résolution temporelle |
+| **Miroir galvanométrique 2 axes** | Balayage du laser sur de nombreux points du mur |
+| **Séparateur de faisceau** | Sépare émission et réception pour éviter saturation |
+| **Capteur SPAD** | Détecteur à photon unique, résolution temporelle ~ps |
+| **Occulteur** | Cache l'objet pour isoler le signal du 3ème rebond |
+
+**Données acquises :** volume 3D $(x', y', t)$ — incompréhensible directement.
+
+**Reconstruction :** algorithmes inspirés de la rétroprojection filtrée (CT) ou **Phasor Fields** (traitement comme propagation de champ ondulatoire spatio-temporel).
+
+**Défi principal :** le signal du 3ème rebond est **10 à 100× plus faible** que le signal direct → algorithmes de déconvolution rapide ou compressed sensing nécessaires.
+
+**Applications :** conduite autonome (voir au coin d'une rue) · sauvetage (localiser derrière un mur) · endoscopie médicale.
+
+---
+
+# Question 9 — Parameters of human visual system
+
+## Synthèse
+
+| Paramètre | Valeur clé |
+|-----------|-----------|
+| **Acuité visuelle** | ~1 minute d'arc, notation 20/20 — maximum en fovéa (~180 × 10³ cônes/mm²) |
+| **Champ de vision** | 200° horizontal (120° binoculaire + 40° mono chaque côté), 135° vertical |
+| **Résolution temporelle** | ~60 Hz (en dessous → scintillement perçu) |
+| **Plage dynamique** | 5 ordres (instantanée) — 14 ordres / 46,5 f-stops (adaptée) |
+| **Vision des couleurs** | 3 types de cônes : S/M/L — espace perceptif linéaire : **CIE Lab** |
+| **Sensibilité spectrale** | Cônes S : 419 nm · M : 531 nm · L : 559 nm · Bâtonnets : 496 nm |
+| **Accommodation** | 8 cm–∞ à 16 ans → 50 cm–∞ à 50 ans (presbytie = durcissement cristallin) |
+| **CSF** | Pic à **4–6 cpd**, limite ~60 cpd, décroissance aux basses fréquences (inhibition latérale) |
+| **Perception profondeur** | Stéréopsie (vergence + disparité binoculaire) + indices monoculaires (accommodation + flou rétinien) |
+
+**Notes importantes :**
+- La plage dynamique supérieure de l'œil justifie les techniques HDR
+- La CSF explique l'acceptabilité de la compression JPEG (suppression des hautes fréquences)
+- La vision binoculaire (~120° central) est indispensable à la stéréopsie
+
+---
+
+# Question 10 — Structure of the human eye
+
+## Synthèse
+
+**Diamètre de l'œil :** ~24 mm. Pipeline optique : cornée + cristallin (lentilles) · iris (diaphragme) · rétine (capteur).
+
+**Structures antérieures :**
+
+| Élément | Rôle | Détail clé |
+|---------|------|-----------|
+| **Cornée** | ~70% de la réfraction | Courbure fixe, ne contribue pas à l'accommodation |
+| **Iris** | Diaphragme | Muscles lisses → pupille 2–8 mm selon luminosité |
+| **Chambre antérieure** | Espace cornée–iris | Remplie d'**humeur aqueuse** (nourrit cornée + cristallin) |
+
+**Cristallin — élément d'accommodation :**
+- ~30% du pouvoir réfractif
+- Muscles ciliaires contractés → fibres zonulaires relâchées → cristallin **bombé** (vision de près)
+- Muscles ciliaires relâchés → fibres zonulaires tendues → cristallin **aplati** (vision de loin)
+- Se rigidifie avec l'âge → **presbytie**
+
+**Structures postérieures :**
+
+| Élément | Rôle |
+|---------|------|
+| **Corps vitré** | Gel (99% eau), maintient la forme sphérique |
+| **Rétine** | Capteur photosensible (photorécepteurs) |
+| **Fovéa** | Centre de la rétine, ~1–2 mm, max densité de cônes, haute résolution |
+| **Disque optique** | Sortie du nerf optique — **tache aveugle** (aucun photorécepteur) |
+| **Choroïde** | Vascularisation de la rétine externe |
+| **Sclérotique** | Protection externe (couche blanche) |
+
+**Organisation inversée :** la lumière traverse les neurones (ganglionnaires + bipolaires) **avant** d'atteindre les photorécepteurs.
+
+**Erreurs de réfraction :**
+- Emmétropie : foyer sur la rétine (normal)
+- **Myopie** : foyer avant la rétine → lentille concave
+- **Hypermétropie** : foyer derrière la rétine → lentille convexe
+- **Astigmatisme** : courbure irrégulière → pas de foyer unique → lentille cylindrique
+
+---
+
+# Question 11 — Structure and properties of retina
+
+## Synthèse
+
+**Structure trilamellaire** (de l'intérieur vers l'extérieur) :
+
+1. Cellules **ganglionnaires** (RGC) — neurones de sortie → nerf optique
+2. Cellules **collectrices** — bipolaires (relais) + horizontales (intégration latérale) + amacrines (modulation)
+3. Cellules **réceptrices** — photorécepteurs (bâtonnets + cônes)
+
+> ⚠️ Organisation inversée : la lumière traverse les couches 1 et 2 avant d'atteindre la couche 3.
+
+**Bâtonnets (*Rods*) — système scotopique :**
+
+- ~10⁸ ; sensibilité extrême (réponse à 1 photon via cascade de phototransduction × 10⁶)
+- Forte convergence → faible résolution, pas de couleur, pic à 496 nm
+- Absents de la fovéa ; max entre 15–20° d'excentricité
+
+**Cônes (*Cones*) — système photopique :**
+
+- ~10⁷ ; nécessitent forte luminosité
+- Connexion quasi 1-pour-1 en fovéa → haute résolution
+- 3 types : **S** (419 nm) · **M** (531 nm) · **L** (559 nm)
+
+**Cellules ganglionnaires (RGC) :**
+
+- Codent les **différences de luminosité** (pas les niveaux absolus)
+- Organisation **centre-pourtour** : cellules *on-center* (lumière au centre → activation) et *off-center* (inverse)
+- Deux classes : **M** (magnocellulaires — mouvement, temporel) et **P** (parvocellulaires — couleur, détail spatial)
+
+**Distribution spatiale :**
+
+- Fovéa : max cônes, haute résolution
+- Périphérie : dominée par bâtonnets (max entre 15–20°) → regarder légèrement de côté pour voir une étoile faible
+- Tache aveugle : disque optique, aucun photorécepteur
+
+**Bande passante du nerf optique :** insuffisante pour transmettre tous les signaux bruts → codage de l'information visuelle dès la rétine.
+
+---
+
+# Question 12 — Primary visual cortex
+
+## Synthèse
+
+**Voie visuelle jusqu'à V1 :**
+$$\text{Rétine} \to \text{Nerf optique} \to \text{Chiasma optique} \to \text{LGN} \to \text{V1}$$
+
+- **Chiasma optique** : fibres nasales croisées → champ visuel gauche traité par hémisphère droit (et vice versa)
+- **LGN** : 2 couches magnocellulaires (cellules M) + 4 couches parvocellulaires (cellules P) — organisation rétinotopique maintenue
+
+**Trois types de cellules en V1 (Hubel & Wiesel, Nobel 1981) :**
+
+| Type | Champ récepteur | Fonction |
+|------|----------------|---------|
+| **Centre-pourtour** | Circulaire antagoniste | Continuation du traitement rétinien |
+| **Cellules simples** | Allongé, position fixe | Détecteurs de **bords orientés** à une orientation et position spécifiques |
+| **Cellules complexes** | Allongé, tolérance à la position | Sélectives à l'orientation, mais indépendantes de la localisation exacte |
+
+**Hypercolonnes :** organisation de V1 encodant simultanément :
+- Œil d'origine (gauche/droit) → colonnes de dominance oculaire
+- Orientation préférée → colonnes d'orientation
+- Localisation rétinotopique → organisation globale
+
+> Règle de Hebb : *neurons that fire together wire together*
+
+**CSF :** reflète les propriétés de filtrage fréquentiel de V1 (pic à 4–6 cpd, limite ~60 cpd, inhibition latérale aux basses fréquences).
+
+**Voies au-delà de V1 :**
+
+- **Flux ventral** (V1→V2→V4→TEO→TE) : le « **Quoi** » — reconnaissance d'objets, couleur, texture, identité
+- **Flux dorsal** (V1→V2→V3→MT→Cortex pariétal) : le « **Où** » — localisation, mouvement
+
+**Impact sur l'IA :** découvertes de Hubel & Wiesel → néocognitron → CNN.
+
+---
+
+# Question 13 — Network models inspired by human visual system
+
+## Synthèse
+
+**Deux inspirations biologiques fondamentales :**
+
+1. Sélectivité à l'orientation de V1 → descripteurs **SIFT** et **HOG** (histogrammes de gradients orientés)
+2. Hiérarchie du flux ventral (simple → complexe → hypercomplexe) → **Néocognitron** → **CNN**
+
+**Le Néocognitron (Fukushima) :**
+
+- Architecture : entrée → rétine → LGN → couches S (simple) → couches C (complexe) → ... → cellule « grand-mère »
+- Couches **S** ↔ Cellules simples V1 : filtres orientés locaux, position-specific
+- Couches **C** ↔ Cellules complexes V1 : pooling spatial, invariance à la translation
+- Premier réseau capable de reconnaissance invariante à la translation
+
+**LeNet (LeCun, Bottou, Bengio, Haffner — 1998) :**
+
+$$\text{Image (28×28)} \to \text{Conv C1 (6 filtres)} \to \text{Pool S2} \to \text{Conv C3 (16 filtres)} \to \text{Pool S4} \to \text{Dense F5 (120)} \to \text{Dense F6 (84)} \to \text{10 classes}$$
+
+- Convolutions = filtres de Gabor appris (bonne approximation des cellules simples)
+- Pooling = invariance aux légères translations (analogie cellules complexes)
+
+**Spécificité croissante dans la hiérarchie :**
+
+| Niveau | Biologie (flux ventral) | CNN |
+|--------|------------------------|-----|
+| Bas | V1 : bords orientés (Gabor) | Premières couches : bords, couleurs |
+| Moyen | V2–V4 : combinaisons, formes | Couches intermédiaires : parties d'objets |
+| Haut | IT : visages, objets complets | Couches profondes : représentations abstraites |
+
+**Limites du modèle :** connexions **feedback** du flux ventral (bidirectionnelles, retour depuis les aires supérieures vers V1) absentes des CNN actuels. Les bonnes architectures sont probablement hiérarchiques et essentiellement feedforward.
+
+---
+
+# Question 14 — Conventional photography vs. computational photography
+
+## Synthèse
+
+**Pipeline conventionnel (découplé) :**
+$$\text{Monde réel} \to \text{Optique standard} \to \underbrace{\text{Image reconnaissable}}_{\text{déjà lisible}} \to \text{Calcul (amélioration)} \to \text{Image finale}$$
+
+**Pipeline computationnel (couplé) :**
+$$\text{Monde réel} \to \text{Optique généralisée} \to \underbrace{\text{Représentation codée}}_{\text{non lisible}} \to \text{Calcul (décodage)} \to \text{Images finales multiples}$$
+
+**Tableau comparatif :**
+
+| Critère | Conventionnelle | Computationnelle |
+|---------|----------------|-----------------|
+| Rôle de l'optique | Former une image lisible | **Encoder** l'information |
+| Rôle du calcul | Améliorer une image déjà lisible | **Décoder** la représentation codée |
+| Co-conception | Indépendante | **Obligatoire** (capteur ↔ algorithme) |
+| Sorties | Une seule image 2D | Multiples (image nette, profondeur, vues, etc.) |
+
+**Exemples de co-conception :**
+
+- **Mosaïque CFA (Bayer)** : encode la couleur pixel par pixel → démosaïcage reconstruit l'image RGB complète
+- **Caméra plénoptique** : encode la direction des rayons (réseau de micro-lentilles) → calcul reconstruit vues refocalisées
+- **Ouverture codée** : encode la profondeur dans la forme du flou (PSF) → calcul extrait carte de profondeur + image nette
+
+**Compromis physiques dépassés :**
+- Grande ouverture ↔ profondeur de champ réduite → ouverture codée / pile focale
+- Lumière ↔ netteté → mode nuit (burst photography)
+- Sténopé (tout net, peu de lumière) ↔ objectif (efficace, profondeur de champ limitée) → computationnel combine les deux avantages
+
+---
+
+# Question 15 — Focal stack imaging
+
+## Synthèse
+
+**Définition :** série d'images capturées à différentes distances de mise au point, fusionnées pour produire une image **entièrement nette** (*all-in-focus*).
+
+**Analogie :** comme le HDR étend la plage dynamique en combinant plusieurs expositions, la pile focale étend la profondeur de champ en combinant plusieurs mises au point.
+
+**Capture de la pile :**
+
+- Faire varier $D'$ (distance objectif–capteur) via la **bague de mise au point**
+- Ou faire varier $D$ (distance objet–objectif) via **déplacement caméra/objet** (macro, platine motorisée StackShot)
+
+**Fusion en 3 étapes :**
+
+1. **Alignement** — Corriger le changement de grandissement $m = f / (D' - f)$ par redimensionnement isotrope
+2. **Mesure de netteté** — Appliquer l'**opérateur Laplacien** à chaque image (réponse forte = zones nettes) + lissage Gaussien des cartes de poids
+3. **Fusion pondérée** — $I_{\text{net}} = \dfrac{\sum_k w_k \cdot I_k}{\sum_k w_k}$ où $w_k$ = carte de netteté
+
+**Applications typiques :** macro-photographie (profondeur de champ extrêmement réduite) · microscopie optique (profondeur de l'ordre du µm) · photographie de paysage.
+
+**Bonus :** la pile focale permet aussi d'**inférer la profondeur** — la mise au point où un pixel est le plus net révèle sa distance à la caméra (→ Question 16).
+
+---
+
+# Question 16 — Depth inference technique
+
+## Synthèse
+
+**Principe physique commun :** la taille et la forme de la **PSF** (*Point Spread Function*) sont liées à la profondeur — objet sur le plan focal → PSF ponctuelle ; objet hors plan focal → cercle de confusion croissant.
+
+**Quatre techniques comparées :**
+
+| Technique | Entrée | Sortie | Particularités |
+|-----------|--------|--------|----------------|
+| **Stéréo confocale** | Pile focus **+** aperture (2D) | Par **pixel** | Très précise, lève l'ambiguïté profondeur/texture ; coûteuse en données [Hassinof & Kutulakos, ECCV 2006] |
+| **Depth from focus** | Pile focale (1D) | Par **patch** | Standard ; Laplacien mesure la netteté, profondeur = mise au point optimale du patch |
+| **Flot focal** | Pile focale dense | Par **patch** | Sans convolution ; modélise PSF comme Gaussienne ($\sigma$ variable), mesure le **flot optique** entre frames ; zones texturées seulement ; inspiré de l'**araignée sauteuse** [Alexander et al., ECCV 2016 ; Guo et al., ICCV 2017] |
+| **Depth from defocus** | **2 images** seulement | Par **patch** | Minimal en données ; $g_i = f * h_{\sigma_i}$, comparaison des deux images pour extraire $\sigma$ → profondeur |
+
+**Compromis clé :** précision de la carte de profondeur ↔ quantité de données requises.
+
+---
+
+# Question 17 — Light field photography: main principles
+
+## Synthèse
+
+**Motivation :** la photographie classique capture une projection 2D (intensité seule) → direction des rayons perdue → mise au point, ouverture, point de vue fixés définitivement à la capture.
+
+**Champ lumineux :** distribution géométrique des rayons lumineux dans l'espace.
+
+**Fonction plénoptique :**
+- Version complète : $L(x, y, z, \theta, \phi)$ — **5D**
+- Simplifiée (espace libre, radiance conservée le long d'un rayon) : **4D** via le **paramétrage à deux plans** $(s, t, u, v)$
+  - Plan **st** = objectif principal (quelle micro-lentille)
+  - Plan **uv** = capteur (quel pixel sous la micro-lentille)
+
+**3 opérations numériques post-capture :**
+
+| Opération | Mécanisme | Effet |
+|-----------|----------|-------|
+| **Réduction d'ouverture** | Sommer uniquement les pixels centraux sous chaque micro-lentille | Augmente la profondeur de champ |
+| **Changement de point de vue** | Décaler la fenêtre d'extraction des pixels | Crée une parallaxe numérique |
+| **Refocalisation numérique** | Sommer des fenêtres décalées de plusieurs micro-lentilles voisines | Simule un changement de plan focal |
+
+**Compromis fondamental :** résolution totale du capteur partagée entre résolution **spatiale** et résolution **angulaire** (plus de vues → moins de pixels par vue).
+
+**Origine historique :** concept de Gabriel **Lippmann** (1908) — *photographie intégrale*, article *Scientific American* du **19 août 1911**.
+
+---
+
+# Question 18 — Light field photography: hardware particularities
+
+## Synthèse
+
+**Trois approches hardware :**
+
+| Approche | Exemple | Avantage | Inconvénient |
+|----------|---------|----------|-------------|
+| **Réseau de caméras** | Stanford Camera Array | Capture simultanée, scènes dynamiques | Coûteux, calibration complexe |
+| **Caméra unique mobile** | Caméra sur moteur LEGO | Peu coûteux, pas de calibration | Scène **statique** obligatoire |
+| **Caméra plénoptique** | Lytro | Une seule prise, portable | Résolution spatiale réduite |
+
+**Analogie biologique (réseau de caméras) :** œil composé des insectes — chaque **ommatidium** capture une direction différente.
+
+**Architecture de la caméra plénoptique :**
+
+$$\text{Sujet} \to \text{Objectif principal} \to \underbrace{\text{Réseau de micro-lentilles (MLA)}}_{\text{«trieur de rayons»}} \to \text{Capteur}$$
+
+Chaque micro-lentille projette l'image de l'ouverture sur son groupe de pixels → chaque pixel encode **une direction angulaire précise**.
+
+**Caméra Lytro — première réalisation commerciale :**
+
+| Composant | Rôle |
+|-----------|------|
+| Réseau de lentilles (*Lens Array*) | MLA directement sur le capteur |
+| Capteur de champ lumineux (*Light Field Sensor*) | CMOS + micro-lentilles |
+| Moteur de champ lumineux (*Light Field Engine*) | Processeur de signal dédié |
+| SoC Marvell Avastar 88W8787 | WiFi + Bluetooth pour transfert |
+
+**Compromis de résolution :** si chaque micro-lentille couvre $N \times N$ pixels → résolution angulaire = $N^2$ directions, résolution spatiale divisée par $N^2$ par rapport à une caméra conventionnelle.
+
+---
+
+# Question 19 — Imaging with coded apertures
+
+## Synthèse
+
+**Principe :** insérer un **masque binaire pseudo-aléatoire** dans le plan du diaphragme → transformer la PSF de défocus en **identifiant unique** discriminable du contenu naturellement lisse.
+
+**Problème physique de base :**
+$$y' = f_k \otimes x$$
+où $y'$ = image observée, $x$ = scène nette inconnue, $f_k$ = PSF à profondeur $k$. Estimer $k$ = trouver le $f_k$ qui explique le mieux l'observation.
+
+**Deux défis avec une ouverture standard :**
+
+1. PSF lisse et circulaire **indistinguable** d'un contenu naturellement uniforme
+2. Déconvolution **mal posée** — zéros dans le spectre de la PSF → fréquences perdues + artefacts de sonnerie (ringing)
+
+**Solution 1 — A priori sur les images naturelles :**
+
+Les images naturelles ont des **gradients épars** (zones uniformes + bords nets) → régularisation :
+$$x = \arg\min_x \left\| f \otimes x - y \right\|^2 + \lambda \sum_i \rho(\nabla x_i)$$
+
+- $\rho(\nabla x) = \|\nabla x\|^2$ → priori Gaussien (lisse, pas idéal)
+- $\rho(\nabla x) = \|\nabla x\|^{0.8}$ → **priori épars** (bords nets + zones plates, supérieur à Richardson-Lucy)
+
+**Solution 2 — Ouverture codée :**
+
+- Masque binaire → PSF porte la **signature du masque** → identifiable à toute profondeur
+- Chaque profondeur = version mise à l'échelle du motif → l'**échelle révèle la profondeur**
+- Combinaison optimale : masque avec fréquences zéro (meilleure discrimination) + priori épars (stabilise la déconvolution malgré les zéros)
+
+**Résultat depuis 1 seule image :** carte de profondeur + image entièrement nette.
+
+**Bilan :**
+
+| | Avantage | Inconvénient |
+|-|---------|-------------|
+| Entrée | 1 seule image | — |
+| Résolution | Aucune perte spatiale | — |
+| Hardware | Juste un masque dans le diaphragme | — |
+| Profondeur | — | Grossière, zones sans texture problématiques |
+| Lumière | — | Légère perte (masque bloque certains rayons) |
+
+---
+
+# Question 20 — Imaging with generalized optics
+
+## Synthèse
+
+**Principe :** modifier **la lentille elle-même** (pas seulement l'ouverture) pour encoder davantage d'information dans la mesure.
+
+**Technique 1 — Wavefront Coding :**
+
+- Modifie la surface de la lentille pour introduire une **aberration de phase cubique** contrôlée
+- Résultat : PSF **approximativement invariante en profondeur** sur une large plage
+- Traitement numérique : une **seule déconvolution globale** restaure la netteté sur toute la scène
+- ✅ Grande profondeur de champ effective
+- ❌ Pas de carte de profondeur (PSFs identiques → pas d'info de profondeur)
+
+**Technique 2 — Lentille à réseau (*Lattice Lens*) :**
+
+- Réseau 2D de micro-lentilles à **focale variable** placé **devant** l'objectif principal
+  - ≠ caméra plénoptique (MLA entre objectif et capteur)
+- PSF **varie selon la profondeur** → estimation de profondeur possible
+- ✅ Produit profondeur + image nette · ✅ Exploite l'**écart de dimensionnalité**
+- ❌ Déconvolution locale par patch nécessaire
+
+**Écart de dimensionnalité (Ng, 2005) :**
+
+- Champ lumineux complet : **4D**
+- Information utile pour image + profondeur : **3D** (image 2D + profondeur 1D)
+- La lentille à réseau capture précisément ce **sous-espace 3D** → plus efficace que la caméra plénoptique complète pour les applications orientées profondeur
+
+**Tableau récapitulatif de toutes les approches du cours :**
+
+| Système | Modification | Avantage principal | Limitation |
+|---------|-------------|-------------------|------------|
+| Conventionnelle | Aucune | Simplicité | Profondeur de champ limitée |
+| Pile focale | Aucune (prises multiples) | Image nette + profondeur | Scène statique |
+| Caméra plénoptique | MLA entre objectif et capteur | Refocalisation, multi-vues | Résolution spatiale réduite |
+| Ouverture codée | Masque dans le diaphragme | Profondeur + nette en 1 prise | Profondeur grossière |
+| Wavefront coding | Lentille avec phase cubique | Grande profondeur de champ | Pas de carte de profondeur |
+| Lentille à réseau | MLA devant l'objectif | Profondeur + nette, efficace | Déconvolution locale |

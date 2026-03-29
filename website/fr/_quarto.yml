@@ -19,7 +19,6 @@ website:
             href: index.html
 
   sidebar:
-    style: docked
     search: true
     contents:
       - section: "Cours"
@@ -56,6 +55,14 @@ website:
                 href: ch4r.qmd
               - text: "Quiz"
                 href: ch4q.qmd
+      - section: "Examen"
+        contents:
+          - text: "Détails"
+            href: exam_answers.qmd
+          - text: "Synthèse"
+            href: exam_syntheses.qmd
+          - text: "Quiz"
+            href: exam_quiz.qmd
 
 format:
   html:
@@ -64,3 +71,4 @@ format:
       light: ../latte.scss
     toc: true
     embed-resources: true
+    page-layout: full

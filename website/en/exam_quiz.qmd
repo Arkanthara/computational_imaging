@@ -1,0 +1,853 @@
+---
+title: "Exam questions — Quiz"
+filters:
+  - quizdown
+execute:
+  enabled: false
+---
+
+
+# Question 1 — Definition of computational imaging 
+
+
+```{quizdown}
+### In a computational imaging system, what is the role of the optics?
+
+> Think about the fundamental difference between traditional imaging and computational imaging.
+
+1. [ ] Directly produce a recognizable, high-quality image
+1. [x] Encode the scene information into an intermediate representation
+    > Correct: optics encodes, computation decodes — the two are co-designed and inseparable.
+1. [ ] Improve the captured image by removing noise
+1. [ ] Compress the data to reduce bandwidth
+```
+
+```{quizdown}
+### The inverse problem in computational imaging is written $y = Ax + n$. What does $A$ represent?
+
+> Think about the components of the image formation model.
+
+1. [ ] The unknown image to reconstruct
+1. [ ] Measurement noise
+1. [x] The measurement operator that encodes the physics of the system
+    > Correct: $A$ encodes the system physics (optics, sensor). It links the scene $x$ to the measurements $y$.
+1. [ ] The raw measurement vector
+```
+
+```{quizdown}
+### Why does the inverse problem in computational imaging require regularization?
+
+> Recall Hadamard’s conditions for a problem to be well-posed.
+
+1. [ ] Because reconstruction algorithms are too slow without regularization
+1. [ ] Because noise is always Gaussian
+1. [ ] Because the operator $A$ is always diagonal
+1. [x] Because the problem is often ill-posed: it may have neither a unique solution nor a stable solution
+    > Correct: regularization introduces a prior on $x$ to constrain the solution space and stabilize reconstruction.
+```
+
+```{quizdown}
+### Which statements correctly characterize computational imaging compared to traditional imaging?
+
+> Think about the two fundamental steps: optical encoding and computational recovery.
+
+- [x] The sensor and the algorithm are co-designed and inseparable
+    > Correct: this is the deepest distinctive feature of the field.
+- [ ] Computation only intervenes downstream to enhance an already recognizable image
+    > Incorrect: that is the definition of traditional imaging.
+- [x] The intermediate captured image is not necessarily recognizable to a human
+    > Correct: the coded representation requires computation to be decoded.
+- [x] The intersection of mathematics, physics, and computation is constitutive of the field
+    > Correct: the three disciplinary pillars are inseparable.
+- [ ] The optics can be modified independently of the reconstruction algorithm
+    > Incorrect: any change in the optics implies adapting the algorithm.
+```
+
+
+# Question 2 — Main topics                                     
+
+
+```{quizdown}
+### Put the main topic families of the course in a logical order, from acquisition to display.
+
+> Think of the full pipeline: from human perception to display, via capture and processing.
+
+1. Human visual system
+2. Digital photography
+3. Computational photography
+4. Deep learning and optimization
+5. Compressive imaging
+6. Wave optics and deep optics
+7. Computational displays
+```
+
+```{quizdown}
+### Which technique is associated with compressive imaging in the course?
+
+> This domain exploits a mathematical property of natural signals to reduce the number of measurements.
+
+1. [ ] Post-capture digital refocusing
+1. [ ] Filtered back-projection reconstruction
+1. [x] The single-pixel camera combined with successive random masks
+    > Correct: it is the emblematic example of compressive imaging — a single photodiode reconstructs a 2D image thanks to signal sparsity.
+1. [ ] Focal stacking for an all-in-focus image
+```
+
+
+# Question 3 — Computational imaging in digital photography    
+
+
+```{quizdown}
+### Smartphone night mode captures about 15 low-exposure images rather than a single long exposure. Why?
+
+> Think about the main physical issue with a single long exposure.
+
+1. [ ] To increase the spatial resolution of the final image
+1. [x] To avoid motion blur while still accumulating enough light
+    > Correct: each short image is sharp (no shake), and temporal fusion accumulates light as a long exposure would.
+1. [ ] To reduce the sensor’s energy consumption
+1. [ ] To capture several focus distances simultaneously
+```
+
+```{quizdown}
+### Which computational photography techniques rely on capturing several successive images?
+
+> Think of methods that cannot work with a single acquisition.
+
+- [x] HDR (High Dynamic Range)
+    > Correct: HDR merges several different exposures.
+- [x] Night mode / burst photography
+    > Correct: it merges about 15 aligned short exposures.
+- [ ] Coded aperture
+    > Incorrect: coded aperture extracts depth and an all-in-focus image from a single shot.
+- [x] Focal stack
+    > Correct: it captures a series of images at different focus distances.
+- [ ] Hyperspectral imaging with a single filter
+    > Incorrect: with the right sensor, this can acquire the spectrum in one shot.
+```
+
+```{quizdown}
+### In smartphone computational photography, where does the photographic quality that exceeds the sensor’s optical limits mainly come from?
+
+1. [ ] From a physically larger CMOS sensor
+1. [ ] From high-precision lens optics
+1. [x] From the power of processing algorithms that compensate for physical limitations
+    > Correct: smartphones have small sensors and basic optics. Quality comes from computational processing, not optics.
+1. [ ] From the high megapixel count
+```
+
+
+# Question 4 — Computational imaging in medical imaging        
+
+
+```{quizdown}
+### Which medical imaging modality acquires its data in Fourier space (k-space)?
+
+> Think of the modality that exploits hydrogen spin precession.
+
+1. [ ] Positron emission tomography (PET)
+1. [ ] Ultrasound
+1. [ ] X-ray radiography
+1. [x] MRI (Magnetic Resonance Imaging)
+    > Correct: MRI measures in k-space and reconstructs the image via inverse Fourier transform.
+```
+
+```{quizdown}
+### What is the fundamental common feature of ALL the medical imaging modalities mentioned in the course?
+
+> Reflect on what makes medical imaging intrinsically computational.
+
+1. [ ] They all use ionizing radiation
+1. [ ] They all directly produce a 3D image without processing
+1. [x] None directly produces a 3D image — all require algorithmic reconstruction
+    > Correct: CT, PET, MRI, ultrasound — in all cases, 3D reconstruction is an inverse problem solved algorithmically.
+1. [ ] They are all limited to anatomical imaging (not functional)
+```
+
+```{quizdown}
+### Match each medical modality with its physical carrier and its type of information.
+
+> Think about the physical interactions between radiation and biological tissue for each modality.
+
+- [x] PET — radioactive tracers — functional and metabolic information
+    > Correct: PET detects gamma photons emitted by positron annihilation from an injected tracer.
+- [ ] MRI — X-rays — anatomical information
+    > Incorrect: MRI uses magnetic resonance of hydrogen nuclei, not X-rays.
+- [x] CT — multi-angle X-rays — slice image via back-projection
+    > Correct: CT is radiography from multiple angles enabling volumetric reconstruction.
+- [x] Ultrasound — high-frequency pressure waves — backscatter on tissue interfaces
+    > Correct: ultrasound exploits reflection of ultrasound at biological interfaces.
+```
+
+
+# Question 5 — Computational imaging in microscopy             
+
+
+```{quizdown}
+### In classical optical microscopy, what is the resolution limit imposed by Abbe’s criterion?
+
+> The formula involves wavelength and the objective’s numerical aperture.
+
+1. [ ] About 20 micrometers for visible light
+1. [x] About 200 nanometers for visible light
+    > Correct: the limit is about $\lambda/(2\,NA)$, i.e. ~200 nm for visible light.
+1. [ ] About 2 nanometers for visible light
+1. [ ] About 2 millimeters for visible light
+```
+
+```{quizdown}
+### Which nano-magnetic imaging technique offers the finest resolution among those presented in the course?
+
+> Order them by decreasing resolution: MRFM, NV-NanoMRI, ESR-STM.
+
+1. [ ] MRFM (~1 nm resolution, range ~100 nm)
+1. [ ] NV-NanoMRI (~0.1 nm resolution, range ~10 nm)
+1. [x] ESR-STM (resolution below 0.1 nm, range ~1 nm)
+    > Correct: ESR-STM reaches sub-ångström resolution, the finest of the three techniques.
+```
+
+```{quizdown}
+### Why is focal stacking indispensable in conventional optical microscopy?
+
+1. [ ] Because microscope objectives have too large a numerical aperture
+1. [ ] Because the sensor cannot record high spatial frequencies
+1. [x] Because the depth of field of objectives is extremely small, on the order of a micrometer
+    > Correct: with shallow depth of field, only a thin slice of the specimen is sharp — focal stacking fuses images at different focal planes into a fully sharp image.
+1. [ ] Because biological samples move too fast
+```
+
+
+# Question 6 — Computational imaging in astronomy              
+
+
+```{quizdown}
+### The SKA (Square Kilometre Array) does not directly produce astronomical images. What does it produce as raw data?
+
+> Think about the underlying interferometry technique.
+
+1. [ ] Direct high-resolution photographs
+1. [x] Visibilities, i.e., correlations between pairs of antennas
+    > Correct: visibilities are the raw data. Algorithms (CLEAN, Bayesian methods) turn them into radio-astronomy images.
+1. [ ] Brightness spectra integrated over the whole sky
+1. [ ] Directly readable brightness temperature maps
+```
+
+```{quizdown}
+### Approximately what compute power is required per SKA instrument?
+
+> Order of magnitude to remember to illustrate the computational scale.
+
+1. [ ] ~130 TFlops per instrument
+1. [ ] ~130 GFlops per instrument
+1. [x] ~130 PFlops per instrument
+    > Correct: SKA needs about 130 petaFLOPS per instrument, illustrating the planetary scale of the challenge.
+1. [ ] ~130 EFlops per instrument
+```
+
+```{quizdown}
+### Astronomical long-baseline interferometric imaging (VLBI) simulates a telescope whose effective diameter equals what distance?
+
+1. [ ] The diameter of each individual antenna
+1. [ ] The average distance between antennas
+1. [x] The distance between the farthest antennas in the array
+    > Correct: this is aperture synthesis — the array simulates a single telescope whose diameter equals the largest baseline.
+1. [ ] The wavelength of the observed radio signal
+```
+
+
+# Question 7 — Deep optics                                     
+
+
+```{quizdown}
+### In Deep Optics, what fundamentally distinguishes the training phase from the inference phase?
+
+> Think about what is done in simulation versus what is deployed physically.
+
+1. [ ] During training, only the network is optimized; during inference, only the optics is used
+1. [x] During training, optics and network are co-optimized in simulation; during inference, the optimized lens is physically fabricated and the network deployed
+    > Correct: training is fully digital (differentiable optics simulation + backprop). Inference involves physical fabrication of the lens.
+1. [ ] During training, only the lens parameters are modified
+1. [ ] There is no distinction — both phases are identical
+```
+
+```{quizdown}
+### Why must the physical layer of a Deep Optics system be parameterized in a differentiable way?
+
+> Think about what is required for end-to-end gradient-based optimization.
+
+1. [ ] To enable lens fabrication by 3D printing
+1. [ ] To make the optical system invariant to aberrations
+1. [x] To allow the loss gradient to flow through the optics simulation back to the lens parameters
+    > Correct: without differentiability, one cannot compute gradients with respect to lens geometry parameters, hence cannot optimize them.
+1. [ ] To guarantee that the PSF is depth-invariant
+```
+
+```{quizdown}
+### Deep optics challenges a fundamental principle of classical optical design. Which one?
+
+1. [ ] The lens must be fabricated from high-purity glass
+1. [x] The lens must produce a visually pleasing, recognizable image
+    > Correct: in Deep Optics, a seemingly “defective” (highly aberrated) lens can outperform a perfect one if it encodes information more discriminatively for the target task.
+1. [ ] The reconstruction algorithm must be linear
+1. [ ] The PSF must be shift-invariant
+```
+
+
+# Question 8 — NLOS imaging                                     
+
+
+```{quizdown}
+### Which light bounce is exploited in NLOS imaging to localize a hidden object?
+
+> Count the interactions: laser → wall → object → wall → sensor.
+
+1. [ ] The first bounce (direct reflection on the wall)
+1. [ ] The second bounce
+1. [x] The third bounce
+    > Correct: the path is laser → visible wall → hidden object → visible wall → sensor. The time difference with the direct path encodes position.
+1. [ ] The fourth bounce or higher
+```
+
+```{quizdown}
+### Which component of an NLOS setup measures photon arrival times with picosecond-scale precision?
+
+> This detector can respond to a single photon.
+
+1. [ ] A standard CMOS sensor
+1. [ ] A standard photomultiplier (PMT)
+1. [x] A SPAD sensor (Single-Photon Avalanche Diode)
+    > Correct: a SPAD is a single-photon detector with tens-of-picoseconds time resolution, necessary to resolve path differences of a few centimeters.
+1. [ ] A Michelson interferometer
+```
+
+```{quizdown}
+### The useful signal (3rd bounce) in NLOS imaging is roughly how many times weaker than the direct signal?
+
+1. [ ] 2 to 5 times weaker
+1. [ ] 10,000 times weaker
+1. [x] 10 to 100 times weaker
+    > Correct: this is the main algorithmic challenge — extracting a weak signal buried in a much stronger background.
+1. [ ] Same intensity as the direct signal
+```
+
+
+# Question 9 — Parameters of HVS                               
+
+
+```{quizdown}
+### What is the angular resolution of normal visual acuity (20/20 notation)?
+
+> It is the smallest angular separation the eye can resolve.
+
+1. [ ] 1 degree
+1. [ ] 1 arcsecond
+1. [x] 1 arcminute
+    > Correct: 20/20 corresponds to about 1 arcminute, i.e. the ability to distinguish two points ~1.5 mm apart at 5 meters.
+1. [ ] 10 arcminutes
+```
+
+```{quizdown}
+### What is the adapted dynamic range of the human visual system after full dark adaptation?
+
+> Compare with instantaneous range (~5 orders) and current displays (~3 orders).
+
+1. [ ] About 3 orders of magnitude (same as today’s displays)
+1. [ ] About 6 orders of magnitude
+1. [ ] About 20 orders of magnitude
+1. [x] Up to 14 orders of magnitude (46.5 f-stops)
+    > Correct: this superiority of the eye over sensors motivates HDR techniques in computational photography.
+```
+
+```{quizdown}
+### The Contrast Sensitivity Function (CSF) of the human visual system drops at low spatial frequencies. What causes this drop?
+
+1. [ ] The diffraction limit of the cornea
+1. [ ] The finite size of photoreceptors
+1. [x] Lateral inhibition in retinal ganglion cells
+    > Correct: lateral inhibition (center-surround organization) penalizes very low frequencies, explaining the peak sensitivity around 4–6 cpd rather than at 0 cpd.
+1. [ ] The insufficient number of rods in the fovea
+```
+
+```{quizdown}
+### Put the peak-sensitivity wavelengths of the four photoreceptor types of the human eye in increasing order.
+
+> From the shortest (blue) to the longest (red), passing through the rod peak.
+
+1. S cones (blue) — 419 nm
+2. Rods — 496 nm
+3. M cones (green) — 531 nm
+4. L cones (red) — 559 nm
+```
+
+
+# Question 10 — Structure of the eye                           
+
+
+```{quizdown}
+### Which structure of the eye provides about 70% of total refraction and has a fixed curvature?
+
+> Do not confuse it with the element that enables accommodation.
+
+1. [ ] The crystalline lens
+1. [ ] The vitreous humour
+1. [x] The cornea
+    > Correct: the cornea provides ~70% of refractive power but has a fixed curvature. The lens (~30%) adapts for accommodation.
+1. [ ] The iris
+```
+
+```{quizdown}
+### In near vision, how do the ciliary muscles and the zonular fibers act on the crystalline lens?
+
+> The mechanism is counter-intuitive: muscle contraction → fiber relaxation.
+
+1. [ ] Ciliary muscles relaxed → zonular fibers relaxed → lens flattens
+1. [x] Ciliary muscles contracted → zonular fibers relaxed → lens becomes rounder (more convergent)
+    > Correct: contracting the ciliary muscles reduces their diameter, which relaxes zonular tension, allowing the lens to take its naturally rounder shape.
+1. [ ] Ciliary muscles contracted → zonular fibers taut → lens flattens
+1. [ ] Ciliary muscles relaxed → zonular fibers taut → lens becomes rounder
+```
+
+```{quizdown}
+### The optic disc (papilla) is the blind spot. Which anatomical property explains this?
+
+1. [ ] Excessive rod concentration prevents signal transmission
+1. [ ] The choroid absorbs all light at that point
+1. [x] The optic disc contains no photoreceptors — it is the exit point of the optic nerve
+    > Correct: ganglion-cell axons converge there to form the optic nerve, leaving no space for photoreceptors. The brain interpolates this gap.
+1. [ ] The vitreous humour refracts light so that nothing is projected there
+```
+
+
+# Question 11 — Structure and properties of retina             
+
+
+```{quizdown}
+### The human retina contains approximately how many rods and cones?
+
+> Remember the orders of magnitude — the difference is about a factor of 10.
+
+1. [ ] ~10^6 rods and ~10^5 cones
+1. [x] ~10^8 rods and ~10^7 cones
+    > Correct: about 100 million rods and 10 million cones. Rods are 10× more numerous.
+1. [ ] ~10^8 rods and ~10^8 cones (equal proportions)
+1. [ ] ~10^5 rods and ~10^8 cones
+```
+
+```{quizdown}
+### What is the consequence of strong rod convergence onto ganglion cells?
+
+> Think about the fundamental trade-off between two antagonistic perceptual properties.
+
+1. [ ] High spatial resolution but low light sensitivity
+1. [x] High light sensitivity but low spatial resolution
+    > Correct: many rods share a single ganglion cell, summing signals (gain in sensitivity) but losing precise location information (loss of resolution).
+1. [ ] Good color vision but slow processing
+1. [ ] Optimal vision in daylight but insensitivity to darkness
+```
+
+```{quizdown}
+### Retinal ganglion cells (RGC) of type P and type M have different roles. Which pairing is correct?
+
+1. [ ] M cells: color and spatial detail — P cells: motion and temporal resolution
+1. [x] M cells: motion and temporal resolution — P cells: color and spatial detail
+    > Correct: magnocellular (M) cells have strong convergence and specialize in motion; parvocellular (P) cells have weak convergence and encode color and fine detail.
+1. [ ] Both types have identical functions and differ only in size
+1. [ ] M cells: scotopic vision — P cells: photopic vision
+```
+
+```{quizdown}
+### Why is night vision better when looking slightly to the side rather than directly?
+
+> Think about the spatial distribution of rods on the retina.
+
+1. [ ] Because the cornea refracts light better in peripheral vision
+1. [ ] Because foveal cones are more sensitive than rods in low light
+1. [x] Because rods are absent from the fovea and peak in density between 15 and 20 degrees of eccentricity
+    > Correct: looking slightly aside projects a faint object onto rod-rich peripheral retina, much more sensitive than foveal cones under scotopic conditions.
+1. [ ] Because the iris opens more in peripheral vision
+```
+
+
+# Question 12 — Primary visual cortex                          
+
+
+```{quizdown}
+### What discovery did Hubel and Wiesel make in primary visual cortex (V1), rewarded by the 1981 Nobel Prize?
+
+> These neurons are detectors of a very specific geometric property of the stimulus.
+
+1. [ ] V1 neurons respond to specific color frequencies
+1. [ ] V1 neurons directly encode object identity
+1. [x] V1 neurons respond selectively to oriented edges at a specific orientation and position
+    > Correct: V1 simple cells are oriented-edge detectors. Their discovery directly inspired filters learned in CNNs.
+1. [ ] V1 neurons are organized into columns encoding only depth
+```
+
+```{quizdown}
+### What is the functional difference between a V1 simple cell and a V1 complex cell?
+
+> Position tolerance is the key criterion.
+
+1. [ ] Simple cells respond to fast motion; complex cells to slow motion
+1. [ ] Simple cells are color-sensitive; complex cells are achromatic
+1. [x] Simple cells are selective to orientation AND a precise position; complex cells are orientation-selective but position-tolerant
+    > Correct: a complex cell can be viewed as an aggregation of simple cells with the same preferred orientation, introducing local spatial invariance.
+1. [ ] No functional difference — the distinction is purely morphological
+```
+
+```{quizdown}
+### The dorsal stream and the ventral stream process two different kinds of information. Which ones?
+
+> Memorize: ventral = “What”, dorsal = “Where”.
+
+1. [ ] Ventral: motion — Dorsal: color
+1. [x] Ventral: object recognition (the “What”) — Dorsal: localization and motion (the “Where”)
+    > Correct: the ventral stream (V1→V4→IT) processes form, color, and identity. The dorsal stream (V1→MT→parietal) processes spatial location and motion.
+1. [ ] Ventral: binocular vision — Dorsal: monocular vision
+1. [ ] Ventral: low resolution — Dorsal: high resolution
+```
+
+```{quizdown}
+### Put the stages of the visual pathway in order, from the retina to primary visual cortex.
+
+> The visual signal passes through an intermediate thalamic relay before reaching cortex.
+
+1. Retina (ganglion cells)
+2. Optic nerve
+3. Optic chiasm (partial decussation)
+4. Lateral geniculate nucleus (LGN)
+5. Primary visual cortex (V1)
+```
+
+
+# Question 13 — Network models                                 
+
+
+```{quizdown}
+### Which computational model, proposed by Fukushima, is the direct precursor of convolutional neural networks (CNNs)?
+
+> This model directly transposes the hierarchical V1 architecture discovered by Hubel and Wiesel.
+
+1. [ ] Multilayer perceptron (MLP)
+1. [ ] Hopfield network
+1. [x] The Neocognitron
+    > Correct: the Neocognitron alternates S layers (local filters, analogous to simple cells) and C layers (pooling, analogous to complex cells), achieving the first translation-invariant recognition in an artificial network.
+1. [ ] Recurrent LSTM network
+```
+
+```{quizdown}
+### In the LeNet architecture, pooling layers play a role analogous to which type of V1 cells?
+
+> These cells tolerate small changes in stimulus position.
+
+1. [ ] Center-surround cells
+1. [ ] Simple cells
+1. [x] Complex cells
+    > Correct: spatial pooling introduces invariance to small translations — like V1 complex cells that activate for an orientation regardless of exact position.
+1. [ ] P-type ganglion cells
+```
+
+```{quizdown}
+### The selectivity of filters learned in early CNN layers resembles which V1 neuron type?
+
+1. [ ] M-type ganglion cells
+1. [ ] Ocular dominance neurons
+1. [x] Simple cells — oriented Gabor-like filters
+    > Correct: early CNN layers spontaneously learn Gabor-like filters (sine × Gaussian), mathematically close to V1 simple-cell responses.
+1. [ ] Only parvocellular LGN neurons
+```
+
+```{quizdown}
+### Are feedback connections (from higher areas back to V1) well modeled in current CNNs?
+
+1. [ ] True — modern CNNs include explicit feedback connections inspired by the ventral stream
+1. [x] False — the convolution + nonlinearity model does not capture these connections, which remain a recognized limitation
+    > Correct: beyond V1, we still lack satisfactory computational models that include bidirectional connections. This is a major limitation of CNNs vs biological vision.
+```
+
+
+# Question 14 — Conventional vs computational photography     
+
+
+```{quizdown}
+### In a plenoptic camera, does the raw image captured by the sensor directly look like the photographed scene?
+
+1. [ ] True — the plenoptic camera directly produces a refocused image
+1. [x] False — the raw image is a set of angular footprints under the microlenses, not recognizable without a reconstruction algorithm
+    > Correct: this is the emblematic example of computational photography — optics encodes, computation decodes. The raw image is not directly readable.
+```
+
+```{quizdown}
+### What property characterizes a pinhole camera compared to a lens-based camera, and why does computational photography seek to combine their advantages?
+
+> Think about the two antagonistic trade-offs: light efficiency vs depth of field.
+
+1. [ ] The pinhole offers higher spatial resolution but reduced color sensitivity
+1. [x] The pinhole offers infinite depth of field (everything sharp) but captures very little light, the opposite of a lens-based objective
+    > Correct: computational photography aims to go beyond this trade-off — obtain sharpness across depth with good light efficiency.
+1. [ ] The pinhole enables shorter exposures but with more geometric distortion
+1. [ ] There is no significant difference between the two in terms of depth of field
+```
+
+
+# Question 15 — Focal stack imaging                             
+
+
+```{quizdown}
+### Which mathematical operator is used to measure local sharpness in each image of a focal stack?
+
+> This operator is sensitive to fast intensity variations — it detects edges.
+
+1. [ ] The Fourier transform
+1. [ ] The first-order gradient (Sobel operator)
+1. [x] The Laplacian operator
+    > Correct: the Laplacian responds strongly in sharp regions (well-defined edges) and near zero in blurred regions. It is then smoothed with a Gaussian filter.
+1. [ ] Normalized cross-correlation
+```
+
+```{quizdown}
+### Why must magnification be corrected between images of a focal stack before fusing them?
+
+> Think about what happens to magnification when the lens–sensor distance $D'$ varies.
+
+1. [ ] Because brightness changes with focus
+1. [x] Because varying $D'$ changes magnification $m = f/(D'-f)$, which changes the image scale
+    > Correct: when turning the focus ring, images do not have exactly the same magnification. Isotropic cropping/scaling is needed before fusion.
+1. [ ] Because image color varies with focus
+1. [ ] Because the field of view changes only in macro photography
+```
+
+```{quizdown}
+### What extra information, in addition to an all-in-focus image, can be extracted from a focal stack?
+
+> A pixel’s maximum sharpness in the stack is linked to a geometric property of the scene.
+
+1. [ ] The spectral reflectance map of materials
+1. [ ] The position of light sources in the scene
+1. [x] The depth map — the focus setting where a pixel is sharpest reveals its distance to the camera
+    > Correct: the depth of a scene point corresponds to the focus setting where it is sharpest in the stack. This is the principle of Depth from Focus.
+1. [ ] The speed of moving objects in the scene
+```
+
+
+# Question 16 — Depth inference                                 
+
+
+```{quizdown}
+### The focal flow technique was inspired by the visual system of a particular animal. Which one?
+
+> This animal has a secondary eye tube with two lenses that naturally create a focal-stack effect.
+
+1. [ ] The mantis shrimp (*Odontodactylus scyllarus*)
+1. [ ] The honey bee
+1. [x] The jumping spider
+    > Correct: the jumping spider has an eye tube with two retinal layers receiving different blur levels — it biologically performs what focal flow does numerically.
+1. [ ] The pigeon
+```
+
+```{quizdown}
+### Depth from Defocus requires how many input images?
+
+> It is the most data-parsimonious technique among the four presented.
+
+1. [ ] A single image
+1. [x] Two images with different defocus levels
+    > Correct: $g_1 = f * h_{\sigma_1}$ and $g_2 = f * h_{\sigma_2}$. Comparing the two allows estimating $\sigma$ (hence depth) without explicitly knowing $f$.
+1. [ ] A full focal stack (10 images or more)
+1. [ ] A stack combining focus AND variable aperture (2D stack)
+```
+
+```{quizdown}
+### Which depth inference technique produces a per-pixel estimate (not per patch)?
+
+> It is the most precise but also the most data-demanding.
+
+1. [ ] Depth from Defocus
+1. [ ] Depth from Focus
+1. [ ] Focal flow
+1. [x] Confocal stereo
+    > Correct: confocal stereo uses a 2D stack (focus + aperture) and yields a per-pixel estimate — the finest granularity, at the cost of a much larger data volume.
+```
+
+
+# Question 17 — Light field photography: principles             
+
+
+```{quizdown}
+### The complete plenoptic function is 5D. Why can it be reduced to 4D to describe the light field in free space?
+
+> Think about what is conserved along a light ray in the absence of scattering or absorption.
+
+1. [ ] Because the human eye does not perceive the 5th dimension
+1. [ ] Because modern sensors can only record 4 dimensions
+1. [x] Because radiance is constant along a ray in free space, allowing a ray to be parameterized by its intersection with two planes
+    > Correct: radiance conservation enables the two-plane parameterization $(s,t,u,v)$, reducing the description from 5D to 4D.
+1. [ ] Because color is handled separately and is not part of the light field
+```
+
+```{quizdown}
+### Which numerical operation on the light field simulates reducing the aperture after capture?
+
+> Think about which pixels under each microlens correspond to rays passing through the aperture center.
+
+1. [ ] Sum all sub-images from all microlenses without shifting
+1. [x] Sum only the central pixels under each microlens
+    > Correct: central pixels correspond to rays that went through the aperture center — exactly what a stopped-down diaphragm would pass. This increases depth of field.
+1. [ ] Shift extraction windows in the opposite direction for each microlens
+1. [ ] Apply a Gaussian filter to each microlens sub-image
+```
+
+```{quizdown}
+### What is the fundamental and unavoidable trade-off of the plenoptic camera?
+
+1. [ ] The plenoptic camera can only work in natural light
+1. [x] The sensor’s total resolution is shared between spatial resolution and angular resolution
+    > Correct: the more distinct angular directions you want, the fewer pixels per view you have. Effective spatial resolution is lower than a conventional camera with the same sensor.
+1. [ ] Digital refocusing necessarily introduces motion blur
+1. [ ] The plenoptic camera can capture only one focus setting per shot
+```
+
+```{quizdown}
+### Who originated the concept of integral photography (ancestor of the plenoptic camera) and in what year?
+
+1. [ ] Yann LeCun, in 1998
+1. [ ] Ren Ng, in 2005
+1. [ ] Ernst Abbe, in 1873
+1. [x] Gabriel Lippmann, in 1908 (Scientific American article of Aug 19, 1911)
+    > Correct: Lippmann conceptualized integral photography in 1908. Practical realization became possible only with modern digital sensors.
+```
+
+
+# Question 18 — Light field: hardware particularities           
+
+
+```{quizdown}
+### Which hardware approach for capturing the light field can handle dynamic scenes (moving objects)?
+
+> The key constraint is to capture all views simultaneously.
+
+1. [ ] A single camera moved on a motorized stage
+1. [ ] A single camera with a motorized focus ring
+1. [x] An array of multiple cameras (like the Stanford Camera Array)
+    > Correct: all cameras in the array capture simultaneously, eliminating inter-view motion blur. The other approaches require a static scene or rely on a single shot (plenoptic).
+1. [ ] All approaches are equivalent for dynamic scenes
+```
+
+```{quizdown}
+### In a plenoptic camera, where is the microlens array (MLA) located relative to the main lens and the sensor?
+
+> Its position distinguishes the plenoptic camera from the lattice lens (Question 20).
+
+1. [ ] In front of the main lens
+1. [ ] At the same plane as the main lens
+1. [x] Between the main lens and the sensor, directly on the sensor surface
+    > Correct: the MLA is placed between the lens and the sensor (or bonded directly onto the CMOS). It directs to each pixel light coming from a precise angular direction of the aperture.
+1. [ ] Behind the sensor, in the electronic processing system
+```
+
+```{quizdown}
+### In the Lytro camera, which component is responsible for light-field-specific processing?
+
+> It is not the CMOS sensor nor the connectivity module.
+
+1. [ ] The Marvell Avastar 88W8787 SoC
+1. [ ] The lens array
+1. [x] The Light Field Engine
+    > Correct: the Light Field Engine is the dedicated signal processor for plenoptic processing. The Marvell SoC handles WiFi/Bluetooth connectivity.
+1. [ ] The light field sensor alone
+```
+
+
+# Question 19 — Coded apertures                                 
+
+
+```{quizdown}
+### What is the main advantage of using a coded aperture (pseudo-random binary mask) rather than a standard circular aperture?
+
+> Think about discriminating defocus blur from naturally uniform content.
+
+1. [ ] The coded aperture lets in more light than the standard aperture
+1. [ ] The coded aperture yields a higher-resolution image
+1. [x] The PSF carries a characteristic signature of the mask, easy to identify and to distinguish from naturally smooth content
+    > Correct: unlike a smooth circular PSF, the coded PSF is recognizable at any depth. The pattern scale reveals depth, and its presence distinguishes defocus from natural smoothness.
+1. [ ] The coded aperture entirely eliminates the need for regularization
+```
+
+```{quizdown}
+### In deconvolution with a sparse prior, which gradient exponent is better than the Gaussian prior (exponent 2)?
+
+> An exponent below 1 favors solutions with gradients concentrated on a few pixels (sharp edges).
+
+1. [ ] An exponent of 1.5 (semi-quadratic)
+1. [ ] An exponent of 1.0 (L1 regularization)
+1. [x] An exponent of 0.8 (hyper-Laplacian or sparse prior)
+    > Correct: $\rho(\nabla x) = \|\nabla x\|^{0.8}$ favors gradient sparsity (flat regions + sharp edges), outperforming Richardson–Lucy and the Gaussian prior for natural-image deconvolution.
+1. [ ] An exponent of 0.0 (L0 norm penalty)
+```
+
+```{quizdown}
+### Why is combining a mask with zero frequencies AND a sparse prior the optimal solution for coded apertures?
+
+> The two issues are depth discrimination and deconvolution stability.
+
+1. [ ] Because zero frequencies speed up computation and the prior reduces quantization noise
+1. [ ] Because a mask without zero frequencies is physically impossible to manufacture
+1. [x] Because zeros improve depth discrimination, and the sparse prior guides reconstruction even when some frequencies are lost (spectral zeros)
+    > Correct: they are complementary — the mask optimizes depth encoding, and the prior compensates for the impossibility of inverting spectral zeros.
+1. [ ] Because the sparse prior can remove zero frequencies a posteriori
+```
+
+
+# Question 20 — Generalized optics                             
+
+
+```{quizdown}
+### Wavefront Coding modifies a lens surface to introduce an aberration. What effect is sought on the PSF?
+
+> The goal is that the PSF does not change (or changes little) with object distance.
+
+1. [ ] Make the PSF point-like (ideally sharp) at all depths
+1. [ ] Make the PSF vary distinctively with depth in order to estimate depth
+1. [x] Make the PSF approximately depth-invariant, enabling a single global deconvolution
+    > Correct: a depth-invariant PSF enables one global deconvolution that restores sharpness over the whole scene — at the cost of not producing a depth map.
+1. [ ] Maximize SNR for very distant objects
+```
+
+```{quizdown}
+### The lattice lens is placed in front of the main lens, unlike the plenoptic camera. What is the consequence for the PSF?
+
+> Compare with Wavefront Coding where the PSF is invariant.
+
+1. [ ] The PSF becomes depth-invariant, as in Wavefront Coding
+1. [ ] The PSF is always point-like, regardless of depth
+1. [x] The PSF varies with depth, enabling local depth estimation
+    > Correct: each microlens in the lattice deflects rays differently depending on depth, creating a PSF characteristic of each distance — this is the cue that enables depth estimation.
+1. [ ] The PSF becomes circular and uniform, as with a standard aperture
+```
+
+```{quizdown}
+### What is the dimensionality gap introduced by Ng (2005) in relation to the lattice lens?
+
+> The full light field is 4D. Which dimension corresponds to the information that is actually useful for image + depth?
+
+1. [ ] The light field is 5D but only 2D are useful (the two spatial coordinates)
+1. [ ] The full 4D light field is entirely necessary — there is no gap
+1. [x] The light field is 4D but useful information (2D image + 1D depth) occupies only 3D — the lattice lens captures precisely this subspace
+    > Correct: this dimensionality gap justifies the lattice lens as more efficient than capturing the full light field for image+depth applications.
+1. [ ] The light field is 3D and the 4th dimension is always redundant
+```
+
+```{quizdown}
+### Among the following systems, which one produces both a large depth of field AND a depth map from a single acquisition?
+
+> Eliminate those that do not produce a depth map, and those that require multiple images.
+
+1. [ ] Wavefront Coding
+    > Incorrect: Wavefront Coding yields extended depth of field but no depth map (PSFs are identical).
+1. [ ] Plenoptic camera
+    > Incorrect: a plenoptic camera enables refocusing and depth estimation, but with reduced spatial resolution and without extended depth of field by default.
+1. [x] Coded aperture
+    > Correct: from a single image, coded aperture extracts an all-in-focus image and a (coarse) depth map.
+1. [x] Lattice lens
+    > Correct: the lattice lens yields a sharp image and depth from a single acquisition by exploiting PSF variation with depth.
+```

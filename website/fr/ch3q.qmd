@@ -72,7 +72,7 @@ execute:
 ```
 
 ```{quizdown}
-### Le mot "plénoptique" (plenoptic) vient de quelles origines etymologiques ?
+### Le mot "plénoptique" (plenoptic) vient de quelles origines étymologiques ?
 
 > Pense au sens des racines latine et grecque qui composent ce mot.
 
@@ -85,12 +85,12 @@ execute:
 
 ---
 
-## Niveau 2 — Comprehension
+## Niveau 2 — Compréhension
 
 ```{quizdown}
-### Dans la pile focale (focal stack), pourquoi est-il necessaire d'aligner les images avant de les fusionner ?
+### Dans la pile focale (focal stack), pourquoi est-il nécessaire d'aligner les images avant de les fusionner ?
 
-> Pense a ce qui change optiquement quand on modifie la distance de mise au point.
+> Pense à ce qui change optiquement quand on modifie la distance de mise au point.
 
 1. [ ] Parce que la caméra bouge physiquement entre les prises.
 1. [x] Parce que changer la distance de mise au point modifie la magnification, donc le champ de vue de chaque image est légèrement différent.
@@ -100,9 +100,9 @@ execute:
 ```
 
 ```{quizdown}
-### Quelle operation mathematique est utilisee pour mesurer la nettete locale d'un pixel dans la pile focale ?
+### Quelle opération mathématique est utilisée pour mesurer la netteté locale d'un pixel dans la pile focale ?
 
-> Pense a l'opérateur qui réagit fortement aux contours et aux zones à haute fréquence spatiale.
+> Pense à l'opérateur qui réagit fortement aux contours et aux zones à haute fréquence spatiale.
 
 1. [ ] La transformée de Fourier locale
 1. [ ] La moyenne des pixels voisins
@@ -127,20 +127,20 @@ execute:
 ```
 
 ```{quizdown}
-### Quels sont les deux types de sortie produits par une caméra a ouverture codee a partir d'une seule image d'entree ?
+### Quels sont les deux types de sortie produits par une caméra à ouverture codée à partir d'une seule image d'entrée ?
 
 > Pense aux deux informations complémentaires que l'on souhaite extraire d'une scène 3D.
 
 - [x] Une carte de profondeur (Depth Map)
     > Correct : l'ouverture codée permet d'estimer la profondeur de chaque région de la scène depuis une seule image.
-- [ ] Une sequence video reconstruite
+- [ ] Une séquence vidéo reconstruite
 - [x] Une image tout-net (All-Focused Image)
     > Correct : en combinant l'estimation de profondeur avec la déconvolution, on reconstruit une image où tous les plans sont nets.
-- [ ] Un modele 3D de la scene
+- [ ] Un modèle 3D de la scène
 ```
 
 ```{quizdown}
-### Pourquoi la deconvolution est-elle un probleme "mal pose" (ill-posed) ?
+### Pourquoi la déconvolution est-elle un problème "mal posé" (ill-posed) ?
 
 > Pense à ce que signifie mathématiquement résoudre f convolué avec x = y pour trouver x.
 
@@ -152,7 +152,7 @@ execute:
 ```
 
 ```{quizdown}
-### Dans la deconvolution avec prior, que represente le terme lambda dans la formule d'optimisation ?
+### Dans la déconvolution avec prior, que représente le terme lambda dans la formule d'optimisation ?
 
 > Formule : x = argmin ||f x - y||^2 + lambda * somme rho(nabla xi)
 
@@ -164,19 +164,19 @@ execute:
 ```
 
 ```{quizdown}
-### Quel est l'avantage du prior epars (rho = norme gradient puissance 0.8) par rapport au prior gaussien (rho = norme gradient au carre) pour la deconvolution ?
+### Quel est l'avantage du prior épars (rho = norme gradient puissance 0.8) par rapport au prior gaussien (rho = norme gradient au carré) pour la déconvolution ?
 
 > Pense à la distribution des gradients dans une image naturelle.
 
 1. [ ] Il converge plus vite numériquement.
-1. [ ] Il ne nécessite pas de connaitre le noyau de flou.
+1. [ ] Il ne nécessite pas de connaître le noyau de flou.
 1. [x] Il préserve mieux les contours nets en localisant les gradients, plutôt que de les diffuser uniformément.
     > Correct : la norme puissance 0.8 est plus proche d'une norme L1 que L2 — elle favorise les solutions avec peu de gradients forts (contours) et de nombreuses zones uniformes, ce qui correspond aux images naturelles.
 1. [ ] Il élimine totalement les artefacts de ringing.
 ```
 
 ```{quizdown}
-### Pourquoi l'ouverture codee ameliore-t-elle la discrimination entre differentes profondeurs par rapport a une ouverture conventionnelle ?
+### Pourquoi l'ouverture codée améliore-t-elle la discrimination entre différentes profondeurs par rapport à une ouverture conventionnelle ?
 
 > Pense à la structure visuelle du PSF dans chaque cas et à sa ressemblance avec des images naturelles.
 
@@ -189,18 +189,18 @@ execute:
 
 ---
 
-## Niveau 3 — Maitrise
+## Niveau 3 — Maîtrise
 
 ```{quizdown}
-### Remets les etapes de la fusion d'une pile focale dans le bon ordre.
+### Remets les étapes de la fusion d'une pile focale dans le bon ordre.
 
 > Pense au pipeline complet depuis les images brutes jusqu'à l'image tout-nette finale.
 
-1. Capturer les images avec differentes mises au point
+1. Capturer les images avec différentes mises au point
 2. Aligner les images en corrigeant la magnification
-3. Calculer les poids de nettete via le Laplacien
+3. Calculer les poids de netteté via le Laplacien
 4. Lisser les cartes de poids par flou gaussien
-5. Calculer la moyenne ponderee normalisee
+5. Calculer la moyenne pondérée normalisée
 ```
 
 ```{quizdown}
@@ -228,15 +228,15 @@ execute:
 ```
 
 ```{quizdown}
-### Remets les etapes de l'algorithme d'estimation de profondeur par ouverture codee dans le bon ordre.
+### Remets les étapes de l'algorithme d'estimation de profondeur par ouverture codée dans le bon ordre.
 
 > Pense à la logique de déconvolution à différentes échelles et à la sélection du meilleur résultat.
 
-1. Selectionner une fenetre locale de l'image floue
-2. Pour chaque profondeur candidate, deconvoluer avec le PSF calibre correspondant
-3. Evaluer la qualite naturelle de chaque image deconvoluee (prior)
-4. Retenir l'echelle dont le resultat est le plus naturel
-5. Utiliser cette echelle comme estimation de profondeur et l'image correspondante comme image nette locale
+1. Sélectionner une fenêtre locale de l'image floue
+2. Pour chaque profondeur candidate, déconvoluer avec le PSF calibré correspondant
+3. Évaluer la qualité naturelle de chaque image déconvoluée (prior)
+4. Retenir l'échelle dont le résultat est le plus naturel
+5. Utiliser cette échelle comme estimation de profondeur et l'image correspondante comme image nette locale
 ```
 
 ```{quizdown}
@@ -252,7 +252,7 @@ execute:
 ```
 
 ```{quizdown}
-### Pourquoi la technique de flux focal (focal flow) ne fonctionne-t-elle que sur les zones texturees ?
+### Pourquoi la technique de flux focal (focal flow) ne fonctionne-t-elle que sur les zones texturées ?
 
 > Pense à ce qu'est le flux optique et aux conditions nécessaires pour l'estimer.
 
@@ -264,7 +264,7 @@ execute:
 ```
 
 ```{quizdown}
-### Quels enonces décrivent correctement l'ecart de dimensionnalite (dimensionality gap) introduit par Ng (2005) ?
+### Quels énoncés décrivent correctement l'écart de dimensionnalité (dimensionality gap) introduit par Ng (2005) ?
 
 > Pense aux dimensions du champ lumineux complet et à celles réellement utiles pour reconstruire image + profondeur.
 
@@ -279,7 +279,7 @@ execute:
 ```
 
 ```{quizdown}
-### Un chercheur dispose d'une seule image floue d'une scène et souhaite estimer la profondeur par ouverture codee. Il observe que deux échelles de PSF différentes produisent des images déconvoluées qui semblent toutes les deux naturelles. Quelle est l'explication la plus probable et la solution ?
+### Un chercheur dispose d'une seule image floue d'une scène et souhaite estimer la profondeur par ouverture codée. Il observe que deux échelles de PSF différentes produisent des images déconvoluées qui semblent toutes les deux naturelles. Quelle est l'explication la plus probable et la solution ?
 
 > Pense aux conditions dans lesquelles l'ambiguïté d'échelle persiste malgré l'ouverture codée.
 
@@ -291,9 +291,9 @@ execute:
 ```
 
 ```{quizdown}
-### Quelles affirmations sur la comparaison entre les trois methodes de capture du champ lumineux sont correctes ?
+### Quelles affirmations sur la comparaison entre les trois méthodes de capture du champ lumineux sont correctes ?
 
-> Compare reseau de cameras, camera unique deplacee et camera plenoptique selon plusieurs criteres.
+> Compare réseau de caméras, caméra unique déplacée et caméra plénoptique selon plusieurs critères.
 
 - [x] Le réseau de caméras (Stanford Array) offre la meilleure qualité mais est coûteux et encombrant.
     > Correct : chaque caméra capture avec sa pleine résolution, mais l'installation est complexe et onéreuse.
@@ -302,7 +302,7 @@ execute:
 - [ ] La caméra plénoptique offre la même résolution spatiale qu'une caméra conventionnelle équivalente.
     > Incorrect : la résolution spatiale est réduite d'un facteur k (taille des microlentilles) car une partie des pixels est utilisée pour encoder l'information angulaire.
 - [x] La caméra plénoptique est la seule des trois à capturer le champ lumineux en une seule prise instantanée.
-    > Correct : c'est son avantage principal — elle permet de capturer des scènes dynamiques tout en préservant la capacité de refocalisation a posteriori.
+    > Correct : c'est son avantage principal — elle permet de capturer des scènes dynamiques tout en préservant la capacité de refocalisation à posteriori.
 ```
 
 ```{quizdown}
