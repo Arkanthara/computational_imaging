@@ -1,4 +1,5 @@
-#import "@preview/cetz:0.4.2": canvas, draw
+#import "@preview/cetz:0.4.2": draw
+#import emoji: *
 
 #let clip-str(txt, n) = {
   let n = int(calc.floor(n))
@@ -258,7 +259,13 @@
 
   let draw-legend(x, y) = {
     if node.legend != none {
-      let y-leg = if node.legend-position == "top" {
+      let y-leg = if node.kind == "stack" {
+        if node.legend-position == "top" {
+          node-edge(node, side: "top", outer: true) + 0.55
+        } else {
+          node-edge(node, side: "bottom", outer: true) - 0.55
+        }
+      } else if node.legend-position == "top" {
         y + nh / 2 + 0.55
       } else {
         y - nh / 2 - 0.55
@@ -583,3 +590,81 @@
     )
   }
 }
+
+// Draw an emoji marker around a node (lock/key/custom), with optional status text.
+// kind: "lock-closed" | "lock-open" | "key" | "custom"
+// place: "top" | "bottom" | "left" | "right" | "over" | "under"
+#let draw-node-emoji(
+  node,
+  kind: "lock-closed",
+  emoji: none,
+  place: "top",
+  gap: 0.55,
+  shift: (0.0, 0.0),
+  size: 0.95em,
+  color: none,
+  use-outer: true,
+  key-state: none, // none | encrypted | decrypted
+  state-text: none,
+  state-size: 0.42em,
+  state-gap: 0.32,
+  state-position: "below", // above or below
+) = {
+  let p = if place == "over" { "top" } else if place == "under" { "bottom" } else { place }
+  let symbol = if emoji != none {
+    emoji
+  } else if kind == "lock-open" {
+    lock.open
+  } else if kind == "key" {
+    key
+  } else {
+    lock.closed
+  }
+
+  let status = if state-text != none {
+    state-text
+  } else if key-state == "encrypted" {
+    lock.key
+  } else if key-state == "decrypted" {
+    lock.open
+  } else {
+    none
+  }
+
+  let x = if p == "left" {
+    node-edge(node, side: "left", outer: use-outer) - gap
+  } else if p == "right" {
+    node-edge(node, side: "right", outer: use-outer) + gap
+  } else {
+    node.cx
+  }
+
+  let y = if p == "top" {
+    node-edge(node, side: "top", outer: use-outer) + gap
+  } else if p == "bottom" {
+    node-edge(node, side: "bottom", outer: use-outer) - gap
+  } else {
+    node.cy
+  }
+
+  let px = x + shift.at(0)
+  let py = y + shift.at(1)
+  draw.content(
+    (px, py),
+    text(size: size, fill: if color == none { black } else { color })[#symbol],
+  )
+
+  if status != none {
+    let sy = if state-position == "above" { py + state-gap } else { py - state-gap }
+    draw.content(
+      (px, sy),
+      text(size: state-size, fill: rgb("#555555"))[#status],
+    )
+  }
+}
+
+// Per-type default configurators.
+#let set-arrow-defaults(options: ()) = make-arrow.with(..options)
+#let set-dataset-defaults(options: ()) = make-dataset.with(..options)
+#let set-trapezoid-defaults(options: ()) = make-trapezoid.with(..options)
+#let set-box-defaults(options: ()) = make-box.with(..options)

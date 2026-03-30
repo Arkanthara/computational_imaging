@@ -43,6 +43,8 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
 #let node-gap = 1.25
 #let arrow-gap = 0.45
 #let arrow-label-gap = 0.30
+#let make-arrow = set-arrow-defaults(options: (spacing: arrow-gap, label-gap: arrow-label-gap))
+#let make-trapezoid = set-trapezoid-defaults(options: (width: 2.8, big-half: 1.65, small-half: 0.80))
 
 #align(center)[
 #scale(88%)[
@@ -72,9 +74,6 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
     "ssiDepthChns",
     subtitle: "Encoder",
     mode: "encoder",
-    width: 2.8,
-    big-half: 1.65,
-    small-half: 0.80,
     after: image-ds,
     gap: node-gap,
     color: rgb("#b0dba0"),
@@ -130,6 +129,7 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
   draw-node(detector)
   draw-node(computed)
   draw-node(compare)
+  draw-node-emoji(encoder, kind: "lock-open", place: "top", shift: (0.35, -0.5))
 
   // Arrows and labels.
   let a-input = make-arrow(
@@ -137,8 +137,6 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
     encoder,
     from-outer: true,
     auto-spacing: true,
-    spacing: arrow-gap,
-    label-gap: arrow-label-gap,
     label: [input],
   )
 
@@ -146,8 +144,6 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
     encoder,
     latent,
     auto-spacing: false,
-    spacing: arrow-gap,
-    label-gap: arrow-label-gap,
     label: [features],
   )
 
@@ -156,8 +152,6 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
     detector,
     from-outer: true,
     auto-spacing: false,
-    spacing: arrow-gap,
-    label-gap: arrow-label-gap,
     label: [decode],
   )
 
@@ -165,8 +159,6 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
     detector,
     computed,
     auto-spacing: false,
-    spacing: arrow-gap,
-    label-gap: arrow-label-gap,
   )
 
   let a-compare = make-arrow(
@@ -175,8 +167,6 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
     out-side: "bottom",
     in-side: "left",
     auto-spacing: true,
-    spacing: arrow-gap,
-    label-gap: arrow-label-gap,
     mode: "vh",
     label: [compare],
   )
@@ -188,8 +178,6 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
     in-side: "bottom",
     from-outer: true,
     auto-spacing: true,
-    spacing: arrow-gap,
-    label-gap: arrow-label-gap,
     mode: "hv",
     label: [ground truth],
   )
