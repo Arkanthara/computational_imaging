@@ -4,6 +4,7 @@
 #import "@preview/theofig:0.1.0": definition
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 #import "@preview/cetz:0.4.2": canvas, draw
+#import "graph_utils.typ": *
 
 // Main content
 #show: make-report.with(my-report)
@@ -39,180 +40,166 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
 //  ssiDepth pipeline diagram — Left-to-Right, CeTZ
 // ─────────────────────────────────────────────────────────────────
 
+#let node-gap = 1.25
+#let arrow-gap = 0.45
+#let arrow-label-gap = 0.30
+
 #align(center)[
 #scale(88%)[
 #canvas(length: 0.72cm, {
   import draw: *
 
-  // ── Global controls: edit these first ───────────────────────────
-  let arrow-gap = 1.0            // fixed center-line gap between linked nodes
-  let stack-shift = 0.22         // dataset/computed stack offset
-  let latent-shift = stack-shift / 2
-
-  // ── Palette ──────────────────────────────────────────────────────
-  let ci  = rgb("#a8c8e8")
-  let ce  = rgb("#b0dba0")
-  let cl  = rgb("#fcd97a")
-  let cd  = rgb("#a0b8f5")
-  let co  = rgb("#a0e8be")
-  let ccp = rgb("#f5a0be")
-  let cdm = rgb("#c5a0f0")
-
-  // ── Node geometry ────────────────────────────────────────────────
-  let y-main = 0.0
-  let y-dset = -3.8
-
-  let img-ds = (kind: "stack", cx: 1.0, cy: y-main, w: 1.9, h: 2.3, n: 3, shift: stack-shift)
-  let dep-ds = (kind: "stack", cx: 1.0, cy: y-dset, w: 1.9, h: 2.3, n: 3, shift: stack-shift)
-
-  // Encoder placed automatically from image dataset + arrow-gap
-  let enc-left = (img-ds.cx + img-ds.w/2 + (img-ds.n - 1) * img-ds.shift) + arrow-gap
-  let enc = (lx: enc-left, rx: enc-left + 2.8, cy: y-main, h-left: 1.65, h-right: 0.80)
-
-  // Latent stack placed automatically from encoder + arrow-gap
-  let lat-left = enc.rx + arrow-gap
-  let lat = (kind: "stack", cx: lat-left + 1.15/2, cy: y-main, w: 1.15, h: 1.6, n: 6, shift: latent-shift)
-
-  // Estimator placed automatically from latent outer-right + arrow-gap
-  let lat-right-outer = lat.cx + lat.w/2 + (lat.n - 1) * lat.shift
-  let est-left = lat-right-outer + arrow-gap
-  let est = (kind: "box", cx: est-left + 3.6/2, cy: y-main, w: 3.6, h: 2.2)
-
-  // Computed maps placed automatically from estimator + arrow-gap
-  let cmp-front-left = (est.cx + est.w/2) + arrow-gap
-  let cmp = (kind: "stack", cx: cmp-front-left + 1.9/2, cy: y-main, w: 1.9, h: 2.3, n: 3, shift: stack-shift)
-
-  // Comparison block placed automatically from computed outer-right + arrow-gap
-  let cmp-right-outer = cmp.cx + cmp.w/2 + (cmp.n - 1) * cmp.shift
-  let eval = (kind: "box", cx: cmp-right-outer + arrow-gap + 2.6/2, cy: -1.85, w: 2.6, h: 2.2)
-
-  // ── Helpers ──────────────────────────────────────────────────────
-  let stk(node, col) = {
-    for i in range(node.n) {
-      let j = node.n - 1 - i
-      let off = j * node.shift
-      rect(
-        (node.cx - node.w/2 + off, node.cy - node.h/2 + off),
-        (node.cx + node.w/2 + off, node.cy + node.h/2 + off),
-        fill: col,
-        stroke: (paint: black, thickness: 0.5pt),
-      )
-    }
-  }
-
-  // side ∈ {left,right,top,bottom,center}, outer=true uses full stack footprint
-  let node-anchor(node, side, outer: false) = {
-    let ox = if node.kind == "stack" and outer { (node.n - 1) * node.shift } else { 0 }
-    let oy = if node.kind == "stack" and outer { (node.n - 1) * node.shift } else { 0 }
-
-    if side == "left" {
-      (node.cx - node.w/2, node.cy)
-    } else if side == "right" {
-      (node.cx + node.w/2 + ox, node.cy)
-    } else if side == "top" {
-      (node.cx, node.cy + node.h/2 + oy)
-    } else if side == "bottom" {
-      (node.cx, node.cy - node.h/2)
-    } else {
-      (node.cx, node.cy)
-    }
-  }
-
-  let edge-label(a, b, txt, side: "above", gap: 0.22, dx: 0.0, dy: 0.0) = {
-    let mx = (a.at(0) + b.at(0)) / 2 + dx
-    let my = (a.at(1) + b.at(1)) / 2 + dy
-    let horiz = calc.abs(a.at(1) - b.at(1)) < 0.001
-    let ox = if horiz { 0 } else if side == "right" { gap } else { -gap }
-    let oy = if horiz { if side == "below" { -gap } else { gap } } else { 0 }
-    content((mx + ox, my + oy), text(size: 0.48em, fill: rgb("#555555"))[#txt])
-  }
-
-  let arst = (paint: black, thickness: 0.75pt)
-  let armk = (end: ">")
-
-  // ════════════════════════════════════════════════════════════════
-  //  NODES
-  // ════════════════════════════════════════════════════════════════
-
-  stk(img-ds, ci)
-  content((img-ds.cx, img-ds.cy), align(center)[#text(size: 0.58em)[Image \ Dataset]])
-
-  stk(dep-ds, cdm)
-  content((dep-ds.cx, dep-ds.cy), align(center)[#text(size: 0.58em)[Depth Map \ Dataset]])
-
-  // Encoder trapezoid
-  line(
-    (enc.lx, enc.cy - enc.h-left), (enc.rx, enc.cy - enc.h-right),
-    (enc.rx, enc.cy + enc.h-right), (enc.lx, enc.cy + enc.h-left),
-    close: true, fill: ce,
-    stroke: (paint: black, thickness: 0.65pt),
+  // Nodes: auto-positioned from left to right using gap.
+  let image-ds = make-dataset(
+    "Image\nDataset",
+    images: 3,
+    image-size: (1.9, 2.3),
+    image-spacing: 0.22,
+    pos: (1.0, 0.0),
+    color: rgb("#a8c8e8"),
   )
-  content(((enc.lx + enc.rx)/2,  0.30), align(center)[#text(size: 0.66em)[*ssiDepthChns*]])
-  content(((enc.lx + enc.rx)/2, -0.35), align(center)[#text(size: 0.54em, fill: rgb("#333333"))[Encoder]])
 
-  stk(lat, cl)
-  content((lat.cx + 0.15, -1.55), align(center)[#text(size: 0.50em)[H × W × \#Features]])
-
-  rect(
-    (est.cx - est.w/2, est.cy - est.h/2),
-    (est.cx + est.w/2, est.cy + est.h/2),
-    fill: cd,
-    stroke: (paint: black, thickness: 0.65pt),
+  let depth-ds = make-dataset(
+    "Depth Map\nDataset",
+    images: 3,
+    image-size: (1.9, 2.3),
+    image-spacing: 0.22,
+    pos: (1.0, -3.8),
+    color: rgb("#c5a0f0"),
   )
-  content((est.cx,  0.30), align(center)[#text(size: 0.64em)[*ssiDepthDetect*]])
-  content((est.cx, -0.35), align(center)[#text(size: 0.54em)[Depth Map Estimator]])
 
-  stk(cmp, co)
-  content((cmp.cx, cmp.cy), align(center)[#text(size: 0.54em)[Computed \ Depth Maps]])
-
-  rect(
-    (eval.cx - eval.w/2, eval.cy - eval.h/2),
-    (eval.cx + eval.w/2, eval.cy + eval.h/2),
-    fill: ccp,
-    stroke: (paint: black, thickness: 0.65pt),
+  let encoder = make-trapezoid(
+    "ssiDepthChns",
+    subtitle: "Encoder",
+    mode: "encoder",
+    width: 2.8,
+    big-half: 1.65,
+    small-half: 0.80,
+    after: image-ds,
+    gap: node-gap,
+    color: rgb("#b0dba0"),
   )
-  content((eval.cx, -1.60), align(center)[#text(size: 0.56em)[*Comparison \ Block*]])
-  content((eval.cx, -2.20), align(center)[#text(size: 0.52em, fill: rgb("#444444"))[Loss / Evaluation]])
 
-  // ════════════════════════════════════════════════════════════════
-  //  ARROWS (orthogonal only)
-  // ════════════════════════════════════════════════════════════════
+  let latent = make-dataset(
+    "H × W × #Features",
+    images: 6,
+    image-size: (1.15, 1.6),
+    image-spacing: 0.11,
+    title-position: "below",
+    title-truncate: true,
+    after: encoder,
+    gap: node-gap,
+    color: rgb("#fcd97a"),
+    title-size: 0.50em,
+  )
 
-  // Datasets use front-image center as node center, but outer-right as anchor to avoid overlap
-  let a-in-a = node-anchor(img-ds, "right", outer: true)
-  let a-in-b = (enc.lx, y-main)
-  line(a-in-a, a-in-b, mark: armk, stroke: arst)
+  let detector = make-box(
+    "ssiDepthDetect",
+    subtitle: "Depth Map\nEstimator",
+    after: latent,
+    gap: node-gap,
+    size: (3.6, 2.2),
+    color: rgb("#a0b8f5"),
+  )
 
-  let a-feat-a = (enc.rx, y-main)
-  let a-feat-b = node-anchor(lat, "left")
-  line(a-feat-a, a-feat-b, mark: armk, stroke: arst)
+  let computed = make-dataset(
+    "Computed\nDepth Maps",
+    images: 3,
+    image-size: (1.9, 2.3),
+    image-spacing: 0.22,
+    after: detector,
+    gap: node-gap,
+    color: rgb("#a0e8be"),
+    title-size: 0.54em,
+  )
 
-  let a-dec-a = node-anchor(lat, "right", outer: true)
-  let a-dec-b = node-anchor(est, "left")
-  line(a-dec-a, a-dec-b, mark: armk, stroke: arst)
+  let compare = make-box(
+    "Comparison Block",
+    subtitle: "Loss / Evaluation",
+    after: computed,
+    gap: node-gap,
+    y: -1.85,
+    color: rgb("#f5a0be"),
+    title-size: 0.56em,
+  )
 
-  let a-est-a = node-anchor(est, "right")
-  let a-est-b = node-anchor(cmp, "left") // to first-image middle
-  line(a-est-a, a-est-b, mark: armk, stroke: arst)
+  draw-node(image-ds)
+  draw-node(depth-ds)
+  draw-node(encoder)
+  draw-node(latent)
+  draw-node(detector)
+  draw-node(computed)
+  draw-node(compare)
 
-  let a-cmp-a = node-anchor(cmp, "bottom")
-  let a-cmp-b = node-anchor(eval, "left")
-  let a-cmp-k = (a-cmp-a.at(0), a-cmp-b.at(1))
-  line(a-cmp-a, a-cmp-k, a-cmp-b, mark: armk, stroke: arst)
+  // Arrows and labels.
+  let a-input = make-arrow(
+    image-ds,
+    encoder,
+    from-outer: true,
+    auto-spacing: true,
+    spacing: arrow-gap,
+    label-gap: arrow-label-gap,
+    label: [input],
+  )
 
-  let a-gt-a = node-anchor(dep-ds, "right", outer: true)
-  let a-gt-b = node-anchor(eval, "bottom")
-  let a-gt-k = (a-gt-b.at(0), a-gt-a.at(1))
-  line(a-gt-a, a-gt-k, a-gt-b, mark: armk, stroke: arst)
+  let a-features = make-arrow(
+    encoder,
+    latent,
+    auto-spacing: false,
+    spacing: arrow-gap,
+    label-gap: arrow-label-gap,
+    label: [features],
+  )
 
-  // ════════════════════════════════════════════════════════════════
-  //  EDGE LABELS
-  // ════════════════════════════════════════════════════════════════
-  edge-label(a-in-a, a-in-b, [input], side: "above")
-  edge-label(a-feat-a, a-feat-b, [features], side: "above")
-  edge-label(a-dec-a, a-dec-b, [decode], side: "below", dx: -0.06)
-  edge-label(a-cmp-k, a-cmp-b, [compare], side: "above")
-  edge-label(a-gt-a, a-gt-k, [ground truth], side: "above")
+  let a-decode = make-arrow(
+    latent,
+    detector,
+    from-outer: true,
+    auto-spacing: false,
+    spacing: arrow-gap,
+    label-gap: arrow-label-gap,
+    label: [decode],
+  )
+
+  let a-estimate = make-arrow(
+    detector,
+    computed,
+    auto-spacing: false,
+    spacing: arrow-gap,
+    label-gap: arrow-label-gap,
+  )
+
+  let a-compare = make-arrow(
+    computed,
+    compare,
+    out-side: "bottom",
+    in-side: "left",
+    auto-spacing: true,
+    spacing: arrow-gap,
+    label-gap: arrow-label-gap,
+    mode: "vh",
+    label: [compare],
+  )
+
+  let a-ground = make-arrow(
+    depth-ds,
+    compare,
+    out-side: "right",
+    in-side: "bottom",
+    from-outer: true,
+    auto-spacing: true,
+    spacing: arrow-gap,
+    label-gap: arrow-label-gap,
+    mode: "hv",
+    label: [ground truth],
+  )
+
+  draw-arrow(a-input)
+  draw-arrow(a-features)
+  draw-arrow(a-decode)
+  draw-arrow(a-estimate)
+  draw-arrow(a-compare)
+  draw-arrow(a-ground)
 })
 ]
 ]
