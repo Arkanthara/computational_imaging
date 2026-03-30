@@ -3,7 +3,7 @@
 #import "metadata.typ": my-report
 #import "@preview/theofig:0.1.0": definition
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
-#import "@preview/cetz:0.3.1": canvas, draw
+#import "@preview/cetz:0.4.2": canvas, draw
 
 // Main content
 #show: make-report.with(my-report)
@@ -39,7 +39,9 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
 //  ssiDepth pipeline diagram — Left-to-Right, CeTZ
 // ─────────────────────────────────────────────────────────────────
 
-#canvas(length: 1.1cm, {
+#align(center)[
+#scale(88%)[
+#canvas(length: 0.72cm, {
   import draw: *
 
   // ── Palette ──────────────────────────────────────────────────────
@@ -53,10 +55,10 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
   let sk  = 0.22             // inter-layer offset for stacked images
 
   // ── Helper: n stacked rectangles, back→front, centred at (px, py) ──
-  let stk(px, py, w, h, n, col) = {
+  let stk(px, py, w, h, n, col, shift: sk) = {
     for i in range(n) {
       let j   = n - 1 - i      // j: n-1 … 0  (back → front on top)
-      let off = j * sk
+      let off = j * shift
       rect(
         (px - w/2 + off, py - h/2 + off),
         (px + w/2 + off, py + h/2 + off),
@@ -64,6 +66,30 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
         stroke: (paint: black, thickness: 0.5pt),
       )
     }
+  }
+
+  // ── Auto label for straight arrow segments (with manual nudges) ──
+  let edge-label(a, b, txt, side: "above", gap: 0.22, dx: 0.0, dy: 0.0) = {
+    let ax = a.at(0)
+    let ay = a.at(1)
+    let bx = b.at(0)
+    let by = b.at(1)
+    let mx = (ax + bx) / 2 + dx
+    let my = (ay + by) / 2 + dy
+    let horiz = calc.abs(ay - by) < 0.001
+    let ox = if horiz {
+      0
+    } else if side == "right" {
+      gap
+    } else {
+      -gap
+    }
+    let oy = if horiz {
+      if side == "below" { -gap } else { gap }
+    } else {
+      0
+    }
+    content((mx + ox, my + oy), text(size: 0.48em, fill: rgb("#555555"))[#txt])
   }
 
   // ── Arrow style ──────────────────────────────────────────────────
@@ -76,12 +102,12 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
   // ════════════════════════════════════════════════════════════════
 
   // 1 · Image Dataset  (x=1.0, y=0.0) ─────────────────────────────
-  stk(1.0, 0.0, 1.7, 2.1, 3, ci)
-  content((1.0, 0.0), align(center)[#text(size: 0.68em)[Image \ Dataset]])
+  stk(1.0, 0.0, 1.9, 2.3, 3, ci)
+  content((1.0, 0.0), align(center)[#text(size: 0.58em)[Image \ Dataset]])
 
   // 2 · Depth Map Dataset  (x=1.0, y=−3.8) ────────────────────────
-  stk(1.0, -3.8, 1.7, 2.1, 3, cdm)
-  content((1.0, -3.8), align(center)[#text(size: 0.68em)[Depth Map \ Dataset]])
+  stk(1.0, -3.8, 1.9, 2.3, 3, cdm)
+  content((1.0, -3.8), align(center)[#text(size: 0.58em)[Depth Map \ Dataset]])
 
   // 3 · Encoder — trapezoid ssiDepthChns ───────────────────────────
   //    Left (input) tall: y ±1.65 ;  Right (output) narrow: y ±0.80
@@ -91,75 +117,79 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
     close: true, fill: ce,
     stroke: (paint: black, thickness: 0.65pt),
   )
-  content((4.70,  0.30), align(center)[#text(size: 0.72em)[*ssiDepthChns*]])
-  content((4.70, -0.35), align(center)[#text(size: 0.58em, fill: rgb("#333333"))[Encoder]])
+  content((4.70,  0.30), align(center)[#text(size: 0.66em)[*ssiDepthChns*]])
+  content((4.70, -0.35), align(center)[#text(size: 0.54em, fill: rgb("#333333"))[Encoder]])
 
-  // 4 · Latent Space — tall narrow rectangle ───────────────────────
-  //    x = [7.1, 7.95], y = [−2.0, 2.0]
-  rect((7.1, -2.0), (7.95, 2.0),
-    fill: cl, stroke: (paint: black, thickness: 0.65pt))
-  content((7.525, 0.0),
-    rotate(-90deg)[#text(size: 0.56em)[H × W × \#Features]])
-  content((7.525, -2.6),
-    align(center)[#text(size: 0.62em)[Latent Space]])
+  // 4 · Latent Space — stacked feature maps (2x more layers) ──────
+  //    6 layers, each with a height close to the trapezoid small side (≈1.6)
+  stk(8.1, 0.0, 1.15, 1.6, 6, cl, shift: sk / 2)
+  content((8.25, -1.55), align(center)[#text(size: 0.50em)[H × W × \#Features]])
 
   // 5 · Depth Map Estimator ─────────────────────────────────────────
-  //    x = [9.0, 12.4], y = [−1.1, 1.1]
-  rect((9.0, -1.1), (12.4, 1.1),
+  //    x = [10.225, 13.85], y = [−1.1, 1.1]
+  rect((10.225, -1.1), (13.85, 1.1),
     fill: cd, stroke: (paint: black, thickness: 0.65pt))
-  content((10.7,  0.30), align(center)[#text(size: 0.70em)[*ssiDepthDetect*]])
-  content((10.7, -0.35), align(center)[#text(size: 0.58em)[Depth Map Estimator]])
+  content((12.0375,  0.30), align(center)[#text(size: 0.64em)[*ssiDepthDetect*]])
+  content((12.0375, -0.35), align(center)[#text(size: 0.54em)[Depth Map Estimator]])
 
-  // 6 · Computed Depth Maps  (x=13.9, y=0.0) ───────────────────────
-  stk(13.9, 0.0, 1.7, 2.1, 3, co)
-  content((13.9, 0.0), align(center)[#text(size: 0.68em)[Computed \ Depth Maps]])
+  // 6 · Computed Depth Maps  (x=15.8, y=0.0) ───────────────────────
+  stk(15.8, 0.0, 1.9, 2.3, 3, co)
+  content((15.8, 0.0), align(center)[#text(size: 0.54em)[Computed \ Depth Maps]])
 
   // 7 · Comparison Block ────────────────────────────────────────────
-  //    x = [15.9, 18.5], y = [−2.95, −0.75]
-  rect((15.9, -2.95), (18.5, -0.75),
+  //    x = [18.7, 21.3], y = [−2.95, −0.75]
+  rect((18.7, -2.95), (21.3, -0.75),
     fill: ccp, stroke: (paint: black, thickness: 0.65pt))
-  content((17.2, -1.60), align(center)[#text(size: 0.70em)[*Comparison Block*]])
-  content((17.2, -2.20), align(center)[#text(size: 0.58em, fill: rgb("#444444"))[Loss / Evaluation]])
-
-  // ── Small ⊗ icon inside comparison to hint at difference op ─────
-  circle((16.15, -1.85), radius: 0.22,
-    stroke: (paint: rgb("#880044"), thickness: 0.6pt), fill: white)
-  content((16.15, -1.85), text(size: 0.55em, fill: rgb("#880044"))[⊗])
-
+  content((20.0, -1.60), align(center)[#text(size: 0.56em)[*Comparison \ Block*]])
+  content((20.0, -2.20), align(center)[#text(size: 0.52em, fill: rgb("#444444"))[Loss / Evaluation]])
 
   // ════════════════════════════════════════════════════════════════
   //  ARROWS
   // ════════════════════════════════════════════════════════════════
 
   // 1 → 3  Image Dataset → Encoder
-  //   exit: back-image right ≈ (1+0.85+0.44, 0+0.22) = (2.29, 0.22)
-  line((2.3, 0.22), (3.3, 0.0), mark: armk, stroke: arst)
+  //   exit: stack outer-right at mid-height (avoids crossing inner layers)
+  line(
+    (2.39, 0.0),
+    (2.6, 0.0),
+    (3.3, 0.0),
+    mark: armk, stroke: arst,
+  )
 
   // 3 → 4  Encoder → Latent Space
-  line((6.1, 0.0), (7.1, 0.0), mark: armk, stroke: arst)
+  line((6.1, 0.0), (7.525, 0.0), mark: armk, stroke: arst)
 
-  // 4 → 5  Latent Space → Depth Map Estimator
-  line((7.95, 0.0), (9.0, 0.0), mark: armk, stroke: arst)
+  // 4 → 5  Latent Space → Depth Map Estimator (stepped like dataset arrow)
+  line(
+    (9.225, 0.0),
+    (9.55, 0.0),
+    (10.225, 0.0),
+    mark: armk, stroke: arst,
+  )
 
   // 5 → 6  Depth Map Estimator → Computed Depth Maps
-  //   enter front-image left ≈ x=13.9−0.85=13.05
-  line((12.4, 0.0), (13.05, 0.22), mark: armk, stroke: arst)
+  //   enter front-image left-middle (x=15.8−0.95=14.85, y=0)
+  line(
+    (13.85, 0.0),
+    (14.85, 0.0),
+    mark: armk, stroke: arst,
+  )
 
   // 6 → 7  Computed Depth Maps → Comparison Block
   //   exit front-image bottom (13.9, −1.05) → bend down → enter comparison left
   line(
-    (13.9, -1.05),
-    (13.9, -1.85),
-    (15.9, -1.85),
+    (15.8, -1.15),
+    (15.8, -1.85),
+    (18.7, -1.85),
     mark: armk, stroke: arst,
   )
 
   // 2 → 7  Depth Map Dataset → Comparison Block
-  //   exit right (2.3, −3.6) → long horizontal → enter comparison bottom-centre
+  //   exit stack outer-right at mid-height (avoids crossing inner layers)
   line(
-    (2.3,  -3.6),
-    (17.2, -3.6),
-    (17.2, -2.95),
+    (2.39, -3.8),
+    (20.0, -3.8),
+    (20.0, -2.95),
     mark: armk, stroke: arst,
   )
 
@@ -168,12 +198,14 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
   //  EDGE LABELS
   // ════════════════════════════════════════════════════════════════
 
-  content((2.85, 0.45), text(size: 0.52em, fill: rgb("#555555"))[input])
-  content((6.55, 0.30), text(size: 0.52em, fill: rgb("#555555"))[features])
-  content((8.55, 0.30), text(size: 0.52em, fill: rgb("#555555"))[decode])
-  content((14.9, -1.60), text(size: 0.52em, fill: rgb("#555555"))[↓ compare])
-  content((9.0, -3.35),  text(size: 0.52em, fill: rgb("#555555"))[ground truth →])
+  edge-label((2.6, 0.0), (3.3, 0.0), [input], side: "above", dy: 0.02)
+  edge-label((6.1, 0.0), (7.525, 0.0), [features], side: "above")
+  edge-label((9.55, 0.0), (10.225, 0.0), [decode], side: "below", dx: -0.08, dy: -0.02)
+  edge-label((15.8, -1.85), (18.7, -1.85), [compare], side: "above")
+  edge-label((2.39, -3.8), (20.0, -3.8), [ground truth], side: "above", dy: 0.02)
 })
+]
+]
 
 
 
