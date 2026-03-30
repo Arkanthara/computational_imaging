@@ -44,165 +44,175 @@ I have also tried to optimize it by using FFT-based convolution instead of spati
 #canvas(length: 0.72cm, {
   import draw: *
 
-  // ── Palette ──────────────────────────────────────────────────────
-  let ci  = rgb("#a8c8e8")   // image input
-  let ce  = rgb("#b0dba0")   // encoder (green)
-  let cl  = rgb("#fcd97a")   // latent space (amber)
-  let cd  = rgb("#a0b8f5")   // depth estimator (blue)
-  let co  = rgb("#a0e8be")   // computed output maps
-  let ccp = rgb("#f5a0be")   // comparison block (pink)
-  let cdm = rgb("#c5a0f0")   // depth-map input (violet)
-  let sk  = 0.22             // inter-layer offset for stacked images
+  // ── Global controls: edit these first ───────────────────────────
+  let arrow-gap = 1.0            // fixed center-line gap between linked nodes
+  let stack-shift = 0.22         // dataset/computed stack offset
+  let latent-shift = stack-shift / 2
 
-  // ── Helper: n stacked rectangles, back→front, centred at (px, py) ──
-  let stk(px, py, w, h, n, col, shift: sk) = {
-    for i in range(n) {
-      let j   = n - 1 - i      // j: n-1 … 0  (back → front on top)
-      let off = j * shift
+  // ── Palette ──────────────────────────────────────────────────────
+  let ci  = rgb("#a8c8e8")
+  let ce  = rgb("#b0dba0")
+  let cl  = rgb("#fcd97a")
+  let cd  = rgb("#a0b8f5")
+  let co  = rgb("#a0e8be")
+  let ccp = rgb("#f5a0be")
+  let cdm = rgb("#c5a0f0")
+
+  // ── Node geometry ────────────────────────────────────────────────
+  let y-main = 0.0
+  let y-dset = -3.8
+
+  let img-ds = (kind: "stack", cx: 1.0, cy: y-main, w: 1.9, h: 2.3, n: 3, shift: stack-shift)
+  let dep-ds = (kind: "stack", cx: 1.0, cy: y-dset, w: 1.9, h: 2.3, n: 3, shift: stack-shift)
+
+  // Encoder placed automatically from image dataset + arrow-gap
+  let enc-left = (img-ds.cx + img-ds.w/2 + (img-ds.n - 1) * img-ds.shift) + arrow-gap
+  let enc = (lx: enc-left, rx: enc-left + 2.8, cy: y-main, h-left: 1.65, h-right: 0.80)
+
+  // Latent stack placed automatically from encoder + arrow-gap
+  let lat-left = enc.rx + arrow-gap
+  let lat = (kind: "stack", cx: lat-left + 1.15/2, cy: y-main, w: 1.15, h: 1.6, n: 6, shift: latent-shift)
+
+  // Estimator placed automatically from latent outer-right + arrow-gap
+  let lat-right-outer = lat.cx + lat.w/2 + (lat.n - 1) * lat.shift
+  let est-left = lat-right-outer + arrow-gap
+  let est = (kind: "box", cx: est-left + 3.6/2, cy: y-main, w: 3.6, h: 2.2)
+
+  // Computed maps placed automatically from estimator + arrow-gap
+  let cmp-front-left = (est.cx + est.w/2) + arrow-gap
+  let cmp = (kind: "stack", cx: cmp-front-left + 1.9/2, cy: y-main, w: 1.9, h: 2.3, n: 3, shift: stack-shift)
+
+  // Comparison block placed automatically from computed outer-right + arrow-gap
+  let cmp-right-outer = cmp.cx + cmp.w/2 + (cmp.n - 1) * cmp.shift
+  let eval = (kind: "box", cx: cmp-right-outer + arrow-gap + 2.6/2, cy: -1.85, w: 2.6, h: 2.2)
+
+  // ── Helpers ──────────────────────────────────────────────────────
+  let stk(node, col) = {
+    for i in range(node.n) {
+      let j = node.n - 1 - i
+      let off = j * node.shift
       rect(
-        (px - w/2 + off, py - h/2 + off),
-        (px + w/2 + off, py + h/2 + off),
+        (node.cx - node.w/2 + off, node.cy - node.h/2 + off),
+        (node.cx + node.w/2 + off, node.cy + node.h/2 + off),
         fill: col,
         stroke: (paint: black, thickness: 0.5pt),
       )
     }
   }
 
-  // ── Auto label for straight arrow segments (with manual nudges) ──
-  let edge-label(a, b, txt, side: "above", gap: 0.22, dx: 0.0, dy: 0.0) = {
-    let ax = a.at(0)
-    let ay = a.at(1)
-    let bx = b.at(0)
-    let by = b.at(1)
-    let mx = (ax + bx) / 2 + dx
-    let my = (ay + by) / 2 + dy
-    let horiz = calc.abs(ay - by) < 0.001
-    let ox = if horiz {
-      0
+  // side ∈ {left,right,top,bottom,center}, outer=true uses full stack footprint
+  let node-anchor(node, side, outer: false) = {
+    let ox = if node.kind == "stack" and outer { (node.n - 1) * node.shift } else { 0 }
+    let oy = if node.kind == "stack" and outer { (node.n - 1) * node.shift } else { 0 }
+
+    if side == "left" {
+      (node.cx - node.w/2, node.cy)
     } else if side == "right" {
-      gap
+      (node.cx + node.w/2 + ox, node.cy)
+    } else if side == "top" {
+      (node.cx, node.cy + node.h/2 + oy)
+    } else if side == "bottom" {
+      (node.cx, node.cy - node.h/2)
     } else {
-      -gap
+      (node.cx, node.cy)
     }
-    let oy = if horiz {
-      if side == "below" { -gap } else { gap }
-    } else {
-      0
-    }
+  }
+
+  let edge-label(a, b, txt, side: "above", gap: 0.22, dx: 0.0, dy: 0.0) = {
+    let mx = (a.at(0) + b.at(0)) / 2 + dx
+    let my = (a.at(1) + b.at(1)) / 2 + dy
+    let horiz = calc.abs(a.at(1) - b.at(1)) < 0.001
+    let ox = if horiz { 0 } else if side == "right" { gap } else { -gap }
+    let oy = if horiz { if side == "below" { -gap } else { gap } } else { 0 }
     content((mx + ox, my + oy), text(size: 0.48em, fill: rgb("#555555"))[#txt])
   }
 
-  // ── Arrow style ──────────────────────────────────────────────────
   let arst = (paint: black, thickness: 0.75pt)
   let armk = (end: ">")
-
 
   // ════════════════════════════════════════════════════════════════
   //  NODES
   // ════════════════════════════════════════════════════════════════
 
-  // 1 · Image Dataset  (x=1.0, y=0.0) ─────────────────────────────
-  stk(1.0, 0.0, 1.9, 2.3, 3, ci)
-  content((1.0, 0.0), align(center)[#text(size: 0.58em)[Image \ Dataset]])
+  stk(img-ds, ci)
+  content((img-ds.cx, img-ds.cy), align(center)[#text(size: 0.58em)[Image \ Dataset]])
 
-  // 2 · Depth Map Dataset  (x=1.0, y=−3.8) ────────────────────────
-  stk(1.0, -3.8, 1.9, 2.3, 3, cdm)
-  content((1.0, -3.8), align(center)[#text(size: 0.58em)[Depth Map \ Dataset]])
+  stk(dep-ds, cdm)
+  content((dep-ds.cx, dep-ds.cy), align(center)[#text(size: 0.58em)[Depth Map \ Dataset]])
 
-  // 3 · Encoder — trapezoid ssiDepthChns ───────────────────────────
-  //    Left (input) tall: y ±1.65 ;  Right (output) narrow: y ±0.80
+  // Encoder trapezoid
   line(
-    (3.3, -1.65), (6.1, -0.80),
-    (6.1,  0.80), (3.3,  1.65),
+    (enc.lx, enc.cy - enc.h-left), (enc.rx, enc.cy - enc.h-right),
+    (enc.rx, enc.cy + enc.h-right), (enc.lx, enc.cy + enc.h-left),
     close: true, fill: ce,
     stroke: (paint: black, thickness: 0.65pt),
   )
-  content((4.70,  0.30), align(center)[#text(size: 0.66em)[*ssiDepthChns*]])
-  content((4.70, -0.35), align(center)[#text(size: 0.54em, fill: rgb("#333333"))[Encoder]])
+  content(((enc.lx + enc.rx)/2,  0.30), align(center)[#text(size: 0.66em)[*ssiDepthChns*]])
+  content(((enc.lx + enc.rx)/2, -0.35), align(center)[#text(size: 0.54em, fill: rgb("#333333"))[Encoder]])
 
-  // 4 · Latent Space — stacked feature maps (2x more layers) ──────
-  //    6 layers, each with a height close to the trapezoid small side (≈1.6)
-  stk(8.1, 0.0, 1.15, 1.6, 6, cl, shift: sk / 2)
-  content((8.25, -1.55), align(center)[#text(size: 0.50em)[H × W × \#Features]])
+  stk(lat, cl)
+  content((lat.cx + 0.15, -1.55), align(center)[#text(size: 0.50em)[H × W × \#Features]])
 
-  // 5 · Depth Map Estimator ─────────────────────────────────────────
-  //    x = [10.225, 13.85], y = [−1.1, 1.1]
-  rect((10.225, -1.1), (13.85, 1.1),
-    fill: cd, stroke: (paint: black, thickness: 0.65pt))
-  content((12.0375,  0.30), align(center)[#text(size: 0.64em)[*ssiDepthDetect*]])
-  content((12.0375, -0.35), align(center)[#text(size: 0.54em)[Depth Map Estimator]])
+  rect(
+    (est.cx - est.w/2, est.cy - est.h/2),
+    (est.cx + est.w/2, est.cy + est.h/2),
+    fill: cd,
+    stroke: (paint: black, thickness: 0.65pt),
+  )
+  content((est.cx,  0.30), align(center)[#text(size: 0.64em)[*ssiDepthDetect*]])
+  content((est.cx, -0.35), align(center)[#text(size: 0.54em)[Depth Map Estimator]])
 
-  // 6 · Computed Depth Maps  (x=15.8, y=0.0) ───────────────────────
-  stk(15.8, 0.0, 1.9, 2.3, 3, co)
-  content((15.8, 0.0), align(center)[#text(size: 0.54em)[Computed \ Depth Maps]])
+  stk(cmp, co)
+  content((cmp.cx, cmp.cy), align(center)[#text(size: 0.54em)[Computed \ Depth Maps]])
 
-  // 7 · Comparison Block ────────────────────────────────────────────
-  //    x = [18.7, 21.3], y = [−2.95, −0.75]
-  rect((18.7, -2.95), (21.3, -0.75),
-    fill: ccp, stroke: (paint: black, thickness: 0.65pt))
-  content((20.0, -1.60), align(center)[#text(size: 0.56em)[*Comparison \ Block*]])
-  content((20.0, -2.20), align(center)[#text(size: 0.52em, fill: rgb("#444444"))[Loss / Evaluation]])
+  rect(
+    (eval.cx - eval.w/2, eval.cy - eval.h/2),
+    (eval.cx + eval.w/2, eval.cy + eval.h/2),
+    fill: ccp,
+    stroke: (paint: black, thickness: 0.65pt),
+  )
+  content((eval.cx, -1.60), align(center)[#text(size: 0.56em)[*Comparison \ Block*]])
+  content((eval.cx, -2.20), align(center)[#text(size: 0.52em, fill: rgb("#444444"))[Loss / Evaluation]])
 
   // ════════════════════════════════════════════════════════════════
-  //  ARROWS
+  //  ARROWS (orthogonal only)
   // ════════════════════════════════════════════════════════════════
 
-  // 1 → 3  Image Dataset → Encoder
-  //   exit: stack outer-right at mid-height (avoids crossing inner layers)
-  line(
-    (2.39, 0.0),
-    (2.6, 0.0),
-    (3.3, 0.0),
-    mark: armk, stroke: arst,
-  )
+  // Datasets use front-image center as node center, but outer-right as anchor to avoid overlap
+  let a-in-a = node-anchor(img-ds, "right", outer: true)
+  let a-in-b = (enc.lx, y-main)
+  line(a-in-a, a-in-b, mark: armk, stroke: arst)
 
-  // 3 → 4  Encoder → Latent Space
-  line((6.1, 0.0), (7.525, 0.0), mark: armk, stroke: arst)
+  let a-feat-a = (enc.rx, y-main)
+  let a-feat-b = node-anchor(lat, "left")
+  line(a-feat-a, a-feat-b, mark: armk, stroke: arst)
 
-  // 4 → 5  Latent Space → Depth Map Estimator (stepped like dataset arrow)
-  line(
-    (9.225, 0.0),
-    (9.55, 0.0),
-    (10.225, 0.0),
-    mark: armk, stroke: arst,
-  )
+  let a-dec-a = node-anchor(lat, "right", outer: true)
+  let a-dec-b = node-anchor(est, "left")
+  line(a-dec-a, a-dec-b, mark: armk, stroke: arst)
 
-  // 5 → 6  Depth Map Estimator → Computed Depth Maps
-  //   enter front-image left-middle (x=15.8−0.95=14.85, y=0)
-  line(
-    (13.85, 0.0),
-    (14.85, 0.0),
-    mark: armk, stroke: arst,
-  )
+  let a-est-a = node-anchor(est, "right")
+  let a-est-b = node-anchor(cmp, "left") // to first-image middle
+  line(a-est-a, a-est-b, mark: armk, stroke: arst)
 
-  // 6 → 7  Computed Depth Maps → Comparison Block
-  //   exit front-image bottom (13.9, −1.05) → bend down → enter comparison left
-  line(
-    (15.8, -1.15),
-    (15.8, -1.85),
-    (18.7, -1.85),
-    mark: armk, stroke: arst,
-  )
+  let a-cmp-a = node-anchor(cmp, "bottom")
+  let a-cmp-b = node-anchor(eval, "left")
+  let a-cmp-k = (a-cmp-a.at(0), a-cmp-b.at(1))
+  line(a-cmp-a, a-cmp-k, a-cmp-b, mark: armk, stroke: arst)
 
-  // 2 → 7  Depth Map Dataset → Comparison Block
-  //   exit stack outer-right at mid-height (avoids crossing inner layers)
-  line(
-    (2.39, -3.8),
-    (20.0, -3.8),
-    (20.0, -2.95),
-    mark: armk, stroke: arst,
-  )
-
+  let a-gt-a = node-anchor(dep-ds, "right", outer: true)
+  let a-gt-b = node-anchor(eval, "bottom")
+  let a-gt-k = (a-gt-b.at(0), a-gt-a.at(1))
+  line(a-gt-a, a-gt-k, a-gt-b, mark: armk, stroke: arst)
 
   // ════════════════════════════════════════════════════════════════
   //  EDGE LABELS
   // ════════════════════════════════════════════════════════════════
-
-  edge-label((2.6, 0.0), (3.3, 0.0), [input], side: "above", dy: 0.02)
-  edge-label((6.1, 0.0), (7.525, 0.0), [features], side: "above")
-  edge-label((9.55, 0.0), (10.225, 0.0), [decode], side: "below", dx: -0.08, dy: -0.02)
-  edge-label((15.8, -1.85), (18.7, -1.85), [compare], side: "above")
-  edge-label((2.39, -3.8), (20.0, -3.8), [ground truth], side: "above", dy: 0.02)
+  edge-label(a-in-a, a-in-b, [input], side: "above")
+  edge-label(a-feat-a, a-feat-b, [features], side: "above")
+  edge-label(a-dec-a, a-dec-b, [decode], side: "below", dx: -0.06)
+  edge-label(a-cmp-k, a-cmp-b, [compare], side: "above")
+  edge-label(a-gt-a, a-gt-k, [ground truth], side: "above")
 })
 ]
 ]
