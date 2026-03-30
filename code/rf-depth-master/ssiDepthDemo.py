@@ -1,3 +1,9 @@
+"""Command-line demo for single-image depth estimation.
+
+The script loads a cached model when available and only trains when the cache
+is missing.
+"""
+
 import argparse
 from pathlib import Path
 
@@ -5,7 +11,8 @@ import matplotlib.pyplot as plt
 from skimage import io
 
 from ssiDepthDetect import ssiDepthDetect
-from ssiDepthTrain import SSIDepthTrainOptions, ssiDepthTrain
+from ssiDepthOptions import SSIDepthTrainOptions
+from ssiDepthTrain import SSIDepthTrainer
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -68,27 +75,86 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def _resolve_local(path_str: str, base_dir: Path) -> Path:
-    """Resolve path relative to script directory when needed."""
+    """Resolve path relative to script directory when needed.
+
+    Parameters
+    ----------
+    path_str : str
+        Input path string from CLI.
+    base_dir : pathlib.Path
+        Base directory used for relative paths.
+
+    Returns
+    -------
+    pathlib.Path
+        Resolved path.
+    """
     p = Path(path_str)
     return p if p.is_absolute() else (base_dir / p)
 
 
-def main() -> None:
-    """Run the Python SSI depth demo."""
-    args = _build_parser().parse_args()
-    base_dir = Path(__file__).resolve().parent
+def _build_options(args: argparse.Namespace, base_dir: Path) -> SSIDepthTrainOptions:
+    """Create options object from parsed CLI arguments.
 
-    opts = ssiDepthTrain()
-    if not isinstance(opts, SSIDepthTrainOptions):
-        opts = SSIDepthTrainOptions.from_dict(opts["opts"])
+    Parameters
+    ----------
+    args : argparse.Namespace
+        Parsed command-line arguments.
+    base_dir : pathlib.Path
+        Script directory used for path resolution.
 
+    Returns
+    -------
+    SSIDepthTrainOptions
+        Options configured from CLI values.
+    """
+    opts = SSIDepthTrainOptions()
     opts.modelFnm = args.model_fnm
     opts.modelDir = str(_resolve_local(args.model_dir, base_dir))
     opts.trainImDir = str(_resolve_local(args.train_im_dir, base_dir))
     opts.gtMatDir = str(_resolve_local(args.gt_mat_dir, base_dir))
     opts.dataSet = args.dataset
+    return opts
 
-    model = ssiDepthTrain(opts)
+
+def _load_or_train_model(trainer: SSIDepthTrainer) -> dict:
+    """Load a cached model or train one if cache is missing.
+
+    Parameters
+    ----------
+    trainer : SSIDepthTrainer
+        Trainer instance with configured options.
+
+    Returns
+    -------
+    dict
+        Model dictionary with ``opts`` and ``detector`` keys.
+    """
+    if trainer.has_cached_model():
+        model = trainer.load_cached_model()
+        print(f"Loaded cached model: {trainer.model_path()}")
+        return model
+
+    model = trainer.train_and_save_model()
+    print(f"Trained and saved model: {trainer.model_path()}")
+    return model
+
+
+def main() -> None:
+    """Run single-image depth estimation and visualize input/output.
+
+    Returns
+    -------
+    None
+        Displays or saves the output visualization.
+    """
+    args = _build_parser().parse_args()
+    base_dir = Path(__file__).resolve().parent
+
+    opts = _build_options(args, base_dir)
+
+    trainer = SSIDepthTrainer(opts)
+    model = _load_or_train_model(trainer)
 
     image_path = _resolve_local(args.image, base_dir)
     if not image_path.exists():

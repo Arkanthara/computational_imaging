@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.signal import convolve2d
+from scipy.signal import convolve2d, fftconvolve
 from skimage import color, img_as_float
 
 
@@ -18,8 +18,20 @@ from skimage import color, img_as_float
 #     conv_valid = convolve2d(img, kernel, mode="valid")
 #     return _pad_to_same(conv_valid, kernel.shape)
 
+def filterFT(img: np.ndarray, kernel: np.ndarray) -> np.ndarray:
+    """Apply FFT convolution equivalent to convolve2d(..., mode="same", boundary="symm")."""
+    ky, kx = kernel.shape
+    top = (ky - 1) // 2
+    bottom = ky - 1 - top
+    left = (kx - 1) // 2
+    right = kx - 1 - left
 
-def calculate_filter_banks_old(img: np.ndarray) -> np.ndarray:
+    # Match boundary="symm" by extending the image before convolution.
+    img_padded = np.pad(img, ((top, bottom), (left, right)), mode="symmetric")
+    y = fftconvolve(img_padded, kernel, mode="valid")
+    return np.real(y)
+
+def calculate_filter_banks_old(img: np.ndarray, fft: bool = True) -> np.ndarray:
     """Compute 17-channel texture response tensor.
 
     This function ports ``calculateFilterBanks_old.m`` from the original
@@ -89,13 +101,23 @@ def calculate_filter_banks_old(img: np.ndarray) -> np.ndarray:
 
     H = np.zeros((img.shape[0], img.shape[1], 17), dtype=float)
     for i, ker in enumerate(kernels):
-        H[:, :, i] = convolve2d(img_y, ker, mode="same", boundary="symm")
+        if fft:
+            H[:, :, i] = filterFT(img_y, ker)
+        else:
+            H[:, :, i] = convolve2d(img_y, ker, mode="same", boundary="symm")
     
-    H[:, :, 9] = convolve2d(cb, np.outer(l3, l3), mode="same", boundary="symm")
-    H[:, :, 10] = convolve2d(cr, np.outer(l3, l3), mode="same", boundary="symm")
+    if fft:
+        H[:, :, 9] = filterFT(cb, np.outer(l3, l3))
+        H[:, :, 10] = filterFT(cr, np.outer(l3, l3))
+    else:
+        H[:, :, 9] = convolve2d(cb, np.outer(l3, l3), mode="same", boundary="symm")
+        H[:, :, 10] = convolve2d(cr, np.outer(l3, l3), mode="same", boundary="symm")
 
     nb_kernels = [nb1, nb2, nb3, nb4, nb5, nb6]
     for i, ker in enumerate(nb_kernels, start=11):
-        H[:, :, i] = convolve2d(img_y, ker, mode="same", boundary="symm")
+        if fft:
+            H[:, :, i] = filterFT(img_y, ker)
+        else:
+            H[:, :, i] = convolve2d(img_y, ker, mode="same", boundary="symm")
 
     return np.abs(H, dtype=float)

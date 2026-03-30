@@ -11,7 +11,7 @@ from skimage import img_as_float32, transform
 from ssiDepthChns import ssiDepthChns
 
 if TYPE_CHECKING:
-    from ssiDepthTrain import SSIDepthTrainOptions
+    from ssiDepthOptions import SSIDepthTrainOptions
 
 
 FEATURE_NAMES = (
@@ -28,7 +28,20 @@ DEFAULT_BIAS = 0.0
 
 
 def _resize_image(image: np.ndarray, out_hw: tuple[int, int]) -> np.ndarray:
-    """Resize image while preserving value range."""
+    """Resize image while preserving value range.
+
+    Parameters
+    ----------
+    image : numpy.ndarray
+        Input image.
+    out_hw : tuple of int
+        Output ``(height, width)``.
+
+    Returns
+    -------
+    numpy.ndarray
+        Resized image as ``float32``.
+    """
     return transform.resize(
         image,
         out_hw,
@@ -82,7 +95,22 @@ def compute_depth_features(image: np.ndarray, opts: "SSIDepthTrainOptions") -> n
 
 
 def _depth_from_linear_features(features: np.ndarray, weights: np.ndarray, bias: float) -> np.ndarray:
-    """Project feature tensor to a normalized depth map."""
+    """Project feature tensor to a normalized depth map.
+
+    Parameters
+    ----------
+    features : numpy.ndarray
+        Feature tensor of shape ``(H, W, F)``.
+    weights : numpy.ndarray
+        Linear weights of shape ``(F,)``.
+    bias : float
+        Linear bias term.
+
+    Returns
+    -------
+    numpy.ndarray
+        Depth map in approximate range ``[1, 80]``.
+    """
     raw = np.tensordot(features, weights, axes=([2], [0])) + np.float32(bias)
     raw = gaussian_filter(raw.astype(np.float32), sigma=1.2, mode="nearest")
 
@@ -110,8 +138,8 @@ def ssiDepthDetect(image: np.ndarray, model: Mapping[str, Any]) -> np.ndarray:
     numpy.ndarray
         Estimated depth map with shape ``(H, W)``.
     """
-    from ssiDepthTrain import SSIDepthTrainOptions
-    
+    from ssiDepthOptions import SSIDepthTrainOptions
+
     opts = SSIDepthTrainOptions.from_dict(model["opts"])
 
     image_f = img_as_float32(image)

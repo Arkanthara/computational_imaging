@@ -1,7 +1,3 @@
-"""Channel computation for the Python SSI depth pipeline."""
-
-from __future__ import annotations
-
 from typing import TYPE_CHECKING, Any
 
 import numpy as np
@@ -12,7 +8,7 @@ from features.calculateFilterBanks_old import calculate_filter_banks_old
 from features.rgb2hsi import rgb2hsi
 
 if TYPE_CHECKING:
-    from ssiDepthTrain import SSIDepthTrainOptions
+    from ssiDepthOptions import SSIDepthTrainOptions
 
 
 def _as_float_rgb(image: np.ndarray) -> np.ndarray:
