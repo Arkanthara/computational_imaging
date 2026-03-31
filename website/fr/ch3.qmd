@@ -728,3 +728,4 @@ flowchart TD
 - Hassinof & Kutulakos — *ECCV 2006* (Stéréo confocale)
 - Alexander et al. — *ECCV 2016* ; Guo et al. — *ICCV 2017, PNAS 2019* (Flot focal, araignée sauteuse)
 - Ng — *2005* (Écart de dimensionnalité, lentille à réseau)
+

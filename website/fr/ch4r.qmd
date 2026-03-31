@@ -308,3 +308,4 @@ $$f_D = f_R - f_T \approx \frac{-2|v_a|\cos\theta}{c} f_T$$
 - **Cone-beam CT** → problèmes d'échantillonnage aux extrémités
 - **IRM interventionnelle** → champ faible (~0,2 T) → sensibilité réduite
 - **CT** → 7% examens radiologiques mais **47% dose collective** (UK)
+

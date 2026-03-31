@@ -18,6 +18,7 @@
 
 **Mathematical formalism:**
 $$y = Ax + n$$
+
 - $y$: raw measurements, $A$: measurement operator (physics), $x$: unknown image, $n$: noise
 - **Ill-posed** problem (Hadamard) → requires **regularization** (prior on $x$)
 
@@ -125,6 +126,7 @@ The course covers **8 topics** in a logical progression from acquisition to disp
 | SKA1-Mid | South Africa (Karoo) | 197 dishes | 0.35–15.4 GHz | 150 km |
 
 **Data volumes:**
+
 - SKA1-Low: ~7 Tb/s after central processor, ~300 PB/year
 - Compute required: ~130 PFlops per instrument
 
@@ -162,6 +164,7 @@ The course covers **8 topics** in a logical progression from acquisition to disp
 3. Both layers run together on real data
 
 **Two interpretations:**
+
 - Optical encoder + electronic decoder
 - Hybrid optical–electronic neural network (physical layer = first layers)
 
@@ -218,6 +221,7 @@ The time difference between the 1st bounce (direct) and the 3rd bounce encodes t
 | **Depth perception** | Stereopsis (vergence + binocular disparity) + monocular cues (accommodation + retinal blur) |
 
 **Important notes:**
+
 - The eye’s superior dynamic range motivates HDR techniques
 - The CSF explains the acceptability of JPEG compression (removing high frequencies)
 - Binocular vision (~120° central) is crucial for stereopsis
@@ -239,6 +243,7 @@ The time difference between the 1st bounce (direct) and the 3rd bounce encodes t
 | **Anterior chamber** | Cornea–iris space | Filled with **aqueous humour** (nourishes cornea + lens) |
 
 **Lens — accommodation element:**
+
 - ~30% of refractive power
 - Ciliary muscles contracted → zonules relaxed → lens **rounder** (near vision)
 - Ciliary muscles relaxed → zonules taut → lens **flatter** (far vision)
@@ -258,6 +263,7 @@ The time difference between the 1st bounce (direct) and the 3rd bounce encodes t
 **Inverted organization:** light crosses ganglion + bipolar neurons **before** reaching photoreceptors.
 
 **Refractive errors:**
+
 - Emmetropia: focus on retina (normal)
 - **Myopia**: focus before retina → concave lens
 - **Hypermetropia**: focus behind retina → convex lens
@@ -324,6 +330,7 @@ $$\text{Retina} \to \text{Optic nerve} \to \text{Optic chiasm} \to \text{LGN} \t
 | **Complex cells** | Elongated, position-tolerant | Orientation-selective, but less sensitive to exact location |
 
 **Hypercolumns:** V1 organization encoding simultaneously:
+
 - Eye-of-origin (left/right) → ocular dominance columns
 - Preferred orientation → orientation columns
 - Retinotopic location → global organization
@@ -402,6 +409,7 @@ $$\text{Real world} \to \text{Generalized optics} \to \underbrace{\text{Coded re
 - **Coded aperture:** encodes depth in blur (PSF) → computation extracts depth map + all-in-focus image
 
 **Physical trade-offs exceeded:**
+
 - Large aperture ↔ shallow depth of field → coded aperture / focal stack
 - Light ↔ sharpness → night mode (burst photography)
 - Pinhole (everything sharp, little light) ↔ lens (efficient, limited DoF) → computation aims to combine the advantages
@@ -461,6 +469,7 @@ $$\text{Real world} \to \text{Generalized optics} \to \underbrace{\text{Coded re
 **Light field:** geometric distribution of light rays in space.
 
 **Plenoptic function:**
+
 - Full version: $L(x, y, z, \theta, \phi)$ — **5D**
 - Reduced (free space, radiance conserved along a ray): **4D** via **two-plane parameterization** $(s, t, u, v)$
   - **st** plane = main lens (which microlens)

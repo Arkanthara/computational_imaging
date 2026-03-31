@@ -183,6 +183,7 @@ At the extreme scale, computational medical imaging reaches nanometer scales via
 ### Medical-specific constraints
 
 Medical imaging imposes constraints absent in other domains:
+
 - **Non-invasiveness** is absolute: information carriers must not damage tissue (except in radiology where ionizing dose is tightly controlled).
 - **Diagnostic accuracy** must be maximal, with direct consequences for patient lives.
 - **Reconstruction speed** must allow clinical use in near real time.
@@ -231,6 +232,7 @@ These methods cover a wide range from 100 nm down to atomic scales. In each case
 #### Coherent X-ray magnetic imaging
 
 Coherent X-ray magnetic imaging is a **lensless** approach to magnetic microscopy. It offers:
+
 - Simultaneous access to element-specific phase and absorption contrast.
 - Spatial resolution limited by wavelength: **5 nm in 2D and 10 nm in 3D**.
 
@@ -275,6 +277,7 @@ Computational astrophysics aims to answer some of the deepest questions about th
 SKA will **not directly produce astronomical images**. It produces **visibilities** — correlations between antenna pairs. Turning these raw data into radio images requires extremely powerful reconstruction algorithms running on dedicated supercomputers in Perth and Cape Town.
 
 Data volumes are unprecedented:
+
 - *SKA1-Low*: ~2 Pb/s out of antennas, ~7 Tb/s after central signal processor.
 - *SKA1-Mid*: ~9 Tb/s out of antennas, ~5 Tb/s after central signal processor.
 - Annual volume: ~300 PB/year per instrument.
@@ -327,6 +330,7 @@ Optimization is performed in simulation, end-to-end. The loss gradient (e.g., er
 ### Inference phase
 
 After training:
+
 - The optimized lens (or component) is **physically fabricated** via micro-fabrication or 3D printing.
 - The trained network is deployed alongside.
 - Both layers run together on real data.
@@ -341,6 +345,7 @@ Deep optics can be seen in two complementary ways:
 ### Application examples
 
 Deep optics has applications in many contexts:
+
 - **Gaze-contingent focus displays**: a variable lens is co-optimized with rendering to correct vision defects (myopia, presbyopia) in real time depending on gaze direction.
 - **Extended depth-of-field imaging**: optics is optimized to produce a PSF approximately depth-invariant, which the network can globally deconvolve.
 - **3D reconstruction from a single image**: optics encodes depth into blur patterns that the network can decode.
@@ -434,6 +439,7 @@ Visual acuity is the ability to resolve fine detail. Standard **20/20** vision c
 ### Field of view (*Field of View*)
 
 The human visual field is remarkably wide:
+
 - **Horizontal**: about **200°** total — ~120° binocular vision and ~40° monocular on each side.
 - **Vertical**: about **135°**.
 
@@ -446,6 +452,7 @@ The human visual system has a temporal resolution of about **60 Hz** (depending 
 ### Dynamic range (*Dynamic Range*)
 
 Dynamic range measures the ratio between the maximum and minimum perceivable luminance:
+
 - **Instantaneous range**: 6.5 f-stops (~5 orders of magnitude) — what the eye perceives at a given moment without adaptation.
 - **Adapted range**: up to **46.5 f-stops** (~14 orders of magnitude) — after full adaptation to darkness or bright light.
 
@@ -458,12 +465,14 @@ Color vision covers the full CIE xy diagram. Perceptual distances are linear in 
 ### Accommodation range (*Accommodation Range*)
 
 Accommodation is the ability to focus at different distances:
+
 - At **16 years**: from ~8 cm to infinity.
 - At **50 years**: from ~50 cm to infinity (range decreases with age due to lens stiffening — **presbyopia**).
 
 ### Contrast sensitivity — CSF (*Contrast Sensitivity Function*)
 
 CSF describes sensitivity to contrast as a function of spatial frequency:
+
 - Peak sensitivity at **4–6 cycles per degree** (cpd).
 - High-frequency falloff (resolution limit ~60 cpd, linked to cone density).
 - Low-frequency falloff (due to lateral inhibition in ganglion cells).
@@ -474,6 +483,7 @@ This explains why JPEG images (which remove high spatial frequencies) can look a
 ### Spectral sensitivity
 
 Photoreceptor peak sensitivities:
+
 - S cones (blue): ~419 nm.
 - M cones (green): ~531 nm.
 - L cones (red): ~559 nm.
@@ -484,6 +494,7 @@ M-cone dominance explains peak photopic sensitivity in green.
 ### Depth perception
 
 Depth perception relies on complementary mechanisms:
+
 - **Stereopsis** (binocular): vergence + binocular disparity.
 - **Monocular cues**: accommodation + retinal blur.
 
@@ -516,6 +527,7 @@ The human eye is a roughly spherical organ of about **24 mm diameter** whose com
 ### The lens: the accommodation element
 
 **Crystalline lens** (*Lens*) is a transparent biconvex lens. Its curvature is **actively changed** by the **ciliary muscles** via the **zonular fibers** (*zonules of Zinn*):
+
 - **Far vision**: ciliary muscles relaxed → zonules taut → lens flattens (less converging).
 - **Near vision**: ciliary muscles contracted → zonules relaxed → lens rounds (more converging).
 
@@ -546,6 +558,7 @@ Paradoxically, light crosses ganglion and bipolar layers **before** reaching pho
 ### Refractive errors
 
 When focus does not fall on the retina:
+
 - **Emmetropia**: normal focus on retina.
 - **Myopia**: focus in front of retina → corrected with a concave lens.
 - **Hypermetropia**: focus behind retina → corrected with a convex lens.
@@ -621,11 +634,14 @@ After dark adaptation, a single rod can respond to a **single photon** thanks to
 RGCs are the **first stage of visual processing**. They convert absolute luminance levels into a **retinotopic map of differences**: objects are perceived by contrast relative to background.
 
 **Center-surround organization** (*Center-Surround*): antagonistic receptive fields:
+
 - **On-center**: activated when the center is illuminated and surround is not.
 - **Off-center**: activated when the surround is illuminated but the center is not.
+
 This amplifies differences and compresses dynamic range.
 
 **M and P partition**:
+
 - **M cells** (*Magnocellular*): large convergence, better temporal resolution, no chromatic sensitivity, motion.
 - **P cells** (*Parvocellular*): small convergence, excellent spatial resolution, color, object recognition.
 
@@ -695,6 +711,7 @@ Hubel & Wiesel’s classic experiment: V1 cells respond strongly to bars at thei
 ### Hypercolumns (*Hypercolumns*)
 
 V1 is organized to minimize distances between neurons processing similar stimuli, structured along:
+
 - Eye-of-origin (left/right) — ocular dominance columns.
 - Preferred orientation — orientation columns.
 - Retinotopic location.
@@ -704,6 +721,7 @@ This is the striate module model, arising via Hebbian learning: “neurons that 
 ### Contrast sensitivity function (CSF)
 
 CSF is linked to processing in V1/LGN. It describes contrast sensitivity vs spatial frequency:
+
 - Peak at 4–6 cpd.
 - High-frequency falloff (~60 cpd).
 - Low-frequency falloff (lateral inhibition).
@@ -765,6 +783,7 @@ Convolution with a linear kernel followed by simple nonlinearities is a **good c
 ### Increasing specificity in the hierarchy
 
 Neurons show increasing specificity up the hierarchy:
+
 - V1: simple oriented edges.
 - V2: combinations of edges.
 - V4: color and complex shapes.
@@ -835,6 +854,7 @@ Computational photography reverses this logic:
 ### The role of physical constraints
 
 A conventional lens camera implies unavoidable physical trade-offs:
+
 - Large aperture → more light but shallow depth of field.
 - Small aperture → large depth of field but less light.
 - Only one focus distance is sharp at a time.
@@ -926,6 +946,7 @@ Depth inference from images is a fundamental task in computational imaging. Four
 ### General context: defocus as a depth cue
 
 The key principle for focus-based methods is that PSF size/shape in a lens camera is linked to object depth:
+
 - On the focal plane → point-like PSF (sharp).
 - Off the focal plane → extended PSF (circle of confusion grows with depth offset).
 
@@ -1011,6 +1032,7 @@ In free space (no scattering/absorption), radiance is **constant along a ray**, 
 ### st–uv parameterization in a plenoptic camera
 
 In an actual plenoptic camera:
+
 - **st** corresponds to the main-lens plane — $(s,t)$ indicates which microlens is considered.
 - **uv** corresponds to the sensor plane — $(u,v)$ indicates which pixel under that microlens is considered.
 
@@ -1087,6 +1109,7 @@ The MLA can be seen as a “ray sorter”: instead of receiving light directly, 
 **Lytro** was the first consumer commercial plenoptic camera.
 
 **Two models**:
+
 - **Lytro**: compact portable model.
 - **Lytro Illum Pro**: professional version with interchangeable lens and higher resolution.
 
@@ -1100,6 +1123,7 @@ For the compact Lytro, the form factor is a rectangular parallelepiped.
 - **Marvell Avastar 88W8787 SoC**: WiFi/Bluetooth for data transfer.
 
 The light-field sensor combines:
+
 - **CMOS sensor**: standard digital camera sensor.
 - **Microlens array**: bonded to CMOS surface, grouping pixels; each microlens images the main-lens aperture.
 
@@ -1164,6 +1188,7 @@ $$x = \arg\min_x \left\| f \otimes x - y \right\|^2 + \lambda \sum_i \rho(\nabla
 Modify the optics by inserting a **pseudo-random binary mask** in the aperture plane.
 
 **Effect on the PSF**:
+
 - Standard aperture → smooth circular PSF.
 - Coded aperture → PSF with a **distinct mask signature**, discriminable from natural content.
 
@@ -1234,6 +1259,7 @@ Wavefront coding modifies a lens surface to introduce a controlled aberration �
 A lattice lens adds, in front of the main lens, a **2D array of microlenses** (*lenslets*) with varying focal lengths.
 
 **Architecture**:
+
 - 2D lenslet array placed **in front of** the main lens (unlike plenoptic camera where MLA is **between** lens and sensor).
 - Each lenslet deflects rays differently depending on position.
 - Result: PSF **varies with depth** → depth information is encoded (unlike wavefront coding).

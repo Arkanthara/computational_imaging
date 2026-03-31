@@ -18,6 +18,7 @@
 
 **Formalisme mathématique :**
 $$y = Ax + n$$
+
 - $y$ : mesures brutes, $A$ : opérateur de mesure (physique), $x$ : image inconnue, $n$ : bruit
 - Problème **mal posé** (Hadamard) → nécessite une **régularisation** (a priori sur $x$)
 
@@ -125,6 +126,7 @@ Le cours couvre **8 thèmes** en progression logique de l'acquisition à l'affic
 | SKA1-Mid | Afrique du Sud (Karoo) | 197 paraboles | 0,35–15,4 GHz | 150 km |
 
 **Volumes de données :**
+
 - SKA1-Low : ~7 Tb/s après processeur central, ~300 PB/an
 - Puissance requise : ~130 PFlops par instrument
 
@@ -162,6 +164,7 @@ Le cours couvre **8 thèmes** en progression logique de l'acquisition à l'affic
 3. Les deux couches fonctionnent ensemble sur données réelles
 
 **Deux interprétations :**
+
 - Encodeur optique + décodeur électronique
 - Réseau hybride optique-électronique (couche physique = premières couches du réseau)
 
@@ -218,6 +221,7 @@ La différence temporelle entre le 1er rebond (direct) et le 3ème rebond encode
 | **Perception profondeur** | Stéréopsie (vergence + disparité binoculaire) + indices monoculaires (accommodation + flou rétinien) |
 
 **Notes importantes :**
+
 - La plage dynamique supérieure de l'œil justifie les techniques HDR
 - La CSF explique l'acceptabilité de la compression JPEG (suppression des hautes fréquences)
 - La vision binoculaire (~120° central) est indispensable à la stéréopsie
@@ -239,6 +243,7 @@ La différence temporelle entre le 1er rebond (direct) et le 3ème rebond encode
 | **Chambre antérieure** | Espace cornée–iris | Remplie d'**humeur aqueuse** (nourrit cornée + cristallin) |
 
 **Cristallin — élément d'accommodation :**
+
 - ~30% du pouvoir réfractif
 - Muscles ciliaires contractés → fibres zonulaires relâchées → cristallin **bombé** (vision de près)
 - Muscles ciliaires relâchés → fibres zonulaires tendues → cristallin **aplati** (vision de loin)
@@ -258,6 +263,7 @@ La différence temporelle entre le 1er rebond (direct) et le 3ème rebond encode
 **Organisation inversée :** la lumière traverse les neurones (ganglionnaires + bipolaires) **avant** d'atteindre les photorécepteurs.
 
 **Erreurs de réfraction :**
+
 - Emmétropie : foyer sur la rétine (normal)
 - **Myopie** : foyer avant la rétine → lentille concave
 - **Hypermétropie** : foyer derrière la rétine → lentille convexe
@@ -324,6 +330,7 @@ $$\text{Rétine} \to \text{Nerf optique} \to \text{Chiasma optique} \to \text{LG
 | **Cellules complexes** | Allongé, tolérance à la position | Sélectives à l'orientation, mais indépendantes de la localisation exacte |
 
 **Hypercolonnes :** organisation de V1 encodant simultanément :
+
 - Œil d'origine (gauche/droit) → colonnes de dominance oculaire
 - Orientation préférée → colonnes d'orientation
 - Localisation rétinotopique → organisation globale
@@ -402,6 +409,7 @@ $$\text{Monde réel} \to \text{Optique généralisée} \to \underbrace{\text{Rep
 - **Ouverture codée** : encode la profondeur dans la forme du flou (PSF) → calcul extrait carte de profondeur + image nette
 
 **Compromis physiques dépassés :**
+
 - Grande ouverture ↔ profondeur de champ réduite → ouverture codée / pile focale
 - Lumière ↔ netteté → mode nuit (burst photography)
 - Sténopé (tout net, peu de lumière) ↔ objectif (efficace, profondeur de champ limitée) → computationnel combine les deux avantages
@@ -461,6 +469,7 @@ $$\text{Monde réel} \to \text{Optique généralisée} \to \underbrace{\text{Rep
 **Champ lumineux :** distribution géométrique des rayons lumineux dans l'espace.
 
 **Fonction plénoptique :**
+
 - Version complète : $L(x, y, z, \theta, \phi)$ — **5D**
 - Simplifiée (espace libre, radiance conservée le long d'un rayon) : **4D** via le **paramétrage à deux plans** $(s, t, u, v)$
   - Plan **st** = objectif principal (quelle micro-lentille)

@@ -781,3 +781,4 @@ Ce cours s'appuie sur les ressources pédagogiques suivantes :
 - **Computational Imaging** — Dragotti (Imperial College)
 - **Computer Vision** — Seitz & Szeliski (University of Washington)
 - **Introduction to Visual Computing and Visual Modeling** — Kutulakos (University of Toronto)
+

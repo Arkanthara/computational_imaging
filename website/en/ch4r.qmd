@@ -308,3 +308,4 @@ $$f_D = f_R - f_T \approx \frac{-2|v_a|\cos\theta}{c} f_T$$
 - **Cone-beam CT** → end sampling issues
 - **Interventional MRI** → weak field (~0.2 T) → reduced sensitivity
 - **CT** → 7% radiological examinations but **47% collective dose** (UK)
+

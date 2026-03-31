@@ -243,14 +243,17 @@ One approach is to train a **GAN** (Generative Adversarial Network) to reconstru
 When labels are available, three variants exist depending on the level of annotation:
 
 **Classic supervised learning**:
+
 - Training data with patch-level labels
 - A supervised model learns the direct image → label correspondence
 
 **Semi-supervised learning**:
+
 - Mixture of labeled and unlabeled data
 - We exploit unlabeled data to improve the representation
 
 **Multiple Instance Learning (MIL)**:
+
 - Training data with weak labels at the whole image level
 - The image is divided into **patches** (instances) grouped into **bags**
 - The bag label is positive if at least one instance is positive
@@ -328,6 +331,7 @@ photon → atome → électron
 ```
 
 **Effect in radiography**:
+
 - Dense tissue (bone) absorbs more photons → less energy reaches the detector → appears **white** in the image.
 - Sparse tissue (muscle, air) absorbs less → more energy reaches the detector → appears **dark**.
 - This effect **controls the formation and contrast of the image**.
@@ -339,6 +343,7 @@ photon → atome → électron
 Only **partial absorption** of the photon energy. The photon changes direction (at reduced energy) and an electron is released.
 
 **Effect in radiography**:
+
 - The deflected photon can be detected on the detector → **non-linear** radius.
 - As linear rays are assumed, this is problematic.
 - Photons due to Compton scattering are perceived as **noise**.
@@ -551,10 +556,12 @@ Most direct 3D imaging modality:
 - The rear projection proceeds along the rays of the cone beam
 
 **Benefits** :
+
 - Potentially very fast (only one rotation)
 - Often used for 3D angiography
 
 **Disadvantages**:
+
 - End Sampling Issues
 - The reconstruction sampling rate varies along z
 
@@ -659,8 +666,10 @@ SPECT is mainly used to study **blood flow**, by injection of a radiopharmaceuti
 - Uneven distribution of nuclides can also cause artifacts
 - **Mitigation** → underestimation of depth activity
   - Modern SPECT equipment is integrated with a CT scanner:
+
     - CT images are a tissue attenuation map
     - Integrated into SPECT reconstruction to correct attenuation
+
   - Co-registered CT images provide anatomical information
 
 ## PET (Positron Emission Tomography)
@@ -1009,3 +1018,4 @@ This course draws on the following resources:
 - Computational Imaging (Dragotti, Imperial College)
 - Computer Vision (Seitz & Szeliski, UWashington)
 - Introduction to Visual Computing and Visual Modeling (Kutulakos, UToronto)
+

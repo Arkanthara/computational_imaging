@@ -183,6 +183,7 @@ L'IRM se décline en plusieurs modalités spécialisées, illustrant la richesse
 ### Contraintes spécifiques au domaine médical
 
 Le domaine médical impose des contraintes particulières absentes d'autres domaines :
+
 - La **non-invasivité** est une exigence absolue : aucun des porteurs d'information ne peut endommager les tissus (sauf acceptable en radiologie, où la dose de rayonnement ionisant est rigoureusement contrôlée).
 - La **précision diagnostique** est une exigence de qualité maximale, avec des conséquences directes sur la vie des patients.
 - La **vitesse de reconstruction** doit permettre un usage clinique en temps quasi-réel.
@@ -231,6 +232,7 @@ Ces trois techniques couvrent différentes plages de résolution et de portée, 
 #### Imagerie magnétique par rayons X cohérents
 
 L'imagerie magnétique par rayons X cohérents (*Coherent X-ray Magnetic Imaging*) est une approche **sans lentille** (*lensless*) de la microscopie magnétique. Elle offre :
+
 - Un accès simultané au contraste de phase et d'absorption spécifiques aux éléments chimiques.
 - Une résolution spatiale limitée par la longueur d'onde : **5 nm en 2D et 10 nm en 3D**.
 
@@ -275,6 +277,7 @@ Le **SKA** est le cas paradigmatique de l'astronomie computationnelle. Il s'agit
 Le SKA ne produira **pas directement des images astronomiques**. Il produira des **visibilités** — des corrélations entre paires d'antennes. La transformation de ces données brutes en images radio astronomiques nécessite des algorithmes de reconstruction extrêmement puissants tournant sur des supercalculateurs dédiés situés à Perth et au Cap.
 
 Les volumes de données générés sont sans précédent :
+
 - *SKA1-Low* : ~2 Pb/s en sortie des antennes, ~7 Tb/s après le processeur de signal central.
 - *SKA1-Mid* : ~9 Tb/s en sortie des antennes, ~5 Tb/s après le processeur de signal central.
 - Volume annuel : ~300 PB/an par instrument.
@@ -327,6 +330,7 @@ L'optimisation se fait en simulation et bout-en-bout. Le gradient de la fonction
 ### Phase d'inférence
 
 Une fois l'entraînement terminé :
+
 - La lentille (ou autre composant) optimisée est **fabriquée physiquement** par des procédés de micro-fabrication ou d'impression 3D.
 - Le réseau entraîné est déployé en parallèle.
 - Les deux couches fonctionnent ensemble pour résoudre la tâche cible sur les données réelles.
@@ -341,6 +345,7 @@ Le système d'optique profonde peut être vu de deux façons complémentaires :
 ### Exemples d'application
 
 L'optique profonde trouve des applications dans de nombreux contextes :
+
 - **Affichages à mise au point contingente au regard** : une lentille variable est optimisée conjointement avec un algorithme de rendu pour corriger en temps réel les défauts de vision (myopie, presbytie) de l'utilisateur selon la direction de son regard.
 - **Imagerie à grande profondeur de champ** : l'optique est optimisée pour produire une PSF (*Point Spread Function*) approximativement invariante en profondeur, que le réseau peut déconvoluer globalement.
 - **Reconstruction 3D depuis une seule image** : l'optique encode la profondeur dans le motif de flou de façon à ce que le réseau puisse l'extraire.
@@ -432,6 +437,7 @@ L'acuité visuelle est la capacité à distinguer des détails fins. La notation
 ### Champ de vision (*Field of View*)
 
 Le champ visuel humain est remarquablement large :
+
 - **Horizontal** : environ **200°** au total — ~120° en vision binoculaire et ~40° en vision monoculaire de chaque côté.
 - **Vertical** : environ **135°**.
 
@@ -444,6 +450,7 @@ Le système visuel humain a une résolution temporelle d'environ **60 Hz** (dép
 ### Plage dynamique (*Dynamic Range*)
 
 La plage dynamique mesure le rapport entre la luminosité maximale et minimale perceptible :
+
 - **Plage instantanée** : 6,5 f-stops (~5 ordres de grandeur) — ce que l'œil perçoit à un instant donné sans adaptation.
 - **Plage adaptée** : jusqu'à **46,5 f-stops** (~14 ordres de grandeur) — après adaptation complète à l'obscurité ou à la lumière vive.
 
@@ -456,12 +463,14 @@ La vision des couleurs couvre l'ensemble du diagramme CIE xy. Les distances perc
 ### Plage d'accommodation (*Accommodation Range*)
 
 L'accommodation est la capacité de l'œil à faire le point à différentes distances :
+
 - À **16 ans** : de ~8 cm jusqu'à l'infini.
 - À **50 ans** : de ~50 cm jusqu'à l'infini (la plage se réduit considérablement avec l'âge en raison du durcissement du cristallin — **presbytie**).
 
 ### Sensibilité au contraste — la CSF (*Contrast Sensitivity Function*)
 
 La CSF décrit la sensibilité du système visuel au contraste en fonction de la **fréquence spatiale** :
+
 - Pic de sensibilité à **4–6 cycles par degré** (cpd).
 - Décroissance aux hautes fréquences (limite de résolution ~60 cpd, liée à la densité des cônes).
 - Décroissance aux basses fréquences (due à l'inhibition latérale des cellules ganglionnaires).
@@ -472,6 +481,7 @@ Ce paramètre explique pourquoi les images JPEG compressées (qui suppriment les
 ### Sensibilité spectrale
 
 Les quatre types de photorécepteurs ont les pics de sensibilité spectrale suivants :
+
 - Cônes S (bleu) : ~419 nm.
 - Cônes M (vert) : ~531 nm.
 - Cônes L (rouge) : ~559 nm.
@@ -482,6 +492,7 @@ La dominance des cônes M explique pourquoi la sensibilité en conditions photop
 ### Perception de la profondeur
 
 La perception de la profondeur mobilise des mécanismes complémentaires :
+
 - **Stéréopsie** (binoculaire) : vergence + disparité binoculaire.
 - **Indices monoculaires** : accommodation + flou rétinien (*retinal blur*).
 
@@ -514,6 +525,7 @@ L'œil humain est un organe sphérique d'environ **24 mm de diamètre** dont la 
 ### Le cristallin : l'élément d'accommodation
 
 **Le cristallin** (*Lens*) est une lentille biconvexe transparente. Sa courbure est **modifiée activement** par les **muscles ciliaires** via les **fibres zonulaires** (*zonules de Zinn*), permettant l'accommodation :
+
 - **Vision de loin** : muscles ciliaires relâchés → fibres zonulaires tendues → cristallin aplati (moins convergent).
 - **Vision de près** : muscles ciliaires contractés → fibres zonulaires relâchées → cristallin bombé (plus convergent).
 
@@ -544,6 +556,7 @@ Paradoxalement, la lumière traverse les couches de cellules ganglionnaires et b
 ### Les erreurs de réfraction
 
 Lorsque la formation de l'image ne se fait pas correctement sur la rétine :
+
 - **Emmétropie** : vision normale, foyer sur la rétine.
 - **Myopie** (*Myopia*) : foyer en avant de la rétine → correction par lentille concave.
 - **Hypermétropie** (*Hypermetropia*) : foyer derrière la rétine → correction par lentille convexe.
@@ -619,11 +632,14 @@ Après adaptation à l'obscurité, un seul bâtonnet peut répondre à un **phot
 Les RGC constituent le **premier étage du traitement visuel**. Leur fonction : remplacer les niveaux absolus de luminosité par une **carte rétinotopique des différences**. Les objets ne sont pas perçus à une luminosité absolue particulière, mais selon leurs différences de luminosité avec leur arrière-plan (constance de luminosité).
 
 **Organisation centre-pourtour** (*Center-Surround*) : les RGC ont des champs récepteurs organisés en centre et pourtour antagonistes :
+
 - **Cellules on-center** : s'activent quand la lumière illumine le centre et non le pourtour.
 - **Cellules off-center** : s'activent quand le pourtour est illuminé mais pas le centre.
+
 Cette organisation amplifie les différences de luminosité et compresse la plage dynamique.
 
 **Partition M et P** : deux grandes classes de RGC :
+
 - **Cellules M** (*Magnocellulaires*) : grande convergence, meilleure résolution temporelle, pas de sensibilité chromatique, rôle dans la perception du mouvement.
 - **Cellules P** (*Parvocellulaires*) : petite convergence, excellente résolution spatiale, sensibilité aux couleurs, rôle dans la reconnaissance des objets.
 
@@ -693,6 +709,7 @@ L'expérience classique de Hubel et Wiesel montre que les cellules de V1 répond
 ### Les Hypercolonnes (*Hypercolumns*)
 
 L'organisation spatiale de V1 minimise la distance entre neurones traitant des stimuli similaires. Elle est structurée selon trois dimensions simultanées :
+
 - **Œil d'origine** (gauche ou droit) — colonnes de dominance oculaire.
 - **Orientation préférée** — colonnes d'orientation.
 - **Localisation rétinotopique** — organisation rétinotopique globale.
@@ -702,6 +719,7 @@ Cette organisation est le **modèle de module strié** (*striate module*). Elle 
 ### La Fonction de Sensibilité au Contraste (CSF)
 
 La CSF est directement liée au traitement dans V1 et au LGN. Elle décrit la sensibilité au contraste en fonction de la fréquence spatiale :
+
 - Pic de sensibilité à **4–6 cycles par degré** (cpd).
 - Décroissance aux hautes fréquences (~60 cpd, limite de résolution liée à la densité des cônes).
 - Décroissance aux basses fréquences (due à l'inhibition latérale).
@@ -747,6 +765,7 @@ Le néocognitron, proposé par **Kunihiko Fukushima** (NHK Broadcasting Science 
 L'architecture alterne des couches de type **S** (*Simple* — détecteurs de features, analogues aux cellules simples : filtres orientés locaux) et des couches de type **C** (*Complex* — pooling, analogues aux cellules complexes : invariance à la translation locale). Cette architecture est la première capable d'une **reconnaissance de motifs invariante à la translation** dans un réseau artificiel.
 
 La correspondance avec V1 est directe :
+
 - Couches S ↔ Cellules simples de V1 (filtres orientés, position-specific).
 - Couches C ↔ Cellules complexes de V1 (pooling spatial, position-tolerant).
 
@@ -767,6 +786,7 @@ L'opération de convolution avec un noyau linéaire suivie de non-linéarités s
 ### Spécificité croissante dans la hiérarchie
 
 Une observation fondamentale est que les neurones montrent une **spécificité croissante** à mesure qu'on monte dans la hiérarchie visuelle :
+
 - V1 : bords orientés simples (réponses à des gabors).
 - V2 : combinaisons de bords.
 - V4 : couleur, formes complexes.
@@ -837,6 +857,7 @@ La photographie computationnelle renverse cette logique :
 ### Le rôle des contraintes physiques
 
 La caméra conventionnelle à objectif implique des **compromis physiques** inévitables :
+
 - Grande ouverture → plus de lumière mais profondeur de champ réduite.
 - Petite ouverture → grande profondeur de champ mais moins de lumière.
 - Une seule distance de mise au point est nette à un instant donné.
@@ -930,6 +951,7 @@ L'inférence de profondeur (*depth inference*) à partir d'images est l'une des 
 ### Contexte général : le défocus comme signal de profondeur
 
 Le principe sous-jacent à toutes les techniques basées sur la mise au point est que la **taille et la forme de la PSF** (*Point Spread Function*) d'une caméra à objectif sont directement liées à la profondeur de l'objet :
+
 - Un objet sur le plan focal → PSF ponctuelle (image nette).
 - Un objet hors du plan focal → PSF étendue (cercle de confusion dont la taille croît avec l'écart de profondeur).
 
@@ -1017,6 +1039,7 @@ Dans un espace libre (sans diffusion ni absorption), la radiance d'un rayon rest
 ### Le paramétrage st-uv dans la caméra plénoptique
 
 Dans la caméra plénoptique concrète :
+
 - Le **plan st** correspond au plan de l'objectif principal — les coordonnées $(s, t)$ indiquent quelle micro-lentille du réseau est considérée.
 - Le **plan uv** correspond au plan du capteur — les coordonnées $(u, v)$ indiquent quel pixel sous la micro-lentille est considéré.
 
@@ -1093,6 +1116,7 @@ On peut visualiser le réseau de micro-lentilles comme un « trieur de rayons »
 La caméra **Lytro** est la première réalisation commerciale d'une caméra plénoptique grand public. Elle incarne de façon concrète les principes théoriques du champ lumineux.
 
 **Deux modèles** :
+
 - **Lytro** : modèle compact et portable (form factor parallélépipède rectangle).
 - **Lytro Illum Pro** : version professionnelle avec objectif interchangeable et plus grande résolution.
 
@@ -1165,6 +1189,7 @@ On incorpore cet a priori dans la déconvolution via un terme de régularisation
 $$x = \arg\min_x \left\| f \otimes x - y \right\|^2 + \lambda \sum_i \rho(\nabla x_i)$$
 
 où le premier terme est l'attache aux données (fidélité à l'observation) et le second est la régularisation (pénalité sur les gradients). Le choix de $\rho$ détermine la nature du priori :
+
 - $\rho(\nabla x) = \|\nabla x\|^2$ — **priori Gaussien** : favorise les gradients faibles partout, lisse mais pas favorable aux bords nets.
 - $\rho(\nabla x) = \|\nabla x\|^{0.8}$ — **priori épars** : concentre les gradients aux bords, donne des contours nets et des zones plates — supérieur à Richardson-Lucy.
 
@@ -1173,6 +1198,7 @@ où le premier terme est l'attache aux données (fidélité à l'observation) et
 Plutôt qu'agir seulement sur le calcul, on modifie physiquement le système optique : on insère un **masque binaire pseudo-aléatoire** dans le plan de l'ouverture de l'objectif.
 
 **Effet sur la PSF** :
+
 - Avec une ouverture classique → PSF lisse et circulaire, difficile à distinguer d'une scène naturellement floue.
 - Avec une ouverture codée → PSF portant la **signature caractéristique du masque** — facilement identifiable et discriminable du contenu naturel de la scène.
 
@@ -1243,6 +1269,7 @@ Le **codage de front d'onde** modifie la surface d'une lentille pour introduire 
 La **lentille à réseau** ajoute devant l'objectif principal un **réseau 2D de micro-lentilles** (*lenslets*) à longueur focale variable.
 
 **Architecture** :
+
 - Réseau 2D de micro-lentilles à focale variable disposé **devant** l'objectif principal (contrairement à la caméra plénoptique où le réseau est **entre** l'objectif et le capteur — l'emplacement et l'effet sont différents).
 - Chaque micro-lentille dévie les rayons de façon légèrement différente selon sa position.
 - Résultat : la PSF **varie selon la profondeur** de l'objet → information de profondeur encodée dans l'image (contrairement au wavefront coding).

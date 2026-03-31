@@ -727,3 +727,4 @@ flowchart TD
 - Hassinof & Kutulakos — *ECCV 2006* (Confocal stereo)
 - Alexander et al. — *ECCV 2016*; Guo et al. — *ICCV 2017, PNAS 2019* (Focal flow, jumping spider)
 - Ng — *2005* (Dimensionality gap, grating lens)
+

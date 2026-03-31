@@ -14,8 +14,11 @@ execute:
 1. [ ] L'imagerie computationnelle utilise des capteurs plus performants
 1. [ ] L'imagerie computationnelle ameliore une image deja reconnaissable
 1. [x] L'imagerie computationnelle reconstruit une image a partir d'une representation intermediaire non reconnaissable
+
     > Correct : en imagerie computationnelle, l'optique encode la scene et le calcul decode cette representation pour produire l'image finale.
+
 1. [ ] L'imagerie computationnelle ne necessite pas d'algorithmes
+
 ```
 ```{quizdown}
 ### Quel pourcentage de l'information humaine est acquis par le canal visuel ?
@@ -26,6 +29,7 @@ execute:
 1. [ ] 50 %
 1. [ ] 60 %
 1. [x] 75 %
+
     > Correct : environ 75 % de l'information percue par l'etre humain transite par la vue, contre 13 % pour l'ouie.
 ```
 ```{quizdown}
@@ -34,14 +38,23 @@ execute:
 > Le domaine se situe a l'intersection de plusieurs disciplines.
 
 - [x] Mathematiques
+
     > Correct : optimisation, traitement du signal et apprentissage automatique font partie des mathematiques appliquees a ce domaine.
+
 - [x] Physique
+
     > Correct : l'optique geometrique, ondulatoire et l'electromagnetisme sont essentiels.
+
 - [x] Calcul (Computation)
+
     > Correct : les algorithmes de reconstruction et l'intelligence artificielle constituent le troisieme pilier.
+
 - [ ] Chimie
+
     > Incorrect : la chimie n'est pas l'un des trois piliers fondamentaux de l'imagerie computationnelle.
+
 - [ ] Biologie
+
     > Incorrect : la biologie n'est pas un pilier fondamental, meme si certaines applications concernent le vivant.
 ```
 ```{quizdown}
@@ -50,10 +63,13 @@ execute:
 > Pense a la progression des modeles du plus simple au plus complet.
 
 1. [x] Optique geometrique (Geometric Optics)
+
     > Correct : l'optique geometrique modelise la lumiere comme des rayons et suffit pour les cameras et objectifs standards.
+
 1. [ ] Optique ondulatoire (Wave Optics)
 1. [ ] Electromagnetisme (E&M)
 1. [ ] Optique diffractive (Diffractive Optics)
+
 ```
 ```{quizdown}
 ### Quelles affirmations decrivent correctement le pipeline de l'imagerie computationnelle ?
@@ -61,12 +77,19 @@ execute:
 > Compare avec le pipeline de l'imagerie traditionnelle.
 
 - [x] L'optique encode la scene dans une representation intermediaire
+
     > Correct : c'est la premiere etape du pipeline computationnel.
+
 - [x] Le calcul decode la representation pour produire des images finales
+
     > Correct : c'est la deuxieme etape, inseparable de la premiere.
+
 - [ ] L'image capturee est directement reconnaissable
+
     > Incorrect : c'est le cas de l'imagerie traditionnelle, pas computationnelle.
+
 - [ ] Le calcul se limite a ameliorer une image deja formee
+
     > Incorrect : ameliorer une image existante est le role du calcul en imagerie traditionnelle.
 ```
 ```{quizdown}
@@ -78,6 +101,7 @@ execute:
 1. [ ] Tomographie calculee (CT)
 1. [ ] Tomographie par emission de positrons (PET)
 1. [x] Imagerie par resonance magnetique (MRI)
+
     > Correct : l'IRM exploite la precession des spins nucleaires des atomes d'hydrogene soumis a un champ magnetique intense.
 ```
 ```{quizdown}
@@ -88,8 +112,11 @@ execute:
 1. [ ] Parce qu'elle possede de tres grands yeux
 1. [ ] Parce qu'elle voit dans l'infrarouge
 1. [x] Parce qu'elle integre de nombreux types de photorécepteurs (encodage) et un cerveau qui reconstruit l'information (decodage)
+
     > Correct : ses 16 types de photorécepteurs encodent une representation riche, et son cerveau decode cette information. Capteur et calcul sont co-conçus.
+
 1. [ ] Parce qu'elle n'a pas besoin de lumiere pour voir
+
 ```---
 
 ## Level 2 — Comprehension```{quizdown}
@@ -196,6 +223,7 @@ execute:
 1. [ ] Coherent X-ray Imaging
 1. [ ] NV-NanoMRI (Nitrogen Vacancy NanoMRI)
 1. [x] ESR-STM (Electron Spin Resonance - Scanning Tunneling Microscopy)
+
     > Correct : l'ESR-STM atteint une resolution inferieure a 0,1 nm, contre ~0,1 nm pour NV-NanoMRI et ~1 nm pour MRFM.
 ```
 ```{quizdown}
@@ -205,9 +233,12 @@ execute:
 
 1. [ ] HDR+ (High Dynamic Range Plus)
 1. [x] Mode Nuit (Night Mode / Night Sight)
+
     > Correct : le mode nuit capture une rafale d'images a courte exposition, les aligne pour corriger les micro-tremblements, puis les fusionne temporellement pour accumuler la lumiere.
+
 1. [ ] Super-resolution
 1. [ ] Coded Aperture
+
 ```
 ```{quizdown}
 ### Le probleme inverse en imagerie est formule comme y = Ax + n. Que represente A dans ce contexte ?
@@ -217,8 +248,11 @@ execute:
 1. [ ] L'image reconstruite
 1. [ ] Le bruit de mesure
 1. [x] L'operateur de mesure qui encode la physique du systeme d'acquisition
+
     > Correct : A modelise la transformation physique entre la scene x et les mesures y (par exemple : la matrice de projection en CT, la transformee de Fourier partielle en IRM).
+
 1. [ ] Le vecteur des mesures brutes
+
 ```
 ```{quizdown}
 ### Pourquoi la regularisation est-elle necessaire pour resoudre le probleme inverse y = Ax + n en imagerie ?
@@ -228,8 +262,11 @@ execute:
 1. [ ] Pour accelerer le calcul de la solution
 1. [ ] Pour augmenter la resolution de l'image reconstruite
 1. [x] Parce que le probleme est souvent sous-determine ou instable et necessite un a priori sur l'image inconnue
+
     > Correct : sans regularisation, le probleme peut avoir une infinite de solutions ou etre extremement sensible au bruit. L'a priori (ex : parcimonie, reseau de neurones) contraint la solution.
+
 1. [ ] Pour eviter la saturation du capteur
+
 ```
 ```{quizdown}
 ### Quel est l'ordre correct des etapes du pipeline d'imagerie computationnelle, du monde reel a l'image finale ?
@@ -241,6 +278,7 @@ execute:
 3. Intermediate coded representation
 4. Generalized calculation (decoding)
 5. Final Images
+
 ```
 ```{quizdown}
 ### Un chercheur veut imager un objet cache derriere un mur en exploitant les rebonds de lumiere. Quels elements sont indispensables a son dispositif NLOS ?
@@ -248,14 +286,23 @@ execute:
 > Pense aux composants necessaires pour mesurer des signaux de troisieme rebond.
 
 - [x] Un laser picoseconde pour emettre des impulsions ultra-courtes
+
     > Correct : la precision temporelle requise (picosecondes) necessite un laser pulse a tres courte duree d'impulsion.
+
 - [x] Un capteur SPAD pour detecter des photons individuels avec resolution temporelle
+
     > Correct : le signal du troisieme rebond est extremement faible, necessitant la sensibilite d'un detecteur a photon unique.
+
 - [ ] Un miroir parabolique de grande taille
+
     > Incorrect : ce n'est pas un element caracteristique du dispositif NLOS decrit.
+
 - [x] Un miroir galvanometrique pour balayer differents points du mur
+
     > Correct : le balayage du mur permet d'acquerir les mesures spatiales necessaires a la reconstruction 3D.
+
 - [ ] Un filtre passe-bande spectral
+
     > Incorrect : ce n'est pas un composant cle du dispositif NLOS standard.
 ```
 ```{quizdown}
@@ -266,8 +313,11 @@ execute:
 1. [ ] On continue d'optimiser la lentille numeriquement en temps reel
 1. [ ] On remplace la lentille physique par une couche convolutive
 1. [x] On fabrique physiquement la lentille optimisee et on deploie le reseau entraine pour traiter les images capturees
+
     > Correct : la lentille calculee en simulation est fabricee (impression 3D, lithographie, etc.) et associee au reseau numerique pour former le systeme final.
+
 1. [ ] On fusionne plusieurs lentilles conventionnelles
+
 ```
 ```{quizdown}
 ### Quelle affirmation sur l'imagerie compressive (Compressed Sensing) est correcte ?
@@ -277,8 +327,11 @@ execute:
 1. [ ] Elle necessite plus de mesures qu'un capteur conventionnel pour la meme qualite
 1. [ ] Elle fonctionne uniquement pour les images en niveaux de gris
 1. [x] Elle exploite la parcimonie (sparsity) des signaux naturels pour reduire le nombre de mesures necessaires
+
     > Correct : si un signal est parcimonieux dans une base appropriee (ondelettes, DCT...), il peut etre reconstruit a partir d'un nombre de mesures bien inferieur au nombre de pixels.
+
 1. [ ] Elle necessite un capteur a plusieurs millions de pixels
+
 ```
 ```{quizdown}
 ### Quel type d'affichage computationnel co-optimise le composant optique et le traitement numerique pour reproduire un champ d'onde complet en amplitude et en phase ?
@@ -288,8 +341,11 @@ execute:
 1. [ ] Affichage a mise au point contingente au regard (Gaze-Contingent Focus Display)
 1. [ ] Affichage a champ de lumiere proche de l'oeil (Near-Eye Light Field Display)
 1. [x] Affichage holographique (Holographic Display)
+
     > Correct : les affichages holographiques reproduisent un champ d'onde complet (amplitude et phase) a l'aide d'un modulateur spatial de lumiere, offrant une experience 3D theoriquement parfaite.
+
 1. [ ] Affichage haute definition (High Definition Display)
+
 ```
 ```{quizdown}
 ### Quel est l'ordre correct des etapes du traitement d'une peinture par MA-XRF pour identifier les pigments caches ?
@@ -302,6 +358,7 @@ execute:
 4. Constitution of the datacube (x, y, energy)
 5. XRF deconvolution algorithm
 6. Extraction of elementary distribution maps
+
 ```
 ```{quizdown}
 ### Un systeme capture des ondes de pression haute frequence et reconstruit une image 3D par interpolation de coupes 2D. De quelle modalite s'agit-il ?
@@ -311,6 +368,9 @@ execute:
 1. [ ] Tomographie calculee (CT)
 1. [ ] IRM (MRI)
 1. [x] Echographie 3D (3D Ultrasound)
+
     > Correct : l'echographie utilise des ondes de pression haute frequence et reconstruit le volume par empilement et interpolation de tranches 2D.
+
 1. [ ] PET (Positron Emission Tomography)
+
 ```

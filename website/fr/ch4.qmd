@@ -245,14 +245,17 @@ Une approche consiste à entraîner un **GAN** (Generative Adversarial Network) 
 Quand des étiquettes sont disponibles, trois variantes existent selon le niveau d'annotation :
 
 **Apprentissage supervisé classique** :
+
 - Données d'entraînement avec étiquettes au niveau des patches
 - Un modèle supervisé apprend la correspondance directe image → étiquette
 
 **Apprentissage semi-supervisé (Semi-Supervised Learning)** :
+
 - Mélange de données étiquetées et non étiquetées
 - On exploite les données non étiquetées pour améliorer la représentation
 
 **Apprentissage multi-instances (Multiple Instance Learning — MIL)** :
+
 - Données d'entraînement avec des étiquettes faibles au niveau de l'image entière
 - L'image est découpée en **patches** (instances) regroupés en **bags**
 - Le label du bag est positif si au moins une instance est positive
@@ -330,6 +333,7 @@ photon → atome → électron
 ```
 
 **Effet en radiographie** :
+
 - Le tissu dense (os) absorbe plus de photons → moins d'énergie atteint le détecteur → apparaît **blanc** sur l'image.
 - Le tissu peu dense (muscle, air) absorbe moins → plus d'énergie atteint le détecteur → apparaît **sombre**.
 - Cet effet **contrôle la formation et le contraste de l'image**.
@@ -341,6 +345,7 @@ photon → atome → électron
 Seulement **absorption partielle** de l'énergie du photon. Le photon change de direction (à énergie réduite) et un électron est libéré.
 
 **Effet en radiographie** :
+
 - Le photon dévié peut être détecté sur le détecteur → rayon **non-linéaire**.
 - Comme on suppose des rayons linéaires, cela est problématique.
 - Les photons dus à la diffusion Compton sont perçus comme du **bruit**.
@@ -553,10 +558,12 @@ Modalité d'imagerie 3D la plus directe :
 - La rétroprojection procède le long des rayons du faisceau conique
 
 **Avantages** :
+
 - Potentiellement très rapide (une seule rotation)
 - Souvent utilisé pour l'angiographie 3D
 
 **Inconvénients** :
+
 - Problèmes d'échantillonnage aux extrémités
 - Le taux d'échantillonnage de reconstruction varie le long de z
 
@@ -661,8 +668,10 @@ Le SPECT est principalement utilisé pour l'étude du **flux sanguin**, par inje
 - Une distribution inégale des nucléides peut également causer des artefacts
 - **Atténuation** → sous-estimation de l'activité en profondeur
   - Les équipements SPECT modernes sont intégrés avec un scanner CT :
+
     - Les images CT sont une carte d'atténuation des tissus
     - Intégrées dans la reconstruction SPECT pour corriger l'atténuation
+
   - Les images CT co-enregistrées fournissent des informations anatomiques
 
 ## PET (Tomographie par émission de positrons)
@@ -1011,3 +1020,4 @@ Ce cours s'appuie sur les ressources suivantes :
 - Computational Imaging (Dragotti, Imperial College)
 - Computer Vision (Seitz & Szeliski, UWashington)
 - Introduction to Visual Computing and Visual Modeling (Kutulakos, UToronto)
+
