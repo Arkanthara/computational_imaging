@@ -8149,9 +8149,23 @@ window.Quarto = {
 <section id="supervised-learning" class="level3">
 <h3 class="anchored" data-anchor-id="supervised-learning">Supervised Learning</h3>
 <p>When labels are available, three variants exist depending on the level of annotation:</p>
-<p><strong>Classic supervised learning</strong>: - Training data with patch-level labels - A supervised model learns the direct image → label correspondence</p>
-<p><strong>Semi-supervised learning</strong>: - Mixture of labeled and unlabeled data - We exploit unlabeled data to improve the representation</p>
-<p><strong>Multiple Instance Learning (MIL)</strong>: - Training data with weak labels at the whole image level - The image is divided into <strong>patches</strong> (instances) grouped into <strong>bags</strong> - The bag label is positive if at least one instance is positive - Allows <strong>local detection</strong> (localization of the lesion) from global labels (image-level)</p>
+<p><strong>Classic supervised learning</strong>:</p>
+<ul>
+<li>Training data with patch-level labels</li>
+<li>A supervised model learns the direct image → label correspondence</li>
+</ul>
+<p><strong>Semi-supervised learning</strong>:</p>
+<ul>
+<li>Mixture of labeled and unlabeled data</li>
+<li>We exploit unlabeled data to improve the representation</li>
+</ul>
+<p><strong>Multiple Instance Learning (MIL)</strong>:</p>
+<ul>
+<li>Training data with weak labels at the whole image level</li>
+<li>The image is divided into <strong>patches</strong> (instances) grouped into <strong>bags</strong></li>
+<li>The bag label is positive if at least one instance is positive</li>
+<li>Allows <strong>local detection</strong> (localization of the lesion) from global labels (image-level)</li>
+</ul>
 <p>💡 MIL is particularly useful in digital pathology where annotating each cell is impossible, but the overall label (cancerous/non-cancerous) is available.</p>
 </section>
 <section id="transfer-learning" class="level3">
@@ -8215,13 +8229,23 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="photoelectric-absorption">Photoelectric Absorption</h4>
 <p>A photon is <strong>entirely absorbed</strong> by an atom, which releases an electron in the same direction (ionization).</p>
 <pre><code>photon → atome → électron</code></pre>
-<p><strong>Effect in radiography</strong>: - Dense tissue (bone) absorbs more photons → less energy reaches the detector → appears <strong>white</strong> in the image. - Sparse tissue (muscle, air) absorbs less → more energy reaches the detector → appears <strong>dark</strong>. - This effect <strong>controls the formation and contrast of the image</strong>.</p>
+<p><strong>Effect in radiography</strong>:</p>
+<ul>
+<li>Dense tissue (bone) absorbs more photons → less energy reaches the detector → appears <strong>white</strong> in the image.</li>
+<li>Sparse tissue (muscle, air) absorbs less → more energy reaches the detector → appears <strong>dark</strong>.</li>
+<li>This effect <strong>controls the formation and contrast of the image</strong>.</li>
+</ul>
 <p>💡 This is the <strong>most desirable</strong> effect in radiography.</p>
 </section>
 <section id="compton-scattering" class="level4">
 <h4 class="anchored" data-anchor-id="compton-scattering">Compton Scattering</h4>
 <p>Only <strong>partial absorption</strong> of the photon energy. The photon changes direction (at reduced energy) and an electron is released.</p>
-<p><strong>Effect in radiography</strong>: - The deflected photon can be detected on the detector → <strong>non-linear</strong> radius. - As linear rays are assumed, this is problematic. - Photons due to Compton scattering are perceived as <strong>noise</strong>.</p>
+<p><strong>Effect in radiography</strong>:</p>
+<ul>
+<li>The deflected photon can be detected on the detector → <strong>non-linear</strong> radius.</li>
+<li>As linear rays are assumed, this is problematic.</li>
+<li>Photons due to Compton scattering are perceived as <strong>noise</strong>.</li>
+</ul>
 <p>⚠️ Compton diffusion is <strong>less desirable</strong> in radiography.</p>
 </section>
 <section id="pair-production" class="level4">
@@ -8459,8 +8483,16 @@ window.Quarto = {
 <li>The popular equation is that of <strong>Feldkamp-Davis-Kress</strong></li>
 <li>The rear projection proceeds along the rays of the cone beam</li>
 </ul>
-<p><strong>Benefits</strong> : - Potentially very fast (only one rotation) - Often used for 3D angiography</p>
-<p><strong>Disadvantages</strong>: - End Sampling Issues - The reconstruction sampling rate varies along z</p>
+<p><strong>Benefits</strong> :</p>
+<ul>
+<li>Potentially very fast (only one rotation)</li>
+<li>Often used for 3D angiography</li>
+</ul>
+<p><strong>Disadvantages</strong>:</p>
+<ul>
+<li>End Sampling Issues</li>
+<li>The reconstruction sampling rate varies along z</li>
+</ul>
 </section>
 </section>
 <section id="ct-image-quality" class="level2">
@@ -8592,12 +8624,12 @@ window.Quarto = {
 <li>Uneven distribution of nuclides can also cause artifacts</li>
 <li><strong>Mitigation</strong> → underestimation of depth activity
 <ul>
-<li>Modern SPECT equipment is integrated with a CT scanner:
+<li><p>Modern SPECT equipment is integrated with a CT scanner:</p>
 <ul>
 <li>CT images are a tissue attenuation map</li>
 <li>Integrated into SPECT reconstruction to correct attenuation</li>
 </ul></li>
-<li>Co-registered CT images provide anatomical information</li>
+<li><p>Co-registered CT images provide anatomical information</p></li>
 </ul></li>
 </ul>
 </section>

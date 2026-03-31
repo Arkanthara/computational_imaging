@@ -4636,7 +4636,11 @@ window.Quarto = {
 <li><strong>Computational recovery</strong> — new decoding/reconstruction algorithms</li>
 </ol>
 <p><strong>Three disciplinary pillars:</strong> Mathematics (optimization, ML) · Physics (optics) · Computation (algorithms)</p>
-<p><strong>Mathematical formalism:</strong> <span class="math display">\[y = Ax + n\]</span> - <span class="math inline">\(y\)</span>: raw measurements, <span class="math inline">\(A\)</span>: measurement operator (physics), <span class="math inline">\(x\)</span>: unknown image, <span class="math inline">\(n\)</span>: noise - <strong>Ill-posed</strong> problem (Hadamard) → requires <strong>regularization</strong> (prior on <span class="math inline">\(x\)</span>)</p>
+<p><strong>Mathematical formalism:</strong> <span class="math display">\[y = Ax + n\]</span></p>
+<ul>
+<li><span class="math inline">\(y\)</span>: raw measurements, <span class="math inline">\(A\)</span>: measurement operator (physics), <span class="math inline">\(x\)</span>: unknown image, <span class="math inline">\(n\)</span>: noise</li>
+<li><strong>Ill-posed</strong> problem (Hadamard) → requires <strong>regularization</strong> (prior on <span class="math inline">\(x\)</span>)</li>
+</ul>
 <p><strong>Key difference vs classical image processing:</strong> computation does not only enhance — it <strong>decodes</strong> a representation that is not directly readable.</p>
 <p><strong>Biological analogy:</strong> mantis shrimp (16 photoreceptor types) — sensor and brain are inseparable.</p>
 <hr>
@@ -4878,7 +4882,11 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p><strong>Data volumes:</strong> - SKA1-Low: ~7 Tb/s after central processor, ~300 PB/year - Compute required: ~130 PFlops per instrument</p>
+<p><strong>Data volumes:</strong></p>
+<ul>
+<li>SKA1-Low: ~7 Tb/s after central processor, ~300 PB/year</li>
+<li>Compute required: ~130 PFlops per instrument</li>
+</ul>
 <p><strong>Computational pipeline:</strong> antennas (encode visibilities) → supercomputers Perth/Cape Town (decode into radio images) = sensor–algorithm co-design at planetary scale.</p>
 <p><strong>Underlying technique:</strong> long-baseline interferometry (VLBI / <em>aperture synthesis</em>) — simulates a telescope of diameter equal to the separation of the farthest antennas. Algorithms: CLEAN, Bayesian methods.</p>
 <p><strong>Emblematic example:</strong> first image of a black hole (M87*, 2019, Event Horizon Telescope) — planetary stations + ML-based reconstruction.</p>
@@ -4908,7 +4916,11 @@ window.Quarto = {
 <li>Trained network deployed alongside</li>
 <li>Both layers run together on real data</li>
 </ol>
-<p><strong>Two interpretations:</strong> - Optical encoder + electronic decoder - Hybrid optical–electronic neural network (physical layer = first layers)</p>
+<p><strong>Two interpretations:</strong></p>
+<ul>
+<li>Optical encoder + electronic decoder</li>
+<li>Hybrid optical–electronic neural network (physical layer = first layers)</li>
+</ul>
 <p><strong>Key principle:</strong> optics no longer needs to output a “pretty” image — it must encode the useful information optimally for the target task. Highly aberrated lenses can outperform “perfect” lenses for some tasks.</p>
 <p><strong>Applications:</strong> extended depth-of-field, 3D from a single image, gaze-contingent displays, direct classification.</p>
 <hr>
@@ -5016,7 +5028,12 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p><strong>Important notes:</strong> - The eye’s superior dynamic range motivates HDR techniques - The CSF explains the acceptability of JPEG compression (removing high frequencies) - Binocular vision (~120° central) is crucial for stereopsis</p>
+<p><strong>Important notes:</strong></p>
+<ul>
+<li>The eye’s superior dynamic range motivates HDR techniques</li>
+<li>The CSF explains the acceptability of JPEG compression (removing high frequencies)</li>
+<li>Binocular vision (~120° central) is crucial for stereopsis</li>
+</ul>
 <hr>
 </section>
 </section>
@@ -5057,7 +5074,13 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p><strong>Lens — accommodation element:</strong> - ~30% of refractive power - Ciliary muscles contracted → zonules relaxed → lens <strong>rounder</strong> (near vision) - Ciliary muscles relaxed → zonules taut → lens <strong>flatter</strong> (far vision) - Stiffens with age → <strong>presbyopia</strong></p>
+<p><strong>Lens — accommodation element:</strong></p>
+<ul>
+<li>~30% of refractive power</li>
+<li>Ciliary muscles contracted → zonules relaxed → lens <strong>rounder</strong> (near vision)</li>
+<li>Ciliary muscles relaxed → zonules taut → lens <strong>flatter</strong> (far vision)</li>
+<li>Stiffens with age → <strong>presbyopia</strong></li>
+</ul>
 <p><strong>Posterior structures:</strong></p>
 <table class="caption-top table">
 <colgroup>
@@ -5098,7 +5121,13 @@ window.Quarto = {
 </tbody>
 </table>
 <p><strong>Inverted organization:</strong> light crosses ganglion + bipolar neurons <strong>before</strong> reaching photoreceptors.</p>
-<p><strong>Refractive errors:</strong> - Emmetropia: focus on retina (normal) - <strong>Myopia</strong>: focus before retina → concave lens - <strong>Hypermetropia</strong>: focus behind retina → convex lens - <strong>Astigmatism</strong>: irregular curvature → no single focus → cylindrical lens</p>
+<p><strong>Refractive errors:</strong></p>
+<ul>
+<li>Emmetropia: focus on retina (normal)</li>
+<li><strong>Myopia</strong>: focus before retina → concave lens</li>
+<li><strong>Hypermetropia</strong>: focus behind retina → convex lens</li>
+<li><strong>Astigmatism</strong>: irregular curvature → no single focus → cylindrical lens</li>
+</ul>
 <hr>
 </section>
 </section>
@@ -5184,7 +5213,12 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p><strong>Hypercolumns:</strong> V1 organization encoding simultaneously: - Eye-of-origin (left/right) → ocular dominance columns - Preferred orientation → orientation columns - Retinotopic location → global organization</p>
+<p><strong>Hypercolumns:</strong> V1 organization encoding simultaneously:</p>
+<ul>
+<li>Eye-of-origin (left/right) → ocular dominance columns</li>
+<li>Preferred orientation → orientation columns</li>
+<li>Retinotopic location → global organization</li>
+</ul>
 <blockquote class="blockquote">
 <p>Hebb’s rule: <em>neurons that fire together wire together</em></p>
 </blockquote>
@@ -5305,7 +5339,12 @@ window.Quarto = {
 <li><strong>Plenoptic camera:</strong> encodes ray direction (microlens array) → computation reconstructs refocused views</li>
 <li><strong>Coded aperture:</strong> encodes depth in blur (PSF) → computation extracts depth map + all-in-focus image</li>
 </ul>
-<p><strong>Physical trade-offs exceeded:</strong> - Large aperture ↔︎ shallow depth of field → coded aperture / focal stack - Light ↔︎ sharpness → night mode (burst photography) - Pinhole (everything sharp, little light) ↔︎ lens (efficient, limited DoF) → computation aims to combine the advantages</p>
+<p><strong>Physical trade-offs exceeded:</strong></p>
+<ul>
+<li>Large aperture ↔︎ shallow depth of field → coded aperture / focal stack</li>
+<li>Light ↔︎ sharpness → night mode (burst photography)</li>
+<li>Pinhole (everything sharp, little light) ↔︎ lens (efficient, limited DoF) → computation aims to combine the advantages</li>
+</ul>
 <hr>
 </section>
 </section>
@@ -5389,7 +5428,15 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="summary-16">Summary</h2>
 <p><strong>Motivation:</strong> classical photography captures a 2D projection (intensity only) → ray direction lost → focus, aperture, viewpoint fixed at capture.</p>
 <p><strong>Light field:</strong> geometric distribution of light rays in space.</p>
-<p><strong>Plenoptic function:</strong> - Full version: <span class="math inline">\(L(x, y, z, \theta, \phi)\)</span> — <strong>5D</strong> - Reduced (free space, radiance conserved along a ray): <strong>4D</strong> via <strong>two-plane parameterization</strong> <span class="math inline">\((s, t, u, v)\)</span> - <strong>st</strong> plane = main lens (which microlens) - <strong>uv</strong> plane = sensor (which pixel under the microlens)</p>
+<p><strong>Plenoptic function:</strong></p>
+<ul>
+<li>Full version: <span class="math inline">\(L(x, y, z, \theta, \phi)\)</span> — <strong>5D</strong></li>
+<li>Reduced (free space, radiance conserved along a ray): <strong>4D</strong> via <strong>two-plane parameterization</strong> <span class="math inline">\((s, t, u, v)\)</span>
+<ul>
+<li><strong>st</strong> plane = main lens (which microlens)</li>
+<li><strong>uv</strong> plane = sensor (which pixel under the microlens)</li>
+</ul></li>
+</ul>
 <p><strong>Three post-capture numerical operations:</strong></p>
 <table class="caption-top table">
 <colgroup>

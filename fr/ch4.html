@@ -8152,9 +8152,23 @@ window.Quarto = {
 <section id="apprentissage-supervisé-supervised-learning" class="level3">
 <h3 class="anchored" data-anchor-id="apprentissage-supervisé-supervised-learning">Apprentissage supervisé (Supervised Learning)</h3>
 <p>Quand des étiquettes sont disponibles, trois variantes existent selon le niveau d’annotation :</p>
-<p><strong>Apprentissage supervisé classique</strong> : - Données d’entraînement avec étiquettes au niveau des patches - Un modèle supervisé apprend la correspondance directe image → étiquette</p>
-<p><strong>Apprentissage semi-supervisé (Semi-Supervised Learning)</strong> : - Mélange de données étiquetées et non étiquetées - On exploite les données non étiquetées pour améliorer la représentation</p>
-<p><strong>Apprentissage multi-instances (Multiple Instance Learning — MIL)</strong> : - Données d’entraînement avec des étiquettes faibles au niveau de l’image entière - L’image est découpée en <strong>patches</strong> (instances) regroupés en <strong>bags</strong> - Le label du bag est positif si au moins une instance est positive - Permet une <strong>détection locale</strong> (localisation de la lésion) à partir d’étiquettes globales (image-level)</p>
+<p><strong>Apprentissage supervisé classique</strong> :</p>
+<ul>
+<li>Données d’entraînement avec étiquettes au niveau des patches</li>
+<li>Un modèle supervisé apprend la correspondance directe image → étiquette</li>
+</ul>
+<p><strong>Apprentissage semi-supervisé (Semi-Supervised Learning)</strong> :</p>
+<ul>
+<li>Mélange de données étiquetées et non étiquetées</li>
+<li>On exploite les données non étiquetées pour améliorer la représentation</li>
+</ul>
+<p><strong>Apprentissage multi-instances (Multiple Instance Learning — MIL)</strong> :</p>
+<ul>
+<li>Données d’entraînement avec des étiquettes faibles au niveau de l’image entière</li>
+<li>L’image est découpée en <strong>patches</strong> (instances) regroupés en <strong>bags</strong></li>
+<li>Le label du bag est positif si au moins une instance est positive</li>
+<li>Permet une <strong>détection locale</strong> (localisation de la lésion) à partir d’étiquettes globales (image-level)</li>
+</ul>
 <p>💡 Le MIL est particulièrement utile en anatomopathologie numérique où annoter chaque cellule est impossible, mais l’étiquette globale (cancéreux / non cancéreux) est disponible.</p>
 </section>
 <section id="apprentissage-par-transfert-transfer-learning" class="level3">
@@ -8218,13 +8232,23 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="absorption-photoélectrique-photo-electric-absorption">Absorption photoélectrique (Photo-electric Absorption)</h4>
 <p>Un photon est <strong>entièrement absorbé</strong> par un atome, qui libère un électron dans la même direction (ionisation).</p>
 <pre><code>photon → atome → électron</code></pre>
-<p><strong>Effet en radiographie</strong> : - Le tissu dense (os) absorbe plus de photons → moins d’énergie atteint le détecteur → apparaît <strong>blanc</strong> sur l’image. - Le tissu peu dense (muscle, air) absorbe moins → plus d’énergie atteint le détecteur → apparaît <strong>sombre</strong>. - Cet effet <strong>contrôle la formation et le contraste de l’image</strong>.</p>
+<p><strong>Effet en radiographie</strong> :</p>
+<ul>
+<li>Le tissu dense (os) absorbe plus de photons → moins d’énergie atteint le détecteur → apparaît <strong>blanc</strong> sur l’image.</li>
+<li>Le tissu peu dense (muscle, air) absorbe moins → plus d’énergie atteint le détecteur → apparaît <strong>sombre</strong>.</li>
+<li>Cet effet <strong>contrôle la formation et le contraste de l’image</strong>.</li>
+</ul>
 <p>💡 C’est l’effet <strong>le plus souhaitable</strong> en radiographie.</p>
 </section>
 <section id="diffusion-compton-compton-scattering" class="level4">
 <h4 class="anchored" data-anchor-id="diffusion-compton-compton-scattering">Diffusion Compton (Compton Scattering)</h4>
 <p>Seulement <strong>absorption partielle</strong> de l’énergie du photon. Le photon change de direction (à énergie réduite) et un électron est libéré.</p>
-<p><strong>Effet en radiographie</strong> : - Le photon dévié peut être détecté sur le détecteur → rayon <strong>non-linéaire</strong>. - Comme on suppose des rayons linéaires, cela est problématique. - Les photons dus à la diffusion Compton sont perçus comme du <strong>bruit</strong>.</p>
+<p><strong>Effet en radiographie</strong> :</p>
+<ul>
+<li>Le photon dévié peut être détecté sur le détecteur → rayon <strong>non-linéaire</strong>.</li>
+<li>Comme on suppose des rayons linéaires, cela est problématique.</li>
+<li>Les photons dus à la diffusion Compton sont perçus comme du <strong>bruit</strong>.</li>
+</ul>
 <p>⚠️ La diffusion Compton est <strong>moins souhaitable</strong> en radiographie.</p>
 </section>
 <section id="production-de-paires-pair-production" class="level4">
@@ -8462,8 +8486,16 @@ window.Quarto = {
 <li>L’équation populaire est celle de <strong>Feldkamp-Davis-Kress</strong></li>
 <li>La rétroprojection procède le long des rayons du faisceau conique</li>
 </ul>
-<p><strong>Avantages</strong> : - Potentiellement très rapide (une seule rotation) - Souvent utilisé pour l’angiographie 3D</p>
-<p><strong>Inconvénients</strong> : - Problèmes d’échantillonnage aux extrémités - Le taux d’échantillonnage de reconstruction varie le long de z</p>
+<p><strong>Avantages</strong> :</p>
+<ul>
+<li>Potentiellement très rapide (une seule rotation)</li>
+<li>Souvent utilisé pour l’angiographie 3D</li>
+</ul>
+<p><strong>Inconvénients</strong> :</p>
+<ul>
+<li>Problèmes d’échantillonnage aux extrémités</li>
+<li>Le taux d’échantillonnage de reconstruction varie le long de z</li>
+</ul>
 </section>
 </section>
 <section id="qualité-dimage-ct-ct-image-quality" class="level2">
@@ -8597,12 +8629,12 @@ window.Quarto = {
 <li>Une distribution inégale des nucléides peut également causer des artefacts</li>
 <li><strong>Atténuation</strong> → sous-estimation de l’activité en profondeur
 <ul>
-<li>Les équipements SPECT modernes sont intégrés avec un scanner CT :
+<li><p>Les équipements SPECT modernes sont intégrés avec un scanner CT :</p>
 <ul>
 <li>Les images CT sont une carte d’atténuation des tissus</li>
 <li>Intégrées dans la reconstruction SPECT pour corriger l’atténuation</li>
 </ul></li>
-<li>Les images CT co-enregistrées fournissent des informations anatomiques</li>
+<li><p>Les images CT co-enregistrées fournissent des informations anatomiques</p></li>
 </ul></li>
 </ul>
 </section>

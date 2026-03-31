@@ -4636,7 +4636,11 @@ window.Quarto = {
 <li><strong>Récupération computationnelle</strong> — nouveaux algorithmes de décodage</li>
 </ol>
 <p><strong>Trois piliers disciplinaires :</strong> Mathématiques (optimisation, ML) · Physique (optique) · Calcul (algorithmes)</p>
-<p><strong>Formalisme mathématique :</strong> <span class="math display">\[y = Ax + n\]</span> - <span class="math inline">\(y\)</span> : mesures brutes, <span class="math inline">\(A\)</span> : opérateur de mesure (physique), <span class="math inline">\(x\)</span> : image inconnue, <span class="math inline">\(n\)</span> : bruit - Problème <strong>mal posé</strong> (Hadamard) → nécessite une <strong>régularisation</strong> (a priori sur <span class="math inline">\(x\)</span>)</p>
+<p><strong>Formalisme mathématique :</strong> <span class="math display">\[y = Ax + n\]</span></p>
+<ul>
+<li><span class="math inline">\(y\)</span> : mesures brutes, <span class="math inline">\(A\)</span> : opérateur de mesure (physique), <span class="math inline">\(x\)</span> : image inconnue, <span class="math inline">\(n\)</span> : bruit</li>
+<li>Problème <strong>mal posé</strong> (Hadamard) → nécessite une <strong>régularisation</strong> (a priori sur <span class="math inline">\(x\)</span>)</li>
+</ul>
 <p><strong>Différence clé avec le traitement d’image classique :</strong> le calcul ne fait pas qu’améliorer — il <strong>décode</strong> une représentation qui n’est pas directement lisible.</p>
 <p><strong>Analogie biologique :</strong> crevette-mante (16 types de photorécepteurs) — capteur et cerveau indissociables.</p>
 <hr>
@@ -4878,7 +4882,11 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p><strong>Volumes de données :</strong> - SKA1-Low : ~7 Tb/s après processeur central, ~300 PB/an - Puissance requise : ~130 PFlops par instrument</p>
+<p><strong>Volumes de données :</strong></p>
+<ul>
+<li>SKA1-Low : ~7 Tb/s après processeur central, ~300 PB/an</li>
+<li>Puissance requise : ~130 PFlops par instrument</li>
+</ul>
 <p><strong>Pipeline computationnel :</strong> antennes (encodage de visibilités) → supercalculateurs Perth/Cap (décodage en images radio) = co-conception capteur-algorithme à échelle planétaire.</p>
 <p><strong>Technique sous-jacente :</strong> interférométrie à longue base (VLBI / <em>aperture synthesis</em>) — simule un télescope de diamètre = distance entre antennes les plus éloignées. Algorithmes : CLEAN, méthodes bayésiennes.</p>
 <p><strong>Exemple emblématique :</strong> première image d’un trou noir (M87*, 2019, Event Horizon Telescope) — 6 stations planétaires + algorithmes ML pour reconstruction.</p>
@@ -4908,7 +4916,11 @@ window.Quarto = {
 <li>Réseau entraîné déployé en parallèle</li>
 <li>Les deux couches fonctionnent ensemble sur données réelles</li>
 </ol>
-<p><strong>Deux interprétations :</strong> - Encodeur optique + décodeur électronique - Réseau hybride optique-électronique (couche physique = premières couches du réseau)</p>
+<p><strong>Deux interprétations :</strong></p>
+<ul>
+<li>Encodeur optique + décodeur électronique</li>
+<li>Réseau hybride optique-électronique (couche physique = premières couches du réseau)</li>
+</ul>
 <p><strong>Principe clé :</strong> l’optique n’a <strong>plus besoin de produire une image « belle »</strong> — elle doit encoder l’information utile de façon optimale pour la tâche. Des lentilles aberrantes peuvent surpasser des lentilles parfaites.</p>
 <p><strong>Applications :</strong> grande profondeur de champ, reconstruction 3D depuis 1 image, affichages gaze-contingent, classification d’objets directe.</p>
 <hr>
@@ -5016,7 +5028,12 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p><strong>Notes importantes :</strong> - La plage dynamique supérieure de l’œil justifie les techniques HDR - La CSF explique l’acceptabilité de la compression JPEG (suppression des hautes fréquences) - La vision binoculaire (~120° central) est indispensable à la stéréopsie</p>
+<p><strong>Notes importantes :</strong></p>
+<ul>
+<li>La plage dynamique supérieure de l’œil justifie les techniques HDR</li>
+<li>La CSF explique l’acceptabilité de la compression JPEG (suppression des hautes fréquences)</li>
+<li>La vision binoculaire (~120° central) est indispensable à la stéréopsie</li>
+</ul>
 <hr>
 </section>
 </section>
@@ -5057,7 +5074,13 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p><strong>Cristallin — élément d’accommodation :</strong> - ~30% du pouvoir réfractif - Muscles ciliaires contractés → fibres zonulaires relâchées → cristallin <strong>bombé</strong> (vision de près) - Muscles ciliaires relâchés → fibres zonulaires tendues → cristallin <strong>aplati</strong> (vision de loin) - Se rigidifie avec l’âge → <strong>presbytie</strong></p>
+<p><strong>Cristallin — élément d’accommodation :</strong></p>
+<ul>
+<li>~30% du pouvoir réfractif</li>
+<li>Muscles ciliaires contractés → fibres zonulaires relâchées → cristallin <strong>bombé</strong> (vision de près)</li>
+<li>Muscles ciliaires relâchés → fibres zonulaires tendues → cristallin <strong>aplati</strong> (vision de loin)</li>
+<li>Se rigidifie avec l’âge → <strong>presbytie</strong></li>
+</ul>
 <p><strong>Structures postérieures :</strong></p>
 <table class="caption-top table">
 <colgroup>
@@ -5098,7 +5121,13 @@ window.Quarto = {
 </tbody>
 </table>
 <p><strong>Organisation inversée :</strong> la lumière traverse les neurones (ganglionnaires + bipolaires) <strong>avant</strong> d’atteindre les photorécepteurs.</p>
-<p><strong>Erreurs de réfraction :</strong> - Emmétropie : foyer sur la rétine (normal) - <strong>Myopie</strong> : foyer avant la rétine → lentille concave - <strong>Hypermétropie</strong> : foyer derrière la rétine → lentille convexe - <strong>Astigmatisme</strong> : courbure irrégulière → pas de foyer unique → lentille cylindrique</p>
+<p><strong>Erreurs de réfraction :</strong></p>
+<ul>
+<li>Emmétropie : foyer sur la rétine (normal)</li>
+<li><strong>Myopie</strong> : foyer avant la rétine → lentille concave</li>
+<li><strong>Hypermétropie</strong> : foyer derrière la rétine → lentille convexe</li>
+<li><strong>Astigmatisme</strong> : courbure irrégulière → pas de foyer unique → lentille cylindrique</li>
+</ul>
 <hr>
 </section>
 </section>
@@ -5184,7 +5213,12 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p><strong>Hypercolonnes :</strong> organisation de V1 encodant simultanément : - Œil d’origine (gauche/droit) → colonnes de dominance oculaire - Orientation préférée → colonnes d’orientation - Localisation rétinotopique → organisation globale</p>
+<p><strong>Hypercolonnes :</strong> organisation de V1 encodant simultanément :</p>
+<ul>
+<li>Œil d’origine (gauche/droit) → colonnes de dominance oculaire</li>
+<li>Orientation préférée → colonnes d’orientation</li>
+<li>Localisation rétinotopique → organisation globale</li>
+</ul>
 <blockquote class="blockquote">
 <p>Règle de Hebb : <em>neurons that fire together wire together</em></p>
 </blockquote>
@@ -5305,7 +5339,12 @@ window.Quarto = {
 <li><strong>Caméra plénoptique</strong> : encode la direction des rayons (réseau de micro-lentilles) → calcul reconstruit vues refocalisées</li>
 <li><strong>Ouverture codée</strong> : encode la profondeur dans la forme du flou (PSF) → calcul extrait carte de profondeur + image nette</li>
 </ul>
-<p><strong>Compromis physiques dépassés :</strong> - Grande ouverture ↔︎ profondeur de champ réduite → ouverture codée / pile focale - Lumière ↔︎ netteté → mode nuit (burst photography) - Sténopé (tout net, peu de lumière) ↔︎ objectif (efficace, profondeur de champ limitée) → computationnel combine les deux avantages</p>
+<p><strong>Compromis physiques dépassés :</strong></p>
+<ul>
+<li>Grande ouverture ↔︎ profondeur de champ réduite → ouverture codée / pile focale</li>
+<li>Lumière ↔︎ netteté → mode nuit (burst photography)</li>
+<li>Sténopé (tout net, peu de lumière) ↔︎ objectif (efficace, profondeur de champ limitée) → computationnel combine les deux avantages</li>
+</ul>
 <hr>
 </section>
 </section>
@@ -5389,7 +5428,15 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="synthèse-16">Synthèse</h2>
 <p><strong>Motivation :</strong> la photographie classique capture une projection 2D (intensité seule) → direction des rayons perdue → mise au point, ouverture, point de vue fixés définitivement à la capture.</p>
 <p><strong>Champ lumineux :</strong> distribution géométrique des rayons lumineux dans l’espace.</p>
-<p><strong>Fonction plénoptique :</strong> - Version complète : <span class="math inline">\(L(x, y, z, \theta, \phi)\)</span> — <strong>5D</strong> - Simplifiée (espace libre, radiance conservée le long d’un rayon) : <strong>4D</strong> via le <strong>paramétrage à deux plans</strong> <span class="math inline">\((s, t, u, v)\)</span> - Plan <strong>st</strong> = objectif principal (quelle micro-lentille) - Plan <strong>uv</strong> = capteur (quel pixel sous la micro-lentille)</p>
+<p><strong>Fonction plénoptique :</strong></p>
+<ul>
+<li>Version complète : <span class="math inline">\(L(x, y, z, \theta, \phi)\)</span> — <strong>5D</strong></li>
+<li>Simplifiée (espace libre, radiance conservée le long d’un rayon) : <strong>4D</strong> via le <strong>paramétrage à deux plans</strong> <span class="math inline">\((s, t, u, v)\)</span>
+<ul>
+<li>Plan <strong>st</strong> = objectif principal (quelle micro-lentille)</li>
+<li>Plan <strong>uv</strong> = capteur (quel pixel sous la micro-lentille)</li>
+</ul></li>
+</ul>
 <p><strong>3 opérations numériques post-capture :</strong></p>
 <table class="caption-top table">
 <colgroup>

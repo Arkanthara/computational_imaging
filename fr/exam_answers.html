@@ -4987,7 +4987,13 @@ window.Quarto = {
 </section>
 <section id="contraintes-spécifiques-au-domaine-médical" class="level3">
 <h3 class="anchored" data-anchor-id="contraintes-spécifiques-au-domaine-médical">Contraintes spécifiques au domaine médical</h3>
-<p>Le domaine médical impose des contraintes particulières absentes d’autres domaines : - La <strong>non-invasivité</strong> est une exigence absolue : aucun des porteurs d’information ne peut endommager les tissus (sauf acceptable en radiologie, où la dose de rayonnement ionisant est rigoureusement contrôlée). - La <strong>précision diagnostique</strong> est une exigence de qualité maximale, avec des conséquences directes sur la vie des patients. - La <strong>vitesse de reconstruction</strong> doit permettre un usage clinique en temps quasi-réel. - Les algorithmes d’apprentissage profond (notamment l’architecture U-Net) ont été massivement adoptés en imagerie médicale pour la reconstruction, la segmentation et la détection d’anomalies.</p>
+<p>Le domaine médical impose des contraintes particulières absentes d’autres domaines :</p>
+<ul>
+<li>La <strong>non-invasivité</strong> est une exigence absolue : aucun des porteurs d’information ne peut endommager les tissus (sauf acceptable en radiologie, où la dose de rayonnement ionisant est rigoureusement contrôlée).</li>
+<li>La <strong>précision diagnostique</strong> est une exigence de qualité maximale, avec des conséquences directes sur la vie des patients.</li>
+<li>La <strong>vitesse de reconstruction</strong> doit permettre un usage clinique en temps quasi-réel.</li>
+<li>Les algorithmes d’apprentissage profond (notamment l’architecture U-Net) ont été massivement adoptés en imagerie médicale pour la reconstruction, la segmentation et la détection d’anomalies.</li>
+</ul>
 <hr>
 <div class="callout callout-style-default callout-note callout-titled" title="Résumé — Question 4">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
@@ -5039,7 +5045,11 @@ window.Quarto = {
 </section>
 <section id="imagerie-magnétique-par-rayons-x-cohérents" class="level4">
 <h4 class="anchored" data-anchor-id="imagerie-magnétique-par-rayons-x-cohérents">Imagerie magnétique par rayons X cohérents</h4>
-<p>L’imagerie magnétique par rayons X cohérents (<em>Coherent X-ray Magnetic Imaging</em>) est une approche <strong>sans lentille</strong> (<em>lensless</em>) de la microscopie magnétique. Elle offre : - Un accès simultané au contraste de phase et d’absorption spécifiques aux éléments chimiques. - Une résolution spatiale limitée par la longueur d’onde : <strong>5 nm en 2D et 10 nm en 3D</strong>.</p>
+<p>L’imagerie magnétique par rayons X cohérents (<em>Coherent X-ray Magnetic Imaging</em>) est une approche <strong>sans lentille</strong> (<em>lensless</em>) de la microscopie magnétique. Elle offre :</p>
+<ul>
+<li>Un accès simultané au contraste de phase et d’absorption spécifiques aux éléments chimiques.</li>
+<li>Une résolution spatiale limitée par la longueur d’onde : <strong>5 nm en 2D et 10 nm en 3D</strong>.</li>
+</ul>
 <p>Son évolution depuis 2004 illustre la progression rapide du domaine : holographie de Fourier magnétique (2004), ptychographie magnétique (2011), suivi de la dynamique des skyrmions (2015), cartographie des textures de spin en 3D (2017), filmage de la dynamique de spin à l’échelle femtoseconde (2021), jusqu’à la capture des fluctuations magnétiques (2023).</p>
 </section>
 <section id="la-pile-focale-en-microscopie" class="level4">
@@ -5089,7 +5099,13 @@ window.Quarto = {
 <section id="le-défi-computationnel-colossal" class="level3">
 <h3 class="anchored" data-anchor-id="le-défi-computationnel-colossal">Le défi computationnel colossal</h3>
 <p>Le SKA ne produira <strong>pas directement des images astronomiques</strong>. Il produira des <strong>visibilités</strong> — des corrélations entre paires d’antennes. La transformation de ces données brutes en images radio astronomiques nécessite des algorithmes de reconstruction extrêmement puissants tournant sur des supercalculateurs dédiés situés à Perth et au Cap.</p>
-<p>Les volumes de données générés sont sans précédent : - <em>SKA1-Low</em> : ~2 Pb/s en sortie des antennes, ~7 Tb/s après le processeur de signal central. - <em>SKA1-Mid</em> : ~9 Tb/s en sortie des antennes, ~5 Tb/s après le processeur de signal central. - Volume annuel : ~300 PB/an par instrument. - Puissance de calcul nécessaire : ~130 PFlops par instrument.</p>
+<p>Les volumes de données générés sont sans précédent :</p>
+<ul>
+<li><em>SKA1-Low</em> : ~2 Pb/s en sortie des antennes, ~7 Tb/s après le processeur de signal central.</li>
+<li><em>SKA1-Mid</em> : ~9 Tb/s en sortie des antennes, ~5 Tb/s après le processeur de signal central.</li>
+<li>Volume annuel : ~300 PB/an par instrument.</li>
+<li>Puissance de calcul nécessaire : ~130 PFlops par instrument.</li>
+</ul>
 <p>C’est de l’imagerie computationnelle à une <strong>échelle planétaire</strong> : le réseau d’antennes joue le rôle de l’optique (encodage des visibilités), et les supercalculateurs jouent le rôle de l’algorithme de reconstruction (décodage en images radio astronomiques).</p>
 </section>
 <section id="domaines-scientifiques-couverts" class="level3">
@@ -5145,7 +5161,12 @@ window.Quarto = {
 </section>
 <section id="phase-dinférence" class="level3">
 <h3 class="anchored" data-anchor-id="phase-dinférence">Phase d’inférence</h3>
-<p>Une fois l’entraînement terminé : - La lentille (ou autre composant) optimisée est <strong>fabriquée physiquement</strong> par des procédés de micro-fabrication ou d’impression 3D. - Le réseau entraîné est déployé en parallèle. - Les deux couches fonctionnent ensemble pour résoudre la tâche cible sur les données réelles.</p>
+<p>Une fois l’entraînement terminé :</p>
+<ul>
+<li>La lentille (ou autre composant) optimisée est <strong>fabriquée physiquement</strong> par des procédés de micro-fabrication ou d’impression 3D.</li>
+<li>Le réseau entraîné est déployé en parallèle.</li>
+<li>Les deux couches fonctionnent ensemble pour résoudre la tâche cible sur les données réelles.</li>
+</ul>
 </section>
 <section id="deux-interprétations-conceptuelles" class="level3">
 <h3 class="anchored" data-anchor-id="deux-interprétations-conceptuelles">Deux interprétations conceptuelles</h3>
@@ -5157,7 +5178,13 @@ window.Quarto = {
 </section>
 <section id="exemples-dapplication" class="level3">
 <h3 class="anchored" data-anchor-id="exemples-dapplication">Exemples d’application</h3>
-<p>L’optique profonde trouve des applications dans de nombreux contextes : - <strong>Affichages à mise au point contingente au regard</strong> : une lentille variable est optimisée conjointement avec un algorithme de rendu pour corriger en temps réel les défauts de vision (myopie, presbytie) de l’utilisateur selon la direction de son regard. - <strong>Imagerie à grande profondeur de champ</strong> : l’optique est optimisée pour produire une PSF (<em>Point Spread Function</em>) approximativement invariante en profondeur, que le réseau peut déconvoluer globalement. - <strong>Reconstruction 3D depuis une seule image</strong> : l’optique encode la profondeur dans le motif de flou de façon à ce que le réseau puisse l’extraire. - <strong>Classification d’objets</strong> : l’optique et le réseau sont co-optimisés directement pour la tâche de classification, sans passer par une image intermédiaire reconnaissable.</p>
+<p>L’optique profonde trouve des applications dans de nombreux contextes :</p>
+<ul>
+<li><strong>Affichages à mise au point contingente au regard</strong> : une lentille variable est optimisée conjointement avec un algorithme de rendu pour corriger en temps réel les défauts de vision (myopie, presbytie) de l’utilisateur selon la direction de son regard.</li>
+<li><strong>Imagerie à grande profondeur de champ</strong> : l’optique est optimisée pour produire une PSF (<em>Point Spread Function</em>) approximativement invariante en profondeur, que le réseau peut déconvoluer globalement.</li>
+<li><strong>Reconstruction 3D depuis une seule image</strong> : l’optique encode la profondeur dans le motif de flou de façon à ce que le réseau puisse l’extraire.</li>
+<li><strong>Classification d’objets</strong> : l’optique et le réseau sont co-optimisés directement pour la tâche de classification, sans passer par une image intermédiaire reconnaissable.</li>
+</ul>
 </section>
 <section id="importance-et-limites" class="level3">
 <h3 class="anchored" data-anchor-id="importance-et-limites">Importance et limites</h3>
@@ -5266,7 +5293,11 @@ window.Quarto = {
 </section>
 <section id="champ-de-vision-field-of-view" class="level3">
 <h3 class="anchored" data-anchor-id="champ-de-vision-field-of-view">Champ de vision (<em>Field of View</em>)</h3>
-<p>Le champ visuel humain est remarquablement large : - <strong>Horizontal</strong> : environ <strong>200°</strong> au total — ~120° en vision binoculaire et ~40° en vision monoculaire de chaque côté. - <strong>Vertical</strong> : environ <strong>135°</strong>.</p>
+<p>Le champ visuel humain est remarquablement large :</p>
+<ul>
+<li><strong>Horizontal</strong> : environ <strong>200°</strong> au total — ~120° en vision binoculaire et ~40° en vision monoculaire de chaque côté.</li>
+<li><strong>Vertical</strong> : environ <strong>135°</strong>.</li>
+</ul>
 <p>La zone de vision <strong>centrale</strong> (60°) offre la meilleure résolution. La vision binoculaire (~120° au centre) est essentielle pour la <strong>perception de la profondeur</strong> (stéréopsie), car elle est la zone où les deux yeux voient simultanément et où la disparité binoculaire peut être calculée.</p>
 </section>
 <section id="résolution-temporelle-temporal-resolution" class="level3">
@@ -5275,7 +5306,11 @@ window.Quarto = {
 </section>
 <section id="plage-dynamique-dynamic-range" class="level3">
 <h3 class="anchored" data-anchor-id="plage-dynamique-dynamic-range">Plage dynamique (<em>Dynamic Range</em>)</h3>
-<p>La plage dynamique mesure le rapport entre la luminosité maximale et minimale perceptible : - <strong>Plage instantanée</strong> : 6,5 f-stops (~5 ordres de grandeur) — ce que l’œil perçoit à un instant donné sans adaptation. - <strong>Plage adaptée</strong> : jusqu’à <strong>46,5 f-stops</strong> (~14 ordres de grandeur) — après adaptation complète à l’obscurité ou à la lumière vive.</p>
+<p>La plage dynamique mesure le rapport entre la luminosité maximale et minimale perceptible :</p>
+<ul>
+<li><strong>Plage instantanée</strong> : 6,5 f-stops (~5 ordres de grandeur) — ce que l’œil perçoit à un instant donné sans adaptation.</li>
+<li><strong>Plage adaptée</strong> : jusqu’à <strong>46,5 f-stops</strong> (~14 ordres de grandeur) — après adaptation complète à l’obscurité ou à la lumière vive.</li>
+</ul>
 <p>En comparaison, les affichages actuels ne couvrent que ~3 ordres de magnitude. C’est cette supériorité de l’œil qui motive les techniques HDR en photographie computationnelle.</p>
 </section>
 <section id="vision-des-couleurs-color-vision" class="level3">
@@ -5284,21 +5319,41 @@ window.Quarto = {
 </section>
 <section id="plage-daccommodation-accommodation-range" class="level3">
 <h3 class="anchored" data-anchor-id="plage-daccommodation-accommodation-range">Plage d’accommodation (<em>Accommodation Range</em>)</h3>
-<p>L’accommodation est la capacité de l’œil à faire le point à différentes distances : - À <strong>16 ans</strong> : de ~8 cm jusqu’à l’infini. - À <strong>50 ans</strong> : de ~50 cm jusqu’à l’infini (la plage se réduit considérablement avec l’âge en raison du durcissement du cristallin — <strong>presbytie</strong>).</p>
+<p>L’accommodation est la capacité de l’œil à faire le point à différentes distances :</p>
+<ul>
+<li>À <strong>16 ans</strong> : de ~8 cm jusqu’à l’infini.</li>
+<li>À <strong>50 ans</strong> : de ~50 cm jusqu’à l’infini (la plage se réduit considérablement avec l’âge en raison du durcissement du cristallin — <strong>presbytie</strong>).</li>
+</ul>
 </section>
 <section id="sensibilité-au-contraste-la-csf-contrast-sensitivity-function" class="level3">
 <h3 class="anchored" data-anchor-id="sensibilité-au-contraste-la-csf-contrast-sensitivity-function">Sensibilité au contraste — la CSF (<em>Contrast Sensitivity Function</em>)</h3>
-<p>La CSF décrit la sensibilité du système visuel au contraste en fonction de la <strong>fréquence spatiale</strong> : - Pic de sensibilité à <strong>4–6 cycles par degré</strong> (cpd). - Décroissance aux hautes fréquences (limite de résolution ~60 cpd, liée à la densité des cônes). - Décroissance aux basses fréquences (due à l’inhibition latérale des cellules ganglionnaires). - La CSF se déplace selon la distance de visualisation.</p>
+<p>La CSF décrit la sensibilité du système visuel au contraste en fonction de la <strong>fréquence spatiale</strong> :</p>
+<ul>
+<li>Pic de sensibilité à <strong>4–6 cycles par degré</strong> (cpd).</li>
+<li>Décroissance aux hautes fréquences (limite de résolution ~60 cpd, liée à la densité des cônes).</li>
+<li>Décroissance aux basses fréquences (due à l’inhibition latérale des cellules ganglionnaires).</li>
+<li>La CSF se déplace selon la distance de visualisation.</li>
+</ul>
 <p>Ce paramètre explique pourquoi les images JPEG compressées (qui suppriment les hautes fréquences spatiales) paraissent acceptables — le système visuel est moins sensible aux très hautes fréquences.</p>
 </section>
 <section id="sensibilité-spectrale" class="level3">
 <h3 class="anchored" data-anchor-id="sensibilité-spectrale">Sensibilité spectrale</h3>
-<p>Les quatre types de photorécepteurs ont les pics de sensibilité spectrale suivants : - Cônes S (bleu) : ~419 nm. - Cônes M (vert) : ~531 nm. - Cônes L (rouge) : ~559 nm. - Bâtonnets : ~496 nm (entre bleu et vert).</p>
+<p>Les quatre types de photorécepteurs ont les pics de sensibilité spectrale suivants :</p>
+<ul>
+<li>Cônes S (bleu) : ~419 nm.</li>
+<li>Cônes M (vert) : ~531 nm.</li>
+<li>Cônes L (rouge) : ~559 nm.</li>
+<li>Bâtonnets : ~496 nm (entre bleu et vert).</li>
+</ul>
 <p>La dominance des cônes M explique pourquoi la sensibilité en conditions photopiques est maximale dans le vert.</p>
 </section>
 <section id="perception-de-la-profondeur" class="level3">
 <h3 class="anchored" data-anchor-id="perception-de-la-profondeur">Perception de la profondeur</h3>
-<p>La perception de la profondeur mobilise des mécanismes complémentaires : - <strong>Stéréopsie</strong> (binoculaire) : vergence + disparité binoculaire. - <strong>Indices monoculaires</strong> : accommodation + flou rétinien (<em>retinal blur</em>).</p>
+<p>La perception de la profondeur mobilise des mécanismes complémentaires :</p>
+<ul>
+<li><strong>Stéréopsie</strong> (binoculaire) : vergence + disparité binoculaire.</li>
+<li><strong>Indices monoculaires</strong> : accommodation + flou rétinien (<em>retinal blur</em>).</li>
+</ul>
 <hr>
 <div class="callout callout-style-default callout-note callout-titled" title="Résumé — Question 9">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
@@ -5335,7 +5390,11 @@ window.Quarto = {
 </section>
 <section id="le-cristallin-lélément-daccommodation" class="level3">
 <h3 class="anchored" data-anchor-id="le-cristallin-lélément-daccommodation">Le cristallin : l’élément d’accommodation</h3>
-<p><strong>Le cristallin</strong> (<em>Lens</em>) est une lentille biconvexe transparente. Sa courbure est <strong>modifiée activement</strong> par les <strong>muscles ciliaires</strong> via les <strong>fibres zonulaires</strong> (<em>zonules de Zinn</em>), permettant l’accommodation : - <strong>Vision de loin</strong> : muscles ciliaires relâchés → fibres zonulaires tendues → cristallin aplati (moins convergent). - <strong>Vision de près</strong> : muscles ciliaires contractés → fibres zonulaires relâchées → cristallin bombé (plus convergent).</p>
+<p><strong>Le cristallin</strong> (<em>Lens</em>) est une lentille biconvexe transparente. Sa courbure est <strong>modifiée activement</strong> par les <strong>muscles ciliaires</strong> via les <strong>fibres zonulaires</strong> (<em>zonules de Zinn</em>), permettant l’accommodation :</p>
+<ul>
+<li><strong>Vision de loin</strong> : muscles ciliaires relâchés → fibres zonulaires tendues → cristallin aplati (moins convergent).</li>
+<li><strong>Vision de près</strong> : muscles ciliaires contractés → fibres zonulaires relâchées → cristallin bombé (plus convergent).</li>
+</ul>
 <p>Le cristallin assure environ <strong>30 % du pouvoir réfractif</strong> de l’œil. Il se rigidifie progressivement avec l’âge, réduisant la capacité d’accommodation (presbytie).</p>
 </section>
 <section id="lespace-interne-postérieur" class="level3">
@@ -5357,7 +5416,13 @@ window.Quarto = {
 </section>
 <section id="les-erreurs-de-réfraction" class="level3">
 <h3 class="anchored" data-anchor-id="les-erreurs-de-réfraction">Les erreurs de réfraction</h3>
-<p>Lorsque la formation de l’image ne se fait pas correctement sur la rétine : - <strong>Emmétropie</strong> : vision normale, foyer sur la rétine. - <strong>Myopie</strong> (<em>Myopia</em>) : foyer en avant de la rétine → correction par lentille concave. - <strong>Hypermétropie</strong> (<em>Hypermetropia</em>) : foyer derrière la rétine → correction par lentille convexe. - <strong>Astigmatisme</strong> (<em>Astigmatism</em>) : courbure irrégulière de la cornée ou du cristallin → pas de foyer unique → correction par lentille cylindrique.</p>
+<p>Lorsque la formation de l’image ne se fait pas correctement sur la rétine :</p>
+<ul>
+<li><strong>Emmétropie</strong> : vision normale, foyer sur la rétine.</li>
+<li><strong>Myopie</strong> (<em>Myopia</em>) : foyer en avant de la rétine → correction par lentille concave.</li>
+<li><strong>Hypermétropie</strong> (<em>Hypermetropia</em>) : foyer derrière la rétine → correction par lentille convexe.</li>
+<li><strong>Astigmatisme</strong> (<em>Astigmatism</em>) : courbure irrégulière de la cornée ou du cristallin → pas de foyer unique → correction par lentille cylindrique.</li>
+</ul>
 <hr>
 <div class="callout callout-style-default callout-note callout-titled" title="Résumé — Question 10">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
@@ -5457,8 +5522,17 @@ window.Quarto = {
 <section id="les-cellules-ganglionnaires-traitement-de-premier-niveau" class="level3">
 <h3 class="anchored" data-anchor-id="les-cellules-ganglionnaires-traitement-de-premier-niveau">Les cellules ganglionnaires — traitement de premier niveau</h3>
 <p>Les RGC constituent le <strong>premier étage du traitement visuel</strong>. Leur fonction : remplacer les niveaux absolus de luminosité par une <strong>carte rétinotopique des différences</strong>. Les objets ne sont pas perçus à une luminosité absolue particulière, mais selon leurs différences de luminosité avec leur arrière-plan (constance de luminosité).</p>
-<p><strong>Organisation centre-pourtour</strong> (<em>Center-Surround</em>) : les RGC ont des champs récepteurs organisés en centre et pourtour antagonistes : - <strong>Cellules on-center</strong> : s’activent quand la lumière illumine le centre et non le pourtour. - <strong>Cellules off-center</strong> : s’activent quand le pourtour est illuminé mais pas le centre. Cette organisation amplifie les différences de luminosité et compresse la plage dynamique.</p>
-<p><strong>Partition M et P</strong> : deux grandes classes de RGC : - <strong>Cellules M</strong> (<em>Magnocellulaires</em>) : grande convergence, meilleure résolution temporelle, pas de sensibilité chromatique, rôle dans la perception du mouvement. - <strong>Cellules P</strong> (<em>Parvocellulaires</em>) : petite convergence, excellente résolution spatiale, sensibilité aux couleurs, rôle dans la reconnaissance des objets.</p>
+<p><strong>Organisation centre-pourtour</strong> (<em>Center-Surround</em>) : les RGC ont des champs récepteurs organisés en centre et pourtour antagonistes :</p>
+<ul>
+<li><strong>Cellules on-center</strong> : s’activent quand la lumière illumine le centre et non le pourtour.</li>
+<li><strong>Cellules off-center</strong> : s’activent quand le pourtour est illuminé mais pas le centre.</li>
+</ul>
+<p>Cette organisation amplifie les différences de luminosité et compresse la plage dynamique.</p>
+<p><strong>Partition M et P</strong> : deux grandes classes de RGC :</p>
+<ul>
+<li><strong>Cellules M</strong> (<em>Magnocellulaires</em>) : grande convergence, meilleure résolution temporelle, pas de sensibilité chromatique, rôle dans la perception du mouvement.</li>
+<li><strong>Cellules P</strong> (<em>Parvocellulaires</em>) : petite convergence, excellente résolution spatiale, sensibilité aux couleurs, rôle dans la reconnaissance des objets.</li>
+</ul>
 <p>Ces deux types alimentent respectivement les couches magnocellulaires (2 couches) et parvocellulaires (4 couches) du LGN.</p>
 </section>
 <section id="distribution-spatiale-sur-la-rétine" class="level3">
@@ -5542,12 +5616,22 @@ window.Quarto = {
 </section>
 <section id="les-hypercolonnes-hypercolumns" class="level3">
 <h3 class="anchored" data-anchor-id="les-hypercolonnes-hypercolumns">Les Hypercolonnes (<em>Hypercolumns</em>)</h3>
-<p>L’organisation spatiale de V1 minimise la distance entre neurones traitant des stimuli similaires. Elle est structurée selon trois dimensions simultanées : - <strong>Œil d’origine</strong> (gauche ou droit) — colonnes de dominance oculaire. - <strong>Orientation préférée</strong> — colonnes d’orientation. - <strong>Localisation rétinotopique</strong> — organisation rétinotopique globale.</p>
+<p>L’organisation spatiale de V1 minimise la distance entre neurones traitant des stimuli similaires. Elle est structurée selon trois dimensions simultanées :</p>
+<ul>
+<li><strong>Œil d’origine</strong> (gauche ou droit) — colonnes de dominance oculaire.</li>
+<li><strong>Orientation préférée</strong> — colonnes d’orientation.</li>
+<li><strong>Localisation rétinotopique</strong> — organisation rétinotopique globale.</li>
+</ul>
 <p>Cette organisation est le <strong>modèle de module strié</strong> (<em>striate module</em>). Elle est le résultat de l’apprentissage Hebbien : « les neurones qui s’activent ensemble se connectent ensemble » (<em>neurons that fire together wire together</em>).</p>
 </section>
 <section id="la-fonction-de-sensibilité-au-contraste-csf" class="level3">
 <h3 class="anchored" data-anchor-id="la-fonction-de-sensibilité-au-contraste-csf">La Fonction de Sensibilité au Contraste (CSF)</h3>
-<p>La CSF est directement liée au traitement dans V1 et au LGN. Elle décrit la sensibilité au contraste en fonction de la fréquence spatiale : - Pic de sensibilité à <strong>4–6 cycles par degré</strong> (cpd). - Décroissance aux hautes fréquences (~60 cpd, limite de résolution liée à la densité des cônes). - Décroissance aux basses fréquences (due à l’inhibition latérale).</p>
+<p>La CSF est directement liée au traitement dans V1 et au LGN. Elle décrit la sensibilité au contraste en fonction de la fréquence spatiale :</p>
+<ul>
+<li>Pic de sensibilité à <strong>4–6 cycles par degré</strong> (cpd).</li>
+<li>Décroissance aux hautes fréquences (~60 cpd, limite de résolution liée à la densité des cônes).</li>
+<li>Décroissance aux basses fréquences (due à l’inhibition latérale).</li>
+</ul>
 </section>
 <section id="voies-de-traitement-au-delà-de-v1" class="level3">
 <h3 class="anchored" data-anchor-id="voies-de-traitement-au-delà-de-v1">Voies de traitement au-delà de V1</h3>
@@ -5594,7 +5678,11 @@ window.Quarto = {
 <p>Le néocognitron, proposé par <strong>Kunihiko Fukushima</strong> (NHK Broadcasting Science Research Laboratories), est le précurseur direct des réseaux convolutifs. Il est inspiré de la hiérarchie de Hubel et Wiesel :</p>
 <p><strong>Architecture</strong> : <em>entrée → rétine → LGN → cellules simples → cellules complexes → cellules hypercomplexes → … → cellule « grand-mère »</em> (neurone qui répond à un objet entier, indépendamment de sa position).</p>
 <p>L’architecture alterne des couches de type <strong>S</strong> (<em>Simple</em> — détecteurs de features, analogues aux cellules simples : filtres orientés locaux) et des couches de type <strong>C</strong> (<em>Complex</em> — pooling, analogues aux cellules complexes : invariance à la translation locale). Cette architecture est la première capable d’une <strong>reconnaissance de motifs invariante à la translation</strong> dans un réseau artificiel.</p>
-<p>La correspondance avec V1 est directe : - Couches S ↔︎ Cellules simples de V1 (filtres orientés, position-specific). - Couches C ↔︎ Cellules complexes de V1 (pooling spatial, position-tolerant).</p>
+<p>La correspondance avec V1 est directe :</p>
+<ul>
+<li>Couches S ↔︎ Cellules simples de V1 (filtres orientés, position-specific).</li>
+<li>Couches C ↔︎ Cellules complexes de V1 (pooling spatial, position-tolerant).</li>
+</ul>
 </section>
 <section id="les-réseaux-de-neurones-convolutifs-lenet" class="level3">
 <h3 class="anchored" data-anchor-id="les-réseaux-de-neurones-convolutifs-lenet">Les Réseaux de Neurones Convolutifs — LeNet</h3>
@@ -5609,7 +5697,13 @@ window.Quarto = {
 </section>
 <section id="spécificité-croissante-dans-la-hiérarchie" class="level3">
 <h3 class="anchored" data-anchor-id="spécificité-croissante-dans-la-hiérarchie">Spécificité croissante dans la hiérarchie</h3>
-<p>Une observation fondamentale est que les neurones montrent une <strong>spécificité croissante</strong> à mesure qu’on monte dans la hiérarchie visuelle : - V1 : bords orientés simples (réponses à des gabors). - V2 : combinaisons de bords. - V4 : couleur, formes complexes. - IT (Temporal Inférieur) : objets, visages complets.</p>
+<p>Une observation fondamentale est que les neurones montrent une <strong>spécificité croissante</strong> à mesure qu’on monte dans la hiérarchie visuelle :</p>
+<ul>
+<li>V1 : bords orientés simples (réponses à des gabors).</li>
+<li>V2 : combinaisons de bords.</li>
+<li>V4 : couleur, formes complexes.</li>
+<li>IT (Temporal Inférieur) : objets, visages complets.</li>
+</ul>
 <p>Cette progression est reflétée dans les CNN modernes où les premières couches apprennent des filtres de bas niveau (bords, couleurs) et les couches profondes des representations de haut niveau (parties d’objets, objets entiers).</p>
 </section>
 <section id="limites-et-perspectives" class="level3">
@@ -5723,7 +5817,12 @@ window.Quarto = {
 </section>
 <section id="le-rôle-des-contraintes-physiques" class="level3">
 <h3 class="anchored" data-anchor-id="le-rôle-des-contraintes-physiques">Le rôle des contraintes physiques</h3>
-<p>La caméra conventionnelle à objectif implique des <strong>compromis physiques</strong> inévitables : - Grande ouverture → plus de lumière mais profondeur de champ réduite. - Petite ouverture → grande profondeur de champ mais moins de lumière. - Une seule distance de mise au point est nette à un instant donné.</p>
+<p>La caméra conventionnelle à objectif implique des <strong>compromis physiques</strong> inévitables :</p>
+<ul>
+<li>Grande ouverture → plus de lumière mais profondeur de champ réduite.</li>
+<li>Petite ouverture → grande profondeur de champ mais moins de lumière.</li>
+<li>Une seule distance de mise au point est nette à un instant donné.</li>
+</ul>
 <p>La photographie computationnelle cherche précisément à <strong>dépasser ces compromis</strong> en encodant plus d’information dans la mesure et en confiant au calcul la tâche de les lever.</p>
 </section>
 <section id="le-piège-de-loptique-de-sténopé" class="level3">
@@ -5832,7 +5931,11 @@ window.Quarto = {
 <p>L’inférence de profondeur (<em>depth inference</em>) à partir d’images est l’une des tâches fondamentales de l’imagerie computationnelle. Quatre grandes techniques existent, différant par le type de données en entrée, la précision de la sortie et la complexité algorithmique.</p>
 <section id="contexte-général-le-défocus-comme-signal-de-profondeur" class="level3">
 <h3 class="anchored" data-anchor-id="contexte-général-le-défocus-comme-signal-de-profondeur">Contexte général : le défocus comme signal de profondeur</h3>
-<p>Le principe sous-jacent à toutes les techniques basées sur la mise au point est que la <strong>taille et la forme de la PSF</strong> (<em>Point Spread Function</em>) d’une caméra à objectif sont directement liées à la profondeur de l’objet : - Un objet sur le plan focal → PSF ponctuelle (image nette). - Un objet hors du plan focal → PSF étendue (cercle de confusion dont la taille croît avec l’écart de profondeur).</p>
+<p>Le principe sous-jacent à toutes les techniques basées sur la mise au point est que la <strong>taille et la forme de la PSF</strong> (<em>Point Spread Function</em>) d’une caméra à objectif sont directement liées à la profondeur de l’objet :</p>
+<ul>
+<li>Un objet sur le plan focal → PSF ponctuelle (image nette).</li>
+<li>Un objet hors du plan focal → PSF étendue (cercle de confusion dont la taille croît avec l’écart de profondeur).</li>
+</ul>
 <p>Cette relation constitue le fondement physique de toutes les techniques d’inférence de profondeur basées sur le flou de mise au point.</p>
 </section>
 <section id="technique-1-stéréo-confocale-confocal-stereo" class="level3">
@@ -5968,7 +6071,11 @@ window.Quarto = {
 </section>
 <section id="le-paramétrage-st-uv-dans-la-caméra-plénoptique" class="level3">
 <h3 class="anchored" data-anchor-id="le-paramétrage-st-uv-dans-la-caméra-plénoptique">Le paramétrage st-uv dans la caméra plénoptique</h3>
-<p>Dans la caméra plénoptique concrète : - Le <strong>plan st</strong> correspond au plan de l’objectif principal — les coordonnées <span class="math inline">\((s, t)\)</span> indiquent quelle micro-lentille du réseau est considérée. - Le <strong>plan uv</strong> correspond au plan du capteur — les coordonnées <span class="math inline">\((u, v)\)</span> indiquent quel pixel sous la micro-lentille est considéré.</p>
+<p>Dans la caméra plénoptique concrète :</p>
+<ul>
+<li>Le <strong>plan st</strong> correspond au plan de l’objectif principal — les coordonnées <span class="math inline">\((s, t)\)</span> indiquent quelle micro-lentille du réseau est considérée.</li>
+<li>Le <strong>plan uv</strong> correspond au plan du capteur — les coordonnées <span class="math inline">\((u, v)\)</span> indiquent quel pixel sous la micro-lentille est considéré.</li>
+</ul>
 <p>Un rayon est entièrement caractérisé par la micro-lentille par laquelle il passe (coordonnées <span class="math inline">\(st\)</span>) et le pixel spécifique sous cette micro-lentille (coordonnées <span class="math inline">\(uv\)</span>).</p>
 </section>
 <section id="opérations-numériques-permises-par-le-champ-lumineux" class="level3">
@@ -6047,7 +6154,11 @@ window.Quarto = {
 <section id="la-caméra-lytro-première-réalisation-commerciale" class="level3">
 <h3 class="anchored" data-anchor-id="la-caméra-lytro-première-réalisation-commerciale">La caméra Lytro — première réalisation commerciale</h3>
 <p>La caméra <strong>Lytro</strong> est la première réalisation commerciale d’une caméra plénoptique grand public. Elle incarne de façon concrète les principes théoriques du champ lumineux.</p>
-<p><strong>Deux modèles</strong> : - <strong>Lytro</strong> : modèle compact et portable (form factor parallélépipède rectangle). - <strong>Lytro Illum Pro</strong> : version professionnelle avec objectif interchangeable et plus grande résolution.</p>
+<p><strong>Deux modèles</strong> :</p>
+<ul>
+<li><strong>Lytro</strong> : modèle compact et portable (form factor parallélépipède rectangle).</li>
+<li><strong>Lytro Illum Pro</strong> : version professionnelle avec objectif interchangeable et plus grande résolution.</li>
+</ul>
 <p><strong>Architecture interne de la caméra Lytro</strong> :</p>
 <ul>
 <li><strong>Réseau de lentilles</strong> (<em>Lens Array</em>) : le réseau de micro-lentilles placé directement devant le capteur.</li>
@@ -6150,12 +6261,20 @@ window.Quarto = {
 <p>Les images naturelles ont une propriété statistique distinctive : leurs <strong>gradients sont épars</strong> (<em>sparse gradients</em>). Une image naturelle a principalement des zones uniformes avec des bords nets — le gradient est non nul seulement aux bords.</p>
 <p>On incorpore cet a priori dans la déconvolution via un terme de régularisation :</p>
 <p><span class="math display">\[x = \arg\min_x \left\| f \otimes x - y \right\|^2 + \lambda \sum_i \rho(\nabla x_i)\]</span></p>
-<p>où le premier terme est l’attache aux données (fidélité à l’observation) et le second est la régularisation (pénalité sur les gradients). Le choix de <span class="math inline">\(\rho\)</span> détermine la nature du priori : - <span class="math inline">\(\rho(\nabla x) = \|\nabla x\|^2\)</span> — <strong>priori Gaussien</strong> : favorise les gradients faibles partout, lisse mais pas favorable aux bords nets. - <span class="math inline">\(\rho(\nabla x) = \|\nabla x\|^{0.8}\)</span> — <strong>priori épars</strong> : concentre les gradients aux bords, donne des contours nets et des zones plates — supérieur à Richardson-Lucy.</p>
+<p>où le premier terme est l’attache aux données (fidélité à l’observation) et le second est la régularisation (pénalité sur les gradients). Le choix de <span class="math inline">\(\rho\)</span> détermine la nature du priori :</p>
+<ul>
+<li><span class="math inline">\(\rho(\nabla x) = \|\nabla x\|^2\)</span> — <strong>priori Gaussien</strong> : favorise les gradients faibles partout, lisse mais pas favorable aux bords nets.</li>
+<li><span class="math inline">\(\rho(\nabla x) = \|\nabla x\|^{0.8}\)</span> — <strong>priori épars</strong> : concentre les gradients aux bords, donne des contours nets et des zones plates — supérieur à Richardson-Lucy.</li>
+</ul>
 </section>
 <section id="solution-2-ouverture-codée-coded-aperture" class="level3">
 <h3 class="anchored" data-anchor-id="solution-2-ouverture-codée-coded-aperture">Solution 2 : ouverture codée (<em>coded aperture</em>)</h3>
 <p>Plutôt qu’agir seulement sur le calcul, on modifie physiquement le système optique : on insère un <strong>masque binaire pseudo-aléatoire</strong> dans le plan de l’ouverture de l’objectif.</p>
-<p><strong>Effet sur la PSF</strong> : - Avec une ouverture classique → PSF lisse et circulaire, difficile à distinguer d’une scène naturellement floue. - Avec une ouverture codée → PSF portant la <strong>signature caractéristique du masque</strong> — facilement identifiable et discriminable du contenu naturel de la scène.</p>
+<p><strong>Effet sur la PSF</strong> :</p>
+<ul>
+<li>Avec une ouverture classique → PSF lisse et circulaire, difficile à distinguer d’une scène naturellement floue.</li>
+<li>Avec une ouverture codée → PSF portant la <strong>signature caractéristique du masque</strong> — facilement identifiable et discriminable du contenu naturel de la scène.</li>
+</ul>
 <p>L’ouverture codée transforme la PSF de défocus en un <strong>identifiant unique</strong>. Chaque profondeur produit une version <em>mise à l’échelle</em> de ce motif : l’échelle révèle la profondeur, et la présence du motif distingue sans ambiguïté le défocus d’une scène naturellement lisse.</p>
 </section>
 <section id="le-compromis-des-fréquences-zéro" class="level3">
@@ -6265,7 +6384,12 @@ window.Quarto = {
 <section id="technique-2-lentille-à-réseau-lattice-lens" class="level3">
 <h3 class="anchored" data-anchor-id="technique-2-lentille-à-réseau-lattice-lens">Technique 2 : Lentille à réseau (<em>Lattice Lens</em>)</h3>
 <p>La <strong>lentille à réseau</strong> ajoute devant l’objectif principal un <strong>réseau 2D de micro-lentilles</strong> (<em>lenslets</em>) à longueur focale variable.</p>
-<p><strong>Architecture</strong> : - Réseau 2D de micro-lentilles à focale variable disposé <strong>devant</strong> l’objectif principal (contrairement à la caméra plénoptique où le réseau est <strong>entre</strong> l’objectif et le capteur — l’emplacement et l’effet sont différents). - Chaque micro-lentille dévie les rayons de façon légèrement différente selon sa position. - Résultat : la PSF <strong>varie selon la profondeur</strong> de l’objet → information de profondeur encodée dans l’image (contrairement au wavefront coding).</p>
+<p><strong>Architecture</strong> :</p>
+<ul>
+<li>Réseau 2D de micro-lentilles à focale variable disposé <strong>devant</strong> l’objectif principal (contrairement à la caméra plénoptique où le réseau est <strong>entre</strong> l’objectif et le capteur — l’emplacement et l’effet sont différents).</li>
+<li>Chaque micro-lentille dévie les rayons de façon légèrement différente selon sa position.</li>
+<li>Résultat : la PSF <strong>varie selon la profondeur</strong> de l’objet → information de profondeur encodée dans l’image (contrairement au wavefront coding).</li>
+</ul>
 </section>
 <section id="lécart-de-dimensionnalité-dimensionality-gap" class="level3">
 <h3 class="anchored" data-anchor-id="lécart-de-dimensionnalité-dimensionality-gap">L’écart de dimensionnalité (<em>Dimensionality Gap</em>)</h3>

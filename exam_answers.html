@@ -4988,7 +4988,13 @@ window.Quarto = {
 </section>
 <section id="medical-specific-constraints" class="level3">
 <h3 class="anchored" data-anchor-id="medical-specific-constraints">Medical-specific constraints</h3>
-<p>Medical imaging imposes constraints absent in other domains: - <strong>Non-invasiveness</strong> is absolute: information carriers must not damage tissue (except in radiology where ionizing dose is tightly controlled). - <strong>Diagnostic accuracy</strong> must be maximal, with direct consequences for patient lives. - <strong>Reconstruction speed</strong> must allow clinical use in near real time. - Deep learning algorithms (notably U-Net) have been widely adopted for reconstruction, segmentation, and anomaly detection.</p>
+<p>Medical imaging imposes constraints absent in other domains:</p>
+<ul>
+<li><strong>Non-invasiveness</strong> is absolute: information carriers must not damage tissue (except in radiology where ionizing dose is tightly controlled).</li>
+<li><strong>Diagnostic accuracy</strong> must be maximal, with direct consequences for patient lives.</li>
+<li><strong>Reconstruction speed</strong> must allow clinical use in near real time.</li>
+<li>Deep learning algorithms (notably U-Net) have been widely adopted for reconstruction, segmentation, and anomaly detection.</li>
+</ul>
 <hr>
 <div class="callout callout-style-default callout-note callout-titled" title="Summary — Question 4">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
@@ -5040,7 +5046,11 @@ window.Quarto = {
 </section>
 <section id="coherent-x-ray-magnetic-imaging" class="level4">
 <h4 class="anchored" data-anchor-id="coherent-x-ray-magnetic-imaging">Coherent X-ray magnetic imaging</h4>
-<p>Coherent X-ray magnetic imaging is a <strong>lensless</strong> approach to magnetic microscopy. It offers: - Simultaneous access to element-specific phase and absorption contrast. - Spatial resolution limited by wavelength: <strong>5 nm in 2D and 10 nm in 3D</strong>.</p>
+<p>Coherent X-ray magnetic imaging is a <strong>lensless</strong> approach to magnetic microscopy. It offers:</p>
+<ul>
+<li>Simultaneous access to element-specific phase and absorption contrast.</li>
+<li>Spatial resolution limited by wavelength: <strong>5 nm in 2D and 10 nm in 3D</strong>.</li>
+</ul>
 <p>Its evolution since 2004 illustrates rapid progress: magnetic Fourier holography (2004), magnetic ptychography (2011), skyrmion dynamics tracking (2015), 3D spin texture mapping (2017), femtosecond-scale spin dynamics filming (2021), up to capturing magnetic fluctuations (2023).</p>
 </section>
 <section id="focal-stacking-in-microscopy" class="level4">
@@ -5090,7 +5100,13 @@ window.Quarto = {
 <section id="the-colossal-computational-challenge" class="level3">
 <h3 class="anchored" data-anchor-id="the-colossal-computational-challenge">The colossal computational challenge</h3>
 <p>SKA will <strong>not directly produce astronomical images</strong>. It produces <strong>visibilities</strong> — correlations between antenna pairs. Turning these raw data into radio images requires extremely powerful reconstruction algorithms running on dedicated supercomputers in Perth and Cape Town.</p>
-<p>Data volumes are unprecedented: - <em>SKA1-Low</em>: ~2 Pb/s out of antennas, ~7 Tb/s after central signal processor. - <em>SKA1-Mid</em>: ~9 Tb/s out of antennas, ~5 Tb/s after central signal processor. - Annual volume: ~300 PB/year per instrument. - Compute required: ~130 PFlops per instrument.</p>
+<p>Data volumes are unprecedented:</p>
+<ul>
+<li><em>SKA1-Low</em>: ~2 Pb/s out of antennas, ~7 Tb/s after central signal processor.</li>
+<li><em>SKA1-Mid</em>: ~9 Tb/s out of antennas, ~5 Tb/s after central signal processor.</li>
+<li>Annual volume: ~300 PB/year per instrument.</li>
+<li>Compute required: ~130 PFlops per instrument.</li>
+</ul>
 <p>This is computational imaging at a <strong>planetary scale</strong>: the antenna array plays the role of optics (encoding visibilities) and supercomputers play the role of reconstruction (decoding into images).</p>
 </section>
 <section id="scientific-domains" class="level3">
@@ -5146,7 +5162,12 @@ window.Quarto = {
 </section>
 <section id="inference-phase" class="level3">
 <h3 class="anchored" data-anchor-id="inference-phase">Inference phase</h3>
-<p>After training: - The optimized lens (or component) is <strong>physically fabricated</strong> via micro-fabrication or 3D printing. - The trained network is deployed alongside. - Both layers run together on real data.</p>
+<p>After training:</p>
+<ul>
+<li>The optimized lens (or component) is <strong>physically fabricated</strong> via micro-fabrication or 3D printing.</li>
+<li>The trained network is deployed alongside.</li>
+<li>Both layers run together on real data.</li>
+</ul>
 </section>
 <section id="two-conceptual-interpretations" class="level3">
 <h3 class="anchored" data-anchor-id="two-conceptual-interpretations">Two conceptual interpretations</h3>
@@ -5158,7 +5179,13 @@ window.Quarto = {
 </section>
 <section id="application-examples" class="level3">
 <h3 class="anchored" data-anchor-id="application-examples">Application examples</h3>
-<p>Deep optics has applications in many contexts: - <strong>Gaze-contingent focus displays</strong>: a variable lens is co-optimized with rendering to correct vision defects (myopia, presbyopia) in real time depending on gaze direction. - <strong>Extended depth-of-field imaging</strong>: optics is optimized to produce a PSF approximately depth-invariant, which the network can globally deconvolve. - <strong>3D reconstruction from a single image</strong>: optics encodes depth into blur patterns that the network can decode. - <strong>Object classification</strong>: optics and network are co-optimized directly for classification without requiring an intermediate “pretty” image.</p>
+<p>Deep optics has applications in many contexts:</p>
+<ul>
+<li><strong>Gaze-contingent focus displays</strong>: a variable lens is co-optimized with rendering to correct vision defects (myopia, presbyopia) in real time depending on gaze direction.</li>
+<li><strong>Extended depth-of-field imaging</strong>: optics is optimized to produce a PSF approximately depth-invariant, which the network can globally deconvolve.</li>
+<li><strong>3D reconstruction from a single image</strong>: optics encodes depth into blur patterns that the network can decode.</li>
+<li><strong>Object classification</strong>: optics and network are co-optimized directly for classification without requiring an intermediate “pretty” image.</li>
+</ul>
 </section>
 <section id="importance-and-limits" class="level3">
 <h3 class="anchored" data-anchor-id="importance-and-limits">Importance and limits</h3>
@@ -5270,7 +5297,11 @@ window.Quarto = {
 </section>
 <section id="field-of-view-field-of-view" class="level3">
 <h3 class="anchored" data-anchor-id="field-of-view-field-of-view">Field of view (<em>Field of View</em>)</h3>
-<p>The human visual field is remarkably wide: - <strong>Horizontal</strong>: about <strong>200°</strong> total — ~120° binocular vision and ~40° monocular on each side. - <strong>Vertical</strong>: about <strong>135°</strong>.</p>
+<p>The human visual field is remarkably wide:</p>
+<ul>
+<li><strong>Horizontal</strong>: about <strong>200°</strong> total — ~120° binocular vision and ~40° monocular on each side.</li>
+<li><strong>Vertical</strong>: about <strong>135°</strong>.</li>
+</ul>
 <p>The <strong>central</strong> vision zone (60°) offers the best resolution. Binocular vision (~120°) is essential for <strong>depth perception</strong> (stereopsis), since it is where both eyes see simultaneously and binocular disparity can be computed.</p>
 </section>
 <section id="temporal-resolution-temporal-resolution" class="level3">
@@ -5279,7 +5310,11 @@ window.Quarto = {
 </section>
 <section id="dynamic-range-dynamic-range" class="level3">
 <h3 class="anchored" data-anchor-id="dynamic-range-dynamic-range">Dynamic range (<em>Dynamic Range</em>)</h3>
-<p>Dynamic range measures the ratio between the maximum and minimum perceivable luminance: - <strong>Instantaneous range</strong>: 6.5 f-stops (~5 orders of magnitude) — what the eye perceives at a given moment without adaptation. - <strong>Adapted range</strong>: up to <strong>46.5 f-stops</strong> (~14 orders of magnitude) — after full adaptation to darkness or bright light.</p>
+<p>Dynamic range measures the ratio between the maximum and minimum perceivable luminance:</p>
+<ul>
+<li><strong>Instantaneous range</strong>: 6.5 f-stops (~5 orders of magnitude) — what the eye perceives at a given moment without adaptation.</li>
+<li><strong>Adapted range</strong>: up to <strong>46.5 f-stops</strong> (~14 orders of magnitude) — after full adaptation to darkness or bright light.</li>
+</ul>
 <p>In comparison, current displays cover only ~3 orders. This superiority motivates HDR in computational photography.</p>
 </section>
 <section id="color-vision-color-vision" class="level3">
@@ -5288,21 +5323,41 @@ window.Quarto = {
 </section>
 <section id="accommodation-range-accommodation-range" class="level3">
 <h3 class="anchored" data-anchor-id="accommodation-range-accommodation-range">Accommodation range (<em>Accommodation Range</em>)</h3>
-<p>Accommodation is the ability to focus at different distances: - At <strong>16 years</strong>: from ~8 cm to infinity. - At <strong>50 years</strong>: from ~50 cm to infinity (range decreases with age due to lens stiffening — <strong>presbyopia</strong>).</p>
+<p>Accommodation is the ability to focus at different distances:</p>
+<ul>
+<li>At <strong>16 years</strong>: from ~8 cm to infinity.</li>
+<li>At <strong>50 years</strong>: from ~50 cm to infinity (range decreases with age due to lens stiffening — <strong>presbyopia</strong>).</li>
+</ul>
 </section>
 <section id="contrast-sensitivity-csf-contrast-sensitivity-function" class="level3">
 <h3 class="anchored" data-anchor-id="contrast-sensitivity-csf-contrast-sensitivity-function">Contrast sensitivity — CSF (<em>Contrast Sensitivity Function</em>)</h3>
-<p>CSF describes sensitivity to contrast as a function of spatial frequency: - Peak sensitivity at <strong>4–6 cycles per degree</strong> (cpd). - High-frequency falloff (resolution limit ~60 cpd, linked to cone density). - Low-frequency falloff (due to lateral inhibition in ganglion cells). - CSF shifts with viewing distance.</p>
+<p>CSF describes sensitivity to contrast as a function of spatial frequency:</p>
+<ul>
+<li>Peak sensitivity at <strong>4–6 cycles per degree</strong> (cpd).</li>
+<li>High-frequency falloff (resolution limit ~60 cpd, linked to cone density).</li>
+<li>Low-frequency falloff (due to lateral inhibition in ganglion cells).</li>
+<li>CSF shifts with viewing distance.</li>
+</ul>
 <p>This explains why JPEG images (which remove high spatial frequencies) can look acceptable.</p>
 </section>
 <section id="spectral-sensitivity" class="level3">
 <h3 class="anchored" data-anchor-id="spectral-sensitivity">Spectral sensitivity</h3>
-<p>Photoreceptor peak sensitivities: - S cones (blue): ~419 nm. - M cones (green): ~531 nm. - L cones (red): ~559 nm. - Rods: ~496 nm.</p>
+<p>Photoreceptor peak sensitivities:</p>
+<ul>
+<li>S cones (blue): ~419 nm.</li>
+<li>M cones (green): ~531 nm.</li>
+<li>L cones (red): ~559 nm.</li>
+<li>Rods: ~496 nm.</li>
+</ul>
 <p>M-cone dominance explains peak photopic sensitivity in green.</p>
 </section>
 <section id="depth-perception" class="level3">
 <h3 class="anchored" data-anchor-id="depth-perception">Depth perception</h3>
-<p>Depth perception relies on complementary mechanisms: - <strong>Stereopsis</strong> (binocular): vergence + binocular disparity. - <strong>Monocular cues</strong>: accommodation + retinal blur.</p>
+<p>Depth perception relies on complementary mechanisms:</p>
+<ul>
+<li><strong>Stereopsis</strong> (binocular): vergence + binocular disparity.</li>
+<li><strong>Monocular cues</strong>: accommodation + retinal blur.</li>
+</ul>
 <hr>
 <div class="callout callout-style-default callout-note callout-titled" title="Summary — Question 9">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
@@ -5339,7 +5394,11 @@ window.Quarto = {
 </section>
 <section id="the-lens-the-accommodation-element" class="level3">
 <h3 class="anchored" data-anchor-id="the-lens-the-accommodation-element">The lens: the accommodation element</h3>
-<p><strong>Crystalline lens</strong> (<em>Lens</em>) is a transparent biconvex lens. Its curvature is <strong>actively changed</strong> by the <strong>ciliary muscles</strong> via the <strong>zonular fibers</strong> (<em>zonules of Zinn</em>): - <strong>Far vision</strong>: ciliary muscles relaxed → zonules taut → lens flattens (less converging). - <strong>Near vision</strong>: ciliary muscles contracted → zonules relaxed → lens rounds (more converging).</p>
+<p><strong>Crystalline lens</strong> (<em>Lens</em>) is a transparent biconvex lens. Its curvature is <strong>actively changed</strong> by the <strong>ciliary muscles</strong> via the <strong>zonular fibers</strong> (<em>zonules of Zinn</em>):</p>
+<ul>
+<li><strong>Far vision</strong>: ciliary muscles relaxed → zonules taut → lens flattens (less converging).</li>
+<li><strong>Near vision</strong>: ciliary muscles contracted → zonules relaxed → lens rounds (more converging).</li>
+</ul>
 <p>The lens provides about <strong>30% of refractive power</strong>. It stiffens with age, reducing accommodation (presbyopia).</p>
 </section>
 <section id="internal-posterior-space" class="level3">
@@ -5361,7 +5420,13 @@ window.Quarto = {
 </section>
 <section id="refractive-errors" class="level3">
 <h3 class="anchored" data-anchor-id="refractive-errors">Refractive errors</h3>
-<p>When focus does not fall on the retina: - <strong>Emmetropia</strong>: normal focus on retina. - <strong>Myopia</strong>: focus in front of retina → corrected with a concave lens. - <strong>Hypermetropia</strong>: focus behind retina → corrected with a convex lens. - <strong>Astigmatism</strong>: irregular cornea/lens curvature → no single focus → corrected with cylindrical lens.</p>
+<p>When focus does not fall on the retina:</p>
+<ul>
+<li><strong>Emmetropia</strong>: normal focus on retina.</li>
+<li><strong>Myopia</strong>: focus in front of retina → corrected with a concave lens.</li>
+<li><strong>Hypermetropia</strong>: focus behind retina → corrected with a convex lens.</li>
+<li><strong>Astigmatism</strong>: irregular cornea/lens curvature → no single focus → corrected with cylindrical lens.</li>
+</ul>
 <hr>
 <div class="callout callout-style-default callout-note callout-titled" title="Summary — Question 10">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
@@ -5461,8 +5526,17 @@ window.Quarto = {
 <section id="ganglion-cells-first-level-processing" class="level3">
 <h3 class="anchored" data-anchor-id="ganglion-cells-first-level-processing">Ganglion cells — first-level processing</h3>
 <p>RGCs are the <strong>first stage of visual processing</strong>. They convert absolute luminance levels into a <strong>retinotopic map of differences</strong>: objects are perceived by contrast relative to background.</p>
-<p><strong>Center-surround organization</strong> (<em>Center-Surround</em>): antagonistic receptive fields: - <strong>On-center</strong>: activated when the center is illuminated and surround is not. - <strong>Off-center</strong>: activated when the surround is illuminated but the center is not. This amplifies differences and compresses dynamic range.</p>
-<p><strong>M and P partition</strong>: - <strong>M cells</strong> (<em>Magnocellular</em>): large convergence, better temporal resolution, no chromatic sensitivity, motion. - <strong>P cells</strong> (<em>Parvocellular</em>): small convergence, excellent spatial resolution, color, object recognition.</p>
+<p><strong>Center-surround organization</strong> (<em>Center-Surround</em>): antagonistic receptive fields:</p>
+<ul>
+<li><strong>On-center</strong>: activated when the center is illuminated and surround is not.</li>
+<li><strong>Off-center</strong>: activated when the surround is illuminated but the center is not.</li>
+</ul>
+<p>This amplifies differences and compresses dynamic range.</p>
+<p><strong>M and P partition</strong>:</p>
+<ul>
+<li><strong>M cells</strong> (<em>Magnocellular</em>): large convergence, better temporal resolution, no chromatic sensitivity, motion.</li>
+<li><strong>P cells</strong> (<em>Parvocellular</em>): small convergence, excellent spatial resolution, color, object recognition.</li>
+</ul>
 <p>These feed magnocellular (2 layers) and parvocellular (4 layers) LGN layers.</p>
 </section>
 <section id="spatial-distribution-on-the-retina" class="level3">
@@ -5546,12 +5620,22 @@ window.Quarto = {
 </section>
 <section id="hypercolumns-hypercolumns" class="level3">
 <h3 class="anchored" data-anchor-id="hypercolumns-hypercolumns">Hypercolumns (<em>Hypercolumns</em>)</h3>
-<p>V1 is organized to minimize distances between neurons processing similar stimuli, structured along: - Eye-of-origin (left/right) — ocular dominance columns. - Preferred orientation — orientation columns. - Retinotopic location.</p>
+<p>V1 is organized to minimize distances between neurons processing similar stimuli, structured along:</p>
+<ul>
+<li>Eye-of-origin (left/right) — ocular dominance columns.</li>
+<li>Preferred orientation — orientation columns.</li>
+<li>Retinotopic location.</li>
+</ul>
 <p>This is the striate module model, arising via Hebbian learning: “neurons that fire together wire together.”</p>
 </section>
 <section id="contrast-sensitivity-function-csf" class="level3">
 <h3 class="anchored" data-anchor-id="contrast-sensitivity-function-csf">Contrast sensitivity function (CSF)</h3>
-<p>CSF is linked to processing in V1/LGN. It describes contrast sensitivity vs spatial frequency: - Peak at 4–6 cpd. - High-frequency falloff (~60 cpd). - Low-frequency falloff (lateral inhibition).</p>
+<p>CSF is linked to processing in V1/LGN. It describes contrast sensitivity vs spatial frequency:</p>
+<ul>
+<li>Peak at 4–6 cpd.</li>
+<li>High-frequency falloff (~60 cpd).</li>
+<li>Low-frequency falloff (lateral inhibition).</li>
+</ul>
 </section>
 <section id="streams-beyond-v1" class="level3">
 <h3 class="anchored" data-anchor-id="streams-beyond-v1">Streams beyond V1</h3>
@@ -5612,7 +5696,13 @@ window.Quarto = {
 </section>
 <section id="increasing-specificity-in-the-hierarchy" class="level3">
 <h3 class="anchored" data-anchor-id="increasing-specificity-in-the-hierarchy">Increasing specificity in the hierarchy</h3>
-<p>Neurons show increasing specificity up the hierarchy: - V1: simple oriented edges. - V2: combinations of edges. - V4: color and complex shapes. - IT: whole objects and faces.</p>
+<p>Neurons show increasing specificity up the hierarchy:</p>
+<ul>
+<li>V1: simple oriented edges.</li>
+<li>V2: combinations of edges.</li>
+<li>V4: color and complex shapes.</li>
+<li>IT: whole objects and faces.</li>
+</ul>
 <p>This is mirrored in CNNs: early layers learn edges/colors; deep layers learn high-level representations.</p>
 </section>
 <section id="limits-and-perspectives" class="level3">
@@ -5726,7 +5816,12 @@ window.Quarto = {
 </section>
 <section id="the-role-of-physical-constraints" class="level3">
 <h3 class="anchored" data-anchor-id="the-role-of-physical-constraints">The role of physical constraints</h3>
-<p>A conventional lens camera implies unavoidable physical trade-offs: - Large aperture → more light but shallow depth of field. - Small aperture → large depth of field but less light. - Only one focus distance is sharp at a time.</p>
+<p>A conventional lens camera implies unavoidable physical trade-offs:</p>
+<ul>
+<li>Large aperture → more light but shallow depth of field.</li>
+<li>Small aperture → large depth of field but less light.</li>
+<li>Only one focus distance is sharp at a time.</li>
+</ul>
 <p>Computational photography aims to <strong>overcome these trade-offs</strong> by encoding more information in the measurement and letting computation lift the constraints.</p>
 </section>
 <section id="the-pinhole-trap" class="level3">
@@ -5834,7 +5929,11 @@ window.Quarto = {
 <p>Depth inference from images is a fundamental task in computational imaging. Four major techniques exist, differing by input data, output precision, and algorithmic complexity.</p>
 <section id="general-context-defocus-as-a-depth-cue" class="level3">
 <h3 class="anchored" data-anchor-id="general-context-defocus-as-a-depth-cue">General context: defocus as a depth cue</h3>
-<p>The key principle for focus-based methods is that PSF size/shape in a lens camera is linked to object depth: - On the focal plane → point-like PSF (sharp). - Off the focal plane → extended PSF (circle of confusion grows with depth offset).</p>
+<p>The key principle for focus-based methods is that PSF size/shape in a lens camera is linked to object depth:</p>
+<ul>
+<li>On the focal plane → point-like PSF (sharp).</li>
+<li>Off the focal plane → extended PSF (circle of confusion grows with depth offset).</li>
+</ul>
 </section>
 <section id="technique-1-confocal-stereo-confocal-stereo" class="level3">
 <h3 class="anchored" data-anchor-id="technique-1-confocal-stereo-confocal-stereo">Technique 1: Confocal stereo (<em>Confocal Stereo</em>)</h3>
@@ -5969,7 +6068,11 @@ window.Quarto = {
 </section>
 <section id="stuv-parameterization-in-a-plenoptic-camera" class="level3">
 <h3 class="anchored" data-anchor-id="stuv-parameterization-in-a-plenoptic-camera">st–uv parameterization in a plenoptic camera</h3>
-<p>In an actual plenoptic camera: - <strong>st</strong> corresponds to the main-lens plane — <span class="math inline">\((s,t)\)</span> indicates which microlens is considered. - <strong>uv</strong> corresponds to the sensor plane — <span class="math inline">\((u,v)\)</span> indicates which pixel under that microlens is considered.</p>
+<p>In an actual plenoptic camera:</p>
+<ul>
+<li><strong>st</strong> corresponds to the main-lens plane — <span class="math inline">\((s,t)\)</span> indicates which microlens is considered.</li>
+<li><strong>uv</strong> corresponds to the sensor plane — <span class="math inline">\((u,v)\)</span> indicates which pixel under that microlens is considered.</li>
+</ul>
 <p>A ray is characterized by the microlens it passes through (st) and the specific pixel behind it (uv).</p>
 </section>
 <section id="numerical-operations-enabled-by-the-light-field" class="level3">
@@ -6048,7 +6151,11 @@ window.Quarto = {
 <section id="lytro-camera-first-commercial-realization" class="level3">
 <h3 class="anchored" data-anchor-id="lytro-camera-first-commercial-realization">Lytro camera — first commercial realization</h3>
 <p><strong>Lytro</strong> was the first consumer commercial plenoptic camera.</p>
-<p><strong>Two models</strong>: - <strong>Lytro</strong>: compact portable model. - <strong>Lytro Illum Pro</strong>: professional version with interchangeable lens and higher resolution.</p>
+<p><strong>Two models</strong>:</p>
+<ul>
+<li><strong>Lytro</strong>: compact portable model.</li>
+<li><strong>Lytro Illum Pro</strong>: professional version with interchangeable lens and higher resolution.</li>
+</ul>
 <p>For the compact Lytro, the form factor is a rectangular parallelepiped.</p>
 <p><strong>Internal architecture</strong>:</p>
 <ul>
@@ -6057,7 +6164,11 @@ window.Quarto = {
 <li><strong>Light Field Engine</strong>: dedicated signal processor for plenoptic processing.</li>
 <li><strong>Marvell Avastar 88W8787 SoC</strong>: WiFi/Bluetooth for data transfer.</li>
 </ul>
-<p>The light-field sensor combines: - <strong>CMOS sensor</strong>: standard digital camera sensor. - <strong>Microlens array</strong>: bonded to CMOS surface, grouping pixels; each microlens images the main-lens aperture.</p>
+<p>The light-field sensor combines:</p>
+<ul>
+<li><strong>CMOS sensor</strong>: standard digital camera sensor.</li>
+<li><strong>Microlens array</strong>: bonded to CMOS surface, grouping pixels; each microlens images the main-lens aperture.</li>
+</ul>
 </section>
 <section id="pros-and-cons-of-lytro" class="level3">
 <h3 class="anchored" data-anchor-id="pros-and-cons-of-lytro">Pros and cons of Lytro</h3>
@@ -6157,7 +6268,11 @@ window.Quarto = {
 <section id="solution-2-coded-aperture" class="level3">
 <h3 class="anchored" data-anchor-id="solution-2-coded-aperture">Solution 2: coded aperture</h3>
 <p>Modify the optics by inserting a <strong>pseudo-random binary mask</strong> in the aperture plane.</p>
-<p><strong>Effect on the PSF</strong>: - Standard aperture → smooth circular PSF. - Coded aperture → PSF with a <strong>distinct mask signature</strong>, discriminable from natural content.</p>
+<p><strong>Effect on the PSF</strong>:</p>
+<ul>
+<li>Standard aperture → smooth circular PSF.</li>
+<li>Coded aperture → PSF with a <strong>distinct mask signature</strong>, discriminable from natural content.</li>
+</ul>
 <p>Each depth produces a <em>scaled</em> version of this pattern: scale reveals depth, and signature resolves ambiguity with smooth regions.</p>
 </section>
 <section id="the-zero-frequency-trade-off" class="level3">
@@ -6267,7 +6382,12 @@ window.Quarto = {
 <section id="technique-2-lattice-lens-lattice-lens" class="level3">
 <h3 class="anchored" data-anchor-id="technique-2-lattice-lens-lattice-lens">Technique 2: Lattice lens (<em>Lattice Lens</em>)</h3>
 <p>A lattice lens adds, in front of the main lens, a <strong>2D array of microlenses</strong> (<em>lenslets</em>) with varying focal lengths.</p>
-<p><strong>Architecture</strong>: - 2D lenslet array placed <strong>in front of</strong> the main lens (unlike plenoptic camera where MLA is <strong>between</strong> lens and sensor). - Each lenslet deflects rays differently depending on position. - Result: PSF <strong>varies with depth</strong> → depth information is encoded (unlike wavefront coding).</p>
+<p><strong>Architecture</strong>:</p>
+<ul>
+<li>2D lenslet array placed <strong>in front of</strong> the main lens (unlike plenoptic camera where MLA is <strong>between</strong> lens and sensor).</li>
+<li>Each lenslet deflects rays differently depending on position.</li>
+<li>Result: PSF <strong>varies with depth</strong> → depth information is encoded (unlike wavefront coding).</li>
+</ul>
 </section>
 <section id="dimensionality-gap-dimensionality-gap" class="level3">
 <h3 class="anchored" data-anchor-id="dimensionality-gap-dimensionality-gap">Dimensionality gap (<em>Dimensionality Gap</em>)</h3>
