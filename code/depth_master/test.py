@@ -24,37 +24,48 @@ import matplotlib.pyplot as plt
 import joblib
 
 from skimage import io, color, transform, util
+from skimage.restoration import denoise_bilateral
+from skimage.filters import gaussian
 from sklearn.ensemble import RandomForestRegressor
-from scipy.ndimage import minimum_filter, gaussian_filter
+from scipy.ndimage import minimum_filter
 
 
-# =========================================================
-# FFT CONVOLUTION
-# =========================================================
+# =========================
+# FFT Convolution
+# =========================
 
 def fft_convolve2d(img, kernel):
     H, W = img.shape
     kh, kw = kernel.shape
-
+    
     pad = np.zeros((H, W))
     pad[:kh, :kw] = kernel
+    
+    # center kernel
+    pad = np.roll(pad, -kh//2, axis=0)
+    pad = np.roll(pad, -kw//2, axis=1)
+    
+    img_fft = np.fft.fft2(img)
+    ker_fft = np.fft.fft2(pad)
+    
+    result = np.fft.ifft2(img_fft * ker_fft).real
+    return result
 
-    pad = np.roll(pad, -kh // 2, axis=0)
-    pad = np.roll(pad, -kw // 2, axis=1)
 
-    return np.fft.ifft2(np.fft.fft2(img) * np.fft.fft2(pad)).real
-
-
-# =========================================================
-# FILTERS
-# =========================================================
+# =========================
+# Filters
+# =========================
 
 def get_laws_filters():
     L3 = np.array([1, 2, 1]) / 4
     E3 = np.array([-1, 0, 1])
     S3 = np.array([-1, 2, -1])
-
-    return [np.outer(a, b) for a in [L3, E3, S3] for b in [L3, E3, S3]]
+    
+    filters = []
+    for v1 in [L3, E3, S3]:
+        for v2 in [L3, E3, S3]:
+            filters.append(np.outer(v1, v2))
+    return filters
 
 
 def get_navatia_babu_filters():
@@ -82,75 +93,99 @@ def get_navatia_babu_filters():
     return [NB1, NB2, NB3, NB4, NB5, NB6]
 
 
-# =========================================================
-# FILTER BANK
-# =========================================================
+# =========================
+# Filter Banks FFT
+# =========================
 
-def filter_bank_fft(img):
+def calculate_filter_banks_fft(img):
     ycbcr = color.rgb2ycbcr(img)
-    Y, Cb, Cr = ycbcr[...,0], ycbcr[...,1], ycbcr[...,2]
+    Y = ycbcr[..., 0]
+    Cb = ycbcr[..., 1]
+    Cr = ycbcr[..., 2]
 
-    out = []
+    outputs = []
 
+    # Laws on Y (9)
     for f in get_laws_filters():
-        out.append(fft_convolve2d(Y, f))
+        outputs.append(fft_convolve2d(Y, f))
 
-    L3 = np.array([1,2,1]) / 4
+    # Laws on Cb, Cr
+    L3 = np.array([1, 2, 1]) / 4
     L3L3 = np.outer(L3, L3)
 
-    out.append(fft_convolve2d(Cb, L3L3))
-    out.append(fft_convolve2d(Cr, L3L3))
+    outputs.append(fft_convolve2d(Cb, L3L3))
+    outputs.append(fft_convolve2d(Cr, L3L3))
 
+    # Navatia-Babu (6)
     for f in get_navatia_babu_filters():
-        out.append(fft_convolve2d(Y, f))
+        outputs.append(fft_convolve2d(Y, f))
 
-    return np.abs(np.stack(out, axis=-1))
+    return np.abs(np.stack(outputs, axis=-1))  # [H,W,17]
 
 
-# =========================================================
-# UTILITIES
-# =========================================================
+# =========================
+# Utils
+# =========================
 
 def resize_img(img, scale=None, size=None):
     if size is not None:
-        return transform.resize(img, size, order=1, preserve_range=True)
-    else:
-        h, w = img.shape[:2]
-        return transform.resize(img, (int(h*scale), int(w*scale)),
-                                order=3, preserve_range=True)
+        return transform.resize(img, size, order=0, preserve_range=True, anti_aliasing=False)
+    elif scale is not None:
+        new_size = (int(img.shape[0]*scale), int(img.shape[1]*scale))
+        return transform.resize(img, new_size, order=1, preserve_range=True, anti_aliasing=True)
+
+
+def smooth_triangular(img, radius):
+    if radius <= 1:
+        return img
+    
+    size = int(radius)
+    k = np.arange(1, size+1)
+    k = np.concatenate([k, k[::-1][1:]])
+    k = k / k.sum()
+    kernel = np.outer(k, k)
+
+    out = np.zeros_like(img)
+    for c in range(img.shape[2]):
+        out[..., c] = fft_convolve2d(img[..., c], kernel)
+    return out
 
 
 def rgb2hsi(img):
-    r,g,b = img[...,0], img[...,1], img[...,2]
-    I = (r+g+b)/3
-    minv = np.minimum(np.minimum(r,g),b)
-    S = 1 - minv/(I+1e-6)
-
+    r, g, b = img[...,0], img[...,1], img[...,2]
+    intensity = (r + g + b) / 3
+    
+    min_rgb = np.minimum(np.minimum(r,g),b)
+    saturation = 1 - min_rgb/(intensity + 1e-6)
+    
     num = 0.5*((r-g)+(r-b))
     den = np.sqrt((r-g)**2 + (r-b)*(g-b)) + 1e-6
     theta = np.arccos(num/den)
-
-    H = np.where(b<=g, theta, 2*np.pi-theta)
-    H = H/(2*np.pi)
-
-    return np.stack([H,S,I],axis=-1)
+    
+    hue = np.where(b <= g, theta, 2*np.pi-theta)
+    hue /= (2*np.pi)
+    
+    return np.stack([hue, saturation, intensity], axis=-1)
 
 
 def dark_channel(img, size=15):
     return minimum_filter(img.min(axis=2), size=size)
 
 
-# =========================================================
-# FEATURE EXTRACTION
-# =========================================================
+# =========================
+# MAIN FUNCTION
+# =========================
 
 def ssi_depth_chns(I, opts):
 
+    # ---- preprocess ----
     I = util.img_as_float(I)
     I = resize_img(I, size=opts["imResize"])
 
     shrink = opts["shrink"]
+    shrinkCol = opts["shrinkCol"]
 
+    # ---- representations ----
     Irgb = I
     Iluv = color.rgb2luv(I)
     Ihsi = rgb2hsi(I)
@@ -161,27 +196,44 @@ def ssi_depth_chns(I, opts):
 
     H, W = Irgb_s.shape[:2]
 
-    prior = np.linspace(0,1,H).reshape(H,1).repeat(W,axis=1)
+    # ---- prior ----
+    prior = np.linspace(0,1,H).reshape(H,1).repeat(W, axis=1)
 
-    channels = [
-        prior[...,None],
-        Irgb_s,
-        Ihsi_s,
-        Iluv_s
-    ]
+    channels = []
+    channels.append(prior[...,None])
+    channels.append(Irgb_s)
+    channels.append(Ihsi_s)
+    channels.append(Iluv_s)
 
+    # ---- multi-scale ----
     for s in [1,2]:
-        I2 = resize_img(Irgb, scale=1/s)
-        fb = filter_bank_fft(I2)
-        dc = dark_channel(I2)
+        if s == shrink:
+            I2 = Irgb_s
+        else:
+            I2 = resize_img(Irgb, scale=1/s)
 
-        fb = resize_img(fb, scale=s/shrink)
-        dc = resize_img(dc[...,None], scale=s/shrink)
+        filters = calculate_filter_banks_fft(I2)
+        dark = dark_channel(I2)
 
-        channels.append(fb)
-        channels.append(dc)
+        filters = resize_img(filters, scale=s/shrink)
+        dark = resize_img(dark[...,None], scale=s/shrink)
 
-    return np.concatenate(channels, axis=2)
+        channels.append(filters)
+        channels.append(dark)
+
+    # ---- concat ----
+    chns = np.concatenate(channels, axis=2)
+
+    # ---- smoothing (FFT) ----
+    chnsReg = smooth_triangular(chns, opts["chnSmooth"]/shrink)
+    # chnsSim = smooth_triangular(chns, opts["simSmooth"]/shrink)
+
+    # ---- downsample ----
+    # colsReg = resize_img(chnsReg, scale=1/shrinkCol)
+    # colsSim = resize_img(chnsSim, scale=1/shrinkCol)
+
+    # return chnsReg, colsReg, chnsSim, colsSim
+    return chnsReg
 
 
 # =========================================================
@@ -252,7 +304,13 @@ class SSI_RF_Model:
         # 🔥 FIX: resize back to original image size
         pred = resize_img(pred, size=(orig_h, orig_w))
 
-        pred = gaussian_filter(pred, sigma=2)
+        # # 🔥 Edge-preserving smoothing
+        # pred = denoise_bilateral(
+        #     pred,
+        #     sigma_color=0.05,
+        #     sigma_spatial=5,
+        #     channel_axis=None
+        # )
 
         return pred
 
@@ -294,7 +352,6 @@ def load_dataset(dataset_path, max_samples=30):
 
             # Load depth (.dat)
             depth = np.loadtxt(depth_path)
-            print("depth shape:", depth.shape)
 
             # Resize depth to match feature pipeline
             depth = resize_img(depth, size=(240, 320))
@@ -377,8 +434,8 @@ def test_on_dataset(model, dataset_folder):
 if __name__ == "__main__":
 
     opts = {
-        "imResize": (240,320),
-        "shrink": 2,
+        "imResize": (256,336),
+        "shrink": 1,
         "shrinkCol": 4,
         "chnSmooth": 2,
         "simSmooth": 4,
