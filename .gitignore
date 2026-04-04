@@ -8,4 +8,5 @@
 *.venv
 *.gitattributes
 *_tmp*
+*make3d
 

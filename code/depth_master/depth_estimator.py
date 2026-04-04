@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 import joblib
 
 from skimage import io, color, transform, util
+import skimage
 from skimage.restoration import denoise_bilateral
 from skimage.filters import gaussian
 from sklearn.ensemble import RandomForestRegressor
@@ -176,14 +177,19 @@ def dark_channel(img, size=15):
 # MAIN FUNCTION
 # =========================
 
-def ssi_depth_chns(I, opts):
 
-    # ---- preprocess ----
+def ssi_depth_chns(I, opts, with_names=False):
+    """
+    Compute all feature channels used by the depth pipeline.
+
+    Returns:
+        chns: H x W x C
+        names: list[str] (optional)
+    """
     I = util.img_as_float(I)
     I = resize_img(I, size=opts["imResize"])
 
     shrink = opts["shrink"]
-    shrinkCol = opts["shrinkCol"]
 
     # ---- representations ----
     Irgb = I
@@ -197,43 +203,201 @@ def ssi_depth_chns(I, opts):
     H, W = Irgb_s.shape[:2]
 
     # ---- prior ----
-    prior = np.linspace(0,1,H).reshape(H,1).repeat(W, axis=1)
+    prior = np.linspace(0, 1, H).reshape(H, 1).repeat(W, axis=1)
 
     channels = []
-    channels.append(prior[...,None])
-    channels.append(Irgb_s)
-    channels.append(Ihsi_s)
-    channels.append(Iluv_s)
+    names = [] if with_names else None
 
-    # ---- multi-scale ----
-    for s in [1,2]:
+    def add_channel(ch, name):
+        channels.append(ch)
+        if with_names:
+            names.append(name)
+
+    # ---- base channels ----
+    add_channel(prior[..., None], "prior")
+
+    # RGB
+    add_channel(Irgb_s[..., 0:1], "Irgb_R")
+    add_channel(Irgb_s[..., 1:2], "Irgb_G")
+    add_channel(Irgb_s[..., 2:3], "Irgb_B")
+
+    # HSI
+    add_channel(Ihsi_s[..., 0:1], "Ihsi_hue")
+    add_channel(Ihsi_s[..., 1:2], "Ihsi_sat")
+    add_channel(Ihsi_s[..., 2:3], "Ihsi_intensity")
+
+    # LUV
+    add_channel(Iluv_s[..., 0:1], "Iluv_L")
+    add_channel(Iluv_s[..., 1:2], "Iluv_u")
+    add_channel(Iluv_s[..., 2:3], "Iluv_v")
+
+    # ---- multi-scale filters ----
+    for s in [1, 2]:
         if s == shrink:
             I2 = Irgb_s
         else:
             I2 = resize_img(Irgb, scale=1/s)
 
-        filters = calculate_filter_banks_fft(I2)
+        filters = calculate_filter_banks_fft(I2)  # [H,W,17]
         dark = dark_channel(I2)
 
         filters = resize_img(filters, scale=s/shrink)
-        dark = resize_img(dark[...,None], scale=s/shrink)
+        dark = resize_img(dark[..., None], scale=s/shrink)
 
-        channels.append(filters)
-        channels.append(dark)
+        for k in range(filters.shape[-1]):
+            ch = filters[..., k:k+1]
 
-    # ---- concat ----
+            if with_names:
+                if k < 9:
+                    name = f"s={s}_laws_{k+1}"
+                elif k == 9:
+                    name = f"s={s}_Cb_L3L3"
+                elif k == 10:
+                    name = f"s={s}_Cr_L3L3"
+                else:
+                    name = f"s={s}_nav_{k-10}"
+            else:
+                name = None
+
+            add_channel(ch, name)
+
+        add_channel(dark, f"s={s}_dark")
+
     chns = np.concatenate(channels, axis=2)
 
-    # ---- smoothing (FFT) ----
-    chnsReg = smooth_triangular(chns, opts["chnSmooth"]/shrink)
-    # chnsSim = smooth_triangular(chns, opts["simSmooth"]/shrink)
+    if with_names:
+        return chns, names
+    
+    # ---- smoothing (edge-preserving via FFT triangular kernel) ----
+    chns = smooth_triangular(chns, opts["chnSmooth"] / opts["shrink"])
 
-    # ---- downsample ----
-    # colsReg = resize_img(chnsReg, scale=1/shrinkCol)
-    # colsSim = resize_img(chnsSim, scale=1/shrinkCol)
+    return chns
 
-    # return chnsReg, colsReg, chnsSim, colsSim
-    return chnsReg
+
+def plot_depth_filters_structured(I, opts, include=("colors", "laws", "babu")):
+    if isinstance(include, str):
+        include_set = {include}
+    else:
+        include_set = set(include)
+    chns, names = ssi_depth_chns(I, opts, with_names=True)
+
+    name_to_idx = {n: i for i, n in enumerate(names)}
+
+    def get(name):
+        return chns[..., name_to_idx[name]]
+
+    # ---- base channels ----
+    rgb = np.stack([
+        get("Irgb_R"),
+        get("Irgb_G"),
+        get("Irgb_B")
+    ], axis=-1)
+
+    R = get("Irgb_R")
+    G = get("Irgb_G")
+    B = get("Irgb_B")
+
+    H = get("Ihsi_hue")
+    S = get("Ihsi_sat")
+    I_int = get("Ihsi_intensity")
+
+    L = get("Iluv_L")
+    u = get("Iluv_u")
+    v = get("Iluv_v")
+
+    figures = {}
+
+    # =========================================================
+    # 1. COLOR FIGURE
+    # =========================================================
+    if "colors" in include_set:
+        fig1, axes1 = plt.subplots(3, 3, figsize=(10, 8))
+
+        axes1[0, 0].imshow(R, cmap="Reds")
+        axes1[0, 0].set_title("R")
+
+        axes1[0, 1].imshow(G, cmap="Greens")
+        axes1[0, 1].set_title("G")
+
+        axes1[0, 2].imshow(B, cmap="Blues")
+        axes1[0, 2].set_title("B")
+
+        axes1[1, 0].imshow(H, cmap="hsv")
+        axes1[1, 0].set_title("Hue")
+
+        axes1[1, 1].imshow(S, cmap="viridis")
+        axes1[1, 1].set_title("Saturation")
+
+        axes1[1, 2].imshow(I_int, cmap="gray")
+        axes1[1, 2].set_title("Intensity")
+
+        axes1[2, 0].imshow(L, cmap="gray")
+        axes1[2, 0].set_title("L")
+
+        axes1[2, 1].imshow(u, cmap="coolwarm")
+        axes1[2, 1].set_title("U")
+
+        axes1[2, 2].imshow(v, cmap="coolwarm")
+        axes1[2, 2].set_title("V")
+
+        for ax in axes1.flat:
+            ax.axis("off")
+
+        fig1.tight_layout()
+        figures["colors"] = fig1
+
+    # =========================================================
+    # 2. LAWS FIGURE
+    # =========================================================
+    if "laws" in include_set:
+        laws = [get(f"s=1_laws_{i}") for i in range(1, 10)]
+        laws.append(get("s=1_Cb_L3L3"))
+        laws.append(get("s=1_Cr_L3L3"))
+
+        fig2, axes2 = plt.subplots(3, 4, figsize=(10, 8))
+
+        axes2[0, 0].imshow(I)
+        axes2[0, 0].set_title("Original")
+
+        for i, law in enumerate(laws):
+            r = (i + 1) // 4
+            c = (i + 1) % 4
+            axes2[r, c].imshow(law, cmap="gray")
+            if i < 9:
+                axes2[r, c].set_title(f"Laws {i+1}")
+            elif i == 9:
+                axes2[r, c].set_title("Cb L3L3")
+            elif i == 10:
+                axes2[r, c].set_title("Cr L3L3")
+
+        for ax in axes2.flat:
+            ax.axis("off")
+
+        fig2.tight_layout()
+        figures["laws"] = fig2
+
+    # =========================================================
+    # 3. NAVATIA-BABU FIGURE
+    # =========================================================
+    if "babu" in include_set:
+        babu = [get(f"s=1_nav_{i}") for i in range(1, 7)]
+
+        fig3, axes3 = plt.subplots(2, 3, figsize=(8, 5))
+
+        for i, nb in enumerate(babu):
+            r = i // 3
+            c = i % 3
+            axes3[r, c].imshow(nb, cmap="gray")
+            axes3[r, c].set_title(f"NB {i+1}")
+            axes3[r, c].axis("off")
+
+        fig3.tight_layout()
+        figures["babu"] = fig3
+
+    # =========================================================
+    # RETURN
+    # =========================================================
+    return figures
 
 
 # =========================================================
@@ -293,7 +457,7 @@ class SSI_RF_Model:
         orig_h, orig_w = img.shape[:2]
 
         # Compute features (resized internally)
-        chns = ssi_depth_chns(img, self.opts)
+        chns = ssi_depth_chns(img, self.opts, with_names=False)
         H, W, C = chns.shape
 
         X = chns.reshape(-1, C)
@@ -366,6 +530,82 @@ def load_dataset(dataset_path, max_samples=30):
 
     return images, depths
 
+def export_sample_to_utils(images, depths, out_dir="utils"):
+    """
+    Save:
+    - image.jpg
+    - depth.jpg (same size as image)
+    - law_filter.jpg
+    - babu_filter.jpg
+    """
+
+    os.makedirs(out_dir, exist_ok=True)
+
+    if len(images) == 0:
+        raise ValueError("Dataset is empty")
+
+    # ---- pick first sample (deterministic) ----
+    img = images[0]
+    depth = depths[0]
+
+    H, W = img.shape[:2]
+
+    # =========================================================
+    # IMAGE
+    # =========================================================
+    if img.dtype != np.uint8:
+        if img.max() <= 1:
+            img_uint8 = (img * 255).astype(np.uint8)
+        else:
+            img_uint8 = np.clip(img, 0, 255).astype(np.uint8)
+    else:
+        img_uint8 = img
+
+    io.imsave(os.path.join(out_dir, "image.jpg"), img_uint8)
+
+    # =========================================================
+    # DEPTH (resize to image size)
+    # =========================================================
+    depth_resized = resize_img(depth, size=(H, W))
+
+    d_min, d_max = depth_resized.min(), depth_resized.max()
+    depth_norm = (depth_resized - d_min) / (d_max - d_min + 1e-8)
+    depth_uint8 = (depth_norm * 255).astype(np.uint8)
+
+    io.imsave(os.path.join(out_dir, "depth.jpg"), depth_uint8)
+
+    # =========================================================
+    # Y CHANNEL (for filters)
+    # =========================================================
+    ycbcr = color.rgb2ycbcr(img_uint8 / 255.0)
+    Y = ycbcr[..., 0]
+
+    # =========================================================
+    # LAW FILTER (take first one for example)
+    # =========================================================
+    law_filter = get_laws_filters()[0]
+    law_response = fft_convolve2d(Y, law_filter)
+
+    # normalize for visualization
+    v = np.max(np.abs(law_response)) + 1e-6
+    law_norm = (law_response / v + 1) / 2  # map [-v,v] → [0,1]
+    law_uint8 = (law_norm * 255).astype(np.uint8)
+
+    io.imsave(os.path.join(out_dir, "law_filter.jpg"), law_uint8)
+
+    # =========================================================
+    # NAVATIA-BABU FILTER (take first one)
+    # =========================================================
+    babu_filter = get_navatia_babu_filters()[0]
+    babu_response = fft_convolve2d(Y, babu_filter)
+
+    v = np.max(np.abs(babu_response)) + 1e-6
+    babu_norm = (babu_response / v + 1) / 2
+    babu_uint8 = (babu_norm * 255).astype(np.uint8)
+
+    io.imsave(os.path.join(out_dir, "babu_filter.jpg"), babu_uint8)
+
+    print(f"Saved sample to '{out_dir}/'")
 
 # =========================================================
 # MODEL LOAD / TRAIN
@@ -434,7 +674,7 @@ def test_on_dataset(model, dataset_folder):
 if __name__ == "__main__":
 
     opts = {
-        "imResize": (256,336),
+        "imResize": (340, 256),
         "shrink": 1,
         "shrinkCol": 4,
         "chnSmooth": 2,
@@ -446,7 +686,31 @@ if __name__ == "__main__":
     dataset_path = os.path.join(script_dir, "./make3d")
     model_path = os.path.join(script_dir, "ssi_rf_model.pkl")
     test_folder = os.path.join(script_dir, "./Dataset1")
+    test = False  # Set to False to visualize filters instead
+    visualize_filters = False
+    create_utils_sample = False  # Set to True to export sample image + depth + filters to utils/
 
     model = get_or_train_model(opts, model_path, dataset_path)
 
-    test_on_dataset(model, test_folder)
+    if test:
+        test_on_dataset(model, test_folder)
+    elif visualize_filters:
+        # Visualize filters on a sample image
+        sample_img_path = os.path.join(test_folder, "img-2.jpg")
+        sample_img = io.imread(sample_img_path)
+        fig = plot_depth_filters_structured(sample_img, opts)
+        fig["colors"].show()
+        fig["laws"].show()
+        fig["babu"].show()
+        input("Press Enter to exit...")
+        plt.close("all")
+    elif create_utils_sample:
+        out_dir = os.path.join(script_dir, "utils")
+        images, depths = load_dataset(dataset_path, max_samples=1)
+        export_sample_to_utils(images, depths, out_dir)
+        # Run one prediction to generate sample output depth map in utils/
+        pred = model.predict(images[0])
+
+        # Normalize to [0, 1]
+        pred_norm = (pred - pred.min()) / (pred.max() - pred.min())
+        io.imsave(os.path.join(out_dir, "predicted_depth.jpg"), util.img_as_ubyte(pred_norm))

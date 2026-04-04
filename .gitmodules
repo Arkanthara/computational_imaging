@@ -1,0 +1,9 @@
+[submodule "neural-viz"]
+	path = neural-viz
+	url = git@github.com:Arkanthara/neural-viz.git
+[submodule "report/neural-viz"]
+	path = report/neural-viz
+	url = git@github.com:Arkanthara/neural-viz.git
+[submodule "report/typst_pyexec"]
+	path = report/typst_pyexec
+	url = git@github.com:Arkanthara/typst_pyexec.git
