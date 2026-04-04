@@ -6,6 +6,7 @@
 #import "@preview/cetz:0.4.2": canvas, draw
 // #import "graph_utils.typ": *
 #import "neural-viz/lib.typ": *
+#import emoji: camera
 
 // Main content
 #show: make-report.with(my-report)
@@ -483,6 +484,124 @@ plt.show()
 
 == Refocusing using sub-aperture images
 
+The principle of the refocusing using sub-aperture images is to use the multi view acquisition.
+The multi view acquisition can be obtained by multiple cameras that takes the same scene from different angles.
+It can also be obtained by a camera on a moving platform that takes multiple captures of the same scene from different angles.
+Or the multi view acquisition can be obtained by a camera that has a microlens array placed in front of the sensor allowing to capture the scene from different angles in a single capture, as in plenoptic cameras.
+
+Then, the shift and sum refocusing technique can be obtained by a combination of all views.
+The views must be aligned according to the desired refocus depth, and then summed together to obtain the refocused image.
+So there is no need of a depth map to perform the refocusing. 
+
+#figure(
+graph-canvas({
+
+  let cam = camera
+  let row = cam + " " + cam + " " + cam
+  let title = row + "\n" + row + "\n" + row
+
+  let cameras = make-box(
+    title,
+    size: (2, 2),
+    legend: "Multi view acquisition",
+    color: rgb("#f0f0f0"),
+  )
+
+  let images = make-image-dataset(
+    "Captures",
+    src: "../../../../code/LightFieldRefocus/Sample_Data/Sample_SelectiveBlurring/painter.png",
+    images: 8,
+    image-size: (1, 1),
+    image-spacing: 0.06,
+    after: cameras,
+  )
+
+  let img1 = make-image-node(
+    "",
+    src: "../../../../code/LightFieldRefocus/Sample_Data/Sample_SelectiveBlurring/painter.png",
+    image-width: 1,
+    image-height: 1,
+    image-pad: 0,
+    after: images,
+    y: 1.5,
+  )
+
+  let img2 = make-image-node(
+    "",
+    src: "../../../../code/LightFieldRefocus/Sample_Data/Sample_SelectiveBlurring/painter.png",
+    image-width: 1,
+    image-height: 1,
+    image-pad: 0,
+    after: images,
+
+  )
+
+  let img3 = make-image-node(
+    "",
+    src: "../../../../code/LightFieldRefocus/Sample_Data/Sample_SelectiveBlurring/painter.png",
+    image-width: 1,
+    image-height: 1,
+    image-pad: 0,
+    after: images,
+    y: -1.5,
+  )
+
+  let shift1 = make-box(
+    "Shift",
+    after: img1,
+    size: (1, 1)
+  )
+
+  let shift2 = make-box(
+    "Shift",
+    after: img2,
+    size: (1, 1)
+  )
+
+  let shift3 = make-box(
+    "Shift",
+    after: img3,
+    size: (1, 1)
+  )
+
+  
+  let sum = make-trapezoid(
+    "Sum",
+    after: shift2,
+    width: 1.3,
+    big-half: 1.2,
+    small-half: 0.8,
+  )
+
+  let refocus = make-image-node(
+    "Refocused image",
+    src: "../../../../code/LightFieldRefocus/outputs/books.jpg",
+    image-width: 1.9,
+    image-height: 2.3,
+    image-pad: 0,
+    image-shift-x: -2,
+    after: sum,
+  )
+
+  let nodes = (cameras, images, sum, img1, img2, img3, shift1, shift2, shift3, refocus)
+
+  let arrows = (
+    make-arrow(cameras, images, from-outer: true, auto-spacing: true),
+    make-arrow(images, img1, from-outer: true),
+    make-arrow(images, img2, from-outer: true),
+    make-arrow(images, img3, from-outer: true),
+    make-arrow(img1, shift1),
+    make-arrow(img2, shift2),
+    make-arrow(img3, shift3),
+    make-arrow(shift1, sum),
+    make-arrow(shift2, sum),
+    make-arrow(shift3, sum),
+    make-arrow(sum, refocus)
+  )
+
+  draw-graph(nodes: nodes, arrows: arrows)
+
+}), caption: "Refocusing using sub-aperture images") <fig9>
 
 
 = Task 3: Image refocusing and depth estimation
