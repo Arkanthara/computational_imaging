@@ -58,7 +58,7 @@ graph-canvas({
   // Nodes: auto-positioned from left to right using gap.
   let image-ds = make-image-dataset(
     "Image\nDataset",
-    src: "../../../code/depth_master/utils/image.jpg",
+    src: "../../../../code/depth_master/utils/image.jpg",
     images: 3,
     image-spacing: 0.22,
     pos: (1.0, 0.0),
@@ -67,7 +67,7 @@ graph-canvas({
 
   let depth-ds = make-image-dataset(
     "Depth Map\nDataset",
-    src: "../../../code/depth_master/utils/depth.jpg",
+    src: "../../../../code/depth_master/utils/depth.jpg",
     images: 3,
     image-size: (1.9, 2.3),
     image-spacing: 0.22,
@@ -85,7 +85,7 @@ graph-canvas({
 
   let latent = make-image-dataset(
     "Features",
-    src: "../../../code/depth_master/utils/law_filter.jpg",
+    src: "../../../../code/depth_master/utils/law_filter.jpg",
     images: 6,
     image-size: (1.15, 1.6),
     image-spacing: 0.11,
@@ -108,7 +108,7 @@ graph-canvas({
 
   let computed = make-image-dataset(
     "Computed\nDepth Maps",
-    src: "../../../code/depth_master/utils/predicted_depth.jpg",
+    src: "../../../../code/depth_master/utils/predicted_depth.jpg",
     images: 3,
     image-size: (1.9, 2.3),
     image-spacing: 0.22,
@@ -167,7 +167,7 @@ graph-canvas({
   // Nodes: auto-positioned from left to right using gap.
   let image-ds = make-image-dataset(
     "Image\nDataset",
-    src: "../../../code/depth_master/utils/image.jpg",
+    src: "../../../../code/depth_master/utils/image.jpg",
     images: 1,
     image-spacing: 0.22,
     pos: (1.0, 0.0),
@@ -184,7 +184,7 @@ graph-canvas({
 
   let latent = make-image-dataset(
     "Features",
-    src: "../../../code/depth_master/utils/law_filter.jpg",
+    src: "../../../../code/depth_master/utils/law_filter.jpg",
     images: 6,
     image-size: (1.15, 1.6),
     image-spacing: 0.11,
@@ -207,7 +207,7 @@ graph-canvas({
 
   let computed = make-image-dataset(
     "Computed\nDepth Map",
-    src: "../../../code/depth_master/utils/predicted_depth.jpg",
+    src: "../../../../code/depth_master/utils/predicted_depth.jpg",
     images: 1,
     image-size: (1.9, 2.3),
     image-spacing: 0.22,
@@ -272,16 +272,24 @@ The current implementation uses 6 filters to capture edges at orientations of 0Â
 
 import sys
 import os
+from pathlib import Path
+import matplotlib.pyplot as plt
 
-os.chdir(os.path.normpath(os.path.join(os.getcwd(), "../code/depth_master")))
+report_dir = Path.cwd()
+repo_root = report_dir.parent
+code_dir = repo_root / "code"
 
-sys.path.append(os.getcwd())
+task1Path = code_dir / "depth_master"
+lightfield_path = code_dir / "LightFieldRefocus"
+
+sys.path.append(str(task1Path))
+sys.path.append(str(lightfield_path))
 
 from depth_estimator import *
 
-dataset_path = os.path.join(os.getcwd(), "make3d")
-test_path = os.path.join(os.getcwd(), "Dataset1")
-model_path = os.path.join(os.getcwd(), "ssi_rf_model.pkl")
+dataset_path = task1Path / "make3d"
+test_path = task1Path / "Dataset1"
+model_path = task1Path / "ssi_rf_model.pkl"
 
 opts = {
     "imResize": (340, 256),
@@ -292,10 +300,10 @@ opts = {
     "nCells": 4
 }
 
-model = get_or_train_model(opts, model_path, dataset_path)
+model = get_or_train_model(opts, str(model_path), str(dataset_path))
 
-sample_img_path = os.path.join(test_path, "img-2.jpg")
-sample_img = io.imread(sample_img_path)
+sample_img_path = test_path / "img-2.jpg"
+sample_img = io.imread(str(sample_img_path))
 
 fig = plot_depth_filters_structured(sample_img, opts, include=("colors",))["colors"]
 fig.suptitle("Color features")
@@ -373,10 +381,10 @@ graph-canvas({
 
   let img = make-image-node(
     "Input image",
-    src: "../../../../code/LightFieldRefocus/Sample_Data/Sample_SelectiveBlurring/painter.png",
+    src: "../../../.typst_pyexec/figures/cell_5_1_1.svg",
     image-width: 3.0,
     image-height: 3.0,
-    image-pad: 0,
+    image-pad: -0.05,
     image-shift-x: -2,
     pos: (1.0, 0.0),
     color: rgb("#a8c8e8"),
@@ -403,11 +411,11 @@ graph-canvas({
 
   let depth = make-image-node(
     "Depth map",
-    src: "../../../../code/LightFieldRefocus/Sample_Data/Sample_SelectiveBlurring/painter-depth.png",
+    src: "../../../.typst_pyexec/figures/cell_5_1_2.svg",
     image-width: 3.0,
     image-height: 3.0,
     image-shift-x: -2,
-    image-pad: 0,
+    image-pad: -0.05,
     pos: (1, -4),
     color: rgb("#a0e8be"),
   )
@@ -422,11 +430,11 @@ graph-canvas({
 
   let result = make-image-node(
     "Refocused image",
-    src: "../../../../code/LightFieldRefocus/outputs/books.jpg",
+    src: "../../../.typst_pyexec/figures/cell_5_1_3.svg",
     image-width: 3.0,
     image-height: 3.0,
     image-shift-x: -2,
-    image-pad: 0,
+    image-pad: -0.05,
     after: depth_in_levels)
 
   
@@ -454,14 +462,13 @@ graph-canvas({
 %| label: fig8
 %| img-width: 100%
 
-os.chdir(os.path.join(os.getcwd(), "../code/LightFieldRefocus"))
-sys.path.append(os.getcwd())
+lightfield_path = code_dir / "LightFieldRefocus"
 
 from selectiveBlurring import selectiveBlurring
 from skimage import io, util
 
-img = io.imread(os.path.join(os.getcwd(), "Sample_Data", "Sample_SelectiveBlurring", "painter.png"))
-depthMap = io.imread(os.path.join(os.getcwd(), "Sample_Data", "Sample_SelectiveBlurring", "painter-depth.png"))
+img = io.imread(str(lightfield_path / "Sample_Data" / "Sample_SelectiveBlurring" / "painter.png"))
+depthMap = io.imread(str(lightfield_path / "Sample_Data" / "Sample_SelectiveBlurring" / "painter-depth.png"))
 
 resultBooks = selectiveBlurring(img,depthMap,20,[1, 6],15)
 
@@ -489,9 +496,16 @@ The multi view acquisition can be obtained by multiple cameras that takes the sa
 It can also be obtained by a camera on a moving platform that takes multiple captures of the same scene from different angles.
 Or the multi view acquisition can be obtained by a camera that has a microlens array placed in front of the sensor allowing to capture the scene from different angles in a single capture, as in plenoptic cameras.
 
-Then, the shift and sum refocusing technique can be obtained by a combination of all views.
-The views must be aligned according to the desired refocus depth, and then summed together to obtain the refocused image.
-So there is no need of a depth map to perform the refocusing. 
+Then, the shift and sum refocusing technique can be obtained by a combination of all views of the multi view acquisition.
+Some views are shown on @fig10. By showing the circle on the left of the images, we can see that the circle is at different positions in each view, which confirms that the views are taken from different angles.
+The views must then be aligned according to the desired refocus depth, and then summed together to obtain the refocused image.
+So there is no need of a depth map to perform the refocusing.
+
+If we look at the results in @fig11, we can see that the refocusing gives a good result at the refocused depth.
+However, the blur is not very realistic due to the multi view acquisition: indeed, the blur is like a squared blur since all acquisitions are aligned and summed together with different angles, making the blur not very natural.
+
+So this refocusing technique works quite well even if the result is not very realistic: in fact, this method can be improved to have a more realistic blur.
+For instance, thanks to the multi view acquisition, a depth map can be easily estimated, allowing to perform therefore a better refocusing by applying different blur filters according to the depth map, as seen in the previous part of this work.
 
 #figure(
 graph-canvas({
@@ -509,39 +523,44 @@ graph-canvas({
 
   let images = make-image-dataset(
     "Captures",
-    src: "../../../../code/LightFieldRefocus/Sample_Data/Sample_SelectiveBlurring/painter.png",
+    src: "../../../.typst_pyexec/figures/cell_6_1_1.svg",
     images: 8,
-    image-size: (1, 1),
+    image-size: (2, 2),
     image-spacing: 0.06,
+    image-shift-x: -2,
+    image-pad: -0.05,
     after: cameras,
   )
 
   let img1 = make-image-node(
     "",
-    src: "../../../../code/LightFieldRefocus/Sample_Data/Sample_SelectiveBlurring/painter.png",
+    src: "../../../.typst_pyexec/figures/cell_6_1_1.svg",
     image-width: 1,
     image-height: 1,
-    image-pad: 0,
+    image-shift-x: -2,
+    image-pad: -0.05,
     after: images,
     y: 1.5,
   )
 
   let img2 = make-image-node(
     "",
-    src: "../../../../code/LightFieldRefocus/Sample_Data/Sample_SelectiveBlurring/painter.png",
+    src: "../../../.typst_pyexec/figures/cell_6_1_1.svg",
     image-width: 1,
     image-height: 1,
-    image-pad: 0,
+    image-shift-x: -2,
+    image-pad: -0.05,
     after: images,
 
   )
 
   let img3 = make-image-node(
     "",
-    src: "../../../../code/LightFieldRefocus/Sample_Data/Sample_SelectiveBlurring/painter.png",
+    src: "../../../.typst_pyexec/figures/cell_6_1_1.svg",
     image-width: 1,
     image-height: 1,
-    image-pad: 0,
+    image-shift-x: -2,
+    image-pad: -0.05,
     after: images,
     y: -1.5,
   )
@@ -569,17 +588,16 @@ graph-canvas({
     "Sum",
     after: shift2,
     width: 1.3,
-    big-half: 1.2,
-    small-half: 0.8,
+    big-half: 1.5,
+    small-half: 1,
   )
 
   let refocus = make-image-node(
     "Refocused image",
-    src: "../../../../code/LightFieldRefocus/outputs/books.jpg",
-    image-width: 1.9,
-    image-height: 2.3,
-    image-pad: 0,
-    image-shift-x: -2,
+    src: "../../../.typst_pyexec/figures/cell_7_1_1.svg",
+    image-size: (2, 2),
+    image-pad: -0.05,
+    image-shift-x: -1.5,
     after: sum,
   )
 
@@ -603,10 +621,174 @@ graph-canvas({
 
 }), caption: "Refocusing using sub-aperture images") <fig9>
 
+```python
+%| echo: false
+%| label: fig10
+%| grid-inset: 6pt
+
+from genLfSequence import genLfSequence
+from changeBaseView import changeBaseView
+from shiftSumRefocus import shiftSumRefocus
+
+inputPath = lightfield_path / "Sample_Data" / "Sample_ShiftSum"
+views = 16                                 # Specifies number of sub-aperture images to process
+frameOfInterest = 85                       # Specifies frame of interest
+lightField = genLfSequence(str(inputPath),"Painter_pr_00",views,frameOfInterest,"png")
+
+plt.figure(figsize=(20, 10))
+plt.suptitle("Sub-aperture images")
+for i in range(9):
+    plt.subplot(3, 3, i+1)
+    plt.imshow(lightField[:,:,:,i])
+    plt.axis('off')
+plt.show()
+```
+
+```python
+%| echo: false
+%| label: fig11
+%| grid-inset: 6pt
+
+shiftMat = changeBaseView(1,1)
+
+depth = 2 # Starting Depth
+
+plt.figure(figsize=(20, 10))
+for i in range(6):
+     temp = shiftSumRefocus(lightField,4,4,shiftMat,depth) # Compute Shift Sum Refocus
+     plt.subplot(2,3,i+1)
+     plt.imshow(temp.astype(np.uint8))
+     plt.axis('off')
+     plt.title("Z = "+str(depth)+" meters")
+     depth = depth+0.5
+
+plt.suptitle("Refocused at Different Depths")
+plt.show()
+
+```
 
 = Task 3: Image refocusing and depth estimation
 
+In this task, we will study some multi view acquisition from a plenoptic camera taken from the github repository https://github.com/hahnec/plenopticam.
 
+As the code was already delivered in the repository as a jupyter notebook, I only played with the code and the parameters to understand how it works and how the refocusing and depth map estimation can be performed with the multi view acquisition of a plenoptic camera.
+However, by trying by myself to run the code, I had some issues with libraries and dependencies.
+Indeed, the code was implemented with older libraries and some functions were deprecated, making the code not directly runnable.
+
+The main principle of the plenoptic camera is to capture the scene from different angles thanks to a microlens array placed between the lens and the sensor, allowing to capture multiple views of the scene in a single capture.
+
+The obtained multi view acquisition must then be processed to have a good representation of the scene.
+Indeed, without processing, the output looks like an image with a lot of small squares, as shown on @fig12-a.
+
+To process the image, the disposition and properties of the microlens array must be known, so a calibration step is necessary to perform good processing of the image.
+Indeed, if some zoom was applied, the centroid of the microlenses is not at the same position than estimated, so the results can look messy.
+To calibrate, some white images of calibration are available, as shown on @fig12-b.
+Then, the calibration image taken must have same parameters than the image to process.
+
+
+
+```python
+%| echo: false
+%| label: fig12
+%| raw: false
+import plenopticam as pcam
+
+loader = pcam.misc.DataDownloader()
+loader.download_data(loader.host_eu_url, fp='./data')
+loader.extract_archive(archive_fn='./data/illum_test_data.zip', fname_list='lfr')
+
+# instantiate config object and set image file paths and options
+cfg = pcam.cfg.PlenopticamConfig()
+cfg.default_values()
+cfg.params[cfg.lfp_path] = './data/gradient_rose_close.lfr'
+cfg.params[cfg.cal_path] = './data/caldata-B5144402350.tar'
+cfg.params[cfg.opt_cali] = True
+cfg.params[cfg.ptc_leng] = 13
+cfg.params[cfg.cal_meth] = pcam.cfg.constants.CALI_METH[3]
+
+# instantiate status object for progress
+
+sta = pcam.misc.PlenopticamStatus()
+sta.prog_opt = False
+
+reader = pcam.lfp_reader.LfpReader(cfg)
+reader.main()
+lfp_img = reader.lfp_img
+
+cal_finder = pcam.lfp_calibrator.CaliFinder(cfg)
+ret = cal_finder.main()
+wht_img = cal_finder.wht_bay
+
+plt.figure(figsize=(20, 20))
+plt.subplot(1, 2, 1)
+plt.imshow(lfp_img, cmap='gray', interpolation='none')
+plt.grid(False)
+plt.title('Raw Illum image')
+plt.axis('off')
+plt.subplot(1, 2, 2)
+plt.imshow(wht_img, cmap='gray', interpolation='none')
+plt.grid(False)
+plt.title('Raw white calibration image')
+plt.axis('off')
+plt.show()
+```
+
+When the calibration is done, each sub-aperture image can be extracted from the multi view acquisition, as shown on .
+
+```python
+%| echo: false
+%| raw: false
+
+cal_obj = pcam.lfp_calibrator.LfpCalibrator(wht_img, cfg, sta)
+ret = cal_obj.main()
+cfg = cal_obj.cfg
+
+```
+```python
+%| echo: false
+%| raw: false
+
+ret = cfg.load_cal_data()
+aligner = pcam.lfp_aligner.LfpAligner(lfp_img, cfg, sta, wht_img)
+ret = aligner.main()
+lfp_img_align = aligner.lfp_img
+```
+
+```python
+%| echo: false
+%| raw: false
+import pickle
+
+with open(os.path.join(cfg.exp_path, 'lfp_img_align.pkl'), 'rb') as f:
+    lfp_img_align = pickle.load(f)
+
+```
+
+```python
+%| echo: false
+%| raw: false
+extractor = pcam.lfp_extractor.LfpExtractor(lfp_img_align, cfg, sta)
+ret = extractor.main()
+vp_img_arr = extractor.vp_img_arr
+```
+
+```python
+%| echo: false
+%| raw: false
+view_obj = pcam.lfp_extractor.LfpViewpoints(vp_img_arr=vp_img_arr)
+vp_stack = view_obj.views_stacked_img
+```
+
+```python
+%| echo: false
+%| label: fig13
+plt.figure()
+plt.imshow(vp_stack/vp_stack.max(), interpolation='none')
+plt.grid(False)
+plt.title('All sub-aperture images view')
+plt.axis('off')
+plt.show()
+```
 
 = Implementation <impl>
 
