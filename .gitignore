@@ -9,4 +9,6 @@
 *.gitattributes
 *_tmp*
 *make3d
-
+*data
+*.pkl
+*.typst_pyexec

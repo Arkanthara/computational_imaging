@@ -1,3 +1,22 @@
+
+#show figure.where(kind: "subfigure"): set figure(supplement: "Figure")
+
+#show figure.where(kind: image): outer => {
+  counter(figure.where(kind: "subfigure")).update(0)
+  set figure(numbering: (..nums) => {
+    let outer-nums = counter(figure.where(kind: image)).at(outer.location())
+    std.numbering("1a", ..outer-nums, ..nums)
+  })
+  show figure.where(kind: "subfigure"): inner => {
+    show figure.caption: it => context {
+      std.numbering("(a)", it.counter.at(inner.location()).last())
+      [ ]
+      it.body
+    }
+    inner
+  }
+  outer
+}
 // Main report file
 #import "template.typ": make-report, report-footnote
 #import "metadata.typ": my-report
@@ -262,73 +281,23 @@ Edge features are computed by applying Navatia-Babu filters to the image, as sho
 Navatia-Babu filters are a set of filters designed to capture edges in an image at different orientations and scales.
 The current implementation uses 6 filters to capture edges at orientations of 0°, 30°, 60°, 90°, 120° and 150°.
 
-```python
-%| echo: false
-%| keep-subplots: false
-%| raw: false
-%| label: fig3
-%| grid-align: top
-%| subfigure-caption-position: top
-%| img-width: 100%
+#[
+  #show figure.where(kind: "subfigure"): set figure.caption(position: top)
+  #figure(grid(columns: 3, align: top, [#figure(image(".typst_pyexec/figures/cell_1_1_1.svg", width: 100%), kind: "subfigure", caption: [R]) <fig3-a>], [#figure(image(".typst_pyexec/figures/cell_1_1_2.svg", width: 100%), kind: "subfigure", caption: [G]) <fig3-b>], [#figure(image(".typst_pyexec/figures/cell_1_1_3.svg", width: 100%), kind: "subfigure", caption: [B]) <fig3-c>], [#figure(image(".typst_pyexec/figures/cell_1_1_4.svg", width: 100%), kind: "subfigure", caption: [Hue]) <fig3-d>], [#figure(image(".typst_pyexec/figures/cell_1_1_5.svg", width: 100%), kind: "subfigure", caption: [Saturation]) <fig3-e>], [#figure(image(".typst_pyexec/figures/cell_1_1_6.svg", width: 100%), kind: "subfigure", caption: [Intensity]) <fig3-f>], [#figure(image(".typst_pyexec/figures/cell_1_1_7.svg", width: 100%), kind: "subfigure", caption: [L]) <fig3-g>], [#figure(image(".typst_pyexec/figures/cell_1_1_8.svg", width: 100%), kind: "subfigure", caption: [U]) <fig3-h>], [#figure(image(".typst_pyexec/figures/cell_1_1_9.svg", width: 100%), kind: "subfigure", caption: [V]) <fig3-i>]), caption: [Color features], kind: image) <fig3>
+]
 
-import sys
-import os
-from pathlib import Path
-import matplotlib.pyplot as plt
 
-report_dir = Path.cwd()
-repo_root = report_dir.parent
-code_dir = repo_root / "code"
+#[
+  #show figure.where(kind: "subfigure"): set figure.caption(position: top)
+  #figure(grid(columns: 4, [#figure(image(".typst_pyexec/figures/cell_2_1_1.svg"), kind: "subfigure", caption: [Original]) <fig4-a>], [#figure(image(".typst_pyexec/figures/cell_2_1_2.svg"), kind: "subfigure", caption: [Laws 1]) <fig4-b>], [#figure(image(".typst_pyexec/figures/cell_2_1_3.svg"), kind: "subfigure", caption: [Laws 2]) <fig4-c>], [#figure(image(".typst_pyexec/figures/cell_2_1_4.svg"), kind: "subfigure", caption: [Laws 3]) <fig4-d>], [#figure(image(".typst_pyexec/figures/cell_2_1_5.svg"), kind: "subfigure", caption: [Laws 4]) <fig4-e>], [#figure(image(".typst_pyexec/figures/cell_2_1_6.svg"), kind: "subfigure", caption: [Laws 5]) <fig4-f>], [#figure(image(".typst_pyexec/figures/cell_2_1_7.svg"), kind: "subfigure", caption: [Laws 6]) <fig4-g>], [#figure(image(".typst_pyexec/figures/cell_2_1_8.svg"), kind: "subfigure", caption: [Laws 7]) <fig4-h>], [#figure(image(".typst_pyexec/figures/cell_2_1_9.svg"), kind: "subfigure", caption: [Laws 8]) <fig4-i>], [#figure(image(".typst_pyexec/figures/cell_2_1_10.svg"), kind: "subfigure", caption: [Laws 9]) <fig4-j>], [#figure(image(".typst_pyexec/figures/cell_2_1_11.svg"), kind: "subfigure", caption: [Cb L3L3]) <fig4-k>], [#figure(image(".typst_pyexec/figures/cell_2_1_12.svg"), kind: "subfigure", caption: [Cr L3L3]) <fig4-l>]), caption: [Laws texture features], kind: image) <fig4>
+]
 
-task1Path = code_dir / "depth_master"
-lightfield_path = code_dir / "LightFieldRefocus"
 
-sys.path.append(str(task1Path))
-sys.path.append(str(lightfield_path))
+#[
+  #show figure.where(kind: "subfigure"): set figure.caption(position: top)
+  #figure(grid(columns: 3, [#figure(image(".typst_pyexec/figures/cell_3_1_1.svg"), kind: "subfigure", caption: [NB 1]) <fig5-a>], [#figure(image(".typst_pyexec/figures/cell_3_1_2.svg"), kind: "subfigure", caption: [NB 2]) <fig5-b>], [#figure(image(".typst_pyexec/figures/cell_3_1_3.svg"), kind: "subfigure", caption: [NB 3]) <fig5-c>], [#figure(image(".typst_pyexec/figures/cell_3_1_4.svg"), kind: "subfigure", caption: [NB 4]) <fig5-d>], [#figure(image(".typst_pyexec/figures/cell_3_1_5.svg"), kind: "subfigure", caption: [NB 5]) <fig5-e>], [#figure(image(".typst_pyexec/figures/cell_3_1_6.svg"), kind: "subfigure", caption: [NB 6]) <fig5-f>]), caption: [Navatia-Babu edge features], kind: image) <fig5>
+]
 
-from depth_estimator import *
-
-dataset_path = task1Path / "make3d"
-test_path = task1Path / "Dataset1"
-model_path = task1Path / "ssi_rf_model.pkl"
-
-opts = {
-    "imResize": (340, 256),
-    "shrink": 1,
-    "shrinkCol": 4,
-    "chnSmooth": 2,
-    "simSmooth": 4,
-    "nCells": 4
-}
-
-model = get_or_train_model(opts, str(model_path), str(dataset_path))
-
-sample_img_path = test_path / "img-2.jpg"
-sample_img = io.imread(str(sample_img_path))
-
-fig = plot_depth_filters_structured(sample_img, opts, include=("colors",))["colors"]
-fig.suptitle("Color features")
-fig.show()
-```
-
-```python
-%| echo: false
-%| label: fig4
-%| subfigure-caption-position: top
-fig = plot_depth_filters_structured(sample_img, opts, include=("laws",))["laws"]
-fig.suptitle("Laws texture features")
-fig.show()
-```
-
-```python
-%| echo: false
-%| label: fig5
-%| subfigure-caption-position: top
-
-fig = plot_depth_filters_structured(sample_img, opts, include=("babu",))["babu"]
-fig.suptitle("Navatia-Babu edge features")
-fig.show()
-```
 
 == Results
 
@@ -341,22 +310,8 @@ However, as we can see, the depth is quite noisy and not very accurate, which is
 On top of that, the database used for training has very small and pixelized depth maps, which makes the training not very good and the results not very accurate.
 And the computational power of the model is also quite limited, which makes the results not very good.
 
-```python
-%| echo: false
-%| label: fig6
-predicted_depth = model.predict(sample_img)
+#figure(grid(columns: 2, [#figure(image(".typst_pyexec/figures/cell_4_1_1.svg"), kind: "subfigure", caption: [Input image]) <fig6-a>], [#figure(image(".typst_pyexec/figures/cell_4_1_2.svg"), kind: "subfigure", caption: [Predicted depth]) <fig6-b>]), caption: [Depth estimation results], kind: image) <fig6>
 
-fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-axes[0].imshow(sample_img)
-axes[0].set_title("Input image")
-im = axes[1].imshow(predicted_depth, cmap="inferno")
-axes[1].set_title("Predicted depth")
-axes[1].figure.colorbar(im, ax=axes[1], fraction=0.046, pad=0.04)
-fig.suptitle("Depth estimation results")
-axes[0].axis("off")
-axes[1].axis("off")
-fig.show()
-```
 
 
 
@@ -460,37 +415,8 @@ graph-canvas({
 }), caption: "Refocusing using depth map") <fig7>
 
 
-```python
-%| echo: false
-%| label: fig8
-%| img-width: 100%
+#figure(grid(columns: 3, [#figure(image(".typst_pyexec/figures/cell_5_1_1.svg", width: 100%), kind: "subfigure", caption: [Input image]) <fig8-a>], [#figure(image(".typst_pyexec/figures/cell_5_1_2.svg", width: 100%), kind: "subfigure", caption: [Depth map]) <fig8-b>], [#figure(image(".typst_pyexec/figures/cell_5_1_3.svg", width: 100%), kind: "subfigure", caption: [Refocused image]) <fig8-c>]), caption: [Refocusing on the books using depth map], kind: image) <fig8>
 
-lightfield_path = code_dir / "LightFieldRefocus"
-
-from selectiveBlurring import selectiveBlurring
-from skimage import io, util
-
-img = io.imread(str(lightfield_path / "Sample_Data" / "Sample_SelectiveBlurring" / "painter.png"))
-depthMap = io.imread(str(lightfield_path / "Sample_Data" / "Sample_SelectiveBlurring" / "painter-depth.png"))
-
-resultBooks = selectiveBlurring(img,depthMap,20,[1, 6],15)
-
-plt.figure(figsize=(20, 10))
-plt.suptitle("Refocusing on the books using depth map")
-plt.subplot(1, 3, 1)
-plt.imshow(img)
-plt.title("Input image")
-plt.axis('off')
-plt.subplot(1, 3, 2)
-plt.imshow(depthMap, cmap="gray")
-plt.title("Depth map")
-plt.axis('off')
-plt.subplot(1, 3, 3)
-plt.imshow(resultBooks)
-plt.title("Refocused image")
-plt.axis('off')
-plt.show()
-```
 
 == Refocusing using sub-aperture images
 
@@ -625,51 +551,11 @@ graph-canvas({
 
 }), caption: "Refocusing using sub-aperture images") <fig9>
 
-```python
-%| echo: false
-%| label: fig10
-%| grid-inset: 6pt
+#figure(grid(columns: 3, inset: 6pt, [#figure(image(".typst_pyexec/figures/cell_6_1_1.svg"), kind: "subfigure") <fig10-a>], [#figure(image(".typst_pyexec/figures/cell_6_1_2.svg"), kind: "subfigure") <fig10-b>], [#figure(image(".typst_pyexec/figures/cell_6_1_3.svg"), kind: "subfigure") <fig10-c>], [#figure(image(".typst_pyexec/figures/cell_6_1_4.svg"), kind: "subfigure") <fig10-d>], [#figure(image(".typst_pyexec/figures/cell_6_1_5.svg"), kind: "subfigure") <fig10-e>], [#figure(image(".typst_pyexec/figures/cell_6_1_6.svg"), kind: "subfigure") <fig10-f>], [#figure(image(".typst_pyexec/figures/cell_6_1_7.svg"), kind: "subfigure") <fig10-g>], [#figure(image(".typst_pyexec/figures/cell_6_1_8.svg"), kind: "subfigure") <fig10-h>], [#figure(image(".typst_pyexec/figures/cell_6_1_9.svg"), kind: "subfigure") <fig10-i>]), caption: [Sub-aperture images], kind: image) <fig10>
 
-from genLfSequence import genLfSequence
-from changeBaseView import changeBaseView
-from shiftSumRefocus import shiftSumRefocus
 
-inputPath = lightfield_path / "Sample_Data" / "Sample_ShiftSum"
-views = 16                                 # Specifies number of sub-aperture images to process
-frameOfInterest = 85                       # Specifies frame of interest
-lightField = genLfSequence(str(inputPath),"Painter_pr_00",views,frameOfInterest,"png")
+#figure(grid(columns: 3, inset: 6pt, [#figure(image(".typst_pyexec/figures/cell_7_1_1.svg"), kind: "subfigure", caption: [Z = 2 meters]) <fig11-a>], [#figure(image(".typst_pyexec/figures/cell_7_1_2.svg"), kind: "subfigure", caption: [Z = 2.5 meters]) <fig11-b>], [#figure(image(".typst_pyexec/figures/cell_7_1_3.svg"), kind: "subfigure", caption: [Z = 3.0 meters]) <fig11-c>], [#figure(image(".typst_pyexec/figures/cell_7_1_4.svg"), kind: "subfigure", caption: [Z = 3.5 meters]) <fig11-d>], [#figure(image(".typst_pyexec/figures/cell_7_1_5.svg"), kind: "subfigure", caption: [Z = 4.0 meters]) <fig11-e>], [#figure(image(".typst_pyexec/figures/cell_7_1_6.svg"), kind: "subfigure", caption: [Z = 4.5 meters]) <fig11-f>]), caption: [Refocused at Different Depths], kind: image) <fig11>
 
-plt.figure(figsize=(20, 10))
-plt.suptitle("Sub-aperture images")
-for i in range(9):
-    plt.subplot(3, 3, i+1)
-    plt.imshow(lightField[:,:,:,i])
-    plt.axis('off')
-plt.show()
-```
-
-```python
-%| echo: false
-%| label: fig11
-%| grid-inset: 6pt
-
-shiftMat = changeBaseView(1,1)
-
-depth = 2 # Starting Depth
-
-plt.figure(figsize=(20, 10))
-for i in range(6):
-     temp = shiftSumRefocus(lightField,4,4,shiftMat,depth) # Compute Shift Sum Refocus
-     plt.subplot(2,3,i+1)
-     plt.imshow(temp.astype(np.uint8))
-     plt.axis('off')
-     plt.title("Z = "+str(depth)+" meters")
-     depth = depth+0.5
-
-plt.suptitle("Refocused at Different Depths")
-plt.show()
-
-```
 
 = Task 3: Image refocusing and depth estimation
 
@@ -694,108 +580,22 @@ Then, the calibration image taken must have same parameters than the image to pr
 
 
 
-```python
-%| echo: false
-%| label: fig12
-%| raw: false
-import plenopticam as pcam
+#figure(grid(columns: 2, [#figure(image(".typst_pyexec/figures/cell_8_1_1.svg"), kind: "subfigure", caption: [Raw Illum image]) <fig12-a>], [#figure(image(".typst_pyexec/figures/cell_8_1_2.svg"), kind: "subfigure", caption: [Raw white calibration image]) <fig12-b>]), caption: [Raw Illum image], kind: image) <fig12>
 
-loader = pcam.misc.DataDownloader()
-loader.download_data(loader.host_eu_url, fp='./data')
-loader.extract_archive(archive_fn='./data/illum_test_data.zip', fname_list='lfr')
-
-# instantiate config object and set image file paths and options
-cfg = pcam.cfg.PlenopticamConfig()
-cfg.default_values()
-cfg.params[cfg.lfp_path] = './data/gradient_rose_close.lfr'
-cfg.params[cfg.cal_path] = './data/caldata-B5144402350.tar'
-cfg.params[cfg.opt_cali] = True
-cfg.params[cfg.ptc_leng] = 13
-cfg.params[cfg.cal_meth] = pcam.cfg.constants.CALI_METH[3]
-
-# instantiate status object for progress
-
-sta = pcam.misc.PlenopticamStatus()
-sta.prog_opt = False
-
-reader = pcam.lfp_reader.LfpReader(cfg)
-reader.main()
-lfp_img = reader.lfp_img
-
-cal_finder = pcam.lfp_calibrator.CaliFinder(cfg)
-ret = cal_finder.main()
-wht_img = cal_finder.wht_bay
-
-plt.figure(figsize=(20, 20))
-plt.subplot(1, 2, 1)
-plt.imshow(lfp_img, cmap='gray', interpolation='none')
-plt.grid(False)
-plt.title('Raw Illum image')
-plt.axis('off')
-plt.subplot(1, 2, 2)
-plt.imshow(wht_img, cmap='gray', interpolation='none')
-plt.grid(False)
-plt.title('Raw white calibration image')
-plt.axis('off')
-plt.show()
-```
 
 When the calibration is done, each sub-aperture image can be extracted from the multi view acquisition, as shown on @fig13.
 
-```python
-%| echo: false
-%| raw: false
 
-cal_obj = pcam.lfp_calibrator.LfpCalibrator(wht_img, cfg, sta)
-ret = cal_obj.main()
-cfg = cal_obj.cfg
 
-```
-```python
-%| echo: false
-%| raw: false
 
-ret = cfg.load_cal_data()
-aligner = pcam.lfp_aligner.LfpAligner(lfp_img, cfg, sta, wht_img)
-ret = aligner.main()
-lfp_img_align = aligner.lfp_img
-```
 
-```python
-%| echo: false
-%| raw: false
-import pickle
 
-with open(os.path.join(cfg.exp_path, 'lfp_img_align.pkl'), 'rb') as f:
-    lfp_img_align = pickle.load(f)
 
-```
 
-```python
-%| echo: false
-%| raw: false
-extractor = pcam.lfp_extractor.LfpExtractor(lfp_img_align, cfg, sta)
-ret = extractor.main()
-vp_img_arr = extractor.vp_img_arr
-```
 
-```python
-%| echo: false
-%| raw: false
-view_obj = pcam.lfp_extractor.LfpViewpoints(vp_img_arr=vp_img_arr)
-vp_stack = view_obj.views_stacked_img
-```
 
-```python
-%| echo: false
-%| label: fig13
-plt.figure()
-plt.imshow(vp_stack/vp_stack.max(), interpolation='none')
-plt.grid(False)
-plt.title('All sub-aperture images view')
-plt.axis('off')
-plt.show()
-```
+#figure(image(".typst_pyexec/figures/cell_14_1.svg"), caption: [All sub-aperture images view]) <fig13>
+
 
 Then, thanks to the multi view acquisition, we can take the view of the scene from a specific angle as shown on @fig14.
 In fact, it corresponds to take all pixels of the multi view acquisition that corresponds to a specific angle, which is like taking all pixels of a pinhole camera with a very small aperture that captures only the light coming from that specific angle, allowing to have a large depth of field.
@@ -806,40 +606,8 @@ As we can see on @fig14, the difference between views is very small (we can see 
 Indeed, the acquisition is made with a microlens array, which means that the views are taken from close angles, making the difference between views quite small.
 That's why to have good results, many views must be taken.
 
-```python
-%| echo: false
-%| label: fig14
+#figure(grid(columns: 3, [#figure(image(".typst_pyexec/figures/cell_15_1_1.svg"), kind: "subfigure", caption: [Left view]) <fig14-a>], [#figure(image(".typst_pyexec/figures/cell_15_1_2.svg"), kind: "subfigure", caption: [Central view]) <fig14-b>], [#figure(image(".typst_pyexec/figures/cell_15_1_3.svg"), kind: "subfigure", caption: [Right view]) <fig14-c>]), caption: [Left view], kind: image) <fig14>
 
-view_obj = pcam.lfp_extractor.LfpViewpoints(vp_img_arr=vp_img_arr)
-vp_view = view_obj.central_view
-
-# récupérer les vues extrêmes
-left_view  = view_obj.vp_img_arr[:, 0, ...]      # colonne la plus à gauche
-right_view = view_obj.vp_img_arr[:, -1, ...]     # colonne la plus à droite
-
-# option : prendre la ligne centrale pour une vraie "baseline horizontale"
-center_row = view_obj.vp_img_arr.shape[0] // 2
-left_view  = view_obj.vp_img_arr[center_row, 0, ...]
-right_view = view_obj.vp_img_arr[center_row, -1, ...]
-
-# affichage
-fig, ax = plt.subplots(1, 3, figsize=(20, 10))
-
-ax[0].imshow(left_view/left_view.max(), interpolation='none')
-ax[0].set_title("Left view")
-ax[0].axis('off')
-
-ax[1].imshow(vp_view/vp_view.max(), interpolation='none')
-ax[1].set_title("Central view")
-ax[1].axis('off')
-
-ax[2].imshow(right_view/right_view.max(), interpolation='none')
-ax[2].set_title("Right view")
-ax[2].axis('off')
-
-plt.tight_layout()
-plt.show()
-```
 
 Thanks to this multi view acquisition with a large depth of field, a depth map can be estimated by an analysis of the disparity between views, as shown on @fig15-a.
 
@@ -851,87 +619,8 @@ This is probably due to the fact that the multi view acquisition is made from a 
 It is also possible to perform a refocus like in task 2 by applying different blur filters according to the depth map estimaded, or to perform a refocus using different method such as Scheimpflug refocusing that allows a refocus of an inclined plane in the scene, such as the ground for instance, which is not possible with the shift and sum refocusing technique, or with classic camera focusing.
 The Scheimpflug refocusing corresponds to a shift and sum refocus with an affine shift that depends on the position of the pixels.
 
-```python
-%| echo: false
-%| label: fig15
-%| raw: false
+#figure(grid(columns: 2, [#figure(image(".typst_pyexec/figures/cell_16_1_1.svg"), kind: "subfigure", caption: [Depth map]) <fig15-a>], [#figure(image(".typst_pyexec/figures/cell_16_1_2.svg"), kind: "subfigure", caption: [Shift-and-Sum]) <fig15-b>]), caption: [Depth map], kind: image) <fig15>
 
-# =========================
-# 1. DEPTH MAP
-# =========================
-obj = pcam.lfp_extractor.LfpDepth(vp_img_arr=vp_img_arr, cfg=cfg, sta=sta)
-obj.main()
-depth_map = obj.depth_map
-
-
-# =========================
-# 2. SHIFT-AND-SUM REFOCUS
-# =========================
-cfg.params[cfg.ran_refo] = [-1, 2]
-cfg.params[cfg.opt_prnt] = False
-# cfg.params[cfg.opt_refo] = True
-# cfg.params[cfg.opt_pflu] = False   # IMPORTANT: désactiver Scheimpflug ici
-
-refocuser = pcam.lfp_refocuser.LfpRefocuser(
-    vp_img_arr=extractor.vp_img_linear,
-    cfg=cfg,
-    sta=sta
-)
-refocuser.main()
-
-refo_stack = refocuser.refo_stack
-
-# 👉 on prend la 2ème image (index 1)
-refocus_sas = refo_stack[1]
-
-
-# =========================
-# 3. SCHEIMPFLUG REFOCUS
-# =========================
-cfg.params[cfg.opt_refo] = True
-cfg.params[cfg.opt_pflu] = True   # activer Scheimpflug
-
-refocuser2 = pcam.lfp_refocuser.LfpRefocuser(
-    vp_img_arr=extractor.vp_img_linear,
-    cfg=cfg,
-    sta=sta
-)
-refocuser2.main()
-
-# ⚠️ Scheimpflug modifie refo_stack
-refo_stack_scheim = refocuser2.refo_stack
-
-# on prend la même profondeur (index 2 si dispo)
-refocus_scheim = refo_stack_scheim[1]
-
-
-# =========================
-# 4. PLOT SIDE BY SIDE
-# =========================
-fig, ax = plt.subplots(1, 2, figsize=(20, 10))
-
-# Depth map
-ax[0].imshow(depth_map, cmap='gray')
-ax[0].set_title("Depth map")
-ax[0].axis('off')
-ax[0].grid(False)
-
-# Shift-and-Sum
-ax[1].imshow(refocus_sas/refocus_sas.max(), interpolation='none')
-ax[1].set_title("Shift-and-Sum")
-ax[1].axis('off')
-ax[1].grid(False)
-
-# Scheimpflug
-# ax[2].imshow(refocus_scheim/refocus_scheim.max(), interpolation='none')
-# ax[2].set_title("Scheimpflug")
-# ax[2].axis('off')
-# ax[2].grid(False)
-
-plt.tight_layout()
-plt.show()
-
-```
 
 So the pipeline of the processing of a multi view acquisition from a plenoptic camera can be summarized like in the @fig16.
 
