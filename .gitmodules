@@ -4,3 +4,6 @@
 [submodule "report/neural-viz"]
 	path = report/neural-viz
 	url = git@github.com:Arkanthara/neural-viz.git
+[submodule "code/sarepy"]
+	path = code/sarepy
+	url = https://github.com/nghia-vo/sarepy.git
