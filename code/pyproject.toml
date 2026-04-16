@@ -5,5 +5,6 @@ requires-python = ">=3.11"
 dependencies = [
     "algotom>=1.7.0",
     "matplotlib>=3.10.8",
+    "numba-cuda>=0.30.0",
     "scikit-image>=0.26.0",
 ]

@@ -21,16 +21,16 @@
   // subtitle: "Report Subtitle",
   course-name: "Computational Imaging",
   course-id: "14x062",
-  illustrations: (
-    (
-      path: ".typst_pyexec/figures/cell_16_1_1.svg",
-      width: 7cm,
-    ),
-    (
-      path: ".typst_pyexec/figures/cell_16_1_2.svg",
-      width: 7cm,
-    )
-  ),
+  // illustrations: (
+  //   (
+  //     path: ".typst_pyexec/figures/cell_16_1_1.svg",
+  //     width: 7cm,
+  //   ),
+  //   (
+  //     path: ".typst_pyexec/figures/cell_16_1_2.svg",
+  //     width: 7cm,
+  //   )
+  // ),
   project-name: "Computational Imaging",
   date: none,
 

@@ -25,15 +25,15 @@ $uvArgs = @(
 
 if ($Command -ne "clean") {
     $uvArgs += $sourceFile
-    $uvArgs += "--typst-compile-arg=--root"
-    $uvArgs += "--typst-compile-arg=$repoRoot"
+    # $uvArgs += "--typst-compile-arg=--root"
+    # $uvArgs += "--typst-compile-arg=$repoRoot"
 }
 
 if ($Command -eq "watch") {
     $uvArgs += "--preview-engine"
     $uvArgs += $PreviewEngine
-    $uvArgs += "--typst-watch-arg=--root"
-    $uvArgs += "--typst-watch-arg=$repoRoot"
+    # $uvArgs += "--typst-watch-arg=--root"
+    # $uvArgs += "--typst-watch-arg=$repoRoot"
 }
 
 if ($NoCache) {
