@@ -58,13 +58,26 @@ By applying a low-pass filter in the Fourier domain, we can remove the high-freq
 
 This is done for all Fourier-based methods such as the FFT (Fast Fourier Transform) Wavelet method and the FFT method.
 
-#figure(grid(columns: 3, [#figure(image(".typst_pyexec/figures/cell_2_1_1.svg", width: 140%), kind: "subfigure", caption: [Original sinogram with stripe artifacts]) <fig2-a>], [#figure(image(".typst_pyexec/figures/cell_2_1_2.svg", width: 140%), kind: "subfigure", caption: [Magnitude of Fourier transform]) <fig2-b>], [#figure(image(".typst_pyexec/figures/cell_2_1_3.svg", width: 140%), kind: "subfigure", caption: [Stripe artifacts]) <fig2-c>]), caption: [Representation of stripe artifacts in magnitude Fourier domain], kind: image) <fig2>
+#figure(grid(columns: 3, inset: 6pt, [#figure(image(".typst_pyexec/figures/cell_2_1_1.svg"), kind: "subfigure", caption: [Original sinogram with stripe artifacts]) <fig2-a>], [#figure(image(".typst_pyexec/figures/cell_2_1_2.svg"), kind: "subfigure", caption: [Sinogram after Fourier-based stripe removal]) <fig2-b>], [#figure(image(".typst_pyexec/figures/cell_2_1_3.svg"), kind: "subfigure", caption: [Removed component]) <fig2-c>], [#figure(image(".typst_pyexec/figures/cell_2_1_4.svg"), kind: "subfigure", caption: [Magnitude of FFT]) <fig2-d>], [#figure(image(".typst_pyexec/figures/cell_2_1_5.svg"), kind: "subfigure", caption: [Magnitude of FFT (destriped)]) <fig2-e>], [#figure(image(".typst_pyexec/figures/cell_2_1_6.svg"), kind: "subfigure", caption: [Removed component in Fourier domain]) <fig2-f>]), caption: [Fourier-based stripe removal: visualizing the process in spatial and Fourier domains], kind: image) <fig2>
+
+
+#figure(grid(columns: 3, [#figure(image(".typst_pyexec/figures/cell_3_1_1.svg"), kind: "subfigure", caption: [Reconstructed image (with stripes)]) <fig3-a>], [#figure(image(".typst_pyexec/figures/cell_3_1_2.svg"), kind: "subfigure", caption: [Reconstructed image (destriped)]) <fig3-b>], [#figure(image(".typst_pyexec/figures/cell_3_1_3.svg"), kind: "subfigure", caption: [Removed component]) <fig3-c>]), caption: [Effect of Fourier-based stripe removal on the reconstructed image], kind: image) <fig3>
+
+
+== Wavelet-based methods
+
+#figure(grid(columns: 3, inset: 6pt, [#figure(image(".typst_pyexec/figures/cell_4_1_1.svg"), kind: "subfigure", caption: [Original sinogram with stripe artifacts]) <fig4-a>], [#figure(image(".typst_pyexec/figures/cell_4_1_2.svg"), kind: "subfigure", caption: [Sinogram after wavelet-based stripe removal]) <fig4-b>], [#figure(image(".typst_pyexec/figures/cell_4_1_3.svg"), kind: "subfigure", caption: [Removed component]) <fig4-c>], [#figure(image(".typst_pyexec/figures/cell_4_1_4.svg"), kind: "subfigure", caption: [Wavelet cV (original)]) <fig4-d>], [#figure(image(".typst_pyexec/figures/cell_4_1_5.svg"), kind: "subfigure", caption: [Wavelet cV (destriped)]) <fig4-e>], [#figure(image(".typst_pyexec/figures/cell_4_1_6.svg"), kind: "subfigure", caption: [Wavelet cV removed]) <fig4-f>], [#figure(image(".typst_pyexec/figures/cell_4_1_7.svg"), kind: "subfigure", caption: [log|FFT(cV original)|]) <fig4-g>], [#figure(image(".typst_pyexec/figures/cell_4_1_8.svg"), kind: "subfigure", caption: [log|FFT(cV destriped)|]) <fig4-h>], [#figure(image(".typst_pyexec/figures/cell_4_1_9.svg"), kind: "subfigure", caption: [log|FFT(cV removed)|]) <fig4-i>]), caption: [Wavelet-based stripe removal: visualizing the process in spatial, wavelet, and Fourier domains], kind: image) <fig4>
+
+
+#figure(grid(columns: 3, [#figure(image(".typst_pyexec/figures/cell_5_1_1.svg"), kind: "subfigure", caption: [Reconstructed image (with stripes)]) <fig5-a>], [#figure(image(".typst_pyexec/figures/cell_5_1_2.svg"), kind: "subfigure", caption: [Reconstructed image (destriped)]) <fig5-b>], [#figure(image(".typst_pyexec/figures/cell_5_1_3.svg"), kind: "subfigure", caption: [Removed component]) <fig5-c>]), caption: [Effect of wavelet-based stripe removal on the reconstructed image], kind: image) <fig5>
 
 
 == Normalization-based methods
 
 The normalization-based methods are based on the idea that the stripe artifacts can be removed by normalizing the sinogram.
 This is done by dividing each column of the sinogram by its mean or median value, which can help to reduce the intensity of the stripe artifacts.
+
+
 
 == Regularization-based methods
 
