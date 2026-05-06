@@ -1,0 +1,332 @@
+---
+title: "Microscopie avancée et ptychographie de Fourier — Quiz"
+filters:
+  - quizdown
+execute:
+  enabled: false
+---
+
+## Niveau 1 — Fondamentaux
+
+```{quizdown}
+### Quelle est la formule de l'ouverture numérique (Numerical Aperture) d'un objectif ?
+
+> Pense aux grandeurs physiques caracterisant le cône de lumière collectée par l'objectif.
+
+1. [ ] NA = n * cos(theta)
+1. [x] NA = n * sin(theta)
+    > Correct : NA = n * sin(theta), où n est l'indice de réfraction du milieu et theta le demi-angle d'acceptance.
+1. [ ] NA = lambda / (2 * n)
+1. [ ] NA = n * tan(theta)
+```
+
+```{quizdown}
+### Que se passe-t-il sur la résolution lorsqu'on augmente l'ouverture numérique d'un objectif ?
+
+> Pense au rayon du disque dans l'espace de Fourier défini par la fonction de transfert optique.
+
+1. [x] La résolution augmente car les hautes fréquences spatiales sont mieux transmises
+    > Correct : k_max = NA * 2pi/lambda augmente avec NA, ce qui élargit le disque de la FTO et transmet davantage de détails fins.
+1. [ ] La résolution diminue car le champ de vue est réduit
+1. [ ] La résolution n'est pas affectée par l'ouverture numérique
+1. [ ] La résolution augmente uniquement si l'indice de réfraction du milieu vaut 1
+```
+
+```{quizdown}
+### En microscopie biphotonique, comment un fluorophore est-il excité ?
+
+> Pense à la relation entre l'énergie d'un photon et sa fréquence, et à ce qui est absorbé simultanement.
+
+1. [ ] Par un photon unique de longueur d'onde plus courte que l'emission
+1. [x] Par deux photons de longueur d'onde deux fois plus grande que l'excitation monophotonique, absorbés simultanement
+    > Correct : chaque photon apporte hf/2, et leur absorption simultanee fournit l'energie totale hf nécessaire à l'excitation.
+1. [ ] Par deux photons de même longueur d'onde que l'emission, absorbés sequentiellement
+1. [ ] Par un photon dans l'ultraviolet focalisé en un point
+```
+
+```{quizdown}
+### Pourquoi la microscopie biphotonique utilise-t-elle des longueurs d'onde dans le proche infrarouge (NIR) ?
+
+> Pense aux deux phenomenes physiques qui limitent la pénétration de la lumière dans les tissus.
+
+- [x] Les tissus absorbent moins la lumière NIR
+    > Correct : l'absorption tissulaire est bien plus faible dans le NIR que dans le visible.
+- [ ] Les fluorophores n'emettent qu'en NIR
+- [x] La diffusion de Rayleigh est proportionnelle à 1/lambda^4, donc beaucoup plus faible en NIR
+    > Correct : la diffusion decroit fortement avec la longueur d'onde, ce qui permet une meilleure pénétration en NIR.
+- [ ] Les capteurs CCD sont insensibles au visible
+- [ ] Le NIR permet d'éviter l'effet photoelectrique dans les cellules
+```
+
+```{quizdown}
+### Quelle est la profondeur d'imagerie typique de la microscopie biphotonique dans les tissus biologiques ?
+
+> Compare avec la microscopie confocale qui est limitée à quelques dizaines à deux cents micromètres.
+
+1. [ ] Environ 10 micromètres
+1. [ ] Environ 100 micromètres
+1. [x] Jusqu'à environ 1 millimetre
+    > Correct : la biphotonique permet d'imager jusqu'à environ 1 mm de profondeur grâce à l'utilisation du NIR.
+1. [ ] Plusieurs centimètres
+```
+
+```{quizdown}
+### Quelle propriété fondamentale différencie la microscopie à champ lumineux (Light-Field Microscopy) de la biphotonique en mode balayage ?
+
+> Pense au nombre d'acquisitions nécessaires pour obtenir un volume 3D complet.
+
+1. [ ] La LFM utilise des longueurs d'onde NIR, contrairement à la biphotonique
+1. [ ] La LFM offre une meilleure résolution axiale que la biphotonique
+1. [x] La LFM capture un volume 3D complet en un seul instantané (snapshot), sans balayage
+    > Correct : un réseau de microlentilles code simultanement position et direction de la lumière, permettant la reconstruction 3D à partir d'une seule image.
+1. [ ] La LFM ne nécessite aucune reconstruction computationnelle
+```
+
+```{quizdown}
+### Quel composant optique est ajouté à un microscope standard pour le transformer en microscope à champ lumineux (LFM) ?
+
+> Ce composant est placé au plan image natif du microscope.
+
+1. [ ] Un filtre notch accordable
+1. [ ] Un prisme de Wollaston
+1. [x] Un reseau de microlentilles (Microlens Array)
+    > Correct : le réseau de microlentilles placé au plan image natif encode simultanément la position spatiale et la direction angulaire des rayons lumineux.
+1. [ ] Un modulateur acousto-optique
+```
+
+```{quizdown}
+### Dans le modèle d'imagerie cohérente de la FPM, que represente O(x, y) ?
+
+> C'est la grandeur que l'algorithme cherche à reconstruire.
+
+1. [ ] L'intensité mesurée par la caméra pour le n-ième angle d'incidence
+1. [ ] La fonction d'etalement du point (PSF) du système optique
+1. [x] L'objet complexe inconnu que l'on cherche à récupérer
+    > Correct : O(x,y) est l'objet, de nature complexe (amplitude et phase), et constitue l'inconnue du problème d'imagerie inverse.
+1. [ ] L'illumination en onde plane correspondant à la n-ième LED
+```
+
+---
+
+## Niveau 2 — Comprehension
+
+```{quizdown}
+### Pourquoi la microscopie confocale nécessite-t-elle un diaphragme (pinhole) alors que la biphotonique n'en a pas besoin ?
+
+> Pense à l'endroit où l'excitation fluorescente se produit dans chaque technique.
+
+1. [ ] Parce que la biphotonique utilise un laser plus puissant qui sature le signal hors focus
+1. [x] Parce qu'en biphotonique l'excitation est confinée naturellement au point focal, alors qu'en confocale elle se produit tout le long du trajet du faisceau
+    > Correct : l'absorption simultanee de deux photons est si rare qu'elle ne se produit significativement qu'au point focal (densité de puissance maximale), ce qui élimine le besoin d'un pinhole.
+1. [ ] Parce que la biphotonique opère en mode large champ alors que la confocale est en mode ponctuel
+1. [ ] Parce que le pinhole de la confocale sert à filtrer la longueur d'onde d'excitation
+```
+
+```{quizdown}
+### Dans la FPM, quel effet a l'allumage de la n-ième LED sur le spectre de Fourier de l'image mesurée ?
+
+> Pense à la propriété de décalage de la transformée de Fourier lors d'une modulation exponentielle complexe.
+
+1. [ ] Il amplifie les hautes fréquences spatiales de l'objet
+1. [ ] Il redimensionne le spectre de l'objet par un facteur NA/lambda
+1. [x] Il decale la region du spectre de Fourier de l'objet qui est visible à travers la FTO de l'objectif
+    > Correct : multiplier par P_n = exp(i*k_xn*x) * exp(i*k_yn*y) revient à decaler le spectre de l'objet de (k_xn, k_yn), exposant une region différente sous la fenêtre de la FTO.
+1. [ ] Il applique une rotation de pi/2 au spectre de Fourier de l'objet
+```
+
+```{quizdown}
+### Lors de l'etape de mise à jour dans l'algorithme FPM iteratif, que conserve-t-on et que remplace-t-on ?
+
+> L'algorithme impose une contrainte de cohérence à partir de la mesure physique d'intensité.
+
+1. [ ] On remplace la phase par la mesure et on conserve l'amplitude estimée
+1. [x] On remplace l'amplitude par la racine carrée de la mesure d'intensité et on conserve la phase estimée
+    > Correct : I_lm est une mesure d'intensité (pas de phase), donc sqrt(I_lm) remplace l'amplitude, tandis que la phase de l'estimation courante est conservée.
+1. [ ] On remplace simultanement amplitude et phase par les données mesurées
+1. [ ] On remplace le spectre entier par la transformée de Fourier de l'image mesurée
+```
+
+```{quizdown}
+### Quel est l'avantage principal de la FPM par rapport à un simple agrandissement numerique d'une image basse résolution ?
+
+> Pense à l'information qui est réellement captée dans les données brutes de la FPM.
+
+1. [ ] La FPM permet uniquement d'interpoler les pixels manquants avec plus de précision
+1. [ ] La FPM réduit le bruit de l'image en moyennant plusieurs acquisitions
+1. [x] La FPM reconstruit de vraies hautes fréquences spatiales à partir d'informations réellement mesurées sous differents angles
+    > Correct : chaque LED révèle une region différente du spectre de Fourier de l'objet. La FPM assemble ces informations réelles, contrairement à l'interpolation qui invente des pixels.
+1. [ ] La FPM compense uniquement les aberrations chromatiques de l'objectif
+```
+
+```{quizdown}
+### Pourquoi l'imagerie de phase est-elle particulierement utile pour les cellules biologiques non colorées ?
+
+> Pense aux propriétés optiques des cellules par rapport aux photons qui les traversent.
+
+1. [ ] Parce que les cellules non colorées absorbent fortement la lumière visible
+1. [ ] Parce que la phase est insensible aux variations d'indice de refraction du tissu
+1. [x] Parce que les cellules sont quasi-transparentes en intensité mais retardent la phase de la lumière, qui devient le seul signal disponible
+    > Correct : les cellules non colorées n'absorbent pas la lumière mais modifient sa phase selon leur épaisseur optique. L'imagerie de phase révèle ces structures invisibles en intensité.
+1. [ ] Parce que la phase est immune aux artéfacts de mouvement cellulaire
+```
+
+```{quizdown}
+### Dans la stratégie d'echantillonnage de la FPM, pourquoi vaut-il mieux concentrer les LEDs dans les regions centrales de l'espace de Fourier ?
+
+> Pense à la distribution typique de l'énergie dans le spectre de Fourier d'un objet biologique.
+
+1. [ ] Parce que les LEDs centrales ont une meilleure efficacité lumineuse
+1. [ ] Parce que les angles centraux correspondent à une NA synthétique plus élevée
+1. [x] Parce que l'energie spectrale d'un objet typique est concentrée au centre (basses fréquences), donc ces regions nécessitent plus de contraintes pour une reconstruction précise
+    > Correct : un echantillonnage non uniforme adapté à la distribution réelle de l'energie converge plus vite et produit une erreur RMS plus faible.
+1. [ ] Parce que les LEDs périphériques genèrent des artefacts de diffraction gênants
+```
+
+```{quizdown}
+### En FPM epi-illuminée (Epi-Illuminated FP), quel est le type d'echantillon cible par opposition à la FPM standard en transmission ?
+
+> Pense au chemin optique de la lumière — excitation et detection du même côté ou de part et d'autre.
+
+1. [ ] Des tissus biologiques épais et fluorescents
+1. [ ] Des cellules vivantes en suspension dans un liquide
+1. [x] Des surfaces opaques comme des circuits integres, des disques compacts ou des materiaux reflechissants
+    > Correct : en épi-illumination, la lumière est envoyée et collectée du même côté de l'echantillon, ce qui est nécessaire pour les surfaces non transparentes.
+1. [ ] Des objets très fins de moins d'un micromètre d'épaisseur
+```
+
+```{quizdown}
+### Comment la FPM avec modélisation multicouche (Multi-Slice) étend-elle le modèle d'imagerie 2D standard ?
+
+> Pense à ce qui est neglige dans le modèle 2D et qui devient important pour des echantillons épais.
+
+1. [ ] Elle remplace la transformée de Fourier par une transformée en ondelettes pour mieux modéliser les couches
+1. [ ] Elle utilise plusieurs cameras placées à differentes distances de l'objet
+1. [x] Elle modélise l'objet comme une pile de tranches minces 2D avec propagation libre entre chaque tranche, permettant de récupérer des images à differentes profondeurs z
+    > Correct : le champ complexe est propagé entre les tranches via psf_t dont la FT vaut exp(sqrt(k0^2 - kx^2 - ky^2) * delta_z).
+1. [ ] Elle divise le champ de vue en tuiles independantes traitées separément
+```
+
+---
+
+## Niveau 3 — Maitrise
+
+```{quizdown}
+### Un microscopiste dispose d'un objectif 2x (NA = 0,08) et d'une matrice de 137 LEDs. Quelle NA synthétique maximale peut-il atteindre avec la FPM, et de quel facteur améliore-t-il approximativement la résolution par rapport à l'objectif seul ?
+
+> Pense aux valeurs typiques citées dans la configuration expérimentale de référence (Zheng et al., 2013).
+
+1. [ ] NA synthétique de 0,2, soit un facteur 2,5 d'amélioration
+1. [x] NA synthétique d'environ 0,5, soit un facteur d'environ 6 d'amélioration
+    > Correct : avec la configuration LED matrix de référence, la NA passe de 0,08 à ~0,5, améliorant la résolution d'un facteur ~6 tout en conservant le grand champ de vue du 2x.
+1. [ ] NA synthétique de 0,9, soit un facteur 11 d'amélioration
+1. [ ] NA synthétique egale à la NA de l'objectif, sans amélioration
+```
+
+```{quizdown}
+### Dans le multiplexage spectral de la FPM, plusieurs LEDs de couleurs differentes sont allumées simultanement. Comment l'algorithme sépare-t-il les contributions des differents canaux spectraux ?
+
+> Pense à la relation entre la mesure totale I_m et les intensités partielles de chaque canal.
+
+1. [ ] En utilisant des filtres spectraux physiques pour chaque acquisition
+1. [x] En attribuant à chaque canal une amplitude mise à jour proportionnellement à son intensité relative dans la somme totale, selon I'_rt = (I_m / I_t) * I_rt
+    > Correct : la somme I_t = I_rt + I_gt + I_bt est calculée, puis chaque canal est mis à l'echelle par I_m/I_t tout en conservant sa phase individuelle.
+1. [ ] En imposant une contrainte de sparsité dans le domaine spectral
+1. [ ] En alternant les couleurs LED sur des acquisitions separées et en combinant les spectres a posteriori
+```
+
+```{quizdown}
+### Remets les etapes de l'algorithme FPM iteratif dans le bon ordre.
+
+> Commence par l'initialisation et termine par la convergence.
+
+1. Initialiser le spectre haute résolution à partir d'une image basse résolution interpolée
+2. Selectionner le n-ième angle d'incidence (n-ième LED)
+3. Appliquer la FTO pour generer l'image basse résolution simulée correspondante
+4. Remplacer l'amplitude simulée par la racine carrée de la mesure réelle (phase conservée)
+5. Mettre à jour la region correspondante du spectre haute résolution dans l'espace de Fourier
+6. Repeter les etapes 2 à 5 pour tous les angles d'incidence
+7. Repeter le cycle complet jusqu'à convergence
+```
+
+```{quizdown}
+### Un chercheur veut imager un cerveau de souris vivant en profondeur (500 micromètres) avec une résolution subcellulaire et en temps réel pour capturer des événements rapides. Quelle combinaison de techniques est la mieux adaptée ?
+
+> Pense aux forces de chaque technique : profondeur (biphotonique), vitesse (LFM), résolution/FOV (FPM).
+
+1. [ ] FPM seule, car elle offre la meilleure résolution synthétique
+1. [ ] LFM seule, car elle offre la meilleure vitesse d'acquisition
+1. [x] Microscopie biphotonique couplée au principe LFM (volume illumination avec réseau de microlentilles), alliant pénétration en profondeur et acquisition volumique rapide
+    > Correct : la biphotonique adresse le problème de profondeur, et le principe LFM (snapshot volumique) adresse la contrainte de vitesse. La FPM n'est pas adaptée à l'imagerie en profondeur dans des tissus épais.
+1. [ ] Microscopie confocale standard, car elle offre le meilleur rapport signal/bruit
+```
+
+```{quizdown}
+### Remets dans le bon ordre les etapes de la FPM en mode detection (aperture scanning), où c'est l'ouverture qui est déplacée au plan de Fourier.
+
+> Le principe est dual de la FPM classique : c'est la pupille de detection qui est balayée, pas l'angle d'illumination.
+
+1. Initialiser le spectre haute résolution U_0(kx, ky)
+2. Selectionner une position d'ouverture dans le plan de Fourier
+3. Generer l'image basse résolution simulée correspondant à cette position d'ouverture
+4. Remplacer l'intensité simulée par la mesure I_mi (phase conservée)
+5. Mettre à jour la region correspondante de U_0(kx, ky) dans l'espace de Fourier
+6. Repeter pour toutes les positions d'ouverture jusqu'à obtenir l'image haute résolution finale
+```
+
+```{quizdown}
+### La technique de récupération de pupille enchâssée (Embedded Pupil Function Recovery) dans la FPM permet de récupérer simultanement deux inconnues. Lesquelles ?
+
+> Dans le modèle standard, la PSF est supposée connue. La récupération de pupille lève cette hypothèse.
+
+- [x] L'objet complexe O(x, y)
+    > Correct : O(x,y) est la première inconnue, comme dans la FPM standard.
+- [ ] La longueur d'onde d'illumination lambda
+- [x] La PSF (ou de maniere equivalente l'aberration de front d'onde phi(kx, ky))
+    > Correct : la PSF (ou phi) est la deuxième inconnue, récupérée simultanement grâce à la redondance des mesures multi-angles.
+- [ ] Le bruit de photons pour chaque acquisition
+- [ ] La distance LED-echantillon
+```
+
+```{quizdown}
+### En imagerie incohérente avec la FPM (extension fluorescence), quelle est la difference fondamentale dans le modèle de formation d'image par rapport au cas cohérent ?
+
+> Pense à la façon dont les amplitudes complexes s'additionnent en coherent vs la façon dont les intensites s'additionnent en incoherent.
+
+1. [ ] En incoherent, on utilise la transformée de Fourier de la PSF à la place de la PSF elle-même
+1. [x] En incoherent, l'image est une convolution de l'intensité objet avec |PSF|^2 (et non de l'amplitude avec PSF), et O(x,y) est reel positif
+    > Correct : en incoherent, I_n = (O * P_n) convolution |PSF|^2 avec O,P > 0, alors qu'en coherent I_n = |(O * P_n) convolution PSF|^2 avec O complexe.
+1. [ ] En incoherent, il n'y a pas de PSF car la lumière ne forme pas de figures de diffraction
+1. [ ] En incoherent, la FTO est un filtre passe-haut au lieu d'un filtre passe-bas
+```
+
+```{quizdown}
+### Un système FPM utilise un objectif 2x (NA = 0,08) avec une longueur d'onde lambda = 500 nm. Quelle est la fréquence spatiale maximale transmise k_max par cet objectif seul (en termes de NA * 2pi/lambda) ?
+
+> Utilise la formule reliant k_max à NA et lambda, et compare avec la NA synthétique atteignable par FPM.
+
+1. [ ] k_max = 0,08 * 2pi / 500 avec les deux en mètres, ce qui correspond à la NA synthétique de 0,5
+1. [x] k_max = NA * 2pi / lambda = 0,08 * 2pi / (500 nm), valeur bien inférieure au k_max synthétique atteint après reconstruction FPM
+    > Correct : la FPM étend la plage de fréquences transmises au-delà de ce k_max initial en combinant les informations de nombreux angles d'incidence, atteignant une NA synthétique ~0,5.
+1. [ ] k_max ne dépend pas de NA mais uniquement du grandissement de l'objectif
+1. [ ] k_max est infini car l'espace de Fourier est continu
+```
+
+```{quizdown}
+### Vrai ou faux : en microscopie biphotonique, l'absence de diaphragme confocal (pinhole) est un desavantage car tous les photons diffusés hors-focus sont collectés et degradent le contraste.
+
+> Pense à la localisation de l'excitation en biphotonique et à la source du signal fluorescent.
+
+1. [ ] Vrai
+1. [x] Faux
+    > Faux : en biphotonique, l'excitation fluorescente ne se produit qu'au point focal. Les photons diffusés collectés viennent donc uniquement du point focal (il n'y a pas de signal hors-focus à rejeter), ce qui fait de l'absence de pinhole un avantage pour la collection du signal.
+```
+
+```{quizdown}
+### Vrai ou faux : la FPM peut être appliquée à des surfaces reflechissantes opaques en utilisant exactement la même configuration matérielle qu'en transmission.
+
+> Pense au chemin optique de l'illumination et de la detection dans la configuration standard.
+
+1. [ ] Vrai
+1. [x] Faux
+    > Faux : pour les surfaces opaques, il faut utiliser une configuration epi-illuminée (Epi-Illuminated FP) où illumination et detection sont du même côté de l'echantillon, avec des anneaux de LEDs adaptés. La configuration en transmission ne fonctionnerait pas.
+```

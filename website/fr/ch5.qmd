@@ -1,0 +1,841 @@
+---
+title: "Microscopie biphotonique, à champ lumineux et ptychographie de Fourier"
+---
+
+## Introduction et contexte
+
+Ce chapitre explore des techniques d'imagerie microscopique avancées qui combinent des innovations optiques et des algorithmes de traitement du signal pour dépasser les limitations fondamentales de la microscopie conventionnelle.
+
+Les deux grands thèmes abordés sont :
+
+- La **microscopie biphotonique** (Two-Photon Microscopy) et la **microscopie à champ lumineux** (Light-Field Microscopy), qui permettent d'imager des volumes biologiques vivants en profondeur et à haute vitesse.
+
+- La **microscopie ptychographique de Fourier** (Fourier Ptychographic Microscopy, FPM), une technique computationnelle qui reconstruit des images à la fois haute résolution et grand champ de vue à partir d'acquisitions multiples à basse résolution.
+
+---
+
+## Microscopie optique conventionnelle
+
+### Évolution historique des microscopes optiques
+
+La microscopie optique a évolué sur plusieurs siècles, chaque époque apportant des améliorations mécaniques et optiques significatives :
+
+- **XVIe siècle** : les premiers microscopes rudimentaires, comme celui de Hooke, permettent d'observer des structures biologiques à l'œil nu avec un grossissement limité.
+
+- **XVIIIe siècle** : amélioration mécanique des supports et des systèmes d'objectifs, permettant une meilleure stabilité et un grossissement accru.
+
+- **Début du XXe siècle** : les microscopes à immersion et à haute ouverture numérique permettent d'atteindre la limite de diffraction.
+
+- **XXIe siècle** : les microscopes modernes intègrent des détecteurs numériques, des sources de lumière laser et des techniques computationnelles.
+
+::: {.callout-note title="À retenir"}
+La forme générale d'un microscope optique est restée conceptuellement stable depuis des siècles. Les avancées récentes portent surtout sur la source lumineuse, le détecteur et le traitement numérique du signal.
+:::
+
+### Fonction de transfert optique (Optical Transfer Function)
+
+La **fonction de transfert optique** (FTO, ou OTF en anglais pour *Optical Transfer Function*) décrit comment un système optique transmet les différentes fréquences spatiales d'un objet vers son image.
+
+Elle est étroitement liée à l'**ouverture numérique** (ON, ou NA pour *Numerical Aperture*), définie par :
+
+$$\text{NA} = n \cdot \sin(\theta)$$
+
+où $n$ est l'indice de réfraction du milieu et $\theta$ est le demi-angle d'acceptance de l'objectif.
+
+::: {.callout-tip title="Intuition"}
+Plus l'ouverture numérique est grande, plus l'objectif collecte de la lumière diffractée à grand angle, et plus les hautes fréquences spatiales sont transmises — ce qui se traduit par une meilleure résolution.
+:::
+
+La fréquence maximale transmise dans l'espace de Fourier est :
+
+$$k_{\max} = \text{NA}_{obj} \times \frac{2\pi}{\lambda}$$
+
+Ainsi, la FTO se présente comme un disque dans l'espace fréquentiel, centré à l'origine, de rayon $k_{\max}$. Toutes les informations spatiales au-delà de ce rayon sont perdues lors de l'acquisition.
+
+**Deux exemples concrets :**
+
+- Un objectif avec $\theta = 15°$ donne NA = 0,25, correspondant à un disque de rayon modéré dans l'espace de Fourier → image peu résolue.
+
+- Un objectif avec $\theta = 72,1°$ donne NA = 0,95, correspondant à un disque de rayon bien plus grand → image beaucoup plus résolue.
+
+### Compromis résolution / champ de vue (Resolution vs. Field-of-View)
+
+Un compromis fondamental en microscopie optique lie la résolution spatiale au champ de vue (FOV, *Field of View*) :
+
+- Un **objectif 2×** (NA = 0,08) offre un grand champ de vue (≈ 1 mm) mais une très faible résolution — les détails fins des cellules ne sont pas visibles.
+
+- Un **objectif 20×** (NA = 0,4) offre une bonne résolution mais un champ de vue réduit (≈ 100 µm) — utile pour l'analyse cellulaire fine, mais ne peut pas voir l'ensemble du tissu.
+
+::: {.callout-important title="Limitation fondamentale"}
+Il est impossible en microscopie conventionnelle d'obtenir simultanément une **haute résolution** (NA élevée) et un **grand champ de vue** (faible grossissement) avec un seul objectif. C'est précisément cette limitation que des techniques comme la FPM cherchent à surmonter.
+:::
+
+En pathologie clinique par exemple, on souhaite examiner un coupe histologique entière (plusieurs mm²) avec une résolution subcellulaire (< 1 µm). Cela nécessite soit un scanner motorisé lent, soit une technique computationnelle innovante.
+
+---
+
+## Microscopie biphotonique (Two-Photon Microscopy)
+
+### Principe général
+
+La **microscopie par excitation biphotonique** (Two-Photon Excitation Microscopy, TPEM) est une technique d'imagerie par fluorescence qui permet d'imager des tissus vivants jusqu'à environ **1 mm de profondeur**, avec des résolutions de l'ordre de :
+
+- **0,64 µm** en résolution latérale,
+- **3,35 µm** en résolution axiale.
+
+Elle repose sur une propriété quantique fondamentale : un fluorophore peut être excité par l'**absorption simultanée de deux photons** d'énergie moitié, plutôt que par un seul photon d'énergie complète.
+
+::: {.callout-tip title="Intuition"}
+Imaginons que l'énergie nécessaire pour "allumer" un fluorophore soit de $E = hf$. En excitation monophotonique, on utilise un photon d'énergie $hf$. En biphotonique, on utilise deux photons d'énergie $hf/2$ chacun — donc de longueur d'onde deux fois plus grande (proche infrarouge). L'absorption simultanée est statistiquement très rare, ce qui confère à la technique ses propriétés remarquables.
+:::
+
+### Limites de l'imagerie tissulaire
+
+Pour comprendre pourquoi la microscopie biphotonique est nécessaire, il faut comprendre les limitations physiques de l'imagerie des tissus biologiques :
+
+#### Absorption par le tissu
+
+Les tissus biologiques absorbent la lumière visible de façon significative. Plus la longueur d'onde est courte, plus l'absorption est forte :
+
+- À $\lambda = 405$ nm (violet) : le tissu est pratiquement opaque — la lumière ne pénètre pas.
+- À $\lambda = 532$ nm (vert) : pénétration limitée.
+- À $\lambda = 633$ nm (rouge) : meilleure pénétration, la lumière traverse partiellement le doigt, par exemple.
+
+#### Diffusion par le tissu
+
+En plus de l'absorption, le tissu **diffuse** la lumière (diffusion de Rayleigh), avec une intensité proportionnelle à $1/\lambda^4$.
+
+Cela signifie que les longueurs d'onde courtes (bleu, violet) sont beaucoup plus diffusées que les longueurs d'onde longues (rouge, infrarouge).
+
+::: {.callout-note title="À retenir"}
+Pour imager profondément dans les tissus, il faut utiliser des longueurs d'onde longues (proche infrarouge, NIR) qui sont à la fois moins absorbées et moins diffusées.
+:::
+
+### Excitation monophotonique vs biphotonique
+
+#### Excitation monophotonique (One-Photon Fluorescence)
+
+Dans la fluorescence classique :
+
+1. Un photon d'énergie $E = E_1 - E_0 = hf$ est absorbé.
+2. Le fluorophore passe de l'état fondamental $E_0$ à l'état excité $E_1$.
+3. Il réémet un photon de fluorescence (de longueur d'onde légèrement plus longue, par déplacement de Stokes).
+
+La longueur d'onde d'excitation est **plus courte** que celle de l'émission.
+
+#### Excitation biphotonique (Two-Photon Fluorescence)
+
+Dans la fluorescence biphotonique :
+
+1. **Deux photons** d'énergie $E = hf/2$ chacun sont absorbés **simultanément**.
+2. Ensemble, ils fournissent l'énergie $hf$ nécessaire pour atteindre l'état excité.
+3. L'émission de fluorescence est identique à la voie monophotonique.
+
+La longueur d'onde d'excitation est **plus longue** (typiquement $\approx 2\times$ la longueur d'onde monophotonique) — dans le proche infrarouge (NIR).
+
+::: {.callout-warning title="Probabilité d'absorption biphotonique"}
+L'absorption simultanée de deux photons est un événement **extrêmement rare** dans des conditions normales. Elle nécessite une densité de puissance très élevée, réalisée en pratique par des **lasers pulsés à femtosecondes** focalisés sur un point très petit.
+:::
+
+### Comparaison : microscopie confocale vs biphotonique
+
+| Critère | Confocale | Biphotonique |
+|---|---|---|
+| Lieu d'excitation | Tout le trajet du faisceau | Uniquement au point focal |
+| Filtrage out-of-focus | Pinhole nécessaire | Non nécessaire |
+| Pénétration dans le tissu | Faible (< 200 µm) | Élevée (jusqu'à 1 mm) |
+| Phototoxicité | Plus élevée | Plus faible |
+| Photoblanchiment | Plus fort | Réduit |
+
+#### Microscopie confocale
+
+- L'excitation fluorescente se produit **tout le long du trajet** du faisceau laser, y compris au-dessus et en dessous du plan focal.
+- Un **diaphragme confocal** (pinhole) est utilisé pour bloquer la lumière hors-focus.
+- Malgré cela, le tissu subit des dommages sur tout le trajet du faisceau.
+
+#### Microscopie biphotonique
+
+- L'absorption simultanée de deux photons est si rare qu'elle ne se produit de manière significative **qu'au point focal** (densité de puissance maximale).
+- L'excitation est **intrinsèquement confinée** en 3D → pas besoin de pinhole.
+- Moins de phototoxicité et de photoblanchiment hors du plan focal.
+
+::: {.callout-tip title="Intuition"}
+La biphotonique est comme une allumette qu'on ne peut frotter que sur une surface très précise (le point focal). La confocale est comme une allumette qui brûle sur toute sa longueur, et on bloque la lumière avec un cache (le pinhole).
+:::
+
+### Architecture du microscope biphotonique
+
+Le système biphotonique fonctionne ainsi :
+
+1. Des **capteurs fluorescents** sont introduits dans le tissu biologique.
+2. Un **laser pulsé femtoseconde** fortement focalisé excite les fluorophores uniquement au point focal.
+3. Les **photons de fluorescence** émis par le tissu sont collectés avec un objectif à immersion dans l'eau.
+4. Le point focal est **scanné raster** (point par point) sur l'échantillon pour former une image.
+
+#### Effets de la diffusion sur la collection
+
+Même si la lumière d'excitation (NIR) diffuse peu, les photons de fluorescence émis (visible) peuvent diffuser sur le chemin du retour. Deux cas :
+
+- **Sans diffusion** : les photons retournent directement à l'objectif → bonne collection.
+- **Avec diffusion** : les photons déviés peuvent quand même être collectés si l'objectif a un grand angle d'acceptance, grâce à l'absence de pinhole.
+
+::: {.callout-note title="À retenir"}
+L'absence de pinhole dans le système biphotonique est un avantage majeur : même les photons de fluorescence diffusés peuvent être collectés, améliorant le signal en profondeur.
+:::
+
+### Vitesse d'acquisition et stratégies d'illumination
+
+Un **microscope biphotonique en mode balayage point par point** (2PLSM, *Two-Photon Laser Scanning Microscope*) est intrinsèquement **lent** car chaque point de l'image doit être acquis séquentiellement — la tête de scan doit parcourir tout le volume en 3D.
+
+Pour accélérer l'acquisition, on peut changer la stratégie d'illumination :
+
+| Stratégie | Détecteur | Description | Vitesse |
+|---|---|---|---|
+| Illumination ponctuelle | Détecteur ponctuel | Scan raster 3D | Lent |
+| Illumination en ligne | Capteur 1D (caméra) | Scan ligne par ligne | Intermédiaire |
+| Illumination en plan (light-sheet) | Capteur 2D (caméra) | Scan plan par plan | Rapide |
+
+::: {.callout-warning title="Limitation importante"}
+Ces stratégies accélèrent l'acquisition mais ne résolvent pas complètement le problème de vitesse pour des volumes épais. La microscopie à champ lumineux (LFM) propose une solution plus radicale.
+:::
+
+### Applications biologiques
+
+La microscopie biphotonique est utilisée pour une grande variété d'études in vivo et ex vivo :
+
+#### Imagerie d'explant — comportement des lymphocytes T dans le ganglion lymphatique
+
+Des tissus prélevés (explants) peuvent être imagés en maintenant un environnement physiologique (95% O₂, 5% CO₂, température proche de 37°C). On peut ainsi observer :
+
+- Le comportement des lymphocytes T en conditions contrôlées,
+- La formation de clusters stables (Jour 1),
+- Le comportement en essaim (*swarming*) et la division cellulaire (Jour 5).
+
+#### Microscopie intravitale — recrutement cellulaire dans le poumon
+
+La microscopie *intravitale* (*Intravital Microscopy*) consiste à imager des organes d'un animal vivant (souris). Par exemple :
+
+- Observer le recrutement de cellules immunitaires dans les poumons,
+- Visualiser des processus dynamiques in vivo à l'échelle cellulaire.
+
+#### Cartographie des processus immunitaires dans les ganglions lymphatiques
+
+La biphotonique permet d'étudier simultanément plusieurs types cellulaires dans les ganglions lymphatiques :
+
+- Capture d'antigènes par les macrophages,
+- Chimiotaxie des cellules B (*B cell chemotaxis*),
+- Paires motiles de cellules T/B,
+- Clusters T-cellule/cellule dendritique,
+- Prolifération des lymphocytes T,
+- Sortie des lymphocytes (*lymphocyte egress*).
+
+#### Organes accessibles par imagerie biphotonique (modèle murin)
+
+La technique s'applique à de nombreux organes chez la souris :
+
+- **Cerveau** : infections, maladies neurodégénératives,
+- **Foie** : patrouille des cellules immunitaires,
+- **Peau** : infection, transplantation, immunité antitumorale,
+- **Intestin grêle** : échantillonnage bactérien par les cellules dendritiques,
+- **Ganglions lymphatiques** : dynamique T, B, dendritique, capture d'antigènes,
+- **Thymus** : développement des lymphocytes T,
+- **Moelle osseuse** : dynamique des lymphocytes T mémoire, homéostasie osseuse.
+
+### Résumé de la microscopie biphotonique
+
+::: {.callout-note title="À retenir — Points clés"}
+- L'excitation biphotonique utilise des **longueurs d'onde NIR** (plus longues), permettant une pénétration profonde dans les tissus avec peu de dommages.
+- L'excitation est **intrinsèquement confinée au point focal**, éliminant le besoin d'un diaphragme confocal.
+- Elle permet **l'imagerie de tissus vivants** sans découpe ni clarification.
+- Des **lasers et détecteurs spécialisés** (laser Ti:Sapphire femtoseconde, détecteurs NDD) sont nécessaires pour l'optimisation du signal.
+- Le mode de balayage point par point est **lent** — nécessitant des stratégies d'accélération.
+:::
+
+---
+
+## Microscopie à champ lumineux (Light-Field Microscopy)
+
+### Concept du champ lumineux (Light Field)
+
+Le **champ lumineux** (Light Field) est une représentation complète de la propagation de la lumière dans un espace libre. Il peut être paramétré par les rayons lumineux caractérisés par leur intersection avec **deux plans** :
+
+1. Le **plan caméra** (ou plan de la lentille) — représente la position angulaire,
+2. Le **plan image** — représente la position spatiale.
+
+Cette paramétrisation à **4 dimensions** (4D) encode à la fois la position spatiale et la direction angulaire de chaque rayon lumineux.
+
+::: {.callout-tip title="Intuition"}
+Un capteur d'image classique ne mesure que l'intensité lumineuse en chaque pixel (2D). Un capteur de champ lumineux mesure en plus la **direction** de la lumière — ce qui permet de reconstruire la profondeur et de refaire la mise au point après coup.
+:::
+
+La 4D-paramétrisation permet de générer des **vues synthétiques** depuis différentes positions de la caméra, créant un effet de parallaxe — comme si on avait une grille de caméras prenant la même scène simultanément.
+
+### Architecture de la microscopie à champ lumineux (Light-Field Microscopy, LFM)
+
+La **Microscopie à Champ Lumineux** (LFM) est une technique haute vitesse qui capture une image 3D complète d'un volume en **un seul instantané** de la caméra. Elle s'obtient par une modification simple d'un microscope standard :
+
+#### Composants optiques
+
+Le système LFM se compose de :
+
+1. **Objectif** — focalise la lumière depuis le spécimen.
+2. **Lentille tube** — forme le plan image natif ($U_o(x,p)$).
+3. **Plan de Fourier** — plan conjugué de la pupille d'entrée.
+4. **Réseau de microlentilles** (Microlens Array) — placé sur le plan image natif, enregistre à la fois la position spatiale et la direction angulaire des rayons.
+5. **Capteur d'image** (Camera Sensor) — placé derrière le réseau de microlentilles.
+
+#### Principe de fonctionnement
+
+- Chaque microlentille collecte la lumière provenant d'un petit patch spatial du plan image.
+- Les pixels derrière chaque microlentille enregistrent la distribution angulaire de la lumière (direction).
+- La combinaison de toutes les microlentilles fournit la 4D Light Field complète.
+- Un algorithme de reconstruction 3D est ensuite appliqué pour obtenir le volume.
+
+::: {.callout-note title="À retenir"}
+Le LFM est fondamentalement différent du balayage point par point : **un seul snapshot** suffit pour capturer un volume 3D entier, ce qui est essentiel pour l'imagerie de processus biologiques rapides (activité neuronale, comportement cellulaire).
+:::
+
+### Comparaison des stratégies d'illumination
+
+| Stratégie | Détecteur | Illumination | Application |
+|---|---|---|---|
+| Balayage point par point | Détecteur ponctuel | Point | 2-Photon standard |
+| Balayage en ligne | Caméra 1D | Ligne | Intermédiaire |
+| Light-sheet | Caméra 2D | Plan | SPIM |
+| **LFM (Volume)** | **Caméra + microlentilles** | **Volume entier** | **Imagerie volumique rapide** |
+
+Le LFM pousse le concept jusqu'au bout : illumination de tout le volume simultanément, avec reconstruction computationnelle de la 3D.
+
+---
+
+## Microscopie ptychographique de Fourier (Fourier Ptychographic Microscopy)
+
+### Modèle d'imagerie cohérente
+
+Avant de présenter la FPM, il faut poser le modèle mathématique de l'imagerie cohérente. L'intensité mesurée par la caméra est :
+
+$$I(x, y) = \left| \left( O(x,y) \cdot P(x,y) \right) * PSF \right|^2$$
+
+où :
+
+- $O(x,y)$ est l'**objet** (complexe, inconnu) — ce qu'on cherche à récupérer,
+- $P(x,y) = e^{ik_{xn}x} \cdot e^{ik_{yn}y}$ est l'**illumination en onde plane** — la lumière incidente,
+- $(k_{xn}, k_{yn})$ représentent l'**angle d'incidence** de l'onde plane,
+- $PSF$ est la **fonction d'étalement du point** (*Point Spread Function*),
+- $*$ dénote la convolution.
+
+La transformée de Fourier de la PSF donne la **Fonction de Transfert Optique** (FTO/OTF) :
+
+$$OTF = FT\{PSF\} = \text{circ}(k_{\max}) \cdot e^{i\varphi(k_x, k_y)}$$
+
+où $\varphi(k_x, k_y)$ est l'**aberration** du système. Pour un système limité par la diffraction, $\varphi = 0$.
+
+::: {.callout-tip title="Intuition"}
+La FTO agit comme un filtre passe-bas en fréquence spatiale. Elle laisse passer les basses fréquences (structures grossières) et coupe les hautes fréquences (détails fins) au-delà de $k_{\max} = \text{NA}_{obj} \times 2\pi/\lambda$.
+:::
+
+### Principe de la FPM
+
+La **Microscopie Ptychographique de Fourier** (FPM, *Fourier Ptychographic Microscopy*) exploite une idée simple mais puissante :
+
+- On utilise un **objectif à faible NA** → grand champ de vue, mais faible résolution.
+- On **acquiert de multiples images à basse résolution** sous **différents angles d'incidence** (générés par une matrice de LEDs).
+- On **reconstruit computationnellement** une image haute résolution et grand champ de vue simultanément.
+
+::: {.callout-note title="À retenir — Idée centrale de la FPM"}
+En changeant l'angle d'incidence de la lumière, on décale la région de l'espace de Fourier de l'objet qui est "visible" à travers la FTO de l'objectif. En combinant les informations de toutes ces positions décalées, on reconstitue un spectre de Fourier bien plus large → haute résolution synthétique.
+:::
+
+#### Configuration expérimentale de base
+
+```{mermaid}
+flowchart LR
+    A["Matrice de LEDs\n(LED Matrix)"] -- "Angles d'incidence\ndifférents" --> B["Objectif 2×\n(NA = 0.08)"]
+    B -- "Images basse\nrésolution" --> C["Caméra CCD"]
+    C -- "Reconstruction\nitérative" --> D["Image haute\nrésolution\n(NA synthétique ≈ 0.5)"]
+```
+
+### Matrice de LEDs (LED Matrix)
+
+La matrice de LEDs est placée sous l'échantillon, à distance fixe. Chaque LED allumée séquentiellement illumine l'échantillon avec une **onde plane d'angle d'incidence différent** $(k_{xn}, k_{yn})$.
+
+- La position de la $n$-ième LED dans le plan physique détermine directement le vecteur d'onde incident $(k_{xn}, k_{yn})$.
+- Un système typique utilise **137 images** acquises avec différentes LEDs pour une reconstruction robuste.
+- Le résultat est une **NA synthétique** pouvant atteindre $\approx 0,5$ à partir d'un objectif 2× (NA = 0,08).
+
+### Modèle d'imagerie simplifié pour la FPM
+
+Pour la $n$-ième image acquise (correspondant à la $n$-ième LED), l'intensité mesurée est :
+
+$$I_n(x, y) = \left| \left( O(x,y) \cdot P_n(x,y) \right) * PSF \right|^2$$
+
+avec $P_n(x,y) = e^{ik_{xn}x} \cdot e^{ik_{yn}y}$ et $n = 1, 2, 3, \ldots$
+
+**Objectif :** Récupérer $O(x,y)$ à partir de l'ensemble des mesures $\{I_n(x,y)\}_{n=1,2,3,...}$
+
+En passant dans l'espace de Fourier, l'illumination par la $n$-ième LED décale le spectre de l'objet de $(k_{xn}, k_{yn})$ :
+
+$$FT\{O(x,y) \cdot P_n(x,y)\} = \hat{O}(k_x - k_{xn}, k_y - k_{yn})$$
+
+La FTO de l'objectif (le cercle de rayon $k_{\max}$) sélectionne alors un **patch circulaire différent** dans le spectre de Fourier de l'objet pour chaque angle d'incidence.
+
+::: {.callout-tip title="Intuition"}
+Imaginez que le spectre de Fourier de l'objet soit un grand tableau. La FTO de l'objectif est une petite fenêtre ronde. Chaque LED déplace cette fenêtre vers une région différente du tableau. En combinant toutes les "visions partielles", on reconstitue une image complète du grand tableau.
+:::
+
+### Processus de reconstruction itérative
+
+La reconstruction FPM est un algorithme itératif comportant les étapes suivantes :
+
+#### Étape 1 : Initialisation
+
+Initialiser l'image haute résolution $\sqrt{I_{hr}} e^{i\varphi_{hr}}$ à partir d'une image basse résolution interpolée. Initialiser le spectre de Fourier correspondant.
+
+#### Étape 2 : Génération de l'image basse résolution simulée
+
+Pour le $n$-ième angle d'incidence, générer une image basse résolution simulée $\sqrt{I_l} e^{i\varphi_l}$ en appliquant la FTO à la région correspondante du spectre haute résolution courant.
+
+#### Étape 3 : Remplacement par la mesure
+
+Remplacer l'amplitude de l'image simulée par la mesure réelle $I_{lm}$ :
+
+$$\sqrt{I_l} e^{i\varphi_l} \longrightarrow \sqrt{I_{lm}} e^{i\varphi_l}$$
+
+La **phase est conservée**, seule l'amplitude est mise à jour.
+
+#### Étape 4 : Mise à jour du spectre haute résolution
+
+Rétroprojeter cette image corrigée dans l'espace de Fourier et mettre à jour la région correspondante du spectre haute résolution.
+
+#### Étape 5 : Répétition
+
+Répéter les étapes 2 à 4 pour toutes les $N$ images (tous les angles d'incidence).
+
+#### Étape 5 (finale) : Répéter les étapes 2 à 4 une fois de plus
+
+L'algorithme converge généralement après 2 à 3 itérations complètes.
+
+::: {.callout-note title="À retenir — Structure de l'algorithme"}
+L'algorithme alterne entre l'espace image et l'espace de Fourier, imposant des contraintes de cohérence à chaque itération. C'est un algorithme de type **ptychographie** — terme qui désigne la récupération de phase à partir de mesures d'intensité avec des acquisitions chevauchantes.
+:::
+
+### Configuration expérimentale de la FPM (Zheng et al., 2013)
+
+Le système expérimental décrit dans la publication fondatrice (Guoan Zheng, Roarke Horstmeyer, Changhuei Yang, *Nature Photonics*, 2013) présente les caractéristiques suivantes :
+
+- **Compatible** avec la plupart des microscopes standards (modification simple).
+- **Objectif 2×** (NA = 0,08).
+- **Champ de vue effectif** : $\approx 1,2$ cm de diamètre.
+- **Aucun balayage mécanique** nécessaire — seul l'allumage séquentiel des LEDs est requis.
+- **137 images** à basse résolution acquises.
+- **NA synthétique maximale** $\approx 0,5$.
+
+### Imagerie gigapixel basée sur la FPM
+
+#### Application histologique (cancer du sein)
+
+La FPM permet d'acquérir des images "gigapixels" de coupes histologiques entières avec une résolution subcellulaire :
+
+- Champ de vue du 2× (NA 0,08) : la coupe entière est visible.
+- Résolution FPM (NA synthétique 0,5) : équivalente à un objectif 20× (NA 0,4).
+- **Avantage** : grand champ de vue + haute résolution simultanément, sans balayage mécanique.
+
+#### Application neuroscientifique (cerveau de souris)
+
+Des images haute résolution de coupes de cerveau de souris entières avec coloration à l'argent sont obtainables :
+
+- La structure globale du cerveau est visible à faible grossissement.
+- Les détails fins (axones, dendrites) sont résolus sur une petite région d'intérêt.
+
+#### Application clinique (maladie d'Alzheimer)
+
+Des sections de cerveau humain atteint de la maladie d'Alzheimer peuvent être imagées :
+
+- Les plaques amyloïdes caractéristiques sont visibles à grande échelle.
+- Leur structure fine est résolue dans les régions agrandies.
+
+### Imagerie de phase en FPM (Phase Imaging)
+
+Un avantage majeur de la FPM est sa capacité à récupérer simultanément :
+
+- l'**intensité** de l'objet (comme un microscope classique),
+- la **phase** de l'objet (invisible dans l'imagerie d'intensité classique).
+
+#### Validation sur des microsphères
+
+La précision de la récupération de phase FPM a été validée sur des microsphères de tailles connues :
+
+- Pour une bille de **6,5 µm** : la courbe d'épaisseur récupérée par FPM correspond précisément au modèle théorique.
+- Pour une bille de **3 µm** : résultat similaire.
+
+Ces résultats ont été comparés à la récupération de phase par décalage de phase (*Phase-Shifting*) — méthode de référence — avec un excellent accord.
+
+#### Application sur tissu rénal non coloré
+
+Sur un rein de souris non coloré (*unstained mouse kidney*) :
+
+- L'image en **intensité** FPM est peu contrastée — les cellules sont presque transparentes.
+- L'image en **phase** FPM révèle clairement la structure des cellules (tubules rénaux, glomérules).
+
+::: {.callout-tip title="Intuition — Intérêt de la phase"}
+La plupart des cellules biologiques sont "transparentes" — elles n'absorbent pas la lumière, mais **retardent** sa phase. L'imagerie de phase est donc naturellement adaptée à l'imagerie cellulaire sans colorant.
+:::
+
+### Ptychographie de Fourier épi-illuminée (Epi-Illuminated FP)
+
+La FPM standard fonctionne en transmission (lumière traversant l'échantillon). Pour les **surfaces opaques** (matériaux, circuits intégrés, tissus épais), on utilise une configuration en **épi-illumination** (réflexion).
+
+#### Configuration
+
+- **Deux anneaux de LEDs** sont utilisés :
+  - LED ring 1 (intérieur) : éclairage à petit angle d'incidence.
+  - LED ring 2 (extérieur) : éclairage à grand angle d'incidence.
+- La lumière réfléchie par l'échantillon est collectée par le même objectif.
+- Dans l'espace de Fourier, les deux anneaux de LEDs correspondent à des cercles différents dans le plan fréquentiel.
+
+#### Résultats
+
+Sur une cible de résolution USAF :
+
+- NA objectif initiale : 0,28.
+- NA synthétique après eFP : 0,76.
+- Résolution récupérée : **390 nm** de largeur de trait (Groupe 10, Élément 2).
+
+Cette technique est applicable à des **disques compacts** (CD), des **circuits intégrés**, des **surfaces biologiques**, etc.
+
+### FP à chemin de détection (Detection Path FP)
+
+Une variante importante de la FP est le **balayage de pupille au plan de Fourier** (*Aperture Scanning at the Fourier Plane*), où c'est l'**ouverture de détection** qui est déplacée (et non l'angle d'illumination).
+
+#### Principe
+
+1. L'objet est illuminé par une **onde plane fixe**.
+2. Une **ouverture physique** est balayée dans le **plan de Fourier** (plan pupille) du système d'imagerie.
+3. Pour chaque position de l'ouverture, une image basse résolution est acquise.
+4. L'algorithme de reconstruction FP est appliqué de manière analogue.
+
+#### Algorithme de reconstruction (détection)
+
+1. Initialiser $\tilde{U}_0(k_x, k_y)$ (spectre haute résolution).
+2. Générer une image basse résolution $\sqrt{I_{li}} e^{i\varphi_{li}}$ correspondant à une position d'ouverture.
+3. Remplacer $I_{li}$ par la mesure $I_{mi}$.
+4. Mettre à jour la région correspondante de $\tilde{U}_0(k_x, k_y)$ dans l'espace de Fourier.
+5. Répéter pour toutes les positions d'ouverture.
+6. Image finale haute résolution : $\sqrt{I_h} e^{i\varphi_h}$.
+
+#### Applications
+
+- **Refocalisation 3D holographique** : à partir de l'amplitude et de la phase récupérées, on peut re-focaliser numériquement à différentes profondeurs ($z = -500, -150, +150, +500$ µm).
+- **Imagerie macroscopique** : une version à grande échelle utilise un système à $\approx 0,7$ m de distance objet-caméra, avec balayage de la caméra elle-même.
+
+### FP macroscopique (Macroscopic FP)
+
+Pour l'imagerie de grandes surfaces à une distance de l'ordre du mètre :
+
+- La propagation en champ lointain (*Far-Field Propagation*) est équivalente à une transformée de Fourier.
+- Une **caméra est balayée mécaniquement** dans le plan de Fourier du système.
+- Une **ouverture fixe** limite la NA à chaque position.
+
+#### Résultats macroscopiques
+
+Sur une cible de résolution USAF à 0,7 m :
+
+- Image brute : très basse résolution (200 µm de barre visible).
+- Image reconstruite par FP avec balayage caméra : résolution très significativement améliorée.
+
+### Récupération d'aberrations (Aberration Recovery)
+
+La FPM peut être étendue pour récupérer **à la fois** l'objet $O(x,y)$ **et** la PSF (ou l'aberration $\varphi(k_x, k_y)$) simultanément. L'objectif devient :
+
+$$\text{Récupérer } O(x,y) \text{ et } PSF \text{ à partir de } I_n(x,y), \quad n = 1, 2, 3, \ldots$$
+
+C'est la technique de **récupération de la pupille enchâssée** (*Embedded Pupil Function Recovery*) (Ou et al., *Optics Express*, 2014).
+
+#### Application : caractérisation de lentilles de contact
+
+La récupération d'aberration peut être utilisée pour **caractériser les aberrations d'une lentille de contact** :
+
+- Sur une coupe histologique, la FPM est appliquée à travers la lentille de contact.
+- Les aberrations de front d'onde (Wavefront Aberration) sont récupérées séparément pour les canaux rouge, vert et bleu.
+- La cartographie des aberrations varie spatialement sur le champ de vue (zones a, b, c).
+
+::: {.callout-note title="À retenir"}
+La FPM peut jouer le rôle d'un **profilomètre de front d'onde** pour caractériser les aberrations optiques de n'importe quel système d'imagerie, en plus de son rôle principal de super-résolution.
+:::
+
+### Microscope portable basé sur téléphone mobile (FPscope)
+
+La FPM a été miniaturisée pour créer un **microscope de terrain haute résolution** utilisant une lentille de téléphone portable (Dong et al., *Biomedical Optics Express*, 2014).
+
+#### Composants
+
+- **Lentille de téléphone portable** (Cellphone Lens) — bon marché et compacte.
+- **Capteur CCD** intégré.
+- **Matrice de LEDs** pour les différents angles d'incidence.
+
+#### Résultats
+
+- **Image brute** (NA = 0,15) : résolution limitée, détails fins non résolus.
+- **Image reconstruite FPM** (NA synthétique = 0,5) : résolution bien meilleure, barres fines visibles à $\approx 10$ µm.
+
+Sur une coupe histologique de tissu cancéreux :
+
+- Champ de vue large (100 µm de barre) avec bonne résolution.
+- Qualité proche d'un objectif 40× (0,75 NA) commercial.
+- Récupération simultanée de l'intensité, de la phase, et de la couleur.
+
+### Multiplexage spectral (Spectrum Multiplexing)
+
+#### Motivation
+
+En FPM standard, chaque LED est allumée **séquentiellement** — un seul angle d'incidence à la fois. Le multiplexage spectral consiste à allumer **simultanément** des LEDs de différentes couleurs (R/G/B) pour accélérer l'acquisition.
+
+#### Modèle d'imagerie avec multiplexage
+
+Lorsque des LEDs R, G et B sont allumées simultanément :
+
+$$I_n(x, y) = \sum_i \left| \left( O_i(x,y) \cdot P_n(x,y) \right) * PSF_i \right|^2$$
+
+où $i$ indexe les différents canaux spectraux (rouge, vert, bleu).
+
+**Objectif :** Récupérer $O_i(x,y)$ (image couleur haute résolution) à partir de $I_n(x,y)$.
+
+#### Algorithme de multiplexage spectral
+
+L'algorithme procède en 5 étapes pour chaque angle d'incidence :
+
+1. **Étape 1** : Initialiser les images hautes résolutions $\sqrt{I_r}e^{i\varphi_r}$, $\sqrt{I_g}e^{i\varphi_g}$, $\sqrt{I_b}e^{i\varphi_b}$ séparément pour chaque canal.
+
+2. **Étape 2** : Générer les images basses résolutions cibles pour chaque canal.
+
+3. **Étape 3** : Sommer les intensités des canaux : $I_t = I_{rt} + I_{gt} + I_{bt}$.
+
+4. **Étape 4** : Mettre à jour chaque canal proportionnellement à la mesure $I_m$ :
+$$I'_{rt} = \frac{I_m}{I_t} \cdot I_{rt}$$
+   La phase de chaque canal est conservée.
+
+5. **Étape 5** : Mettre à jour la région spectrale correspondante de chaque image haute résolution.
+
+#### Avantages
+
+- **Aucun filtre spectral** n'est nécessaire.
+- Un **capteur monochrome standard** suffit.
+- L'imagerie multispec­trale est réalisée **computationnellement**.
+
+::: {.callout-note title="À retenir"}
+Le multiplexage spectral permet de réaliser de l'imagerie couleur haute résolution avec un capteur monochrome bon marché, en exploitant la diversité angulaire des LEDs colorées.
+:::
+
+### Modélisation des effets de cohérence partielle
+
+En pratique, les LEDs ne sont pas des sources parfaitement cohérentes (ce sont des sources étendues). Pour prendre en compte la **cohérence partielle**, le modèle d'imagerie devient :
+
+$$I_n(x, y) = \sum_{\Delta_x, \Delta_y = -t}^{t} \left| \left( O(x,y) \cdot e^{i(k_{xn}+\Delta_x)x} \cdot e^{i(k_{yn}+\Delta_y)y} \right) * PSF_i \right|^2$$
+
+Cette formulation somme les contributions de plusieurs ondes planes légèrement décalées en vecteur d'onde (représentant l'étendue angulaire de la LED).
+
+**Objectif :** Récupérer $O(x,y)$ à partir de $I_n(x,y)$.
+
+::: {.callout-tip title="Intuition"}
+La cohérence partielle est modélisée comme une somme incohérente de plusieurs illuminations planes cohérentes légèrement différentes. Plus la LED est grande, plus la somme est étendue.
+:::
+
+### Stratégie d'échantillonnage (Sampling Strategy)
+
+#### Observation clé
+
+Le spectre de Fourier d'un objet typique (tissu biologique) n'a pas une distribution uniforme de l'énergie :
+
+- **L'énergie est concentrée au centre** du spectre de Fourier (basses fréquences spatiales).
+- Les hautes fréquences (bords du spectre) contiennent moins d'énergie.
+
+#### Implication pour la FPM
+
+Cette observation suggère d'adapter la stratégie d'échantillonnage des LEDs :
+
+- **Plus d'échantillons** (LEDs) dans les **régions centrales** de l'espace de Fourier (ondes proches de la normale).
+- **Moins d'échantillons** dans les **régions périphériques** (grands angles).
+
+#### Comparaison des stratégies
+
+- **Échantillonnage uniforme** (*Even pattern*, grille régulière) : erreur quadratique moyenne (RMS Error) plus élevée et convergence plus lente.
+- **Échantillonnage non uniforme** (*Uneven pattern*, plus dense au centre) : erreur plus faible et convergence plus rapide sur le même nombre de boucles d'itération.
+
+#### Implémentation matérielle
+
+Pour réaliser un échantillonnage annulaire (en anneaux concentriques) adapté à la distribution spectrale, un **illuminateur ptychographique de Fourier** à base d'anneaux de LEDs peut être construit :
+
+- **Premier anneau de LEDs** et son image miroir — pour les angles intermédiaires.
+- **Axe optique** et **miroir** — pour assurer la symétrie de l'illumination.
+
+#### Résultats comparatifs : matrice de LEDs vs illuminateur annulaire
+
+Avec une matrice de LEDs (échantillonnage uniforme) :
+
+- Reconstruction de coupes de cerveau et de frottis sanguins avec des motifs d'échantillonnage réguliers.
+
+Avec un illuminateur annulaire (échantillonnage non uniforme, concentré au centre) :
+
+- Reconstruction de coupes de cerveau, frottis sanguins, coupes de pathologie, et cibles USAF.
+- Meilleure qualité d'image pour le même nombre d'images acquises.
+
+### Modélisation multicouche (Multilayer Modeling)
+
+#### Limitation du modèle 2D
+
+Le modèle FPM standard suppose que l'objet est une **couche mince 2D**. Pour les échantillons épais (plusieurs dizaines de micromètres), ce modèle est insuffisant.
+
+#### Modèle multi-tranche (*Multi-Slice Modeling*)
+
+L'objet est décomposé en $n$ tranches minces $O_1(x,y), O_2(x,y), \ldots, O_n(x,y)$, chacune séparée par une distance $\Delta z$.
+
+L'expression du champ complexe entre les tranches fait intervenir la propagation libre, modélisée par la convolution avec le noyau de propagation $psf_t$ dont la transformée de Fourier est :
+
+$$FT\{psf_t\} = e^{\sqrt{k_0^2 - k_x^2 - k_y^2} \cdot \Delta z}$$
+
+où $k_0 = 2\pi/\lambda$.
+
+La contribution globale devient :
+
+$$\left( O_1(x,y) \cdot P_n(x,y) \right) * psf_t \cdot O_2(x,y) * psf_t \cdot O_3(x,y) * psf_t$$
+
+#### Application
+
+La modélisation multi-tranche permet de récupérer des **images à différentes profondeurs** dans un échantillon épais à partir des mêmes données brutes.
+
+Exemple : coupe de tissu imagée avec récupération FP à $z = -10$ µm, $z = -30$ µm et $z = -50$ µm — chaque tranche montre une structure différente.
+
+### Extension pour l'imagerie incohérente
+
+#### Modèle incohérent
+
+En imagerie **incohérente** (ex. : fluorescence), la formation de l'image est différente :
+
+$$I_n(x, y) = \left( O(x,y) \cdot P_n(x,y) \right) * |PSF|^2$$
+
+où $O(x,y) > 0$ et $P_n(x,y) > 0$ (grandeurs réelles positives).
+
+Si on écrit $P_n(x,y) = P(x - x_n, y - y_n)$ (illumination structurée décalée) :
+
+$$I_n(x, y) = \left( O(x,y) \cdot P(x - x_n, y - y_n) \right) * |PSF|^2$$
+
+#### Principe de reconstruction
+
+- On scanne un **motif d'illumination inconnu** (speckle) sur l'échantillon.
+- On récupère simultanément **l'objet** et le **motif de speckle inconnu** à partir des images mesurées.
+
+C'est une version incohérente de la ptychographie.
+
+#### Résultats
+
+Sur une cible de résolution (anneaux concentriques) :
+
+- Image sous illumination uniforme : résolution limitée par la PSF.
+- Image FP reconstruite : résolution significativement améliorée.
+- Motif de speckle récupéré simultanément (inconnu a priori).
+- La trace de ligne montre une résolution améliorée par rapport à l'illumination uniforme.
+
+### Imagerie de fluorescence par FPM (Fluorescence FP Imaging)
+
+L'extension de la FPM à la **fluorescence** utilise des illuminations en speckle (motifs aléatoires) générées par un diffuseur éclairé par un laser.
+
+#### Configuration expérimentale
+
+- Laser à **488 nm** — excitation des fluorophores.
+- **Diffuseur** en ligne d'illumination — génère les motifs de speckle.
+- **Cube filtre** — sépare l'excitation de l'émission.
+- **Objectif 10×** (0,25 NA) — détection.
+- L'échantillon est balayé mécaniquement.
+
+#### Résultats
+
+Sur un tissu fluorescent avec objectif 10× (0,25 NA) :
+
+- Image brute sous illumination en speckle : texturée et bruitée.
+- Image de référence avec objectif 10× sous illumination uniforme : résolution limitée.
+- Image FP reconstruite avec 49 images : résolution de **0,66 µm**, nettement supérieure à la résolution de diffraction de l'objectif.
+
+### Imagerie incohérente multiplexée (Multiplexed Incoherent Imaging)
+
+Le concept FPM incohérent peut être étendu pour récupérer plusieurs dimensions simultanément :
+
+#### Cas 1 : Super-résolution à différentes profondeurs
+
+- À partir de mesures monochromatiques 2D en speckle, on reconstruit des images super-résolues à **différentes coupes z** (profondeur).
+
+#### Cas 2 : Super-résolution à différentes longueurs d'onde
+
+- À partir de mesures monochromatiques 2D, on reconstruit des images super-résolues à **différentes longueurs d'onde** (couleurs).
+
+::: {.callout-tip title="Intuition"}
+En combinant illumination structurée (speckle) et reconstruction computationnelle, on peut "déplier" des dimensions cachées (profondeur, spectre) à partir de mesures 2D monochromatiques.
+:::
+
+### Récupération spectrale à partir de mesures monochromatiques
+
+#### Configuration
+
+- Un **projecteur DMD** (*Digital Micromirror Device*) génère des motifs d'illumination structurés en différentes couleurs.
+- Une **caméra monochrome CCD** acquiert les images.
+- Un objet coloré est imagé.
+
+#### Principe
+
+L'objet coloré est éclairé successivement par différents motifs de speckle colorés. Le capteur monochrome mesure l'intensité totale (mélange des canaux R, G, B pondéré par le motif d'illumination).
+
+En utilisant un algorithme de reconstruction inspiré de la FPM, on peut séparer les contributions spectrales et récupérer les canaux rouge, vert et bleu séparément.
+
+#### Résultats
+
+Comparaison sur un objet floral coloré :
+
+| Mode | Qualité |
+|---|---|
+| Illumination uniforme (canal R, G, B séparément) | Référence basse résolution |
+| Récupération via illumination structurée uniforme | Résolution intermédiaire |
+| Récupération via multiplexage structuré (Multiplexed-SI) | Haute résolution couleur |
+| Vérité terrain (*Ground Truth*) | Référence haute résolution |
+
+La méthode multiplexée approche la vérité terrain avec un seul type de capteur monochrome.
+
+---
+
+## Synthèse générale du chapitre
+
+```{mermaid}
+flowchart TD
+    A["Limitation des microscopes\nconventionnels"] --> B["Résolution vs Champ de vue"]
+    A --> C["Profondeur d'imagerie limitée"]
+    B --> D["Microscopie ptychographique\nde Fourier (FPM)"]
+    C --> E["Microscopie biphotonique\n(2-Photon)"]
+    E --> F["Imagerie tissulaire profonde\nin vivo"]
+    E --> G["Microscopie à champ lumineux\n(LFM) — Volume en un snapshot"]
+    D --> H["Super-résolution + grand FOV"]
+    D --> I["Imagerie de phase"]
+    D --> J["Récupération d'aberrations"]
+    D --> K["Multiplexage spectral"]
+    D --> L["Modélisation multicouche"]
+```
+
+::: {.callout-note title="À retenir — Vue d'ensemble"}
+Les trois techniques présentées dans ce chapitre partagent une philosophie commune : **déplacer la complexité du système optique vers l'algorithme de traitement**. Au lieu de construire des optiques parfaites et coûteuses, on utilise des optiques simples couplées à une acquisition intelligente et une reconstruction computationnelle.
+:::
+
+::: {.callout-important title="Comparaison des techniques"}
+- La **microscopie biphotonique** résout le problème de la profondeur par la physique (NIR, excitation nonlinéaire).
+- Le **LFM** résout le problème de la vitesse d'acquisition volumique par l'optique (microlentilles + algorithme de reconstruction).
+- La **FPM** résout le compromis résolution/FOV par un algorithme itératif dans l'espace de Fourier.
+:::
+
+---
+
+## Références
+
+- Guoan Zheng, Roarke Horstmeyer and Changhuei Yang, "Wide-field, high-resolution Fourier ptychographic microscopy," *Nature Photonics*, 7, 739–745 (2013).
+- Xiaoze Ou, Roarke Horstmeyer, Changhuei Yang and Guoan Zheng, "Quantitative phase imaging via Fourier ptychographic microscopy," *Optics Letters*, 38(22), 4845-4848 (2013).
+- Siyuan Dong, Roarke Horstmeyer, Radhika Shiradkar, Kaikai Guo, Xiaoze Ou, Zichao Bian, Huolin Xin, and Guoan Zheng, "Aperture-scanning Fourier ptychography for 3D refocusing and super-resolution macroscopic imaging," *Optics Express*, 22 (11), 13586-13599, (2014).
+- Siyuan Dong, Kaikai Guo, Pariksheet Nanda, Radhika Shiradkar, and Guoan Zheng, "FPscope: a field-portable high-resolution microscope using a cellphone lens," *Biomedical Optics Express*, 5 (10), 3305-3310 (2014).
+- Siyuan Dong, Radhika Shiradkar, Pariksheet Nanda, Guoan Zheng, "Spectrum multiplexing and coherent-state decomposition in Fourier ptychographic imaging," *Biomedical Optics Express*, 5(6), 1757-1767 (2014).
+- Kaikai Guo, Siyuan Dong, and Guoan Zheng, "Fourier Ptychography for Brightfield, Phase, Darkfield, Reflective, Multi-slice, and Fluorescence Imaging," *IEEE Journal of Selected Topics in Quantum Electronics* (2015).
+- Siyuan Dong, Kaikai Guo, Shaowei Jiang, and Guoan Zheng, "Recovering higher dimensional image data using multiplexed structured illumination," *Optics Express*, 23, 23, 30393 (2015).
+- Xiaoze Ou, Guoan Zheng, and Changhuei Yang, "Embedded pupil function recovery for Fourier ptychographic microscopy," *Optics Express*, 22(5), 4960-4972 (2014).

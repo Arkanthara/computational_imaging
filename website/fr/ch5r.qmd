@@ -1,0 +1,236 @@
+---
+title: "Microscopie avancée et ptychographie de Fourier — Révision"
+---
+
+## Microscopie conventionnelle — Rappels clés
+
+### Ouverture numérique (Numerical Aperture)
+
+$$\text{NA} = n \cdot \sin(\theta) \qquad k_{\max} = \text{NA}_{obj} \times \frac{2\pi}{\lambda}$$
+
+- NA grande → haute résolution → petit FOV
+- NA petite → grand FOV → faible résolution
+
+::: {.callout-warning title="Compromis fondamental"}
+**Résolution élevée ⟺ Champ de vue réduit** — impossible à contourner en optique conventionnelle.
+:::
+
+### Fonction de transfert optique (OTF)
+
+$$OTF = FT\{PSF\} = \text{circ}(k_{\max}) \cdot e^{i\varphi(k_x, k_y)}$$
+
+| Système | Aberration |
+|---|---|
+| Limité par diffraction | $\varphi = 0$ |
+| Avec aberrations | $\varphi \neq 0$ |
+
+---
+
+## Microscopie biphotonique (Two-Photon Microscopy)
+
+### Principe
+
+- Absorption **simultanée** de 2 photons d'énergie $hf/2$ chacun
+- Longueur d'onde excitation **NIR** ≈ 2× la longueur d'onde monophotonique
+- Émission de fluorescence **identique** à la voie monophotonique
+
+### Pourquoi le NIR ?
+
+| Longueur d'onde | Absorption tissu | Diffusion ($\propto 1/\lambda^4$) |
+|---|---|---|
+| 405 nm (violet) | Très forte | Très forte |
+| 532 nm (vert) | Forte | Forte |
+| 633 nm (rouge) | Modérée | Modérée |
+| NIR (~800 nm) | Faible ✓ | Faible ✓ |
+
+### Confocal vs Biphotonique
+
+| Critère | Confocal | Biphotonique |
+|---|---|---|
+| Excitation hors-focus | Oui | **Non** |
+| Pinhole nécessaire | Oui | **Non** |
+| Pénétration | < 200 µm | **≤ 1 mm** |
+| Phototoxicité | Plus élevée | **Plus faible** |
+| Photoblanchiment | Plus fort | **Réduit** |
+
+### Résolutions typiques
+
+- Latérale : **0,64 µm**
+- Axiale : **3,35 µm**
+
+### Stratégies d'illumination (vitesse croissante)
+
+| Stratégie | Détecteur | Vitesse |
+|---|---|---|
+| Point | Détecteur ponctuel | Lent ❌ |
+| Ligne | Caméra 1D | Intermédiaire |
+| Plan (light-sheet) | Caméra 2D | Rapide ✓ |
+
+::: {.callout-note title="À retenir"}
+Le balayage point par point (2PLSM) est **intrinsèquement lent** — principal inconvénient de la biphotonique.
+:::
+
+### Applications biologiques clés
+
+- Ganglions lymphatiques : dynamique T/B/dendritique
+- Poumon : recrutement cellulaire (intravital)
+- Cerveau, foie, peau, thymus, moelle osseuse
+
+---
+
+## Microscopie à champ lumineux (Light-Field Microscopy)
+
+### Champ lumineux (Light Field)
+
+- Paramétrisation **4D** : position $(x,y)$ + direction angulaire $(u,v)$
+- Capture simultanée position ET direction de chaque rayon
+
+### Architecture LFM
+
+```
+Objectif → Lentille tube → Réseau de microlentilles → Capteur CCD
+```
+
+- Réseau de microlentilles placé au **plan image natif**
+- 1 snapshot → volume 3D complet reconstruit computationnellement
+
+### Comparaison avec la biphotonique
+
+| | 2-Photon | LFM |
+|---|---|---|
+| Nb acquisitions | Multiples (scan) | **1 snapshot** |
+| Volume 3D | Par balayage | **Instantané** |
+| Résolution | Haute | Compromise |
+
+---
+
+## Ptychographie de Fourier (Fourier Ptychographic Microscopy)
+
+### Modèle d'imagerie cohérente
+
+$$I_n(x, y) = \left| \left( O(x,y) \cdot P_n(x,y) \right) * PSF \right|^2$$
+
+- $O(x,y)$ : objet complexe inconnu ← **ce qu'on cherche**
+- $P_n(x,y) = e^{ik_{xn}x} \cdot e^{ik_{yn}y}$ : illumination onde plane ($n$-ième LED)
+- $(k_{xn}, k_{yn})$ : angle d'incidence de la $n$-ième LED
+
+### Idée centrale FPM
+
+::: {.callout-tip title="Intuition clé"}
+Chaque LED décale la fenêtre de visualisation (FTO) dans l'espace de Fourier de l'objet. En combinant toutes les vues partielles → spectre élargi → **haute résolution synthétique**.
+:::
+
+### Configuration typique
+
+| Paramètre | Valeur |
+|---|---|
+| Objectif | 2× (NA = 0,08) |
+| Champ de vue effectif | ≈ 1,2 cm diamètre |
+| Nb images acquises | 137 |
+| NA synthétique max | ≈ 0,5 |
+| Balayage mécanique | Non (LEDs séquentielles) |
+
+### Algorithme de reconstruction itérative
+
+1. **Init** : $\sqrt{I_{hr}} e^{i\varphi_{hr}}$ depuis image interpolée
+2. **Simuler** image basse résolution $\sqrt{I_l} e^{i\varphi_l}$ (FTO appliquée)
+3. **Remplacer amplitude** : $\sqrt{I_l} \to \sqrt{I_{lm}}$ (phase conservée)
+4. **Mettre à jour** la région correspondante dans le spectre HR
+5. **Répéter** pour tous les $N$ angles d'incidence
+6. **Itérer** 2–3 fois jusqu'à convergence
+
+::: {.callout-warning title="Point critique"}
+Seule l'**amplitude** est remplacée par la mesure. La **phase** est toujours conservée de l'estimation courante.
+:::
+
+### Variantes de la FPM
+
+| Variante | Description | Application |
+|---|---|---|
+| FPM standard | LED matrix, transmission | Histologie, gigapixel |
+| Épi-illuminée (eFP) | Anneaux de LEDs, réflexion | Surfaces opaques, CD, circuits |
+| Détection (path) | Balayage pupille au plan de Fourier | Holographie 3D, macroscopique |
+| Macroscopique | Balayage caméra, ~0,7 m | Grande surface |
+
+### Imagerie de phase
+
+- FPM récupère **intensité ET phase** simultanément
+- Cellules biologiques non colorées : quasi-transparentes en intensité, **contrastées en phase**
+- Utile pour tissu non coloré (ex. rein de souris)
+
+### Récupération d'aberrations
+
+$$\text{Goal étendu : récupérer } O(x,y) \text{ ET } PSF \text{ à partir de } \{I_n\}$$
+
+- Technique : *Embedded Pupil Function Recovery*
+- Application : caractérisation de lentilles de contact (aberrations par canal R/G/B)
+
+### Multiplexage spectral
+
+$$I_n(x, y) = \sum_i \left| \left( O_i(x,y) \cdot P_n(x,y) \right) * PSF_i \right|^2$$
+
+- LEDs R/G/B allumées **simultanément**
+- Capteur **monochrome** suffit
+- Reconstruction computationnelle des canaux couleur séparés
+
+**Mise à jour de chaque canal :**
+
+$$I'_{rt} = \frac{I_m}{I_t} \cdot I_{rt}, \quad I_t = I_{rt} + I_{gt} + I_{bt}$$
+
+### Stratégie d'échantillonnage
+
+- Énergie spectrale **concentrée au centre** → plus d'échantillons centraux
+- Échantillonnage **non uniforme** (annulaire) > uniforme (grille)
+- Illuminateur à anneaux de LEDs = meilleure convergence
+
+### Modélisation multicouche
+
+$$O(x,y) \cdot P_n \to \underbrace{(O_1 \cdot P_n) * psf_t \cdot O_2 * psf_t \cdot O_3 * psf_t}_{\text{propagation entre tranches}}$$
+
+$$FT\{psf_t\} = e^{\sqrt{k_0^2 - k_x^2 - k_y^2}\,\Delta z}$$
+
+- Permet de récupérer des images à **différentes profondeurs** $z$
+
+### Extension incohérente (fluorescence)
+
+$$I_n(x, y) = \left( O(x,y) \cdot P(x-x_n, y-y_n) \right) * |PSF|^2$$
+
+- $O > 0$, $P > 0$ (réels positifs)
+- Illumination par **speckle** (motif inconnu)
+- Récupération simultanée de l'objet ET du speckle
+
+---
+
+## Tableau comparatif global
+
+| Technique | Pb résolu | Mécanisme | Vitesse | Résolution |
+|---|---|---|---|---|
+| Biphotonique | Profondeur | Excitation NIR nonlinéaire | Lente | Haute |
+| LFM | Vitesse volumique | Microlentilles + reconstruction | **Très rapide** | Compromise |
+| FPM | Résolution vs FOV | Multi-illumination + algo itératif | Modérée | **Très haute (synthétique)** |
+
+---
+
+## Formules à retenir
+
+| Formule | Signification |
+|---|---|
+| $\text{NA} = n\sin\theta$ | Ouverture numérique |
+| $k_{\max} = \text{NA} \cdot 2\pi/\lambda$ | Fréquence max transmise |
+| $I_n = \|(O \cdot P_n)*PSF\|^2$ | Modèle imagerie cohérente |
+| $OTF = \text{circ}(k_{\max}) \cdot e^{i\varphi}$ | Filtre passe-bas optique |
+| $FT\{psf_t\} = e^{\sqrt{k_0^2 - k_x^2 - k_y^2}\Delta z}$ | Propagation multicouche |
+| $I_t = I_{rt} + I_{gt} + I_{bt}$ | Somme intensités multiplexées |
+
+---
+
+## Pièges classiques
+
+::: {.callout-warning title="Points critiques à ne pas confondre"}
+- **Biphotonique ≠ confocale** : pas de pinhole, excitation confinée naturellement au focus.
+- **FPM ≠ super-résolution classique** : exploite la diversité angulaire d'illumination, pas le bruit de mesure.
+- **Phase conservée** dans l'algorithme FPM — seule l'amplitude est corrigée à chaque étape.
+- **Cohérence partielle** : les LEDs ont une étendue angulaire → modèle avec somme d'ondes planes.
+- **Échantillonnage non uniforme** converge mieux car l'énergie spectrale est non uniforme.
+- **LFM** : résolution spatiale compromise par le réseau de microlentilles (trade-off résolution/vitesse).
+:::

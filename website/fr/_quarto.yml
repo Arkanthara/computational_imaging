@@ -55,6 +55,14 @@ website:
                 href: ch4r.qmd
               - text: "Quiz"
                 href: ch4q.qmd
+          - section: "Microscopes"
+            contents:
+              - text: "Détails"
+                href: ch5.qmd
+              - text: "Synthèse"
+                href: ch5r.qmd
+              - text: "Quiz"
+                href: ch5q.qmd
       - section: "Examen"
         contents:
           - text: "Détails"
