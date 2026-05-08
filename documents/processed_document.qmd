@@ -1,0 +1,654 @@
+---
+title: "Modèle de Diffusion Probabiliste Binaire (Binary Diffusion Probabilistic Model)"
+format: 
+    html: 
+        theme: darkly
+        embed-resources: true
+---
+
+## Introduction aux modèles génératifs
+
+Les modèles génératifs constituent aujourd'hui l'un des axes les plus actifs de la recherche en apprentissage automatique (machine learning). Leur objectif est d'apprendre la distribution sous-jacente d'un ensemble de données afin de pouvoir en générer de nouveaux exemples réalistes.
+
+Parmi les familles de modèles génératifs les plus importantes, on trouve :
+
+- Les réseaux antagonistes génératifs (Generative Adversarial Networks, GANs)
+- Les auto-encodeurs variationnels (Variational Autoencoders, VAEs)
+- Les modèles de diffusion probabilistes (Denoising Diffusion Probabilistic Models, DDPMs)
+- Les modèles autorégressifs (Autoregressive Models)
+
+Les modèles de diffusion ont connu un essor remarquable ces dernières années, notamment pour la synthèse d'images, la génération vidéo et les tâches de traduction image-à-image (image-to-image translation).
+
+### Pourquoi s'intéresser aux représentations binaires ?
+
+Les images numériques sont, par nature, des objets **discrets**. Une image 8 bits RGB encode chaque pixel sur 8 bits par canal, soit 256 niveaux de gris possibles. Cette réalité numérique est souvent ignorée par les DDPMs classiques, qui traitent les images comme des données continues.
+
+::: {.callout-tip title="Intuition"}
+Imaginez que vous essayez de modéliser le tirage d'un dé avec une distribution gaussienne continue. Le résultat sera approximatif : la distribution continue ne correspond pas à la nature intrinsèquement discrète du phénomène. Le même problème se pose pour les images numériques !
+:::
+
+C'est précisément ce problème que cherche à résoudre le **Modèle de Diffusion Probabiliste Binaire** (Binary Diffusion Probabilistic Model, BDPM), présenté dans ce cours.
+
+---
+
+## Les DDPMs classiques : rappels et limites
+
+### Principe des DDPMs
+
+Un DDPM (Denoising Diffusion Probabilistic Model) repose sur deux processus symétriques :
+
+1. **Le processus de diffusion avant (forward process)** : du bruit gaussien est progressivement ajouté à une donnée réelle jusqu'à obtenir du bruit pur.
+2. **Le processus de débruitage inverse (reverse process)** : un réseau de neurones apprend à inverser ce processus, reconstituant la donnée originale à partir du bruit.
+
+#### Le processus avant (Forward Process)
+
+À chaque pas de temps $t$, le processus avant est défini par :
+
+$$q(\mathbf{x}_t \mid \mathbf{x}_{t-1}) = \mathcal{N}\!\left(\mathbf{x}_t;\, \sqrt{1-\beta_t}\,\mathbf{x}_{t-1},\, \beta_t \mathbf{I}\right)$$
+
+où :
+
+- $\mathbf{x}_t$ et $\mathbf{x}_{t-1}$ sont les échantillons bruités aux pas $t$ et $t-1$
+- $\beta_t$ est le **calendrier de variance** (variance schedule), contrôlant la quantité de bruit injectée à chaque étape
+
+En pratique, on peut calculer directement $\mathbf{x}_t$ à partir de $\mathbf{x}_0$ :
+
+$$\mathbf{x}_t = \sqrt{\bar{\alpha}_t}\,\mathbf{x}_0 + \sqrt{1-\bar{\alpha}_t}\,\boldsymbol{\epsilon}$$
+
+avec $\bar{\alpha}_t = \prod_{s=1}^{t}(1-\beta_s)$ et $\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$.
+
+::: {.callout-note title="À retenir"}
+Le processus avant transforme progressivement une image réelle en bruit gaussien pur. Plus $t$ est grand, plus l'image est bruitée. Au temps $T$ suffisamment grand, $\mathbf{x}_T \approx \mathcal{N}(\mathbf{0}, \mathbf{I})$.
+:::
+
+#### Le processus inverse (Reverse Process)
+
+Le réseau de neurones $g_\theta$ apprend à prédire le bruit $\boldsymbol{\epsilon}$ ajouté à chaque étape en minimisant la **perte des moindres carrés** (Mean Squared Error, MSE) :
+
+$$\mathcal{L}_\epsilon = \mathbb{E}_{\mathbf{x}_0,\, \boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0},\mathbf{I}),\, t}\!\left[\|\boldsymbol{\epsilon} - \hat{\boldsymbol{\epsilon}}\|^2\right]$$
+
+où $\hat{\boldsymbol{\epsilon}} = g_\theta(\mathbf{x}_t, t)$ est le bruit prédit par le débruiteur (denoiser) au pas $t$.
+
+### Représentation des images dans les DDPMs classiques
+
+Dans les DDPMs traditionnels, une image discrète $\mathbf{I}_0 \in \{0, \ldots, 255\}^{H \times W \times C}$ est représentée comme un **tenseur continu** normalisé dans $[-1, 1]$.
+
+Cette représentation permet d'utiliser la diffusion gaussienne, mais introduit une **inadéquation fondamentale** entre le modèle et la nature réelle des données.
+
+---
+
+## Les trois limites majeures des DDPMs classiques
+
+### Limite 1 : La nature discrète des images numériques
+
+Les images numériques au format RGB 8 bits sont **intrinsèquement discrètes** : chaque canal prend ses valeurs dans un ensemble fini de 256 niveaux. Cette discrétisation correspond naturellement à une représentation binaire sur 8 bits par canal.
+
+::: {.callout-tip title="Intuition"}
+En décomposant chaque canal d'une image en 8 **plans de bits** (bit-planes), on obtient une représentation exacte et réversible de l'image. Le plan de bits le plus significatif (Most Significant Bit, MSB) capture la structure globale, tandis que les plans les moins significatifs (Least Significant Bits, LSBs) contiennent des détails fins et du bruit.
+:::
+
+### Limite 2 : L'incompatibilité du bruit gaussien avec les données binaires
+
+Le bruit gaussien est conçu pour un espace continu. Lorsqu'on l'applique à des données binaires ou discrètes :
+
+- Des **valeurs intermédiaires** non-entières sont générées
+- Il faut quantifier ou binariser ces valeurs, introduisant des artéfacts
+- La convergence est dégradée car le modèle doit gérer un espace continu non naturel pour les données
+
+::: {.callout-warning title="Problème clé"}
+Appliquer du bruit gaussien à une représentation binaire revient à "sortir" de l'espace naturel des données. Le modèle doit ensuite apprendre à revenir dans cet espace, ce qui est coûteux et source d'erreurs.
+:::
+
+### Limite 3 : La sous-optimalité de la perte MSE en espace discret
+
+Les DDPMs utilisent la perte MSE (Mean Squared Error) sous l'hypothèse d'une distribution gaussienne des pixels. Cette approche :
+
+- Entraîne le débruiteur à prédire du bruit gaussien, et **non** les pixels discrets réels
+- Crée un désalignement entre l'objectif d'entraînement et la nature des données
+- Rend la MSE sous-optimale pour mesurer la qualité d'une reconstruction discrète
+
+::: {.callout-note title="À retenir"}
+Ces trois limites motivent le développement d'un nouveau cadre : le **BDPM**, qui utilise des représentations binaires, un bruit XOR, et une perte d'entropie croisée binaire (Binary Cross-Entropy, BCE).
+:::
+
+---
+
+## Les représentations binaires dans le domaine transformé
+
+Le BDPM s'appuie sur deux types de représentations binaires selon la tâche visée.
+
+```{mermaid}
+flowchart TD
+    A[Image I₀] --> B{Tâche}
+    B -->|Traduction image-à-image| C[MBPR\nReprésentations par plans de bits multiples]
+    B -->|Génération conditionnelle| D[LBR\nReprésentations binaires apprenables]
+    C --> E[Précision pixel par pixel]
+    D --> F[Qualité perceptuelle globale]
+```
+
+### Représentation par plans de bits multiples (Multiple Bit-Plane Representation, MBPR)
+
+#### Principe
+
+La MBPR décompose une image en ses **plans de bits constitutifs**. Pour une image $\mathbf{I}_0$ de profondeur $n$ bits, la transformation bijective $\mathcal{T}$ est définie par :
+
+$$\mathbf{I}_0 = \sum_{k=0}^{n-1} \mathbf{x}_0(k) \cdot 2^k$$
+
+où chaque **plan de bits** $\mathbf{x}_0(k) \in \{0,1\}^{H \times W}$ capture le $k$-ième coefficient binaire à travers toute l'image.
+
+::: {.callout-tip title="Intuition"}
+Pour une image 8 bits, $k=7$ correspond au MSB (bit de poids fort) et $k=0$ au LSB (bit de poids faible). Le MSB porte l'information structurelle principale (formes, contrastes forts), tandis que le LSB ressemble à du bruit aléatoire.
+:::
+
+#### Propriétés statistiques des plans de bits
+
+Les différents plans de bits présentent des **propriétés statistiques distinctes** :
+
+- **Plans de bits de poids fort (MSB)** : forte corrélation inter-pixels, haute fidélité structurelle
+- **Plans de bits de poids faible (LSB)** : faible corrélation, contenu quasi-stochastique
+
+Cette hiérarchie permet un **contrôle fin de l'injection de bruit** : on peut prioriser le débruitage aux niveaux de bits les plus significatifs.
+
+#### Avantages de la MBPR
+
+- **Transformation réversible (bijective)** : aucune perte d'information ($\mathcal{T}^{-1}$ existe)
+- **Non paramétrique** : ne nécessite pas d'apprentissage
+- **Précision pixel par pixel** : idéale pour la super-résolution, l'inpainting, la restauration aveugle
+- **Contrôle granulaire** du bruit par plan de bits
+
+### Représentation binaire apprenable (Learnable Binary Representation, LBR)
+
+#### Principe
+
+Les LBR sont obtenues via un **auto-encodeur paramétrique** entraîné de bout en bout. L'encodeur transforme l'image $\mathbf{I}_0$ en une représentation latente binaire compacte $\mathbf{x}_0$, suivie d'une étape de quantisation.
+
+Ce paradigme est illustré par des architectures comme :
+
+- **VQ-GAN** (Vector Quantized Generative Adversarial Network)
+- **dVAE** (Discrete Variational Autoencoder)
+- **MAGVIT-v2** : architecture utilisée dans le BDPM pour la génération d'images
+
+#### Caractéristiques
+
+- **Représentation compressée** (lossy) : perte d'information contrôlée
+- **Flexibilité sémantique** : capte des caractéristiques de haut niveau
+- **Efficacité** : espace latent compact, idéal pour la génération à grande échelle
+- **Interprétabilité** : représentations binaires directement manipulables
+
+#### Quand utiliser MBPR vs LBR ?
+
+| Critère | MBPR | LBR |
+|---|---|---|
+| Précision pixel | ✅ Excellente | ❌ Approximative |
+| Efficacité computationnelle | Modérée | ✅ Élevée |
+| Tâche cible | Super-résolution, inpainting, restauration | Génération conditionnelle |
+| Perte d'information | Aucune (bijective) | Oui (lossy) |
+
+---
+
+## Le modèle BDPM : méthodologie
+
+### Vue d'ensemble
+
+Le BDPM adapte le processus de diffusion classique à l'espace binaire en remplaçant :
+
+1. Le **bruit gaussien** → bruit XOR
+2. La **perte MSE** → perte d'entropie croisée binaire (BCE)
+3. La **représentation continue** → représentation binaire (MBPR ou LBR)
+
+### Le processus de diffusion binaire : le bruit XOR
+
+#### Définition
+
+Dans le BDPM, le bruit est ajouté par **retournement de bits** (bit flipping) via l'opération XOR (OU exclusif), contrôlée par le mappeur $\mathcal{M}_t$ à chaque pas $t$.
+
+Pour un plan de bits original $\mathbf{x}_0(k) \in \{0,1\}^{H \times W}$ et un plan de bruit aléatoire $\mathbf{z}_t(k) \in \{0,1\}^{H \times W}$, le canal bruité est :
+
+$$\mathbf{x}_t(k) = \mathbf{x}_0(k) \oplus \mathbf{z}_t(k)$$
+
+où $\oplus$ désigne l'opération XOR.
+
+::: {.callout-tip title="Intuition"}
+L'opération XOR est l'analogue binaire de l'addition du bruit gaussien. Si $\mathbf{z}_t(k)$ est nul (bit 0), le bit original est préservé. Si $\mathbf{z}_t(k)$ vaut 1, le bit est retourné (0→1 ou 1→0). Le niveau de bruit est contrôlé par la **probabilité de retournement** des bits.
+:::
+
+#### Niveau de bruit et calendrier quadratique
+
+Le niveau de bruit à l'étape $t$ est défini comme la **fraction de bits retournés** dans $\mathbf{z}_t(k)$. Cette probabilité de retournement $\beta_t$ varie dans $[0, 0.5]$.
+
+Le **calendrier de bruit quadratique** (quadratic noise schedule) est défini par :
+
+$$\beta_t = \left(\sqrt{\beta_\text{start}} + \frac{t}{T}\left(\sqrt{\beta_\text{end}} - \sqrt{\beta_\text{start}}\right)\right)^2$$
+
+avec :
+
+- $T$ : nombre total de pas (par défaut 1000)
+- $\beta_\text{start} = 10^{-5}$ : valeur minimale de bruit
+- $\beta_\text{end} = 0.5$ : valeur maximale (retournement de 50 % des bits)
+
+::: {.callout-note title="À retenir"}
+Avec une probabilité de retournement de 0.5, chaque bit a autant de chances d'être 0 que 1 — on obtient du bruit binaire pur, analogue au bruit gaussien pur à $T \to \infty$ dans les DDPMs classiques.
+:::
+
+### La fonction de perte : entropie croisée binaire (Binary Cross-Entropy, BCE)
+
+#### Formulation
+
+Le réseau débruiteur $g^B_\theta(\mathbf{x}_t, t, \mathbf{y}_e)$ est entraîné à prédire simultanément :
+
+- Le **tenseur propre** de la représentation binaire de l'image $\mathbf{x}_0$ (clean image tensor)
+- Le **tenseur de bruit** ajouté $\mathbf{z}_t$ (added noise tensor)
+
+La fonction de perte globale, moyennée sur un lot de $M$ échantillons, est :
+
+$$\mathcal{L}(\theta) = \frac{1}{B} \sum_{m=1}^{M} \left[ \mathcal{L}_x\!\left(\hat{\mathbf{x}}_0^{(m)}, \mathbf{x}_0^{(m)}\right) + \mathcal{L}_z\!\left(\hat{\mathbf{z}}_t^{(m)}, \mathbf{z}_t^{(m)}\right) \right]$$
+
+où $\mathcal{L}_x$ et $\mathcal{L}_z$ sont des pertes BCE calculées pour chaque plan de bits $k$ et chaque coordonnée pixel $(i,j)$.
+
+#### Conditionnement
+
+Le terme $\mathbf{y}_e = \mathcal{E}_y(\mathbf{I}_y)$ désigne l'encodage de l'image conditionnelle $\mathbf{I}_y$, qui peut représenter :
+
+- Une image basse résolution (super-résolution)
+- Une image floutée (restauration aveugle)
+- Une image avec régions masquées (inpainting)
+
+#### Pondération des plans de bits (MBPR)
+
+Pour équilibrer l'importance des différents plans de bits lors de l'entraînement avec la MBPR, une **pondération linéaire** est appliquée :
+
+- Poids du MSB (bit de poids fort) : **1.0**
+- Poids du LSB (bit de poids faible) : **0.1**
+- Poids intermédiaires : interpolation linéaire entre 1.0 et 0.1
+
+::: {.callout-tip title="Intuition"}
+Cette pondération reflète l'importance relative des plans de bits : les bits de poids fort portent l'information structurelle principale et méritent une attention accrue lors de l'entraînement.
+:::
+
+Pour la LBR, un poids constant est utilisé pour tous les canaux.
+
+### Architecture du débruiteur (Denoiser)
+
+#### Pour la traduction image-à-image : U-Net
+
+Le BDPM utilise une architecture **U-Net** (Ronneberger et al., 2015) pour les tâches de traduction image-à-image. Ce débruiteur :
+
+- Comprend 4 blocs de sous-échantillonnage convolutifs
+- Intègre de l'**auto-attention** (self-attention) dans le bloc le plus profond
+- Utilise de l'**attention linéaire** (linear attention) dans les blocs restants
+- Dispose de **35,8 millions de paramètres**
+- Incorpore un conditionnement temporel sinusoïdal à chaque bloc
+- Intègre le conditionnement image en concaténant les canaux supplémentaires
+
+#### Pour la génération conditionnelle : DiT
+
+Pour la génération d'images conditionnelle aux classes, le BDPM adopte l'architecture **DiT** (Diffusion Transformer, Peebles & Xie, 2023). Deux variantes sont étudiées :
+
+- **DiT-S** : 32,9 millions de paramètres
+- **DiT-B** : 130 millions de paramètres
+
+Les représentations binaires proviennent de l'encodeur **MAGVIT-v2** avec une taille de patch de 16×16.
+
+### Algorithme d'échantillonnage (Sampling)
+
+Le processus d'échantillonnage du BDPM se déroule comme suit :
+
+```
+Algorithme 1 : Algorithme d'échantillonnage BDPM
+
+ENTRÉES :
+  - g_θ^B : débruiteur pré-entraîné
+  - I_y : condition / étiquette de classe
+  - threshold : seuil de binarisation (défaut : 0.5)
+
+INITIALISATION :
+  x_t ← tenseur binaire aléatoire
+  y_e ← E_y(I_y)  // encodage de la condition
+
+BOUCLE pour t ∈ {T, ..., 0} :
+  x̂_0, ẑ_t ← g_θ^B(x_t, t, y_e)
+  x̂_0 ← σ(x̂_0) > threshold   // binarisation via sigmoïde
+  z_t ← get_binary_noise(t)     // bruit binaire aléatoire
+  x_t ← x̂_0 ⊕ z_t             // mise à jour par XOR
+
+RETOUR : T^{-1}(x_t)            // image reconstruite
+```
+
+::: {.callout-note title="À retenir"}
+Contrairement aux DDPMs classiques qui utilisent l'échantillonnage stochastique de Langevin, le BDPM utilise directement $\hat{\mathbf{x}}_0$ à chaque étape, puis lui ajoute du bruit binaire aléatoire pour passer au pas suivant.
+:::
+
+#### Détail de la binarisation (mappeur Q)
+
+La sortie du débruiteur est transformée en valeur binaire via :
+
+1. Application d'une **fonction sigmoïde** $\sigma(\cdot)$ pour obtenir une probabilité dans $[0,1]$
+2. **Comparaison à un seuil** (threshold = 0.5 par défaut)
+
+Cette opération constitue le **mappeur** $\mathcal{Q}$, appliqué avant la transformation inverse $\mathcal{T}^{-1}$.
+
+---
+
+## Schéma d'entraînement et d'échantillonnage
+
+```{mermaid}
+flowchart LR
+    subgraph ENTRAÎNEMENT
+        I0[Image I₀] --> T[Transformée T]
+        T --> x0[x₀]
+        x0 --> XOR1[⊕ XOR]
+        zB[Bruit z_B] --> Mt[Mappeur M_t] --> zt[z_t]
+        zt --> XOR1
+        XOR1 --> xt[x_t bruité]
+        xt --> G[Débruiteur g_θ^B]
+        ye[Condition y_e] --> G
+        t[Pas t] --> G
+        G --> xhat[x̂₀]
+        G --> zhat[ẑ_t]
+        xhat --> Lx[Perte BCE Lx]
+        zhat --> Lz[Perte BCE Lz]
+        x0 --> Lx
+        zt --> Lz
+    end
+```
+
+---
+
+## Résultats expérimentaux
+
+### Protocole d'évaluation
+
+#### Jeux de données
+
+Les expériences sont conduites sur quatre jeux de données standards :
+
+- **ImageNet-1k** : ~1,28 million d'images, 1000 catégories, résolution 256×256
+- **CelebA** : 202 599 images de visages de célébrités, 178×218 pixels
+- **FFHQ** (Flickr-Faces-HQ) : 70 000 images haute qualité 1024×1024, dont 60K pour l'entraînement et 10K pour l'évaluation
+- **CelebA-HQ** : 30 000 images 1024×1024 (version haute qualité de CelebA)
+
+#### Métriques d'évaluation
+
+Pour la **traduction image-à-image** :
+
+- **FID** (Fréchet Inception Distance) : mesure la distance entre la distribution des images générées et des images réelles *(plus bas = meilleur)*
+- **LPIPS** (Learned Perceptual Image Patch Similarity) : similarité perceptuelle apprise *(plus bas = meilleur)*
+- **PSNR** (Peak Signal-to-Noise Ratio) : rapport signal-sur-bruit *(plus haut = meilleur)*
+- **SSIM** (Structural Similarity Index Measure) : similarité structurelle *(plus haut = meilleur)*
+- **P-IDS / U-IDS** (Perceptual / Unweighted Image Defect Similarity) : pour l'évaluation de l'inpainting
+
+Pour la **génération conditionnelle** :
+
+- **FID**, **IS** (Inception Score), **Précision**, **Rappel** (Recall)
+
+### Tâche 1 : Super-résolution (Super-Resolution)
+
+#### Protocole
+
+La super-résolution $4\times$ consiste à reconstruire une image $256\times256$ à partir d'une version $64\times64$ :
+
+- L'image originale est sous-échantillonnée en sélectionnant 1 pixel sur 4
+- Cette image basse résolution est réinterpolée (bilinéaire) pour servir de conditionnement $\mathbf{I}_y$
+- Le nombre de pas d'échantillonnage est fixé à **30**
+
+#### Résultats sur FFHQ
+
+| Méthode | Params. | FID ↓ | LPIPS ↓ | PSNR ↑ | SSIM ↑ | Étapes |
+|---|---|---|---|---|---|---|
+| HiFaceGAN | 54M | 5,36 | — | 28,65 | 0,816 | 1 |
+| DPS | 554M | 39,35 | 0,214 | 25,67 | 0,852 | 1000 |
+| DDRM | 554M | 62,15 | 0,294 | 25,36 | 0,835 | 1000 |
+| DiffPIR | 554M | 58,02 | 0,187 | 29,17 | — | 20 |
+| DiffPIR | 554M | 47,8 | 0,174 | 29,52 | — | 100 |
+| **BDPM (notre)** | **35,8M** | **5,71** | **0,151** | **30,05** | **0,864** | **30** |
+
+#### Résultats sur CelebA
+
+| Méthode | Params. | FID ↓ | LPIPS ↓ | PSNR ↑ | SSIM ↑ | Étapes |
+|---|---|---|---|---|---|---|
+| PULSE | 26,2M | 40,33 | — | 22,74 | 0,623 | 100 |
+| DDRM | 554M | 31,04 | — | 31,04 | 0,941 | 100 |
+| ILVR | 554M | 29,82 | — | 31,59 | 0,943 | 100 |
+| VQFR | 76,3M | 25,24 | 0,411 | — | — | 1 |
+| CodeFormer | 74M | 26,16 | 0,324 | — | — | 1 |
+| DifFace | 176M | 23,21 | 0,338 | — | — | 100 |
+| DDNM | 554M | 22,27 | — | 31,63 | 0,945 | 100 |
+| ResShift | 118,6M | 17,56 | 0,309 | — | — | 4 |
+| DiT-SR | 100,6M | 19,65 | 0,337 | — | — | 4 |
+| **BDPM (notre)** | **35,8M** | **3,5** | **0,116** | **32,01** | **0,91** | **30** |
+
+::: {.callout-important title="Résultat clé"}
+Avec seulement 35,8 millions de paramètres — contre 554M pour les DDPMs de référence — le BDPM surpasse tous les modèles comparés sur CelebA en FID, LPIPS et PSNR. Il illustre l'efficacité des représentations binaires pour les tâches nécessitant une précision pixel par pixel.
+:::
+
+### Tâche 2 : Inpainting (Complétion d'image)
+
+#### Protocole
+
+La tâche consiste à reconstruire les régions masquées d'une image, avec un masque couvrant **10–30 %** de chaque image :
+
+- Les pixels masqués sont remplacés par du bruit aléatoire $\{0,1\}$
+- Le conditionnement est : $\mathbf{I}_y = [\mathcal{M}, \mathbf{I}_m]$ (masque + image masquée)
+- **100 pas d'échantillonnage**
+
+#### Résultats sur FFHQ (512×512)
+
+| Méthode | Params. | FID ↓ | LPIPS ↓ | PSNR ↑ | SSIM ↑ | P-IDS ↑ | U-IDS ↑ |
+|---|---|---|---|---|---|---|---|
+| LaMa | 51M | 19,6 | 0,287 | 18,99 | 0,718 | — | — |
+| CoModGAN | 109M | 3,7 | 0,247 | 18,46 | 0,696 | 16,6 | 29,4 |
+| TFill | 70M | 3,5 | 0,053 | — | — | — | — |
+| SH-GAN | 79,8M | 3,4 | 0,245 | 18,43 | 0,694 | — | — |
+| **BDPM (notre)** | **35,8M** | **1,3** | **0,059** | **28,7** | **0,961** | **17,43** | **33,07** |
+
+::: {.callout-tip title="Intuition"}
+Le BDPM obtient un PSNR de 28,7 dB contre environ 18–19 dB pour les autres méthodes sur FFHQ. Cet écart important s'explique par la capacité du BDPM à maintenir la cohérence pixel par pixel grâce à la MBPR, tandis que les GANs favorisent le réalisme perceptuel au détriment de la fidélité exacte.
+:::
+
+### Tâche 3 : Restauration d'image aveugle (Blind Image Restoration)
+
+#### Protocole
+
+La restauration aveugle vise à récupérer une image haute qualité à partir d'une image dégradée, **sans connaître a priori le type de dégradation**. Le BDPM est pré-entraîné sur un jeu FFHQ synthétique avec des dégradations aléatoires combinant :
+
+- Flou gaussien isotrope/anisotrope
+- Sous-échantillonnage (facteur 1 à 4)
+- Bruit gaussien additif
+- Compression JPEG
+- Décalage de couleur, jitter de couleur, conversion en niveaux de gris
+
+#### Résultats sur CelebA (256×256), 40 pas d'échantillonnage
+
+| Méthode | Params. | FID ↓ | LPIPS ↓ | PSNR ↑ | SSIM ↑ | Étapes |
+|---|---|---|---|---|---|---|
+| CodeFormer | 74M | 60,62 | 0,299 | 22,18 | 0,61 | 1 |
+| DR2 | 168M | 58,94 | 0,398 | 24,44 | 0,678 | 250 |
+| BFRFormer | — | 57,37 | 0,27 | 22,83 | — | 1 |
+| DiffBIR | 17,2B | 47,9 | 0,379 | 25,6 | 0,681 | 50 |
+| GFP-GAN | 56M | 42,62 | 0,365 | 25,08 | 0,678 | 1 |
+| BFRfusion | 1,23B | 40,74 | 0,362 | 26,2 | 0,693 | 50 |
+| StableSR | 1,20B | 39,73 | 0,364 | 24,84 | 0,677 | 200 |
+| DifFace | 176M | 20,29 | 0,461 | 23,44 | 0,67 | 100 |
+| **BDPM (notre)** | **35,8M** | **12,93** | **0,293** | **24,58** | **0,7415** | **40** |
+
+::: {.callout-important title="Point remarquable"}
+Le BDPM avec seulement 35,8M paramètres surpasse DiffBIR (17,2 milliards de paramètres !) en FID et SSIM, tout en nécessitant moins de pas d'échantillonnage. Ce résultat illustre l'efficacité remarquable de la formulation binaire.
+:::
+
+### Tâche 4 : Génération d'images conditionnelle aux classes (Class-Conditional Generation)
+
+#### Protocole
+
+La génération conditionnelle sur ImageNet-1k 256×256 utilise :
+
+- Des représentations binaires de MAGVIT-v2 (patch 16×16)
+- Un guidage sans classificateur (classifier-free guidance, Ho & Salimans, 2022)
+- **7 pas d'échantillonnage** pour BDPM
+
+Les features MAGVIT-v2 sont **pré-calculées** (cached) pour accélérer l'entraînement, sans augmentation de données.
+
+#### Résultats sur ImageNet-1k 256×256
+
+| Type | Modèle | Params. | FID ↓ | IS ↑ | Précision ↑ | Rappel ↑ | Étapes |
+|---|---|---|---|---|---|---|---|
+| GAN | BigGAN | 112M | 6,95 | 224,5 | 0,89 | 0,38 | 1 |
+| GAN | StyleGAN-XL | 166M | 2,3 | 265,1 | 0,78 | 0,53 | 1 |
+| Masque | MaskGIT | 227M | 6,18 | 182,1 | 0,80 | 0,51 | 8 |
+| Masque | MaskBit | 305M | 1,52 | 328,7 | — | — | 256 |
+| AR | VQGAN | 227M | 18,65 | 80,4 | 0,78 | 0,26 | 256 |
+| AR | MAGVIT-v2 | 307M | 1,91 | 324,3 | — | — | 64 |
+| AR | LlamaGen-B | 111M | 5,46 | 193,6 | 0,83 | 0,45 | 256 |
+| AR | FAR-B | 208M | 4,26 | 248,9 | 0,79 | 0,51 | 10 |
+| Diffusion continue | LDM | 400M | 10,56 | 103,5 | 0,71 | 0,62 | 250 |
+| Diffusion discrète | BLD | 172M | 8,21 | 162,3 | 0,72 | 0,64 | 64 |
+| **Diffusion binaire** | **BDPM-S (notre)** | **32,9M** | **8,93** | **245,5** | **0,71** | **0,39** | **7** |
+| **Diffusion binaire** | **BDPM-B (notre)** | **130M** | **7,58** | **309,4** | **0,70** | **0,44** | **7** |
+
+::: {.callout-note title="Analyse des résultats"}
+Avec seulement **7 pas d'échantillonnage**, le BDPM-B atteint un FID compétitif de 7,58 et un IS remarquable de 309,4. Le rappel relativement faible (0,44) indique que la diversité des images générées est moindre que pour certains concurrents, en partie due à l'absence d'augmentation de données pendant l'entraînement.
+:::
+
+---
+
+## Effet du nombre de pas d'échantillonnage
+
+### Comportement général
+
+Pour toutes les tâches, le BDPM présente un comportement **non monotone** caractéristique :
+
+1. **Phase d'amélioration rapide** : les métriques s'améliorent rapidement avec l'augmentation des pas
+2. **Plateau optimal** : un optimum est atteint à un nombre modéré de pas (quelques dizaines à quelques centaines)
+3. **Dégradation** : au-delà de l'optimum, les performances se stabilisent ou se dégradent légèrement
+
+::: {.callout-tip title="Intuition"}
+Trop peu de pas ne permettent pas une décomposition suffisante du processus de débruitage. Trop de pas suraffinement la solution et introduisent du bruit numérique accumulé. L'optimum se trouve à un nombre modéré d'étapes.
+:::
+
+### Valeurs optimales par tâche
+
+| Tâche | Nombre de pas optimal |
+|---|---|
+| Super-résolution (FFHQ 256×256) | ~30 |
+| Inpainting (FFHQ 512×512) | ~100 |
+| Restauration aveugle (CelebA 256×256) | ~40 |
+| Génération conditionnelle (ImageNet 256×256) | ~7 |
+
+---
+
+## Paramètres d'entraînement et détails d'implémentation
+
+### Configuration générale
+
+Le BDPM est implémenté avec :
+
+- **PyTorch** (framework principal)
+- **Accelerate** (entraînement distribué)
+- **FlashAttention** (attention efficace en mémoire)
+- Précision **bfloat16** pour l'accélération
+
+### Prédiction duale
+
+Lors de l'entraînement, le débruiteur prédit un tenseur de sortie à **deux fois le nombre de canaux d'entrée** :
+
+- La première moitié correspond à la **représentation binaire de l'image** $\hat{\mathbf{x}}_0$
+- La seconde moitié correspond au **bruit binaire** $\hat{\mathbf{z}}_t$
+
+### Moyenne mobile exponentielle (Exponential Moving Average, EMA)
+
+Une **distillation EMA** est appliquée au modèle débruiteur pour stabiliser l'évaluation :
+
+- Fréquence de mise à jour : tous les 10 pas
+- Taux de décroissance : 0,995
+
+Les poids EMA sont utilisés pour l'évaluation finale.
+
+### Hyperparamètres d'entraînement
+
+| Hyperparamètre | U-Net | DiT-S | DiT-B |
+|---|---|---|---|
+| Optimiseur | AdamW | AdamW | AdamW |
+| Taux d'apprentissage | 1×10⁻⁴ | 4×10⁻⁴ | 4×10⁻⁴ |
+| Décroissance des poids | 1×10⁻⁶ | 1×10⁻² | 1×10⁻² |
+| Pas d'entraînement | 500K | 1M | 1M |
+| Taille de lot (256×256) | 64 | 2048 | 2048 |
+| Matériel | 1 L40S | 8 RTX4090 | 8 L40S |
+| Temps d'entraînement | 12h (256²) / 44h (512²) | 45h | 148h |
+| Guidage sans classificateur | — | 11,25 | 8,75 |
+
+---
+
+## Comparaison avec les méthodes d'échantillonnage postérieur
+
+Les DDPMs classiques peuvent être adaptés aux tâches inverses via des méthodes d'**échantillonnage postérieur** (posterior sampling), comme DPS, DDRM, DiffPIR, DDNM, DiffBIR, StableSR, BFRFusion.
+
+### Différences clés avec le BDPM
+
+| Critère | Méthodes par échantillonnage postérieur | BDPM |
+|---|---|---|
+| Entraînement spécifique | ❌ Non requis | ✅ Requis |
+| Taille du modèle | Grands modèles pré-entraînés (≥ 400M) | Compact (35,8M) |
+| Nombre de pas | Élevé (100–2500) | Faible (7–100) |
+| Flexibilité | Adaptatif (pas de fine-tuning) | Spécialisé par tâche |
+| Performance | Variable | Meilleure sur les benchmarks testés |
+
+::: {.callout-note title="À retenir"}
+Le BDPM nécessite un entraînement dédié à chaque tâche, mais en contrepartie il est beaucoup plus compact et plus rapide à l'inférence, ce qui le rend plus adapté au déploiement à grande échelle.
+:::
+
+---
+
+## Limitations et impact sociétal
+
+### Limitations techniques
+
+Le BDPM présente plusieurs limites importantes à connaître :
+
+- **Réglages spécifiques à la tâche** : le calendrier de bruit, les poids de perte et le nombre de pas doivent être ajustés pour chaque tâche, ce qui réduit la généralité de la méthode.
+- **Données testées limitées** : la méthode n'a été validée que sur des images RGB 8 bits jusqu'à une résolution de 512×512. Les performances sur des profondeurs de bits supérieures (par exemple 16 bits) ou d'autres modalités (audio, vidéo, données tabulaires) restent inconnues.
+- **Diversité limitée en génération** : le faible score de rappel (recall) pour la génération ImageNet suggère une diversité moindre des échantillons générés, partiellement attribuable à l'absence d'augmentations de données lors du pré-calcul des features.
+
+### Impact sociétal
+
+#### Bénéfices potentiels
+
+- **Amélioration de la qualité d'image** : super-résolution, restauration, inpainting pour des applications médicales, scientifiques ou artistiques
+- **Efficacité computationnelle** : modèles légers (35,8M paramètres) adaptés au déploiement sur matériel contraint (edge computing)
+- **Génération efficace** : moins de pas d'échantillonnage = moins de calcul = empreinte carbone réduite
+
+#### Risques potentiels
+
+::: {.callout-warning title="Risques éthiques"}
+Comme tout modèle génératif d'images, le BDPM peut être détourné pour créer des **deepfakes** — des images synthétiques trompeuses de personnes réelles. Des mesures de protection sont recommandées, notamment :
+
+- Le **tatouage numérique** (watermarking) des images générées
+- Le développement d'**outils de détection** des contenus synthétiques
+- Des politiques d'utilisation responsable
+:::
+
+---
+
+## Synthèse et perspectives
+
+### Contributions principales du BDPM
+
+Le BDPM introduit plusieurs innovations fondamentales dans le domaine de la diffusion :
+
+1. **Cadre binaire pour la diffusion** : remplacement de la diffusion gaussienne continue par une diffusion XOR discrète, mieux alignée avec la nature des images numériques.
+2. **Représentations duales adaptatives** : MBPR pour la précision pixel (traduction image-à-image) et LBR pour la qualité perceptuelle (génération).
+3. **Perte BCE** : objectif d'entraînement adapté aux données binaires, remplaçant la MSE.
+4. **Efficacité paramétrique** : 35,8M paramètres seulement, contre 100M–17B pour les méthodes concurrentes.
+5. **Convergence accélérée** : peu de pas d'échantillonnage nécessaires (7 à 100 selon la tâche).
+
+### Perspectives de recherche
+
+Les directions futures prometteuses incluent :
+
+- Extension à des images de **résolution plus élevée** et à des **profondeurs de bits supérieures**
+- Application à d'autres modalités : **audio**, **vidéo**, **données tabulaires**
+- Amélioration de la **diversité** des échantillons générés (meilleur rappel)
+- Exploration d'architectures débruiteurs encore plus légères
+- Développement de **calendriers de bruit adaptatifs** par plan de bits
+
+::: {.callout-note title="À retenir — Message central"}
+Le BDPM démontre qu'en alignant le processus de diffusion sur la structure naturelle des données numériques — discrète et binaire — on peut concevoir des modèles génératifs à la fois plus précis, plus compacts et plus rapides que les approches classiques basées sur la diffusion gaussienne continue.
+:::
