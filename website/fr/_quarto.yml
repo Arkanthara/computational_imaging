@@ -63,6 +63,14 @@ website:
                 href: ch5r.qmd
               - text: "Quiz"
                 href: ch5q.qmd
+          - section: "Nanoscale imaging"
+            contents:
+              - text: "Détails"
+                href: ch6.qmd
+              - text: "Synthèse"
+                href: ch6r.qmd
+              - text: "Quiz"
+                href: ch6q.qmd
       - section: "Examen"
         contents:
           - text: "Détails"

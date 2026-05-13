@@ -417,14 +417,14 @@ Un système SPM comprend :
 
 ```{mermaid}
 graph TD
-    SPM["Microscopie à Sonde Balayante (SPM)"]
-    SPM --> STM["STM\n(Scanning Tunneling\nMicroscopy)"]
-    SPM --> AFM["AFM\n(Atomic Force\nMicroscopy)"]
-    SPM --> NSOM["NSOM\n(Near-field Scanning\nOptical Microscopy)"]
-    STM --> STM_res["Résolution atomique\nLiaison moléculaire"]
-    AFM --> AFM_modes["Interaction atomique :\n- Mode contact\n- Mode non-contact\n- Mode tapping\nAutres : électrostatique,\nmagnétique, force chimique"]
-    NSOM --> NSOM_corr["Corrélation directe\nnanostructures–propriétés optiques"]
-    NSOM --> SCM["SCM\n(Scanning Confocal\nMicroscopy)\nSpectroscopie monomoléculaire"]
+    SPM["Microscopie à Sonde Balayante (SPM)"}
+    SPM --> STM["STM\n(Scanning Tunneling\nMicroscopy)"}
+    SPM --> AFM["AFM\n(Atomic Force\nMicroscopy)"}
+    SPM --> NSOM["NSOM\n(Near-field Scanning\nOptical Microscopy)"}
+    STM --> STM_res["Résolution atomique\nLiaison moléculaire"}
+    AFM --> AFM_modes["Interaction atomique :\n- Mode contact\n- Mode non-contact\n- Mode tapping\nAutres : électrostatique,\nmagnétique, force chimique"}
+    NSOM --> NSOM_corr["Corrélation directe\nnanostructures–propriétés optiques"}
+    NSOM --> SCM["SCM\n(Scanning Confocal\nMicroscopy)\nSpectroscopie monomoléculaire"}
 ```
 
 ---
@@ -474,7 +474,7 @@ Si une différence de potentiel $V$ est appliquée au contact tunnel, un **coura
 
 $$j_t = j_0(V) \cdot e^{-\frac{4\pi}{h}\sqrt{2m\varphi^*}\Delta Z}$$
 
-::: {.callout-important title="Dépendance exponentielle"]
+::: {.callout-important title="Dépendance exponentielle"}
 Le courant tunnel dépend **exponentiellement** de la distance pointe-surface. Une variation de 1 Å de la distance provoque une variation d'un ordre de grandeur du courant. C'est cette dépendance extrême qui confère au STM sa **haute résolution spatiale**.
 :::
 
@@ -564,7 +564,7 @@ La microscopie à force atomique (MFA / AFM) a été inventée en **1986 par Bin
 
 L'AFM mesure la **force interactive** entre une pointe et la surface de l'échantillon, en utilisant des sondes spéciales constituées d'un **levier élastique (elastic cantilever)** avec une **pointe acérée** à son extrémité.
 
-::: {.callout-tip title="Intuition"]
+::: {.callout-tip title="Intuition"}
 L'AFM fonctionne comme un **doigt aveugle explorant une surface en relief**. La pointe "sent" les forces d'attraction et de répulsion avec la surface, et le levier se défléchit en conséquence. En mesurant ces déflexions, on reconstruit la carte de la topographie.
 :::
 
@@ -643,13 +643,13 @@ Plusieurs types de pointes sont disponibles selon l'application :
 
 ```{mermaid}
 graph TD
-    AFM["AFM Modes"]
-    AFM --> Contact["Mode Contact\n(régime répulsif)"]
-    AFM --> NonContact["Mode Non-Contact\n(régime attractif)"]
-    AFM --> Tapping["Mode Tapping\n(intermittent)"]
-    Contact --> C1["Déflexion du levier constante\nBon pour surfaces planes et solides"]
-    NonContact --> NC1["Oscillations du levier\nBon pour surfaces molles, liquides biologiques"]
-    Tapping --> T1["Oscillations amorties\nMeilleure résolution\nDommages minimaux"]
+    AFM["AFM Modes"}
+    AFM --> Contact["Mode Contact\n(régime répulsif)"}
+    AFM --> NonContact["Mode Non-Contact\n(régime attractif)"}
+    AFM --> Tapping["Mode Tapping\n(intermittent)"}
+    Contact --> C1["Déflexion du levier constante\nBon pour surfaces planes et solides"}
+    NonContact --> NC1["Oscillations du levier\nBon pour surfaces molles, liquides biologiques"}
+    Tapping --> T1["Oscillations amorties\nMeilleure résolution\nDommages minimaux"}
 ```
 
 #### Mode Contact (Contact Mode)
@@ -661,7 +661,7 @@ Deux sous-modes sont possibles :
 - **Force constante (constant force)** : la rétroaction maintient la force $F_z$ constante → la position Z varie → constitue l'image
 - **Distance constante (constant distance)** : la hauteur Z est maintenue constante → la force $F_z$ varie → constitue l'image
 
-::: {.callout-note title="À retenir"]
+::: {.callout-note title="À retenir"}
 Le **mode contact** convient aux échantillons de faible rugosité avec des surfaces propres et solides. La pointe en contact permanent peut endommager des échantillons fragiles.
 :::
 
@@ -686,11 +686,11 @@ Les **interactions pointe-surface modifient** l'amplitude et la phase des oscill
 | Régime | Attractif (van der Waals) | Intermédiaire (attractif–répulsif) |
 | Application | Surfaces molles, liquides, bio | Matériaux solides |
 
-::: {.callout-tip title="Intuition"]
+::: {.callout-tip title="Intuition"}
 Le tapping mode est comme un **"doigt tapotant"** la surface à haute fréquence : il touche brièvement la surface puis se soulève, évitant le frottement latéral qui endommagerait l'échantillon.
 :::
 
-::: {.callout-important title="Différence Contact / Non-contact"]
+::: {.callout-important title="Différence Contact / Non-contact"}
 - **Mode contact** (gauche) : la déflexion du levier est maintenue constante
 - **Mode non-contact** (droite) : la pointe oscille à la fréquence de résonance et l'amplitude d'oscillation est maintenue constante
 - **Mode tapping** : quelque part entre les deux
@@ -706,7 +706,7 @@ Le **mode non-contact** est utilisé principalement pour les surfaces liquides m
 
 Le **mode tapping est plus largement utilisé** pour les matériaux solides.
 
-::: {.callout-note title="À retenir"]
+::: {.callout-note title="À retenir"}
 Dans la pratique, **le mode non-contact est souvent opéré comme mode tapping**. La distinction est parfois subtile.
 :::
 
@@ -749,7 +749,7 @@ Lorsqu'un **changement abrupt de tension** est appliqué, le scanner piézoélec
 
 Le fluage est le rapport de la seconde variation dimensionnelle à la première : $\Delta x_c / \Delta x$. Il varie de **1% à 20%** et dure de **10 à 100 secondes**.
 
-::: {.callout-warning title="Importance de ces artefacts"]
+::: {.callout-warning title="Importance de ces artefacts"}
 Ces trois effets (non-linéarité, hystérésis, fluage) peuvent introduire des **distorsions géométriques significatives** dans les images AFM. Une calibration rigoureuse avec des échantillons de référence (grilles) est indispensable pour des mesures quantitatives.
 :::
 
@@ -762,7 +762,7 @@ Cette comparaison sur Si(100) est très instructive :
 - **Mode Contact** — les images du 1er et 2ème scan montrent une **altération claire de la surface** : du matériau est retiré par la pointe lors du balayage
 - **Mode Tapping** — les images du 1er et 2ème scan **ne montrent pas d'altération de surface** et offrent une **meilleure résolution**
 
-::: {.callout-important title="Dommages en mode contact"]
+::: {.callout-important title="Dommages en mode contact"}
 En mode contact, le frottement latéral peut retirer du matériau, provoquer une croissance d'oxyde supplémentaire ou d'autres modifications subtiles. Ce type d'altération de surface passe souvent inaperçu si les chercheurs ne vérifient pas les dommages en re-scannant la zone affectée à plus faible grossissement.
 :::
 
@@ -786,7 +786,7 @@ La limite de diffraction du microscope optique conventionnel est $\lambda/2 \app
 
 En revanche, le **NSOM offre une résolution bien supérieure** d'environ **50 nm** (voire < 30 nm), selon la taille de l'ouverture de la pointe.
 
-::: {.callout-note title="À retenir"]
+::: {.callout-note title="À retenir"}
 Le NSOM surmonte la limite de diffraction car il n'utilise pas une onde propagative de lumière, mais exploite le **champ proche évanescent** à quelques nanomètres de la surface.
 :::
 
@@ -831,7 +831,7 @@ Ceci est particulièrement utile pour l'étude de :
 
 Pour une haute résolution spatiale, la sonde doit être **très proche de l'échantillon**. Dans le NSOM, la résolution est déterminée non par la longueur d'onde de la lumière, mais par la **taille de l'ouverture de la sonde**.
 
-::: {.callout-tip title="Intuition"]
+::: {.callout-tip title="Intuition"}
 Imaginez éclairer à travers un très petit trou : la lumière qui émerge illumine une zone de dimension comparable à l'ouverture, et non à la longueur d'onde. Si l'échantillon est maintenu à moins d'une distance égale au diamètre de l'ouverture, on obtient une image avec une résolution définie par l'ouverture — pas par $\lambda$.
 :::
 
@@ -849,7 +849,7 @@ La résolution NSOM est typiquement de **$\sim$ 50 nm** (limitée par l'ouvertur
 - L'échantillon est balayé **très près de l'ouverture**
 - Tant que l'échantillon reste à une distance inférieure au diamètre de l'ouverture, une image avec une **résolution sub-longueur d'onde** (de taille égale à l'ouverture) peut être générée
 
-::: {.callout-warning title="Compromis résolution–sensibilité"]
+::: {.callout-warning title="Compromis résolution–sensibilité"}
 Il existe un **compromis entre résolution et sensibilité** (intensité lumineuse) — l'ouverture ne peut pas être trop petite, car l'intensité transmise diminue drastiquement avec la taille de l'ouverture (en $\sim d^4$ selon la théorie de Bethe).
 :::
 
@@ -893,7 +893,7 @@ Caractéristiques du SCM :
 - Le SCM requiert un **alignement de haute précision** des accessoires optiques
 - Permet la **spectroscopie de molécule unique (single-molecule spectroscopy)**
 
-::: {.callout-tip title="Intuition"]
+::: {.callout-tip title="Intuition"}
 Le microscope confocal filtre spatialement la lumière hors-foyer par un **sténopé (pinhole)** conjugué au plan focal. Seule la lumière provenant exactement du point focal contribue à l'image, éliminant le flou de fond et permettant des mesures sur des volumes attoliter ($10^{-18}$ L).
 :::
 
@@ -1000,7 +1000,7 @@ Les microscopies à sonde balayante offrent des atouts décisifs :
 - **Hautement accordables et flexibles** — combinaison facile avec d'autres techniques (optique, électrochimie, biologie)
 - **Large application** en science des surfaces et nanotechnologie
 
-::: {.callout-note title="À retenir — Synthèse des techniques d'imagerie"]
+::: {.callout-note title="À retenir — Synthèse des techniques d'imagerie"}
 | Technique | Résolution | Principe | Conditions |
 |---|---|---|---|
 | Microscope Optique | ~500 nm | Diffraction lumière | Ambiant, couleur réelle |
