@@ -1,0 +1,1012 @@
+---
+title: "Imagerie Computationnelle — Microscopies Électronique et à Sonde Balayante"
+---
+
+# Le Microscope Optique
+
+## Principe et Histoire
+
+Le microscope optique est le premier instrument d'imagerie à haute résolution développé par l'humanité. Dès le XVIe siècle, des pionniers comme Robert Hooke construisaient des microscopes rudimentaires permettant d'observer des structures invisibles à l'œil nu.
+
+Le principe fondamental repose sur l'utilisation de **lentilles optiques** pour agrandir l'image d'un objet. La lumière émise ou réfléchie par l'échantillon est collectée par une lentille objectif, puis transmise vers un oculaire (ou un capteur numérique) par un ensemble de lentilles intermédiaires.
+
+Les composants principaux d'un microscope optique moderne sont :
+
+- La **lentille objectif** — collecte la lumière et produit une image intermédiaire agrandie
+- L'**oculaire (eyepiece)** — permet à l'observateur de regarder l'image formée
+- Le **diaphragme** — contrôle la quantité de lumière passant vers l'échantillon
+- La **platine (stage)** — supporte et positionne l'échantillon
+- La **molette de mise au point fine/grossière** — permet d'ajuster la netteté
+- La **source lumineuse** — éclaire l'échantillon par dessous (transmission) ou par dessus (réflexion)
+
+## Exemples d'Imagerie Optique
+
+Le microscope optique permet d'observer une grande variété d'objets :
+
+- Des **poussières de chambre** révèlent des structures fibreuses et cristallines complexes
+- Des **globules rouges** montrent leur forme biconcave caractéristique, ainsi que la fibrine et les plaquettes environnantes
+
+Ces images sont obtenues sans préparation invasive de l'échantillon, ce qui constitue un avantage majeur de cette technologie.
+
+## Avantages et Inconvénients du Microscope Optique
+
+### Avantages
+
+Le microscope optique présente plusieurs atouts décisifs :
+
+- **Imagerie directe sans prétraitement** de l'échantillon — c'est le seul type de microscopie permettant une **imagerie en couleur réelle**
+- **Rapidité et adaptabilité** à tous types d'échantillons : gazeux, liquides ou solides, de toute forme ou géométrie
+- **Intégration facile** avec des systèmes de caméras numériques pour le stockage et l'analyse des données
+
+::: {.callout-tip title="Intuition"}
+Le microscope optique est comparable à notre vision naturelle amplifiée : il utilise la lumière visible, ce qui le rend intuitif et polyvalent. C'est l'outil de choix pour les premières investigations.
+:::
+
+### Inconvénients
+
+Le microscope optique souffre d'une limitation fondamentale :
+
+- **Faible résolution**, généralement limitée au sous-micron ou à quelques centaines de nanomètres
+
+Cette limitation est intrinsèque à la physique des ondes lumineuses. Elle est connue sous le nom de **limite de diffraction (diffraction limit)**.
+
+::: {.callout-important title="Limite de diffraction"}
+La résolution maximale d'un microscope optique est approximativement :
+
+$$d_{\min} \approx \frac{\lambda}{2 \cdot \text{NA}}$$
+
+où $\lambda$ est la longueur d'onde de la lumière et $\text{NA}$ est l'ouverture numérique de la lentille (typiquement $\approx 1{,}0$). Pour la lumière blanche ($\lambda \approx 500$ nm), cela donne une résolution de **quelques centaines de nanomètres**.
+:::
+
+---
+
+# L'Imagerie à l'Échelle Nanométrique
+
+## Les Défis de la Nanoscience et de la Nanotechnologie
+
+### Qu'est-ce qu'un Nanomètre ?
+
+Un nanomètre (nm) est un milliardième de mètre ($10^{-9}$ m). Pour donner une idée des échelles impliquées :
+
+| Objet | Taille |
+|---|---|
+| Atome | 0,1 nm |
+| Diamètre de l'ADN | 1 nm |
+| Diamètre d'un nanotube de carbone | 5–10 nm |
+| Transistor | 35 nm |
+| Protéine | 10 nm |
+| Globule rouge | 10 µm |
+| Diamètre d'un cheveu humain | 150 µm |
+| Grain de sable | 1 mm |
+
+::: {.callout-tip title="Intuition"}
+Un nanomètre est à un mètre ce qu'une bille de 1 cm est au diamètre de la Terre. Travailler à l'échelle nanométrique revient à manipuler et observer des objets de la taille d'atomes ou de quelques molécules.
+:::
+
+### Nanomatériaux et Leurs Morphologies
+
+La recherche à l'échelle nanométrique porte sur des matériaux aux formes très variées :
+
+- **Nanosphères, nanoparticules, boîtes quantiques (quantum dots)**
+- **Nanobâtonnets (nanorods)**
+- **Nanofils (nanowires)**
+- **Nanorubans (nanoribbons)**
+- **Nanochaînes (nanochains)**
+- **Nanotubes** — notamment les nanotubes de carbone (carbon nanotubes)
+- **Nanobelts (nanobandes)**
+
+Ces structures ont des propriétés optiques, électriques et magnétiques radicalement différentes de leurs équivalents macroscopiques.
+
+### Enjeux de la Nanoscience
+
+La recherche en nanoscience vise à optimiser les matériaux à l'échelle atomique/moléculaire, par exemple sous forme de **monocristaux (single-crystals)**. Pour cela, **l'imagerie et le sondage à l'échelle nanométrique** sont des techniques centrales et critiques, permettant de caractériser :
+
+- La **taille** des nanomatériaux
+- La **structure** cristalline ou moléculaire
+- La **morphologie** de surface
+- Les relations entre structure et **propriétés optiques, électriques et magnétiques**
+
+### Manipulation à l'Échelle Nanométrique
+
+La nanoscience permet non seulement d'observer, mais aussi de **manipuler la matière atome par atome** :
+
+- Manipulation atomique du carbone (carbone amorphe, graphite, diamant)
+- Alignement de nanostructures (**nano alignment**)
+- Croisements de nanofils (**nano crossing**)
+- **Nano écriture (nano writing)** — l'écriture de texte à une échelle de 60–400 nm est possible (comme l'illustre la citation de Feynman inscrite dans la matière)
+
+> *"As I mention this, people tell me about miniaturization, and how it has progressed today..."*  — Richard P. Feynman, 1959
+
+### Conductivité des Fils Moléculaires
+
+Un exemple frappant des propriétés des nanomatériaux concerne les **fils moléculaires conducteurs (highly conductive molecular wires)** :
+
+| Conducteur | Section transversale (nm²) | Densité de courant (électrons/nm² s) |
+|---|---|---|
+| Fil de cuivre de 1 mm | $\approx 3 \times 10^{12}$ | $\approx 2 \times 10^6$ |
+| Molécule organique conjuguée | $\approx 0{,}05$ | $\approx 4 \times 10^{12}$ |
+| Nanotube de carbone | $\approx 3$ | $\approx 2 \times 10^{11}$ |
+
+::: {.callout-note title="À retenir"}
+Les fils moléculaires transportent une densité de courant des millions de fois supérieure au fil de cuivre conventionnel, malgré leur section extraordinairement petite. Ceci ouvre la voie à des dispositifs électroniques moléculaires.
+:::
+
+### Fabrication de Dispositifs Moléculaires
+
+Les défis de la nanoscience incluent la fabrication de **dispositifs moléculaires fonctionnels** :
+
+- Des **fils moléculaires** basés sur des complexes de ruthénium
+- Des **diodes moléculaires** exploitant des molécules asymétriques
+- Des **interrupteurs moléculaires (molecular switches)** dont l'état peut être commuté par irradiation lumineuse
+
+Ces composants pourraient remplacer les transistors silicium dans les futurs circuits intégrés ultra-miniaturisés. La difficulté est que les **électrodes à l'échelle nanométrique** ont un rendement de fabrication très faible, tandis que les grosses molécules peuvent s'insérer précisément dans ces espaces.
+
+### Nanostructures à Base d'ADN
+
+L'ADN est utilisé comme matériau de construction à l'échelle nanométrique (**DNA-based nanostructures**). Sa capacité à s'auto-assembler par complémentarité de bases permet de créer des structures 2D et 3D contrôlées, visibles par microscopie AFM à des résolutions de 500 nm × 500 nm à 3 µm × 3 µm.
+
+### Sondage de Systèmes Protéiques
+
+Les techniques de microscopie à l'échelle nanométrique permettent d'étudier le comportement de **protéines individuelles (single-molecule probing)**, par exemple des protéines pouvant adopter une conformation ouverte (OPEN) ou fermée (CLOSED), détectées par des capteurs monomoléculaires.
+
+---
+
+# L'Imagerie par Microscopie Électronique
+
+## Pourquoi les Électrons ?
+
+La limite de résolution du microscope optique est due à la **diffraction de la lumière**. Pour améliorer la résolution, il faut **diminuer la longueur d'onde** du rayonnement utilisé.
+
+Cependant, travailler dans l'ultraviolet (UV) présente de nombreuses contraintes pratiques. La solution élégante consiste à exploiter la **nature ondulatoire des électrons**.
+
+## La Longueur d'Onde de De Broglie des Électrons
+
+En accélérant des électrons sous une haute tension, on leur confère une énergie cinétique élevée, ce qui correspond à une **longueur d'onde de De Broglie** extrêmement courte :
+
+$$\lambda = \frac{h}{p} = \frac{1240{,}7 \text{ eV·nm}}{E \text{ (eV)}}$$
+
+**Exemple numérique :** Pour un canon à électrons de 20 kV :
+
+$$\lambda = \frac{1240{,}7}{20\,000} \text{ nm} = 0{,}06 \text{ nm} = 0{,}6 \text{ Å}$$
+
+La limite de résolution théorique associée est $\lambda/2 = 0{,}3$ Å, ce qui est **inférieur à la taille d'un atome** (les atomes mesurent typiquement 2–3 Å).
+
+::: {.callout-tip title="Intuition"}
+En augmentant la tension d'accélération, on donne plus d'énergie (et donc plus de quantité de mouvement) aux électrons. Leur longueur d'onde de De Broglie diminue alors, permettant de "voir" des détails de plus en plus petits, exactement comme une lumière plus bleue permettrait (en théorie) une meilleure résolution optique.
+:::
+
+::: {.callout-note title="À retenir"}
+Les microscopes électroniques utilisent des électrons comme sonde au lieu de photons. Comme la longueur d'onde des électrons rapides est des milliers de fois plus courte que la lumière visible, leur résolution théorique atteint l'échelle atomique.
+:::
+
+---
+
+# La Microscopie Électronique à Balayage
+
+## Microscopie Électronique à Balayage (Scanning Electron Microscopy — SEM)
+
+### Principe de Fonctionnement
+
+Dans un microscope électronique à balayage (MEB / SEM), un **faisceau d'électrons est focalisé en une fine sonde** qui est ensuite **balayée en trame (rastered)** sur la surface de l'échantillon.
+
+Au cours de ce balayage, les électrons du faisceau primaire **pénètrent la surface** et interagissent avec les atomes de l'échantillon. Ces interactions génèrent l'émission de différentes particules et rayonnements qui sont collectés par des détecteurs appropriés.
+
+::: {.callout-tip title="Intuition"}
+Le SEM est analogue à un projecteur de cinéma balayant un mur avec un faisceau lumineux très fin, sauf que c'est un faisceau d'électrons qui balaie la surface de l'échantillon. Chaque point balayé émet des signaux qui sont enregistrés pour reconstruire l'image.
+:::
+
+Le résultat le plus immédiat de l'observation en SEM est qu'il affiche la **forme (shape)** de la surface de l'échantillon. La résolution est déterminée par le **diamètre du faisceau (beam diameter)**.
+
+### Architecture d'un SEM
+
+Le microscope électronique à balayage suit les mêmes principes qu'un microscope optique, mais utilise des électrons au lieu de la lumière. Les **"lentilles"** ne sont pas en matériau optique (comme le verre), mais exploitent des **champs électriques et magnétiques** pour dévier et focaliser le faisceau.
+
+Les composants principaux sont :
+
+- **Canon à électrons (electron gun)** — génère le faisceau d'électrons
+- **Anode** — accélère les électrons
+- **Lentilles magnétiques (magnetic lenses)** — focalisent le faisceau
+- **Bobines électromagnétiques (electromagnetic coils)** — dévient le faisceau pour le balayage en trame
+- **Détecteur d'électrons secondaires (secondary electron detector)**
+- **Détecteur d'électrons rétrodiffusés (backscattered electron detector)**
+- **Platine porte-échantillon (specimen stage)**
+
+### Composants Détaillés du SEM
+
+#### Optique Électronique
+
+L'**optique électronique** comprend trois éléments clés :
+
+- **Lentille condenseur (condenser lens)** — focalise le faisceau vers la lentille objectif
+- **Lentille objectif (objective lens)** — contrôle la taille du faisceau impactant la surface de l'échantillon
+- **Bobines électromagnétiques (electromagnetic coils)** — assurent le balayage en trame en déviant le faisceau d'électrons
+
+#### Échantillon et Porte-Échantillon
+
+Les caractéristiques de l'échantillon et de sa fixation sont importantes :
+
+- **Taille** — typiquement de l'ordre du centimètre
+- **Rotation** — l'échantillon peut être librement orienté dans les trois dimensions (x, y, z) pour obtenir des images sous tous les angles
+- **Conductivité** — l'échantillon doit être conducteur. Pour les échantillons non conducteurs (comme les spécimens biologiques), un **revêtement métallique (metallic coating)** est nécessaire
+
+#### Transducteurs (Détecteurs)
+
+Deux principaux types de détecteurs sont utilisés :
+
+- **Dispositif à scintillation (scintillation device)** — cible en verre ou plastique dopé qui émet une cascade de photons visibles lorsqu'elle est frappée par des électrons
+- **Transducteurs à semi-conducteur (semiconductor transducers)** — lorsque des électrons les frappent, des paires électron-trou sont créées, augmentant la conductivité mesurable
+
+### Signaux Détectés en SEM
+
+Les électrons interagissant avec les atomes proches de la surface de l'échantillon produisent plusieurs types de signaux portant des informations sur la **topographie, la composition** et des propriétés comme la **conductivité électrique**.
+
+#### Électrons Secondaires (Secondary Electrons)
+
+Les **électrons secondaires** sont produits comme résidus d'ionisation par le rayonnement primaire (ions, électrons, photons de haute énergie dépassant le potentiel d'ionisation).
+
+Un SEM équipé d'un détecteur d'électrons secondaires (SEI — Secondary Electron Imaging) peut produire des images de très haute résolution de la surface, **révélant des détails inférieurs à 1 nm**.
+
+#### Électrons Rétrodiffusés (Back-scattered Electrons — BSE)
+
+Les **BSE** sont des électrons du faisceau réfléchis par la surface par **diffusion élastique**. Ils sont souvent utilisés dans le **SEM analytique** conjointement avec les spectres de rayons X caractéristiques.
+
+L'intensité du signal BSE est **fortement liée au numéro atomique Z** de l'échantillon. Les images BSE peuvent donc fournir des informations sur la **distribution des différents éléments** dans l'échantillon : les éléments lourds apparaissent plus brillants.
+
+#### Rayons X Caractéristiques (Characteristic X-rays)
+
+Les **rayons X caractéristiques** sont émis lorsque le faisceau d'électrons arrache un électron d'une couche interne de l'atome. Un électron de plus haute énergie vient combler ce vide et libère de l'énergie sous forme de rayonnement X.
+
+Ces rayons X ont des énergies caractéristiques de chaque élément chimique. Ils permettent donc d'**identifier la composition** et de **mesurer l'abondance des éléments** dans l'échantillon.
+
+### Avantages et Inconvénients du SEM
+
+#### Avantages
+
+- Applicable à **presque tous les types d'échantillons**, conducteurs et non conducteurs (avec revêtement métallique)
+- Basé sur **l'interaction de surface** — aucune nécessité d'un échantillon transparent aux électrons
+- Permet l'**imagerie dans toutes les directions** grâce à la rotation 3D (x-y-z) de la platine
+
+#### Inconvénients
+
+- **Résolution faible**, généralement au-dessus de quelques dizaines de nanomètres
+- Nécessite généralement un **revêtement de surface métallique** pour assurer la conduction électronique
+
+### Exemples d'Images SEM
+
+Le SEM image avec succès :
+
+- **Nanofils de ZnO (ZnO nano-wires)** — colonnes nanométriques dressées
+- **Nanotubes de carbone (Carbon nano-tubes)** — réseau entrelacé de tubes
+- **Nanostructures en peigne de ZnO** — résultant d'une croissance induite par polarisation de surface
+- **Nanofibres organiques** — fibrilles nanométriques de polymères fonctionnels
+- **Espèces biologiques** — la tête d'un moustique (yeux à facettes composées de milliers de petites lentilles), la griffe d'une araignée veuve noire
+
+---
+
+# La Microscopie Électronique en Transmission
+
+## Microscopie Électronique en Transmission (Transmission Electron Microscopy — TEM)
+
+### Principe de Fonctionnement
+
+Dans un microscope électronique en transmission (MET / TEM), un **faisceau d'électrons très focalisés et hautement énergétiques** est dirigé vers un **échantillon amincie (< 200 nm)**. Contrairement au SEM, **aucun balayage n'est requis** — le faisceau illumine l'ensemble de la zone observée simultanément, ce qui contribue à la haute résolution obtenue.
+
+Ces électrons incidents énergétiques interagissent avec les atomes de l'échantillon, produisant des **rayonnements et particules caractéristiques** portant des informations sur la structure et la composition des matériaux.
+
+::: {.callout-tip title="Intuition"}
+Le TEM fonctionne comme un projecteur de diapositives : le faisceau d'électrons traverse l'échantillon mince (comme la lumière traverse une diapositive) et produit une image sur un détecteur. Les régions denses ou ordonnées diffractent différemment les électrons, créant un contraste.
+:::
+
+Les informations sont obtenues à partir de :
+
+- **Électrons transmis non déviés** — donnent le contraste en masse/épaisseur
+- **Électrons diffractés déviés** — donnent le contraste de diffraction (structure cristalline)
+- **Électrons rétrodiffusés et secondaires** — informations de surface
+- **Photons émis** — fluorescence X, cathodoluminescence
+
+### Architecture d'un TEM
+
+Le TEM comprend :
+
+- Un **faisceau d'électrons** (flèches vertes descendantes) illuminant l'échantillon
+- L'**échantillon** orienté (ici incliné pour l'imagerie cristalline)
+- La **lentille objectif (Objective Lens)**
+- Une **ouverture (Aperture)**
+- Le **Plan focal arrière (Back Focal Plane)** — contient le **diagramme de diffraction (Diffraction Pattern)**
+- Le **Premier plan image (First Image Plane)** — contient l'image agrandie et filtrée de Fourier (champ clair BF, champ sombre DF, etc.)
+- Le **détecteur CCD** (imagerie 2D)
+
+**Exemple d'instrument :** Le Hitachi H9000 UHR TEM est un TEM dédié haute résolution (HREM), capable d'une résolution ponctuelle de **0,18 nm** fonctionnant à **300 kV**.
+
+### Avantages du TEM
+
+- **Haute résolution**, jusqu'à 0,2 nm — permettant l'imagerie atomique directe
+- **Imagerie directe du réseau cristallin (crystalline lattice)**
+- Mise en évidence des **défauts à l'intérieur de l'échantillon**
+- **Aucun revêtement métallique nécessaire** — pratique pour l'imagerie structurale des matériaux organiques
+- **Technique de diffraction électronique** : identification de phases, détermination de structure et de symétrie, mesure des paramètres de maille, identification des désordres et défauts
+
+### Inconvénients du TEM
+
+- La préparation d'un **échantillon transparent aux électrons** à partir d'un matériau massif est difficile, en raison des contraintes de conductivité électronique, de densité électronique et d'épaisseur d'échantillon
+
+### Exemples d'Images TEM
+
+#### Nanobelts (Nanobandes)
+
+Images TEM de nanobandes de SnO₂ :
+
+- Image (a) : vue d'ensemble des nanobandes (200 nm)
+- Image (b) : image TEM haute résolution enregistrée avec l'électron incident perpendiculaire à la surface supérieure de la nanobande (résolution 0,48 nm)
+
+L'encart montre le **diagramme de diffraction** avec les indices de Miller (402, 211, 020).
+
+#### Nanotubes de Carbone
+
+Image TEM d'un **nanotube de carbone à paroi unique (single-wall carbon nanotube)** :
+
+- Image expérimentale en couleurs fausses montrant la structure hélicoïdale
+- Simulation de structure atomique montrant le réseau hexagonal de graphène enroulé
+
+Les paramètres mesurables : couche de 0,1 nm d'épaisseur, diamètre intérieur 3,3 nm, diamètre total 4 nm.
+
+#### Graphène
+
+Image TEM du graphène :
+
+- Le graphène est une feuille monoatomique de carbone disposée en réseau hexagonal
+- La résolution TEM permet de distinguer individuellement les atomes de carbone, avec une distance interatomique mesurée de **0,14 nm**
+
+---
+
+# La Microscopie à Sonde Balayante
+
+## Microscopie à Sonde Balayante (Scanning Probe Microscopy — SPM)
+
+### Définition et Double Fonction
+
+La microscopie à sonde balayante (MSB / SPM) est une famille de techniques d'imagerie exploitant deux fonctions simultanées :
+
+- **Balayage (Scanning)** — balayage 2D en trame piézoélectrique (X-Y)
+- **Sondage (Probing)** — une pointe acérée montée sur un scanner Z
+
+::: {.callout-note title="À retenir"}
+La SPM ne forme pas d'image par optique, mais en **mesurant des interactions locales** entre une pointe nanométrique et la surface de l'échantillon, point par point, ligne par ligne.
+:::
+
+### Comparaison SPM vs Microscopies Traditionnelles
+
+| Caractéristique | Traditionnel (optique/électronique) | SPM |
+|---|---|---|
+| **Sonde** | Lumière / Électron | Pointe |
+| **Mécanisme** | Propriétés des ondes : diffraction, déflexion, diffusion | Interaction pointe-surface : mécanique, électrostatique, magnétique |
+| **Conditions échantillon** | Chambre sous vide, prétraitement strict (ex. revêtement conducteur) | Généralement en conditions ambiantes, très flexible avec d'autres techniques |
+| **Résolution** | Å–µm, bonne pour imagerie latérale X-Y | Å–nm, excellente pour mesure en hauteur Z (topographie) |
+
+::: {.callout-important title="Complémentarité"}
+La SPM ne peut pas remplacer les microscopes électroniques, mais elles se **complètent mutuellement**. La SPM excelle en imagerie topographique (Z) et en mesures de propriétés locales ; les microscopes électroniques excellent en résolution latérale (X-Y) et en analyse de composition.
+:::
+
+### Génération d'Images SPM
+
+Une image SPM est construite par :
+
+1. **Balayage X-Y en trame (raster)** — la pointe (ou l'échantillon) se déplace ligne par ligne
+2. **Modulation Z** — le système de rétroaction (feedback) ajuste constamment la position verticale de la pointe pour maintenir un paramètre constant (courant, force, etc.)
+3. L'enregistrement des positions Z en fonction de (X, Y) constitue l'**image topographique**
+
+### Bref Historique de la SPM
+
+- Le **premier membre de la famille SPM**, le **microscope à effet tunnel (STM — Scanning Tunneling Microscopy)**, a été développé dans les années 1980
+- En **1982**, **Gerd Binnig** et **Heinrich Rohrer** d'IBM à Zurich ont créé le concept du STM (*Phys. Rev. Lett.*, 1982, vol. 49, p. 57)
+- Les deux chercheurs ont reçu le **Prix Nobel de Physique en 1986** (partagé avec Ernst Ruska pour la microscopie électronique)
+
+### Composants de Base d'un Système SPM
+
+Un système SPM comprend :
+
+- **Pointe (tip)** — l'élément senseur, de dimension nanométrique
+- **Levier (cantilever)** — ressort élastique portant la pointe
+- **Capteur de position de la pointe** — mesure les déplacements du levier
+- **Scanner piézoélectrique** — déplace l'échantillon sous la pointe (ou la pointe sur l'échantillon) avec une précision de 0,1 nm
+- **Boucle de rétroaction électronique (feedback loop)** — maintient le paramètre de contrôle constant en ajustant la position Z
+- **Système de positionnement grossier** — amène la pointe dans la proximité générale de l'échantillon
+- **Ordinateur** — pilote le scanner, mesure et convertit les données en image
+
+### Les Trois Grandes Familles de SPM
+
+```{mermaid}
+graph TD
+    SPM["Microscopie à Sonde Balayante (SPM)"]
+    SPM --> STM["STM\n(Scanning Tunneling\nMicroscopy)"]
+    SPM --> AFM["AFM\n(Atomic Force\nMicroscopy)"]
+    SPM --> NSOM["NSOM\n(Near-field Scanning\nOptical Microscopy)"]
+    STM --> STM_res["Résolution atomique\nLiaison moléculaire"]
+    AFM --> AFM_modes["Interaction atomique :\n- Mode contact\n- Mode non-contact\n- Mode tapping\nAutres : électrostatique,\nmagnétique, force chimique"]
+    NSOM --> NSOM_corr["Corrélation directe\nnanostructures–propriétés optiques"]
+    NSOM --> SCM["SCM\n(Scanning Confocal\nMicroscopy)\nSpectroscopie monomoléculaire"]
+```
+
+---
+
+# La Microscopie à Effet Tunnel
+
+## Microscopie à Effet Tunnel (Scanning Tunneling Microscopy — STM)
+
+### Principe de la Mesure
+
+Le STM est historiquement le **premier microscope de la famille SPM**. Il exploite l'**effet tunnel quantique (quantum tunneling effect)** pour mesurer la distance entre une pointe métallique et la surface conductrice de l'échantillon.
+
+#### Les Deux Conditions Requises pour le Courant Tunnel
+
+1. **Petite distance** — les fonctions d'onde électroniques de la pointe et de l'échantillon doivent se recouvrir
+2. **Tension de polarisation (bias)** — nécessaire pour établir un flux net de courant
+
+#### Physique du Courant Tunnel
+
+Dans un métal, les niveaux d'énergie des électrons sont remplis jusqu'à un niveau particulier appelé l'**énergie de Fermi** $E_F$. Pour qu'un électron quitte le métal, il faut lui fournir une énergie supplémentaire $\Phi$ appelée **travail de sortie (work function)**.
+
+Lorsque la pointe et l'échantillon sont rapprochés :
+
+- Il ne reste qu'une **étroite région d'espace vide** entre eux
+- Les électrons de chaque côté sont présents jusqu'au niveau de Fermi
+- Ils doivent surmonter la barrière $\Phi$ pour passer de la pointe à l'échantillon ou vice versa
+
+Si la distance $d$ est suffisamment petite ($\sim$ quelques Ångströms), les électrons peuvent **traverser la barrière par effet tunnel**. En appliquant une tension $V$, on obtient un **courant tunnel net** d'un conducteur vers l'autre.
+
+### Formalisme Mathématique du STM
+
+La pointe STM s'approche de la surface à des distances de **quelques Ångströms**. Cela forme une barrière transparente tunnel, dont la taille est déterminée par les valeurs des **travaux de sortie** de la pointe ($\varphi_T$) et de l'échantillon ($\varphi_S$) :
+
+$$\varphi^* = \frac{1}{2}(\varphi_T + \varphi_S)$$
+
+La probabilité de transmission par effet tunnel $W$ est :
+
+$$W = \frac{|A_t|^2}{|A_0|^2} \cong e^{-k\Delta Z}$$
+
+où le coefficient d'atténuation est :
+
+$$k = \frac{4\pi\sqrt{2m\varphi^*}}{h} \quad \text{(pour deux métaux)}$$
+
+Ici, $A_0$ et $A_t$ sont les amplitudes des fonctions d'onde électroniques, $k$ le coefficient d'atténuation, et $\Delta Z$ la largeur de la barrière (distance pointe-surface).
+
+Si une différence de potentiel $V$ est appliquée au contact tunnel, un **courant tunnel (tunneling current)** apparaît :
+
+$$j_t = j_0(V) \cdot e^{-\frac{4\pi}{h}\sqrt{2m\varphi^*}\Delta Z}$$
+
+::: {.callout-important title="Dépendance exponentielle"]
+Le courant tunnel dépend **exponentiellement** de la distance pointe-surface. Une variation de 1 Å de la distance provoque une variation d'un ordre de grandeur du courant. C'est cette dépendance extrême qui confère au STM sa **haute résolution spatiale**.
+:::
+
+### Modes de Fonctionnement du STM
+
+#### Mode à Courant Constant (Constant Current Mode)
+
+Dans ce mode :
+
+- La **rétroaction maintient le courant constant** ($I_t = \text{const}$)
+- La position Z de la pointe est ajustée en continu
+- L'**image est constituée des variations Z** en fonction de (X, Y)
+- Ce mode suit fidèlement la topographie de la surface
+- Adapté aux surfaces rugueuses
+
+#### Mode à Hauteur Constante (Constant Height Mode)
+
+Dans ce mode :
+
+- La **hauteur de la pointe est maintenue constante** ($Z = \text{const}$)
+- On enregistre les **variations du courant tunnel** $I_t$ en fonction de (X, Y)
+- Ce mode est plus rapide (pas de servo-mécanisme lent)
+- Risque de collision sur des surfaces trop rugueuses
+- Adapté aux surfaces planes au niveau atomique
+
+### Résolution du STM
+
+La **haute résolution spatiale** du STM est due à la **dépendance exponentielle** du courant tunnel sur la distance pointe-surface.
+
+- **Résolution verticale** — peut atteindre des fractions d'Ångström
+- **Résolution latérale** — dépend de la qualité de la pointe
+
+::: {.callout-tip title="Intuition"}
+Normalement, c'est l'**atome le plus saillant au bout de la pointe** qui contribue le plus au courant tunnel (par la dépendance exponentielle sur la distance). Une pointe avec un atome protubérant unique donne donc une excellente résolution latérale.
+:::
+
+Pour atteindre la résolution atomique, un fonctionnement **sous ultra-haut vide (UHV)** est nécessaire afin d'éviter la contamination de surface (molécules d'air, eau).
+
+### Facteurs Affectant la Résolution
+
+- **Corrugation (corrugation)** — la variation en hauteur de la densité électronique des atomes de surface au-dessus de la surface. Le graphite (HOPG) a une grande corrugation, est très plan, et est donc l'un des matériaux les plus faciles à imager avec résolution atomique.
+
+- **Le STM ne sonde pas directement les positions nucléaires**, mais la **densité locale d'états électroniques (local density of electronic states — LDOS)**. Les images STM ne montrent donc pas toujours exactement les positions des atomes.
+
+::: {.callout-warning title="Important"}
+L'image STM dépend de la nature de la surface et de l'amplitude et du signe du courant tunnel. Par exemple, si Cu et Si sont présents sur la même surface dans les mêmes conditions, le courant avec Cu sera bien plus élevé. Les images STM sont des cartes de LDOS, pas directement de positions atomiques.
+:::
+
+- Puisque le STM image les **atomes les plus externes** de la surface, un **ultra-haut vide (UHV)** est normalement requis pour assurer l'absence de contamination de surface.
+
+### Exemples d'Images STM
+
+#### Mode à Courant Constant — Graphite (HOPG)
+
+Images STM du graphite HOPG (Highly Ordered Pyrolytic Graphite) :
+
+- Image (a) : image STM expérimentale en mode courant constant, $V_b = -50$ mV — la structure triangulaire est visualisée
+- Image (b) : image STM calculée en mode hauteur constante, $V_b = -50$ mV, distance pointe-surface 1,2 Å
+- Images (c) et (d) : profils le long des lignes indiquées
+
+#### Mode à Hauteur Constante — Structure Hexagonale
+
+En mode hauteur constante à $V_b = -300$ mV :
+
+- **Les 3 atomes β** apparaissent plus brillants (courant plus élevé) que les **3 atomes α**, imagés à la même hauteur
+- Ceci révèle la structure hexagonale composée d'atomes α et β (inéquivalents dans le graphite HOPG)
+- Échelles : 2 Å et 10 Å selon le zoom
+
+#### Dépendance en Température — Agitation Thermique
+
+Images STM de la surface du graphite à deux températures :
+
+- **77 K** (image 29 Å × 29 Å) — résolution atomique très nette
+- **295 K** (image 37 Å × 37 Å) — résolution légèrement dégradée par l'agitation thermique des électrons
+
+Ces images ont été enregistrées en **mode hauteur constante**, illustrant l'effet de l'**agitation thermique (thermal agitation of electrons)** sur la netteté de l'image.
+
+---
+
+# La Microscopie à Force Atomique
+
+## Microscopie à Force Atomique (Atomic Force Microscopy — AFM)
+
+### Invention et Principe
+
+La microscopie à force atomique (MFA / AFM) a été inventée en **1986 par Binnig, Quate et Herber**.
+
+L'AFM mesure la **force interactive** entre une pointe et la surface de l'échantillon, en utilisant des sondes spéciales constituées d'un **levier élastique (elastic cantilever)** avec une **pointe acérée** à son extrémité.
+
+::: {.callout-tip title="Intuition"]
+L'AFM fonctionne comme un **doigt aveugle explorant une surface en relief**. La pointe "sent" les forces d'attraction et de répulsion avec la surface, et le levier se défléchit en conséquence. En mesurant ces déflexions, on reconstruit la carte de la topographie.
+:::
+
+### Interactions Atomiques — Potentiel de Lennard-Jones
+
+Les forces interactives mesurées par l'AFM peuvent être qualitativement expliquées par le **potentiel de Lennard-Jones (Lennard-Jones potential)**, décrivant l'interaction entre deux atomes :
+
+$$U_{LD}(r) = U_0\left\{-2\left(\frac{r_0}{r}\right)^6 + \left(\frac{r_0}{r}\right)^{12}\right\}$$
+
+Ce potentiel comprend deux termes :
+
+- **Terme attractif** en $r^{-6}$ (forces de van der Waals) — prédomine aux **longues distances**
+- **Terme répulsif** en $r^{-12}$ (interactions d'échange, exclusion de Pauli) — prédomine aux **courtes distances**
+
+Le minimum du potentiel à $r = r_0$ correspond à la **distance d'équilibre**.
+
+### Régimes d'Interaction selon la Distance Pointe-Surface
+
+#### Répulsion (Régime Contact)
+
+À des distances pointe-surface très courtes (quelques Ångströms), une **force répulsive très forte** apparaît entre les atomes de la pointe et ceux de l'échantillon.
+
+Son origine est l'**interaction d'échange (exchange interaction)** due au recouvrement des orbitales électroniques à l'échelle atomique. Quand cette force répulsive prédomine, la pointe et l'échantillon sont considérés comme étant en **"contact"**.
+
+#### Attraction (Van der Waals)
+
+L'**interaction de polarisation** entre atomes : une polarisation instantanée d'un atome induit une polarisation dans les atomes voisins — d'où une interaction attractive.
+
+### Paramètres Quantitatifs
+
+La **fréquence de vibration** des atomes à température ambiante est $\omega \approx 10^{13}$ Hz.
+
+La **masse** d'un atome est $m \approx 10^{-25}$ kg.
+
+La **constante de ressort effective** entre atomes est :
+
+$$k = \omega^2 m \approx 10 \text{ N/m}$$
+
+Une distance de **0,1 nm** (longueur de liaison chimique typique) entre pointe et échantillon correspond à une **force de $10^{-9}$ Newton**, suffisante pour déflécchir le levier (les leviers commerciaux ont $k$ entre $10^{-2}$ N/m et $10^2$ N/m).
+
+### Architecture du Système AFM
+
+#### Laser de Déflexion (Deflection-laser AFM)
+
+L'acquisition de la topographie de surface AFM est réalisée en enregistrant les **petites déflexions du levier élastique**. Pour cela, des **méthodes optiques** sont largement utilisées :
+
+- **Laser de déflexion (deflection laser)** — un laser fin est réfléchi sur le dos du levier
+- **Photodiode sensible à la position (position sensitive photodiode — PSPD)** — mesure la déflexion angulaire du levier
+- **Système de rétroaction (feedback system)** — contrôle la position Z
+- **Scanner et positionneur piézoélectrique (piezo scanner and positioner)**
+
+La **déflexion angulaire du levier** $\delta_c$ est mesurée par la position du spot laser sur la photodiode 4-quadrants. Le signal d'erreur (ERROR = signal réel - valeur de consigne) pilote la boucle de rétroaction qui contrôle la position Z de l'échantillon.
+
+### Les Sondes AFM (Leviers et Pointes)
+
+#### Leviers (Cantilevers)
+
+Les sondes AFM sont constituées d'un **levier élastique** avec une **pointe acérée** à l'extrémité, typiquement fabriqués par **photolithographie et gravure** du silicium ou d'un métal.
+
+Les leviers peuvent vibrer dans leur **mode fondamental** ou dans des **modes d'ordre supérieur** selon le type d'imagerie.
+
+#### Types de Pointes AFM
+
+Plusieurs types de pointes sont disponibles selon l'application :
+
+- **Pointe normale (Normal Tip)** — pyramidale standard
+- **Super-pointe (Supertip)** — apex très aigu
+- **Ultralevier (Ultralever)** — levier très fin et léger
+- **Pointe recouverte de diamant (Diamond-coated tip)** — pour surfaces dures
+- **Pointe affinée par FIB (FIB-sharpened tip)** — faisceau d'ions focalisé, ultra-acérée
+- **Pointe Si₃N₄ recouverte d'or (Gold-coated Si₃N₄ tip)** — pour fonctionnalisation chimique
+
+### Modes de Fonctionnement de l'AFM
+
+#### Vue d'Ensemble des Modes
+
+```{mermaid}
+graph TD
+    AFM["AFM Modes"]
+    AFM --> Contact["Mode Contact\n(régime répulsif)"]
+    AFM --> NonContact["Mode Non-Contact\n(régime attractif)"]
+    AFM --> Tapping["Mode Tapping\n(intermittent)"]
+    Contact --> C1["Déflexion du levier constante\nBon pour surfaces planes et solides"]
+    NonContact --> NC1["Oscillations du levier\nBon pour surfaces molles, liquides biologiques"]
+    Tapping --> T1["Oscillations amorties\nMeilleure résolution\nDommages minimaux"]
+```
+
+#### Mode Contact (Contact Mode)
+
+Le **mode contact AFM** opère dans le **régime répulsif** de l'interaction pointe-surface.
+
+Deux sous-modes sont possibles :
+
+- **Force constante (constant force)** : la rétroaction maintient la force $F_z$ constante → la position Z varie → constitue l'image
+- **Distance constante (constant distance)** : la hauteur Z est maintenue constante → la force $F_z$ varie → constitue l'image
+
+::: {.callout-note title="À retenir"]
+Le **mode contact** convient aux échantillons de faible rugosité avec des surfaces propres et solides. La pointe en contact permanent peut endommager des échantillons fragiles.
+:::
+
+#### Modes Non-Contact et Tapping
+
+Ces deux modes reposent sur des **oscillations forcées** du levier à une fréquence proche de sa fréquence de résonance.
+
+L'amplitude $A(\omega)$ et la phase $\varphi(\omega)$ des oscillations sont :
+
+$$A(\omega) = \frac{u_0\omega_0^2}{\sqrt{(\omega_0^2 - \omega^2)^2 + \frac{\omega^2\omega_0^2}{Q^2}}}$$
+
+$$\varphi(\omega) = \text{arctg}\left[\frac{\omega\omega_0}{Q(\omega_0^2 - \omega^2)}\right]$$
+
+Les **interactions pointe-surface modifient** l'amplitude et la phase des oscillations, ce qui constitue le signal de mesure.
+
+**Différence entre les deux modes :**
+
+| Paramètre | Mode Non-Contact | Mode Tapping |
+|---|---|---|
+| Amplitude d'oscillation | $\approx 100\%$ de l'amplitude libre | $\approx 50-60\%$ de l'amplitude libre |
+| Distance pointe-surface | $> 1$ nm | $< 1$ nm |
+| Régime | Attractif (van der Waals) | Intermédiaire (attractif–répulsif) |
+| Application | Surfaces molles, liquides, bio | Matériaux solides |
+
+::: {.callout-tip title="Intuition"]
+Le tapping mode est comme un **"doigt tapotant"** la surface à haute fréquence : il touche brièvement la surface puis se soulève, évitant le frottement latéral qui endommagerait l'échantillon.
+:::
+
+::: {.callout-important title="Différence Contact / Non-contact"]
+- **Mode contact** (gauche) : la déflexion du levier est maintenue constante
+- **Mode non-contact** (droite) : la pointe oscille à la fréquence de résonance et l'amplitude d'oscillation est maintenue constante
+- **Mode tapping** : quelque part entre les deux
+:::
+
+#### Non-Contact vs Tapping — Précisions
+
+Les deux modes sont basés sur un mécanisme de rétroaction à amplitude d'oscillation constante.
+
+Pour le **mode tapping**, la **rigidité locale de l'échantillon (local stiffness)** a une influence essentielle sur les variations d'amplitude et de phase.
+
+Le **mode non-contact** est utilisé principalement pour les surfaces liquides molles, par exemple les échantillons biologiques.
+
+Le **mode tapping est plus largement utilisé** pour les matériaux solides.
+
+::: {.callout-note title="À retenir"]
+Dans la pratique, **le mode non-contact est souvent opéré comme mode tapping**. La distinction est parfois subtile.
+:::
+
+### Création des Oscillations du Levier
+
+Deux méthodes pour mettre le levier en oscillation :
+
+- **Mode AC Acoustique (AAC — Acoustic AC mode)** : la vibration acoustique haute fréquence d'un transducteur piézoélectrique fixé au support du levier excite le levier indirectement. Cette méthode produit des signaux parasites ("forêt de pics") dans le spectre.
+
+- **Mode AC Magnétique (MAC Mode — Magnetic AC mode)** : méthode directe et préférée. Un levier recouvert d'un **matériau magnétique** est mis en oscillation directement par un **champ magnétique AC** généré par un solénoïde proche du support. Résultat : une réponse du levier propre, sans signaux de fond parasites. Le **MAC Mode** a des avantages encore plus importants quand le levier est mis en vibration dans un liquide.
+
+### Le Scanner Piézoélectrique
+
+#### Balayage en Trame
+
+Le scanner piézoélectrique déplace l'échantillon sous la pointe (ou la pointe sur l'échantillon) en **trame raster**. Idéalement, l'extension d'un scanner piézoélectrique **varie linéairement avec la tension appliquée**.
+
+**Résolution de balayage (scanning step) : 0,1 nm**
+
+#### Défauts du Scanner Piézoélectrique
+
+En pratique, les scanners piézoélectriques présentent plusieurs non-idéalités :
+
+##### Non-linéarité Intrinsèque (Scanner Intrinsic Nonlinearity)
+
+La non-linéarité intrinsèque est le rapport $\Delta y / y$ de l'écart maximal $\Delta y$ par rapport au comportement linéaire à la déformation linéaire idéale $y$ à cette tension. Elle est dans la plage **2–25%**.
+
+##### Hystérésis (Scanner Hysteresis)
+
+L'hystérésis d'un scanner piézoélectrique est le rapport de la divergence maximale entre les deux courbes (montée et descente) à l'extension maximale que la tension peut créer dans le scanner : $\Delta Y / Y_{max}$.
+
+L'hystérésis peut atteindre **20%** dans les matériaux piézoélectriques.
+
+##### Fluage (Scanner Creep)
+
+Lorsqu'un **changement abrupt de tension** est appliqué, le scanner piézoélectrique réagit en deux étapes :
+
+1. La **première étape** a lieu en moins d'une milliseconde
+2. La **deuxième étape** intervient sur une **échelle de temps beaucoup plus longue**. Cette deuxième étape, $\Delta x_c$, est appelée **fluage (creep)**
+
+Le fluage est le rapport de la seconde variation dimensionnelle à la première : $\Delta x_c / \Delta x$. Il varie de **1% à 20%** et dure de **10 à 100 secondes**.
+
+::: {.callout-warning title="Importance de ces artefacts"]
+Ces trois effets (non-linéarité, hystérésis, fluage) peuvent introduire des **distorsions géométriques significatives** dans les images AFM. Une calibration rigoureuse avec des échantillons de référence (grilles) est indispensable pour des mesures quantitatives.
+:::
+
+### Exemples d'Images AFM
+
+#### Comparaison Contact vs Tapping — Silicium Si(100)
+
+Cette comparaison sur Si(100) est très instructive :
+
+- **Mode Contact** — les images du 1er et 2ème scan montrent une **altération claire de la surface** : du matériau est retiré par la pointe lors du balayage
+- **Mode Tapping** — les images du 1er et 2ème scan **ne montrent pas d'altération de surface** et offrent une **meilleure résolution**
+
+::: {.callout-important title="Dommages en mode contact"]
+En mode contact, le frottement latéral peut retirer du matériau, provoquer une croissance d'oxyde supplémentaire ou d'autres modifications subtiles. Ce type d'altération de surface passe souvent inaperçu si les chercheurs ne vérifient pas les dommages en re-scannant la zone affectée à plus faible grossissement.
+:::
+
+---
+
+# La Microscopie Optique en Champ Proche
+
+## Microscopie Optique à Balayage en Champ Proche (Near-Field Scanning Optical Microscopy — NSOM)
+
+### Motivation pour le Développement du NSOM
+
+#### Limites des Autres Techniques
+
+- Le **STM mesure le courant électrique** et l'**AFM mesure des forces** — ni l'un ni l'autre ne traite directement avec la **lumière**
+- La lumière est une **source d'excitation cruciale** en recherche scientifique et dans les systèmes naturels (ex. : systèmes photosynthétiques)
+- Les domaines de recherche concernés incluent : l'absorption, la fluorescence, le transfert d'électrons photoinduit, les dispositifs électroluminescents, les cellules photovoltaïques
+
+#### Limite de Diffraction de l'Optique Conventionnelle
+
+La limite de diffraction du microscope optique conventionnel est $\lambda/2 \approx 250$ nm. En pratique réelle, la résolution optique est $\sim \lambda \approx 500$ nm.
+
+En revanche, le **NSOM offre une résolution bien supérieure** d'environ **50 nm** (voire < 30 nm), selon la taille de l'ouverture de la pointe.
+
+::: {.callout-note title="À retenir"]
+Le NSOM surmonte la limite de diffraction car il n'utilise pas une onde propagative de lumière, mais exploite le **champ proche évanescent** à quelques nanomètres de la surface.
+:::
+
+#### Corrélation Directe Structure-Propriétés
+
+Le NSOM fournit des **mesures simultanées** de la topographie et des propriétés optiques (fluorescence) — c'est une **corrélation directe entre nanostructures de surface et propriétés optiques/électroniques**.
+
+Ceci est particulièrement utile pour l'étude de :
+
+- Matériaux ou surfaces **inhomogènes**
+- **Nanoparticules**
+- **Mélanges de polymères (polymer blends)**
+- **Silicium poreux**
+- **Systèmes biologiques**
+
+**Exemple :** Des images NSOM de TiO₂ enveloppé dans un film PPV (poly(p-phénylène vinylène)) montrent simultanément la topographie des particules et l'extinction de fluorescence (fluorescence quenching) causée par les particules de TiO₂.
+
+### Composants Principaux du NSOM
+
+#### Composants Optiques
+
+- **Source lumineuse (lasers CW et pulsés)**
+- **Fibres optiques, miroirs, lentilles, objectifs** (à immersion, grand NA)
+- **Détecteurs de photons** — Photo-Multiplicateur (PMT), Photodiode à Avalanche (APD)
+- **Sonde (pointe)**
+
+#### Composants Mécaniques
+
+- **Platine de translation, scanner piézoélectrique**
+- **Table optique anti-vibrations**
+
+#### Composants Électriques
+
+- **Pilotes de balayage** pour scanner piézoélectrique
+- **Contrôle de distance Z** (système de rétroaction)
+- **Amplificateurs, processeurs de signal**
+- **Logiciel et ordinateur**
+
+### Principe du Champ Proche
+
+#### Qu'est-ce que le Champ Proche ?
+
+Pour une haute résolution spatiale, la sonde doit être **très proche de l'échantillon**. Dans le NSOM, la résolution est déterminée non par la longueur d'onde de la lumière, mais par la **taille de l'ouverture de la sonde**.
+
+::: {.callout-tip title="Intuition"]
+Imaginez éclairer à travers un très petit trou : la lumière qui émerge illumine une zone de dimension comparable à l'ouverture, et non à la longueur d'onde. Si l'échantillon est maintenu à moins d'une distance égale au diamètre de l'ouverture, on obtient une image avec une résolution définie par l'ouverture — pas par $\lambda$.
+:::
+
+La résolution NSOM est typiquement de **$\sim$ 50 nm** (limitée par l'ouverture), contre **$\sim$ 1 nm en champ proche** (diffraction limitée en champ proche) et **$\lambda/2 \sim 300$ nm** pour la lentille à champ lointain.
+
+#### Les Trois Types de Sondes
+
+1. **Limité par diffraction (Diffraction limited)** — sonde à grande ouverture, résolution classique $\lambda/2$
+2. **Sonde à ouverture en champ proche (Aperture near-field probe)** — ouverture $d \ll \lambda$, résolution $\approx d$
+3. **Sonde de diffusion en champ proche (Scattering near-field probe)** — une nanoparticule diffuse la lumière, résolution $\approx d \ll \lambda$
+
+### Exigences du NSOM
+
+- Nécessite une **ouverture de dimension nanométrique** (bien plus petite que la longueur d'onde)
+- L'échantillon est balayé **très près de l'ouverture**
+- Tant que l'échantillon reste à une distance inférieure au diamètre de l'ouverture, une image avec une **résolution sub-longueur d'onde** (de taille égale à l'ouverture) peut être générée
+
+::: {.callout-warning title="Compromis résolution–sensibilité"]
+Il existe un **compromis entre résolution et sensibilité** (intensité lumineuse) — l'ouverture ne peut pas être trop petite, car l'intensité transmise diminue drastiquement avec la taille de l'ouverture (en $\sim d^4$ selon la théorie de Bethe).
+:::
+
+### Structure de la Pointe NSOM
+
+La sonde NSOM est constituée d'une **fibre optique effilée** comprenant :
+
+- Un **cœur (Core)** — guide la lumière
+- Un **cladding** — confine la lumière dans le cœur
+- Un **revêtement métallique opaque (Coating)** — typiquement Al (aluminium) avec sous-couche Ni-Cr
+- Une **ouverture en champ proche (near-field aperture)** — à l'extrémité, de diamètre typique 50–100 nm
+
+Les images SEM de la pointe NSOM montrent la géométrie effilée avec une ouverture de **500 nm** visible à l'extrémité.
+
+### Modes de Fonctionnement du NSOM
+
+Cinq modes principaux, selon comment la lumière est envoyée et collectée :
+
+| Mode | Description |
+|---|---|
+| **(a) Illumination** | La lumière est envoyée par la pointe, collectée par dessous (transmission) |
+| **(b) Collection** | La lumière est envoyée par dessous, collectée par la pointe |
+| **(c) Illumination/Collection** | La pointe envoie et collecte la lumière (réflexion propre) |
+| **(d) Réflexion (Reflection)** | La lumière est envoyée par la pointe, collectée en réflexion |
+| **(e) Collection par réflexion (Reflection collection)** | La lumière est envoyée par dessous, collectée en réflexion |
+
+**Caractéristiques des modes principaux :**
+
+- **Mode Illumination** — le plus facile à opérer et à interpréter, donne le plus de signal. Nécessite un échantillon **transparent**, donc limité pour les siliciums et les bio-espèces.
+- **Mode Réflexion** — donne moins de lumière, plus dépendant des détails de la pointe, mais permet d'étudier des **échantillons opaques**.
+- **Mode Illumination/Collection** — complément aux modes réflexion, mais le signal contient un **large fond lumineux**.
+
+### La Microscopie Confocale à Balayage (Scanning Confocal Microscopy — SCM)
+
+Le NSOM peut être modifié pour devenir un **microscope confocal à balayage (SCM)** en retirant simplement la tête à fourche de diapason (tuning fork) et la pointe NSOM.
+
+Caractéristiques du SCM :
+
+- Utilise le **faisceau d'excitation à travers le même objectif** que la collecte
+- L'excitation et l'émission partagent le **même foyer** sur la surface de l'échantillon
+- Le SCM requiert un **alignement de haute précision** des accessoires optiques
+- Permet la **spectroscopie de molécule unique (single-molecule spectroscopy)**
+
+::: {.callout-tip title="Intuition"]
+Le microscope confocal filtre spatialement la lumière hors-foyer par un **sténopé (pinhole)** conjugué au plan focal. Seule la lumière provenant exactement du point focal contribue à l'image, éliminant le flou de fond et permettant des mesures sur des volumes attoliter ($10^{-18}$ L).
+:::
+
+### Exemples d'Images NSOM
+
+#### Topographie d'une Surface de Verre Nettoyée
+
+Une image NSOM 3D d'une surface de verre nettoyée ($6\,\mu\text{m} \times 6\,\mu\text{m}$) révèle une rugosité de surface avec des variations de hauteur de l'ordre de **1,48 nm**. Les profils de hauteur (Z-data) sur plusieurs lignes horizontales montrent des variations de 0,57 à 2,3 nm sur 6 µm.
+
+#### Détection de Molécules Uniques
+
+Le NSOM permet la **détection de molécules individuelles (single molecule detection)** :
+
+- Images A et B montrent des fluorophores individuels (points lumineux) sur une surface verte sombre
+- La résolution submicronique permet de localiser précisément chaque molécule
+- L'image SEM de la pointe utilisée (encart) montre une ouverture de **100 nm**
+
+---
+
+# Comparaison des Techniques SPM
+
+## Comparaison des Pointes STM, AFM et NSOM
+
+### Exigences des Pointes selon la Technique
+
+**Pointe STM :**
+
+- Doit être **conductrice** — peut être simplement coupée fraîchement avec un coupe-fil normal
+- Le STM exploite l'**atome le plus saillant** au bout de la pointe fraîchement coupée, ce qui conduit à la résolution atomique
+
+**Pointe AFM :**
+
+- Doit être **suffisamment acérée** pour obtenir une bonne résolution (effet de pointe trop large — fat-tip effect)
+- Récemment, des pointes atomiquement acérées ont été obtenues en **fixant une petite molécule** au bout de la pointe
+- Doit être **suffisamment rigide** pour percevoir l'interaction atomique avec la surface (la distance)
+- **N'a pas besoin d'être conductrice**
+
+**Pointe NSOM :**
+
+- Doit être assez acérée pour une bonne **résolution topographique**
+- L'**ouverture de la pointe NSOM** doit être petite pour une meilleure résolution optique
+- La **surface extérieure** de la pointe NSOM doit être plate pour éviter les effets artificiels lors du balayage
+
+### Interaction Interatomique : Comparaison STM vs AFM
+
+Dans le STM, l'interaction est principalement entre l'**atome de pointe le plus saillant** et les atomes de la surface directement en dessous — interaction très localisée.
+
+Dans l'AFM, l'interaction implique une **zone plus large** d'atomes proches de la pointe, même si la pointe est acérée. L'ombrage (shading) sur les schémas représente la force d'interaction : plus sombre = plus forte. Ceci explique pourquoi la résolution latérale AFM est généralement légèrement moins bonne que celle du STM.
+
+## Artefacts de Balayage en SPM
+
+### Types d'Artefacts
+
+- **Hors de la boucle de rétroaction** (tip trop loin de la surface)
+- **Bruit électrique** (particulièrement le bruit périodique ajouté au signal interne)
+- **Vibration environnementale** (surtout si la fréquence est proche de celle d'oscillation de la pointe)
+- **Effet de pointe trop large (fat-tip effect)** — une pointe émoussée produit des caractéristiques qui reflètent la forme de la pointe plutôt que la topographie réelle
+- **Interaction pointe-surface inconnue** (ralentit la vitesse de balayage)
+
+### Comment Tester les Artefacts
+
+- **Répéter le scan** pour s'assurer que l'image est reproductible
+- **Changer la direction du balayage** et prendre une nouvelle image
+- **Changer la taille de la zone balayée** et prendre une image pour s'assurer que les caractéristiques s'échelonnent correctement
+- **Faire pivoter l'échantillon** et prendre une image pour identifier l'imagerie de la pointe
+- **Changer la vitesse de balayage** et prendre une autre image (surtout en présence de caractéristiques périodiques ou quasi-périodiques suspectes)
+
+## La Famille Étendue des Techniques SPM
+
+La richesse de la famille SPM vient de la variété des interactions physiques exploitables. Voici une liste non exhaustive des nombreuses techniques dérivées :
+
+**Basées sur l'AFM :**
+
+- Contact AFM, Non-contact AFM, Dynamic contact AFM, Tapping AFM, AFM-IR
+- CFM (Chemical Force Microscopy), C-AFM (Conductive AFM)
+- EFM (Electrostatic Force Microscopy), KPFM (Kelvin Probe Force Microscopy)
+- MFM (Magnetic Force Microscopy), PFM (Piezoresponse Force Microscopy)
+- PTMS (Photothermal Microspectroscopy), SCM (Scanning Capacitance Microscopy)
+- SGM (Scanning Gate Microscopy), SVM (Scanning Voltage Microscopy)
+- FMM (Force Modulation Microscopy), FluidFM (Fluidic Force Microscopy)
+
+**Basées sur le STM :**
+
+- BEEM (Ballistic Electron Emission Microscopy)
+- ECSTM (Electrochemical STM), SHPM (Scanning Hall Probe Microscopy)
+- SPSM (Spin Polarized STM), PSTM (Photon STM)
+- STP (Scanning Tunneling Potentiometry), SXSTM (Synchrotron X-ray STM)
+
+**Autres techniques SPM :**
+
+- FOSPM (Feature-Oriented SPM), MRFM (Magnetic Resonance Force Microscopy)
+- NSOM, nano-FTIR (broadband nanoscale SNOM-based spectroscopy)
+- SECM (Scanning Electrochemical Microscopy), SICM (Scanning Ion-Conductance Microscopy)
+- SSM (Scanning SQUID Microscopy), SSRM (Scanning Spreading Resistance Microscopy)
+- SThM (Scanning Thermal Microscopy), SSET, STIM
+
+## Avantages Globaux de la SPM
+
+Les microscopies à sonde balayante offrent des atouts décisifs :
+
+- Résolution de l'**Ångström** (atomes) au **nanomètre** (molécules)
+- **Numérisées et informatisées** — traitement et analyse faciles des images
+- **Expérimentalement polyvalentes** — fonctionnement en air, vide, liquide, à basse température
+- **Hautement accordables et flexibles** — combinaison facile avec d'autres techniques (optique, électrochimie, biologie)
+- **Large application** en science des surfaces et nanotechnologie
+
+::: {.callout-note title="À retenir — Synthèse des techniques d'imagerie"]
+| Technique | Résolution | Principe | Conditions |
+|---|---|---|---|
+| Microscope Optique | ~500 nm | Diffraction lumière | Ambiant, couleur réelle |
+| SEM | ~10 nm | Électrons de surface | Vide, revêtement conducteur |
+| TEM | ~0,2 nm | Transmission d'électrons | Vide, échantillon mince |
+| STM | <0,1 nm | Courant tunnel | UHV, surface conductrice |
+| AFM | ~0,1 nm (Z) | Force atomique | Ambiant/vide/liquide |
+| NSOM | ~50 nm | Champ proche optique | Ambiant, propriétés optiques |
+:::
