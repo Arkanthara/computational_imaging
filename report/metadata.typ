@@ -7,7 +7,7 @@
   logo: "./img/unige.svg",
   logosize: 6cm,
   university: "University of Geneva",
-  title: "Assignment 4",
+  title: "Binary Diffusion Probabilistic Models",
 
   // Structured authors
   authors: (
@@ -21,16 +21,16 @@
   // subtitle: "Report Subtitle",
   course-name: "Computational Imaging",
   course-id: "14x062",
-  // illustrations: (
-  //   (
-  //     path: ".typst_pyexec/figures/cell_5_1_1.svg",
-  //     width: 7cm,
-  //   ),
-  //   (
-  //     path: ".typst_pyexec/figures/cell_5_1_2.svg",
-  //     width: 7cm,
-  //   )
-  // ),
+  illustrations: (
+    (
+      path: "img/tangled.png",
+      width: 5cm,
+    ),
+    (
+      path: "img/noisy_image_0.3.png",
+      width: 5cm,
+    )
+  ),
   project-name: "Computational Imaging",
   date: none,
 

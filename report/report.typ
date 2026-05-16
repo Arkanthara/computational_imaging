@@ -6,7 +6,7 @@
 #import "@preview/cetz:0.4.2": canvas, draw
 // #import "graph_utils.typ": *
 #import "neural-viz/lib.typ": *
-#import emoji: *
+#import emoji: camera
 
 // Main content
 #show: make-report.with(my-report)
@@ -237,3 +237,68 @@ The complete process can be represented as a Markov chain that alternates betwee
   },
   caption: "Illustration of the complete diffusion process, which consists of a forward diffusion process that adds noise to the data and a reverse diffusion process that learns to remove the noise and recover the original data",
 ) <fig3>
+
+= Binary Diffusion Models
+
+The binary diffusion models are a specific type of diffusion models that are designed to handle binary data, which is a common type of quantized data.
+For instance, in the context of computational imaging, we can deal with binary representations of images by a decomposition of the image into bit-planes, where each bit-plane represents a binary image that captures a specific bit of the pixel values.
+
+In binary diffusion models, thanks to the binary nature of the data, the management of the noise addition and removal process is simplified compared to the general case of continuous data.
+The forward diffusion process can be defined as a simple XOR operation between the binary data and a binary noise term, while the reverse diffusion process can be defined as a simple XNOR operation between the noisy data and a predicted binary noise term.
+
+Thanks to the binary nature of the data, there is no need to tune a complex noise schedule as in the case of continuous data.
+This allows for a simpler preprocessing of the data and a more straightforward training of the model, which can lead to faster convergence and improved performance when dealing with binary data.
+
+#figure(
+  {
+  let nodes = (
+    dataset(0, title: $t_0$),
+    module(1, title: $T$, pos: right-of("0")),
+    vector(2, title: $X_0$, pos: right-of("1"), dir: "v", stack: 3),
+    gate-node(3, pos: right-of("2")),
+    vector(6, title: $X_t$, pos: right-of("3"), dir: "v", stack: 3),
+    module(7, title: $p_theta (hat(X)_0, hat(z)_t | X_t, t, Y_epsilon)$, pos: right-of("6"), size: (5, 2)),
+    module(11, title: $T^(-1)$, pos: right-of("7")),
+    dataset(13, title: $t_0_t$, pos: right-of("11")),
+
+    compare-node(12, title: $cal(L)_z$, size: (1.5, 2), pos: right-of("7", dy: 0.95)),
+
+    text-node(4, $bold(z)_B$, pos: below("0", by: 1.1)),
+    module(5, title: $cal(M)_t$, pos: below("1", by: 1.1)),
+    vector(14, title: $z_t$, pos: below("2", by: 1.1), dir: "v", stack: 3),
+
+    dataset(8, title: $Y$, pos: below("4", by: 1.1)),
+    module(9, title: $epsilon_y$, pos: below("5", by: 1.1)),
+    vector(10, title: $Y_epsilon$, pos: below("14", by: 1.1), dir: "v", stack: 3),
+
+  )
+
+  let edges = (
+    ml-edge("0", "1"),
+    ml-edge("1", "2"),
+    ml-edge("2", "3"),
+    ml-edge("3", "6"),
+
+    ml-edge("4", "5"),
+    ml-edge("5", "14"),
+    ml-edge("14", "3", orthogonal: true),
+
+
+    ml-edge("6", "7"),
+    ml-edge("8", "9"),
+    ml-edge("9", "10"),
+    ml-edge("10", "7", orthogonal: true),
+
+
+    ml-edge("7", "11"),
+    ml-edge("11", "13"),
+    ml-edge("11", "13"),
+
+    ml-edge("7", "12", orthogonal: "v", from-shift: -0.3, to-shift: -0.15, label: $hat(z)_t$),
+    ml-edge("14", "12", to-shift: -0.15),
+  )
+
+  ml-diagram(nodes, edges: edges, label-size: 0.7em, spacing: 2em)
+  },
+  caption: "Binary diffusion process",
+)
