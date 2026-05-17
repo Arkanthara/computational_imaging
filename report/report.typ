@@ -71,11 +71,11 @@ This process can be visualized as a gradual transformation of the original data 
 #figure(
   {
   let nodes = (
-    image-node("x0", title: $X_0$, src: src_dir + "/img/tangled.png", cover: true, image-size: (2.5, 3)),
-    image-node("x1", title: $X_1$, src: src_dir + "/img/noisy_image_0.3.png", cover: true, image-size: (2.5, 3)),
-    image-node("x2", title: $X_2$, src: src_dir + "/img/noisy_image_0.5.png", cover: true, image-size: (2.5, 3)),
+    image-node("x0", title: $X_0$, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: (2.5, 3)),
+    image-node("x1", title: $X_1$, src: src_dir + "/img/noisy_images/noisy_image_0.3.png", cover: true, image-size: (2.5, 3)),
+    image-node("x2", title: $X_2$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: (2.5, 3)),
     text-node("dots", " ... ", title-size: 1em, node-size: (2, 3)),
-    image-node("xT", title: $X_T$, src: src_dir + "/img/noisy_image_10.0.png", cover: true, image-size: (2.5, 3)),
+    image-node("xT", title: $X_T$, src: src_dir + "/img/noisy_images/noisy_image_10.0.png", cover: true, image-size: (2.5, 3)),
   )
 
   let edges = (
@@ -151,11 +151,11 @@ The reverse diffusion process consists of going from the noisy data back to the 
 #figure(
   {
   let nodes = (
-    image-node("x0", title: $X_0$, src: src_dir + "/img/tangled.png", cover: true, image-size: (2.5, 3)),
-    image-node("x1", title: $X_1$, src: src_dir + "/img/noisy_image_0.3.png", cover: true, image-size: (2.5, 3), pos: right-of("x0")),
-    image-node("x2", title: $X_2$, src: src_dir + "/img/noisy_image_0.5.png", cover: true, image-size: (2.5, 3), pos: right-of("x1")),
+    image-node("x0", title: $X_0$, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: (2.5, 3)),
+    image-node("x1", title: $X_1$, src: src_dir + "/img/noisy_images/noisy_image_0.3.png", cover: true, image-size: (2.5, 3), pos: right-of("x0")),
+    image-node("x2", title: $X_2$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: (2.5, 3), pos: right-of("x1")),
     text-node("dots", " ... ", title-size: 1em, pos: right-of("x2"), node-size: (2, 3)),
-    image-node("xT", title: $X_T$, src: src_dir + "/img/noisy_image_10.0.png", pos: right-of("dots"), cover: true, image-size: (2.5, 3)),
+    image-node("xT", title: $X_T$, src: src_dir + "/img/noisy_images/noisy_image_10.0.png", pos: right-of("dots"), cover: true, image-size: (2.5, 3)),
   )
 
   let edges = (
@@ -213,11 +213,11 @@ The complete process can be represented as a Markov chain that alternates betwee
 #figure(
   {
   let nodes = (
-    image-node("x0", title: $X_0$, src: src_dir + "/img/tangled.png", cover: true, image-size: (2.5, 3)),
-    image-node("x1", title: $X_1$, src: src_dir + "/img/noisy_image_0.3.png", cover: true, image-size: (2.5, 3), pos: right-of("x0")),
-    image-node("x2", title: $X_2$, src: src_dir + "/img/noisy_image_0.5.png", cover: true, image-size: (2.5, 3), pos: right-of("x1")),
+    image-node("x0", title: $X_0$, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: (2.5, 3)),
+    image-node("x1", title: $X_1$, src: src_dir + "/img/noisy_images/noisy_image_0.3.png", cover: true, image-size: (2.5, 3), pos: right-of("x0")),
+    image-node("x2", title: $X_2$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: (2.5, 3), pos: right-of("x1")),
     text-node("dots", " ... ", title-size: 1em, pos: right-of("x2"), node-size: (2, 3)),
-    image-node("xT", title: $X_T$, src: src_dir + "/img/noisy_image_10.0.png", pos: right-of("dots"), cover: true, image-size: (2.5, 3)),
+    image-node("xT", title: $X_T$, src: src_dir + "/img/noisy_images/noisy_image_10.0.png", pos: right-of("dots"), cover: true, image-size: (2.5, 3)),
     arrow-node("fwd", title: "Forward diffusion", dir: right, shape: "arrow", label-pos: "bellow", size: (2.5, 1), pos: below("x2", by: 0.6)),
     arrow-node("fwd", title: "Reverse diffusion", dir: left, shape: "arrow", label-pos: "above", pos: above("x2", by: 0.7)),
   )
@@ -244,10 +244,16 @@ The binary diffusion models are a specific type of diffusion models that are des
 For instance, in the context of computational imaging, we can deal with binary representations of images by a decomposition of the image into bit-planes, where each bit-plane represents a binary image that captures a specific bit of the pixel values.
 
 In binary diffusion models, thanks to the binary nature of the data, the management of the noise addition and removal process is simplified compared to the general case of continuous data.
-The forward diffusion process can be defined as a simple XOR operation between the binary data and a binary noise term, while the reverse diffusion process can be defined as a simple XNOR operation between the noisy data and a predicted binary noise term.
+The forward diffusion process can be defined as a simple XOR operation between the binary data and a binary noise term, like the reverse diffusion process that is also defined as a simple XOR operation between the noisy binary data and a predicted binary noise term.
 
 Thanks to the binary nature of the data, there is no need to tune a complex noise schedule as in the case of continuous data.
 This allows for a simpler preprocessing of the data and a more straightforward training of the model, which can lead to faster convergence and improved performance when dealing with binary data.
+
+== Training the model
+
+The training of the binary diffusion model involves optimizing loss functions that encourage the model to learn how to effectively reverse the noise addition process and recover the original binary data from the noisy binary data.
+
+The complete process can be represented as in the @fig4, where the model learns to predict the original binary data $hat(X)_0_t$ from the noisy binary data $X_t$ at each time step $t$ by removing the predicted noise $hat(z)_t$ from $X_t$.
 
 #figure(
   {
@@ -257,19 +263,22 @@ This allows for a simpler preprocessing of the data and a more straightforward t
     vector(2, title: $X_0$, pos: right-of("1"), dir: "v", stack: 3),
     gate-node(3, pos: right-of("2")),
     vector(6, title: $X_t$, pos: right-of("3"), dir: "v", stack: 3),
-    module(7, title: $p_theta (hat(X)_0, hat(z)_t | X_t, t, Y_epsilon)$, pos: right-of("6"), size: (5, 2)),
-    module(11, title: $T^(-1)$, pos: right-of("7")),
-    dataset(13, title: $t_0_t$, pos: right-of("11")),
+    module(7, title: $p_theta (hat(X)_0_t, hat(z)_t | X_t, t, Y_epsilon)$, pos: right-of("6"), size: (5, 2)),
+    vector(16, title: $hat(X)_0_t$, pos: right-of("7"), dir: "v", stack: 3),
+    module(11, title: $T^(-1)$, pos: right-of("16")),
+    dataset(13, title: $hat(t)_0_t$, pos: right-of("11")),
 
-    compare-node(12, title: $cal(L)_z$, size: (1.5, 2), pos: right-of("7", dy: 0.95)),
+    compare-node(12, title: $cal(L)_z$, size: (1.5, 2), pos: below("11", by: 1.15)),
 
-    text-node(4, $bold(z)_B$, pos: below("0", by: 1.1)),
-    module(5, title: $cal(M)_t$, pos: below("1", by: 1.1)),
-    vector(14, title: $z_t$, pos: below("2", by: 1.1), dir: "v", stack: 3),
+    text-node(4, $bold(z)_B$, pos: below("0", by: 1.3)),
+    module(5, title: $cal(M)_t$, pos: right-of("4")),
+    vector(14, title: $z_t$, pos: right-of("5"), dir: "v", stack: 3),
 
-    dataset(8, title: $Y$, pos: below("4", by: 1.1)),
-    module(9, title: $epsilon_y$, pos: below("5", by: 1.1)),
-    vector(10, title: $Y_epsilon$, pos: below("14", by: 1.1), dir: "v", stack: 3),
+    compare-node(15, title: $cal(L)_x$, size: (1.5, 2), pos: above("11", by: 1.15)),
+
+    dataset(8, title: $Y$, pos: below("4", by: 1.05)),
+    module(9, title: $epsilon_y$, pos: right-of("8")),
+    vector(10, title: $Y_epsilon$, pos: right-of("9"), dir: "v", stack: 3),
 
   )
 
@@ -287,18 +296,145 @@ This allows for a simpler preprocessing of the data and a more straightforward t
     ml-edge("6", "7"),
     ml-edge("8", "9"),
     ml-edge("9", "10"),
-    ml-edge("10", "7", orthogonal: true),
 
 
     ml-edge("7", "11"),
     ml-edge("11", "13"),
     ml-edge("11", "13"),
 
-    ml-edge("7", "12", orthogonal: "v", from-shift: -0.3, to-shift: -0.15, label: $hat(z)_t$),
+    ml-edge("7", "12", orthogonal: "v", from-shift: -0.3, to-shift: -0.15, label: $hat(z)_t$, label-pos: 33%, label-side: left),
     ml-edge("14", "12", to-shift: -0.15),
+
+    ml-edge("10", "7", orthogonal: true, to-shift: -0.3, crossing: true),
+
+    ml-edge("2", "15", to-shift: -0.15, orthogonal: "v"),
+
+    ml-edge("16", "15", orthogonal: "v", to-shift: 0.15),
+
   )
 
-  ml-diagram(nodes, edges: edges, label-size: 0.7em, spacing: 2em)
+  ml-diagram(nodes, edges: edges, label-size: 0.7em, spacing: 1.3em)
   },
   caption: "Binary diffusion process",
-)
+) <fig4>
+
+As shown in @fig4, the model $p_theta$ takes as input the noisy binary data $X_t$, the time step $t$, and an optional conditioning variable $Y_epsilon$ that can be used to guide the generation process, and outputs a prediction of the original binary data $hat(X)_0_t$ and the predicted noise $hat(z)_t$ that was added to the data at time step $t$ in the forward diffusion process.
+
+=== Loss functions
+
+Two loss functions are computed to train the model:
+- $cal(L)_z$: A loss function that encourages the model to accurately predict the noise $hat(z)_t$ that was added to the data.
+- $cal(L)_x$: A loss function that encourages the model to accurately predict the original binary data $hat(X)_0_t$ from the noisy binary data $X_t$.
+
+In the paper "Tabular Data Generation using Binary Diffusion" by V. Kinakh and S. Voloshynovskiy @tabular, the authors propose the binary cross-entropy as the loss function for both $cal(L)_z$ and $cal(L)_x$, which is a common choice for binary data as it measures how well the predicted probabilities match the true binary labels.
+$ cal(L)_z = - sum_(i=1)^N z_(t,i) log(hat(z)_(t,i)) + (1 - z_(t,i)) log(1 - hat(z)_(t,i)) $ <eq9>
+$ cal(L)_x = - sum_(i=1)^N X_(0,i) log(hat(X)_(0,i)) + (1 - X_(0,i)) log(1 - hat(X)_(0,i)) $ <eq10>
+
+In the @eq9 and @eq10:
+- $N$ is the number of binary features in the data.
+- $z_(t,i)$ is the true binary noise for feature $i$ at time step $t$.
+- $hat(z)_(t,i)$ is the predicted probability of the noise for feature $i$ at time step $t$.
+- $X_(0,i)$ is the true binary value of feature $i$ in the original data.
+- $hat(X)_(0,i)$ is the predicted probability of the original binary value for feature $i$.
+
+The overall loss function for training the model is then simply the mean of the two loss functions, as shown in @eq11 where $B$ denotes the batch size used during training and $theta$ the parameters of the model to be optimized.
+
+$ cal(L)(theta) = 1/B sum_(b=1)^B (cal(L)_z^((b)) + cal(L)_x^((b))) $ <eq11>
+
+=== First transformation
+
+The first transformation $T$ can be defined as a simple binary encoding of the original data that must be inversible ($T^( -1 )$) to ensure that the model can learn to effectively reverse the noise addition process and recover the original data from the noisy data.
+
+For instance, in the context of computational imaging, we can decompose an image into bit-planes, where each bit-plane represents a binary image that captures a specific bit of the pixel values, as illustrated in @fig5, with the $k$-th bit-plane representing the $k$-th bit of the pixel values.
+
+#figure(
+  {
+  let nodes = (
+    image-node("bitplane8", title: "Bit-plane 8", src: src_dir + "/img/bit_planes/bit_plane_7.png", cover: true, image-size: (3, 3)),
+    image-node("bitplane7", title: "Bit-plane 7", src: src_dir + "/img/bit_planes/bit_plane_6.png", cover: true, image-size: (3, 3), pos: right-of("bitplane8")),
+    text-node("dots", " ... ", title-size: 1em, pos: right-of("bitplane7"), node-size: (3, 3)),
+    image-node("bitplane1", title: "Bit-plane 1", src: src_dir + "/img/bit_planes/bit_plane_0.png", cover: true, image-size: (3, 3), pos: right-of("dots")),
+    image-node("original", title: "Original image", caption-pos: "top", src: src_dir + "/img/bit_planes/original.png", cover: true, image-size: (3, 3), pos: explicit-pos( 2.5, y: -4)),
+  )
+
+  let edges = (
+    ml-edge("original", "bitplane8", to-side: "top"),
+    ml-edge("original", "bitplane7", to-side: "top"),
+    ml-edge("original", "dots", to-side: "top"),
+    ml-edge("original", "bitplane1", to-side: "top"),
+  )
+
+  ml-diagram(nodes, edges: edges, label-size: 0.7em, spacing: 1em)
+  },
+  caption: "Example of a binary encoding of an image into bit-planes"
+) <fig5>
+
+So the first transformation $T$ is important since it allows to work with different types of data such as images @binary, tabular data @tabular etc... by simply applying an appropriate binary encoding to the data, which can be easily done as long as the encoding is inversible to ensure that the model can learn to effectively reverse the noise addition process and recover the original data from the noisy data.
+
+== Sampling from the model
+
+The sampling process from the binary diffusion model involves starting from pure noise (the noisiest data) and iteratively applying the reverse diffusion process to generate a sample that resembles the original data.
+
+It can be illustrated as in @fig6, where the sampling process starts from pure noise $X_T$ and iteratively applies the reverse diffusion process to generate a sample $hat(X)_0_t$ that resembles the original data.
+
+Note that the sampling process can be guided by conditioning variables such as $Y_epsilon$ to generate samples that have specific desired properties.
+For instance, the conditioning variable can be a text description of the desired sample, which can be used to guide the generation process to produce samples that match the given description.
+
+
+#figure(
+  {
+  let nodes = (
+    text-node(4, $bold(z)_B$),
+    module(5, title: $cal(M)_t$, pos: right-of("4")),
+    vector(14, title: $z_t$, pos: right-of("5"), dir: "v", stack: 3),
+    gate-node(3, pos: right-of("14")),
+    vector(6, title: $X_t$, pos: right-of("3"), dir: "v", stack: 3),
+    module(7, title: $p_theta (hat(X)_0_t, hat(z)_t | X_t, t, Y_epsilon)$, pos: right-of("6"), size: (5, 2)),
+    vector(16, title: $hat(X)_0_t$, pos: right-of("7"), dir: "v", stack: 3),
+    module(11, title: $T^(-1)$, pos: right-of("16")),
+    dataset(13, title: $hat(t)_0_t$, pos: right-of("11")),
+
+    dataset(8, title: $Y$, pos: below("4", by: 1.4)),
+    module(9, title: $epsilon_y$, pos: right-of("8")),
+    vector(10, title: $Y_epsilon$, pos: right-of("9"), dir: "v", stack: 3),
+
+    module(15, title: $t = 0 ... T$, pos: above("6", by: 4))
+
+  )
+
+  let edges = (
+    ml-edge("3", "6"),
+
+    ml-edge("4", "5"),
+    ml-edge("5", "14"),
+    ml-edge("14", "3"),
+
+
+    ml-edge("6", "7"),
+    ml-edge("8", "9"),
+    ml-edge("9", "10"),
+
+
+    ml-edge("7", "11"),
+    ml-edge("11", "13"),
+    ml-edge("11", "13"),
+
+
+    ml-edge("10", "7", orthogonal: true),
+
+    ml-edge("16", "3", from-side: "top", to-side: "top", via: ("u", "u", "l", "l", "l")),
+
+    ml-edge("15", "7", orthogonal: "h", dash: "dashed"),
+    ml-edge("15", "5", orthogonal: "h", dash: "dashed"),
+
+
+
+  )
+
+  ml-diagram(nodes, edges: edges, label-size: 0.7em, spacing: 1.3em)
+  },
+  caption: "Sampling process",
+) <fig6>
+
+On the @fig6, the noise depends on the time step $t$ and is computed by a noise scheduler $cal(M)_t$ that determines the amount of noise to be removed at each step of the reverse diffusion process.
+In this way, the noise is gradually removed from the data as we iteratively apply the reverse diffusion process.

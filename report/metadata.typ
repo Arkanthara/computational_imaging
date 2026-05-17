@@ -23,11 +23,11 @@
   course-id: "14x062",
   illustrations: (
     (
-      path: "img/tangled.png",
+      path: "img/noisy_images/tangled.png",
       width: 5cm,
     ),
     (
-      path: "img/noisy_image_0.3.png",
+      path: "img/noisy_images/noisy_image_0.3.png",
       width: 5cm,
     )
   ),
