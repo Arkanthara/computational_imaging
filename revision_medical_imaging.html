@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Medical Imaging — Exam Revision Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f7f6f2;
+  --surface:#ffffff;
+  --surface2:#f0ede6;
+  --border:#e2ddd4;
+  --accent:#1a4a6b;
+  --accent2:#0d7a5f;
+  --accent3:#a63820;
+  --accent4:#6b3fa0;
+  --text:#1a1916;
+  --muted:#6b6760;
+  --memo:#fffbeb;
+  --memo-border:#f0c030;
+  --key:#eef7f4;
+  --key-border:#0d7a5f;
+  --warn:#fff3f0;
+  --warn-border:#a63820;
+  --info:#eef4ff;
+  --info-border:#1a4a6b;
+  --shadow:0 2px 16px rgba(0,0,0,.08);
+  --radius:10px;
+  --radius-sm:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);font-size:15px;line-height:1.7;}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+nav{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--accent);padding:1.5rem 0;display:flex;flex-direction:column;}
+.main{padding:2.5rem 3rem 5rem;max-width:860px;}
+
+/* ── NAV ── */
+.nav-logo{padding:0 1.5rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.15);}
+.nav-logo h1{font-family:'DM Serif Display',serif;font-size:17px;color:#fff;line-height:1.3;font-weight:400;}
+.nav-logo span{font-size:11px;color:rgba(255,255,255,.55);letter-spacing:.05em;text-transform:uppercase;}
+.nav-section{padding:.75rem 1.5rem .25rem;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);margin-top:.5rem;}
+nav a{display:flex;align-items:center;gap:8px;padding:.55rem 1.5rem;font-size:13px;color:rgba(255,255,255,.75);text-decoration:none;transition:all .15s;}
+nav a:hover{background:rgba(255,255,255,.1);color:#fff;}
+nav a.active{background:rgba(255,255,255,.18);color:#fff;font-weight:500;}
+nav a .num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.15);font-size:10px;flex-shrink:0;}
+.nav-summary-link{padding:.4rem 1.5rem .4rem 3.2rem !important;font-size:12px !important;color:rgba(255,255,255,.5) !important;font-style:italic;}
+.nav-summary-link:hover{color:rgba(255,255,255,.8) !important;}
+
+/* ── HEADER ── */
+.page-header{margin-bottom:3rem;padding-bottom:1.5rem;border-bottom:2px solid var(--border);}
+.page-header h1{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;color:var(--accent);margin-bottom:.4rem;}
+.page-header p{color:var(--muted);font-size:14px;}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem;}
+.tag{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:3px 12px;font-size:12px;color:var(--muted);}
+
+/* ── SECTION ── */
+.section{margin-bottom:4rem;padding-top:1rem;}
+.section-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:1.75rem;padding-bottom:1rem;border-bottom:2px solid var(--border);}
+.section-num{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:20px;color:#fff;flex-shrink:0;margin-top:2px;}
+.s1 .section-num{background:var(--accent);}
+.s2 .section-num{background:#1d6b3a;}
+.s3 .section-num{background:var(--accent3);}
+.s4 .section-num{background:var(--accent4);}
+.s5 .section-num{background:#0d5a8a;}
+.s6 .section-num{background:#1d6b3a;}
+.section-title-block h2{font-family:'DM Serif Display',serif;font-size:26px;font-weight:400;margin-bottom:.2rem;}
+.section-title-block p{font-size:13px;color:var(--muted);}
+
+/* ── MEMO BOX ── */
+.memo{background:var(--memo);border:1.5px solid var(--memo-border);border-radius:var(--radius);padding:1rem 1.25rem;margin:1.25rem 0;}
+.memo-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#a07010;font-weight:600;margin-bottom:.4rem;display:flex;align-items:center;gap:6px;}
+.memo strong{font-size:15px;color:#7a5000;}
+
+/* ── KEY BOX ── */
+.key-box{background:var(--key);border-left:4px solid var(--key-border);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:.85rem 1.1rem;margin:1.1rem 0;}
+.key-box p{color:#0a4f3d;font-size:14px;}
+
+/* ── WARN BOX ── */
+.warn-box{background:var(--warn);border-left:4px solid var(--warn-border);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:.85rem 1.1rem;margin:1.1rem 0;}
+.warn-box p{color:#7a2010;font-size:14px;}
+
+/* ── INFO BOX ── */
+.info-box{background:var(--info);border-left:4px solid var(--info-border);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:.85rem 1.1rem;margin:1.1rem 0;}
+.info-box p{color:#0a2d55;font-size:14px;}
+
+/* ── CARDS GRID ── */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:1.25rem 0;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;}
+.card-label{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.4rem;}
+.card h4{font-size:15px;font-weight:500;margin-bottom:.3rem;}
+.card p{font-size:13px;color:var(--muted);line-height:1.5;}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;margin:1.25rem 0;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;}
+thead tr{background:var(--accent);color:#fff;}
+thead th{padding:.7rem 1rem;text-align:left;font-weight:500;white-space:nowrap;}
+tbody tr:nth-child(even){background:var(--surface2);}
+tbody tr:nth-child(odd){background:var(--surface);}
+td{padding:.6rem 1rem;border-bottom:1px solid var(--border);}
+td:first-child{font-weight:500;white-space:nowrap;}
+
+/* ── STEPS / PIPELINE ── */
+.pipeline{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin:1.25rem 0;}
+.pipe-step{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:.5rem .9rem;font-size:13px;font-weight:500;}
+.pipe-arrow{color:var(--muted);font-size:18px;line-height:1;}
+.pipe-step.highlight{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+/* ── COLLAPSIBLE ── */
+details{border:1px solid var(--border);border-radius:var(--radius);margin:.75rem 0;background:var(--surface);}
+summary{padding:.75rem 1rem;cursor:pointer;font-weight:500;font-size:14px;list-style:none;display:flex;align-items:center;justify-content:space-between;color:var(--accent);}
+summary::-webkit-details-marker{display:none;}
+summary::after{content:"▼";font-size:11px;color:var(--muted);transition:transform .2s;}
+details[open] summary::after{transform:rotate(180deg);}
+.details-content{padding:.25rem 1rem 1rem;}
+.details-content p,.details-content li{font-size:14px;color:#3a3832;line-height:1.65;}
+.details-content ul,.details-content ol{padding-left:1.3rem;}
+.details-content li{margin-bottom:.3rem;}
+
+/* ── FORMULA ── */
+.formula{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.6rem 1rem;font-family:'DM Mono',monospace;font-size:13px;margin:.75rem 0;text-align:center;color:var(--accent);}
+
+/* ── COMPARE CARDS ── */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:1.25rem 0;}
+.compare-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;}
+.compare-card h4{font-size:14px;font-weight:600;margin-bottom:.6rem;padding-bottom:.5rem;border-bottom:2px solid var(--border);}
+.compare-card ul{padding-left:1.2rem;font-size:13px;line-height:1.6;}
+.compare-card li{margin-bottom:.25rem;}
+.pro h4{border-color:#0d7a5f;color:#0d7a5f;}
+.con h4{border-color:#a63820;color:#a63820;}
+
+/* ── BADGE ── */
+.badge{display:inline-block;padding:2px 9px;border-radius:12px;font-size:11px;font-weight:600;letter-spacing:.03em;}
+.badge-blue{background:#dbeafe;color:#1a4a6b;}
+.badge-green{background:#dcf5ec;color:#0d5a3c;}
+.badge-amber{background:#fff3cd;color:#8a5f00;}
+.badge-red{background:#fde8e4;color:#7a2010;}
+.badge-purple{background:#ede9fe;color:#4c1d95;}
+
+/* ── KEYWORDS ── */
+.keywords{display:flex;flex-wrap:wrap;gap:8px;margin:.75rem 0;}
+.kw{background:var(--accent);color:rgba(255,255,255,.9);border-radius:20px;padding:4px 14px;font-size:12px;}
+
+/* ── PROSE HEADINGS ── */
+h3{font-family:'DM Serif Display',serif;font-size:19px;font-weight:400;color:var(--accent);margin:1.75rem 0 .6rem;}
+h4{font-size:14px;font-weight:600;color:var(--text);margin:1.2rem 0 .4rem;}
+p{margin-bottom:.8rem;}
+ul,ol{padding-left:1.4rem;margin-bottom:.8rem;}
+li{margin-bottom:.3rem;font-size:14.5px;}
+strong{font-weight:600;}
+em{font-style:italic;}
+
+/* ── DIVIDER ── */
+.section-divider{height:1px;background:var(--border);margin:3rem 0;}
+
+/* ── TOC QUICK ── */
+.quick-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:2rem;}
+.quick-nav a{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--accent);text-decoration:none;transition:all .15s;}
+.quick-nav a:hover{background:var(--accent);color:#fff;}
+
+/* ── SCROLL TOP ── */
+.back-top{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);text-decoration:none;padding:4px 0;transition:color .15s;}
+.back-top:hover{color:var(--accent);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr;}
+  nav{position:relative;height:auto;}
+  .main{padding:1.5rem 1.25rem 3rem;}
+  .compare{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- ══════ SIDEBAR NAV ══════ -->
+<nav id="top">
+  <div class="nav-logo">
+    <span>Exam Revision</span>
+    <h1>Computational Medical Imaging</h1>
+  </div>
+  <div class="nav-section">Questions</div>
+  <a href="#q1"><span class="num">1</span> General Principles</a>
+  <a class="nav-summary-link" href="#memo1">↳ Quick memo</a>
+  <a href="#q2"><span class="num">2</span> Radiography</a>
+  <a class="nav-summary-link" href="#memo2">↳ Quick memo</a>
+  <a href="#q3"><span class="num">3</span> Computed Tomography</a>
+  <a class="nav-summary-link" href="#memo3">↳ Quick memo</a>
+  <a href="#q4"><span class="num">4</span> Nuclear Imaging: SPECT vs PET</a>
+  <a class="nav-summary-link" href="#memo4">↳ Quick memo</a>
+  <a href="#q5"><span class="num">5</span> MRI</a>
+  <a class="nav-summary-link" href="#memo5">↳ Quick memo</a>
+  <a href="#q6"><span class="num">6</span> Ultrasound</a>
+  <a class="nav-summary-link" href="#memo6">↳ Quick memo</a>
+</nav>
+
+<!-- ══════ MAIN CONTENT ══════ -->
+<main class="main">
+
+<div class="page-header">
+  <h1>Medical Imaging — Exam Revision</h1>
+  <p>Based on the course: <em>Imagerie médicale computationnelle</em></p>
+  <div class="tags">
+    <span class="tag">X-ray</span><span class="tag">CT</span><span class="tag">MRI</span>
+    <span class="tag">SPECT</span><span class="tag">PET</span><span class="tag">Ultrasound</span>
+    <span class="tag">DICOM</span><span class="tag">Reconstruction</span>
+  </div>
+</div>
+
+<div class="quick-nav">
+  <a href="#q1">1 · General Principles</a>
+  <a href="#q2">2 · Radiography</a>
+  <a href="#q3">3 · CT</a>
+  <a href="#q4">4 · SPECT vs PET</a>
+  <a href="#q5">5 · MRI</a>
+  <a href="#q6">6 · Ultrasound</a>
+</div>
+
+<!-- ══════════════════════════════════════════
+     QUESTION 1 — GENERAL PRINCIPLES
+══════════════════════════════════════════ -->
+<section class="section s1" id="q1">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title-block">
+      <h2>General Principles of Medical Imaging</h2>
+      <p>Pipeline · Anatomy · Modalities · Anatomical vs Functional · Data types · Challenges</p>
+    </div>
+  </div>
+
+  <h3>The Medical Imaging Pipeline</h3>
+  <p>All medical imaging follows the same fundamental pipeline, regardless of modality:</p>
+
+  <div class="pipeline">
+    <div class="pipe-step">Patient / Object</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Imaging Device</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Raw Data</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step highlight">Reconstruction Algorithm</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Cross-sectional Image</div>
+  </div>
+
+  <div class="key-box">
+    <p><strong>Key insight:</strong> The reconstruction algorithm is the core of computational imaging. Without it, raw data (projections, signals, echoes…) cannot be directly interpreted clinically.</p>
+  </div>
+
+  <h3>Anatomical Coordinates &amp; Imaging Planes</h3>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Directions</div>
+      <h4>Patient-centered axes</h4>
+      <p><strong>Superior/Inferior</strong> — up/down<br/>
+      <strong>Left/Right</strong> — from <em>patient's</em> perspective<br/>
+      <strong>Anterior/Posterior</strong> — front/back</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Axial plane</div>
+      <h4>⊥ long body axis</h4>
+      <p>Separates superior from inferior. Also called transverse plane.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Sagittal plane</div>
+      <h4>Left ↔ Right</h4>
+      <p><em>Sagitta</em> = "arrow" (Latin). Divides the body into left and right halves.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Coronal plane</div>
+      <h4>Anterior ↔ Posterior</h4>
+      <p><em>Corona</em> = "crown" (Latin). Divides body front from back.</p>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <p>⚠️ Left and right are always defined from the <strong>patient's point of view</strong>, not the observer's — a common source of confusion when reading images.</p>
+  </div>
+
+  <h3>3-Letter Coordinate System</h3>
+  <p>Each letter indicates the positive direction of one axis (x, y, z):</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Letter</th><th>Direction</th></tr></thead>
+      <tbody>
+        <tr><td>S</td><td>Superior</td></tr>
+        <tr><td>I</td><td>Inferior</td></tr>
+        <tr><td>L</td><td>Left (patient)</td></tr>
+        <tr><td>R</td><td>Right (patient)</td></tr>
+        <tr><td>A</td><td>Anterior</td></tr>
+        <tr><td>P</td><td>Posterior</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Common systems: <strong>LSA</strong> (used in CT) — x goes L→R, y goes S→I, z goes A→P. Also: <strong>RPI</strong> (Right-Posterior-Inferior).</p>
+
+  <h3>Imaging Modalities Overview</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Modality</th><th>Information vector</th><th>Type</th></tr></thead>
+      <tbody>
+        <tr><td>Ultrasound</td><td>High-frequency pressure waves</td><td>Reflection/backscatter</td></tr>
+        <tr><td>X-ray / Radiography</td><td>Ionizing radiation</td><td>Transmission</td></tr>
+        <tr><td>CT (C-arm)</td><td>Ionizing radiation</td><td>Transmission</td></tr>
+        <tr><td>Nuclear (SPECT, PET)</td><td>Metabolic X-ray emission</td><td>Emission</td></tr>
+        <tr><td>MRI</td><td>Nuclear spin precession</td><td>Magnetic resonance</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Anatomical vs Functional Imaging</h3>
+  <div class="compare">
+    <div class="compare-card pro">
+      <h4>Anatomical imaging (e.g. MRI brain)</h4>
+      <ul>
+        <li>Shows <strong>physical structure</strong> of organs</li>
+        <li>Independent of metabolic activity</li>
+        <li>Similar image in living and dead patient</li>
+        <li>Examples: MRI, CT, X-ray</li>
+      </ul>
+    </div>
+    <div class="compare-card con" style="--color:#0d7a5f">
+      <h4 style="color:#0d7a5f;border-color:#0d7a5f">Functional imaging (e.g. PET)</h4>
+      <ul>
+        <li>Captures <strong>physiological activity</strong> in real time</li>
+        <li>Bright zones = high metabolic activity</li>
+        <li>Shows nothing on a deceased patient</li>
+        <li>Examples: PET, fMRI, SPECT</li>
+      </ul>
+    </div>
+  </div>
+  <div class="info-box">
+    <p>💡 <em>"An MRI shows you have a brain. A PET shows you're using it."</em></p>
+  </div>
+
+  <h3>Data Types by Modality</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Dimensionality</th><th>Modality</th><th>Format</th></tr></thead>
+      <tbody>
+        <tr><td>1D (scalar)</td><td>ELISA, optical density, DNA sequencing</td><td>Single value</td></tr>
+        <tr><td>2D (matrix)</td><td>X-ray radiography</td><td>Grayscale image — DICOM</td></tr>
+        <tr><td>2D color</td><td>Histology slide scanning</td><td>3-channel RGB tensor — TIF/JPEG2000</td></tr>
+        <tr><td>2D series (3D tensor)</td><td>Fluoroscopy, CT slices</td><td>Grayscale slices — DICOM</td></tr>
+        <tr><td>3D volume</td><td>MRI</td><td>3D grayscale tensor — DICOM</td></tr>
+        <tr><td>4D (3D + time)</td><td>PET, fMRI</td><td>4D DICOM tensor</td></tr>
+        <tr><td>2D–4D</td><td>Ultrasound</td><td>DICOM (variable)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Medical Imaging Challenges</h3>
+  <details>
+    <summary>Dataset &amp; acquisition challenges</summary>
+    <div class="details-content">
+      <ul>
+        <li><strong>Many modalities, very large images</strong> but small datasets — simultaneously scarce and voluminous</li>
+        <li><strong>Non-standardized acquisition</strong> — high variability between devices, protocols, configurations</li>
+        <li><strong>Long-tail disease distribution</strong> — rare diseases make learning difficult</li>
+        <li><strong>Rare and noisy labels</strong> — annotating images requires rare expertise, expensive</li>
+        <li><strong>Heterogeneous and imbalanced samples</strong> — far more normal than pathological cases</li>
+        <li><strong>Subjectivity in ground truth</strong> — experts can disagree on annotations</li>
+        <li><strong>Anonymization sometimes impossible</strong> — e.g. facial scans can identify individuals</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Learning strategies to address challenges</summary>
+    <div class="details-content">
+      <ul>
+        <li><strong>Unsupervised learning (e.g. GAN)</strong> — reconstruct next healthy MRI slices, detect anomalies via L₂ loss</li>
+        <li><strong>Supervised learning</strong> — patch-level labels, direct image→label mapping</li>
+        <li><strong>Semi-supervised learning</strong> — mix of labeled and unlabeled data</li>
+        <li><strong>Multiple Instance Learning (MIL)</strong> — weak image-level labels; image split into patches (bags of instances); positive bag = at least one positive instance. Useful in digital pathology.</li>
+        <li><strong>Transfer learning</strong> — transfer knowledge from data-rich domain A to data-scarce domain B</li>
+      </ul>
+    </div>
+  </details>
+
+  <!-- MEMO -->
+  <div class="memo" id="memo1">
+    <div class="memo-label">⚡ Quick Memo — Question 1</div>
+    <strong>Pipeline:</strong> Patient → Device → Raw data → <strong>Reconstruction algorithm</strong> → Cross-sectional image<br/>
+    <strong>3 planes:</strong> Axial (sup/inf) · Sagittal (L/R) · Coronal (ant/post) — mutually perpendicular<br/>
+    <strong>Left/Right always from patient's view</strong><br/>
+    <strong>Modalities by vector:</strong> Ultrasound (pressure) · X-ray/CT (ionizing) · Nuclear (emission) · MRI (nuclear spin)<br/>
+    <strong>Anatomical vs Functional:</strong> MRI = structure | PET = activity<br/>
+    <strong>Dimensionality:</strong> Xray=2D · MRI=3D · PET=4D · Ultrasound=2D–4D<br/>
+    <strong>DICOM</strong> = universal standard for medical image storage + metadata
+  </div>
+
+  <div class="keywords">
+    <span class="kw">pipeline</span><span class="kw">reconstruction</span><span class="kw">axial</span><span class="kw">sagittal</span>
+    <span class="kw">coronal</span><span class="kw">DICOM</span><span class="kw">LSA/RPI</span><span class="kw">anatomical vs functional</span>
+    <span class="kw">MIL</span><span class="kw">transfer learning</span>
+  </div>
+  <a class="back-top" href="#top">↑ Back to top</a>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     QUESTION 2 — RADIOGRAPHY
+══════════════════════════════════════════ -->
+<section class="section s2" id="q2">
+  <div class="section-header">
+    <div class="section-num" style="background:#1d6b3a">2</div>
+    <div class="section-title-block">
+      <h2>Radiography</h2>
+      <p>X-ray physics · Interactions with matter · Detectors · Applications (fluoroscopy, angiography, DSA)</p>
+    </div>
+  </div>
+
+  <h3>Historical Context</h3>
+  <p>Radiography is the oldest medical imaging modality. Key dates:</p>
+  <ul>
+    <li><strong>1895:</strong> Wilhelm Conrad Röntgen discovers X-rays ("Über eine neue Art von Strahlen"). First published image: hand of Anna Bertha Röntgen.</li>
+    <li><strong>1901:</strong> Röntgen receives the <strong>first Nobel Prize in Physics</strong>.</li>
+  </ul>
+  <div class="warn-box"><p>⚠️ Clinical use began <em>before</em> the dangers of ionizing radiation were understood — a recurring lesson in medical technology history. Röntgen died of intestinal cancer.</p></div>
+
+  <h3>X-ray Physics</h3>
+  <p>X-rays are <strong>electromagnetic waves</strong> (photons). Their energy is:</p>
+  <div class="formula">E = h·f = hc/λ &nbsp;&nbsp;|&nbsp;&nbsp; h = 4.135×10⁻¹⁵ eVs &nbsp;·&nbsp; Energy ≈ keV range</div>
+  <p>On the EM spectrum: between UV and gamma rays. Short wavelength (~10⁻¹⁰ m) → high penetrating power.</p>
+
+  <h4>X-ray generation in the tube</h4>
+  <p>Electrons are accelerated from cathode to anode and release energy as <strong>Bremsstrahlung</strong> (braking radiation) → continuous emission spectrum + characteristic peaks at orbital energy levels.</p>
+  <ul>
+    <li><strong>Photon quantity:</strong> 6–100 mA</li>
+    <li><strong>Photon energy:</strong> determined by voltage V<sub>cathode-anode</sub> = 50–125 kV</li>
+  </ul>
+
+  <h3>Interactions of X-rays with Matter</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Interaction</th><th>Mechanism</th><th>Effect on image</th><th>Desirability</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Photoelectric absorption</td>
+          <td>Photon fully absorbed → electron ejected</td>
+          <td>Dense tissue (bone) absorbs more → <strong>white</strong>. Less dense (air) → <strong>dark</strong>. Controls contrast.</td>
+          <td><span class="badge badge-green">✓ Most desirable</span></td>
+        </tr>
+        <tr>
+          <td>Compton scattering</td>
+          <td>Partial absorption → photon deflected + electron ejected</td>
+          <td>Deflected photon detected as noise (non-linear ray). Degrades contrast.</td>
+          <td><span class="badge badge-red">✗ Less desirable</span></td>
+        </tr>
+        <tr>
+          <td>Pair production</td>
+          <td>Energy &gt;1.02 MeV → electron-positron pair → annihilation → 2 opposite photons</td>
+          <td>Used in PET, not conventional X-ray (requires very high energy)</td>
+          <td><span class="badge badge-amber">Used in nuclear imaging</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>X-ray Detectors</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">Photographic film</div>
+      <h4>Legacy</h4>
+      <p>Only 1–2% of radiation stopped. Inefficient → unnecessarily high patient dose.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Intensifying screens</div>
+      <h4>Phosphor-based</h4>
+      <p>Phosphor converts X-ray photons → light photons. Efficiency 5–20%. Types: fluorescence (&lt;10⁻⁸ s) vs phosphorescence (delayed).</p>
+    </div>
+    <div class="card">
+      <div class="card-label">XRII</div>
+      <h4>X-ray Image Intensifier</h4>
+      <p>Al/Ti entrance window. Phosphor absorbs X-rays → electrons → photocathode. Brightness amplified ~10⁵×.</p>
+    </div>
+  </div>
+
+  <h3>Image Quality Factors</h3>
+  <ul>
+    <li>Quality of anode tip (finer = better focus)</li>
+    <li>Patient thickness (thicker = more scatter = lower resolution)</li>
+    <li>Phosphor light scatter properties</li>
+    <li>Film resolution / digital sampling / laser spot size</li>
+    <li>Typical resolution: screen-film 5–15 lp/mm (100–33 µm) | Storage phosphors 2.5–5 lp/mm</li>
+    <li>Mammography requires direct radiography for highest resolution; image size ≥ 2000² pixels</li>
+  </ul>
+
+  <h3>Applications</h3>
+
+  <details>
+    <summary>Fluoroscopy — real-time X-ray imaging</summary>
+    <div class="details-content">
+      <ul>
+        <li>Chain: X-ray source → patient → fluorescent → recorder</li>
+        <li>Uses XRII: brightness ~10⁵× brighter output, flux gain ≈ 100, minification gain ≈ 100</li>
+        <li>Limitation: quantum noise (few photons)</li>
+        <li>Modern: <strong>flat-panel detectors</strong> → better sensitivity, less dose, better temporal resolution</li>
+        <li><strong>C-arm</strong>: portable fluoroscope, rotates around surgical table, produces digital images; uses limited projections for 2D reconstruction</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Angiography — visualizing blood vessels</summary>
+    <div class="details-content">
+      <ul>
+        <li>Blood has same X-ray density as surrounding tissue → need contrast</li>
+        <li><strong>Iodine-based contrast agent</strong> injected into bloodstream</li>
+        <li>Detects: aneurysms (localized arterial wall weakness), vascular leaks, thromboses (blood clots)</li>
+        <li>Can be static images or video sequences (25–30 fps)</li>
+        <li>Retinal angiography: identifies vessel narrowing in diabetic retinopathy and macular degeneration</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Digital Subtraction Angiography (DSA)</summary>
+    <div class="details-content">
+      <ul>
+        <li><strong>Mask image</strong> acquired <em>before</em> contrast injection</li>
+        <li>Fluoroscopy produces images at 1–6 fps; all subsequent images are <strong>subtracted from the mask in real time</strong></li>
+        <li>Result: only contrast-enhanced vessels remain visible — surrounding structures eliminated</li>
+        <li>⚠️ DSA is increasingly replaced by CT angiography (less invasive, less stressful for patient)</li>
+      </ul>
+    </div>
+  </details>
+
+  <!-- MEMO -->
+  <div class="memo" id="memo2">
+    <div class="memo-label">⚡ Quick Memo — Question 2</div>
+    <strong>History:</strong> Röntgen 1895 · Nobel 1901<br/>
+    <strong>E = hf = hc/λ</strong> · Energy ≈ keV · wavelength ~10⁻¹⁰ m<br/>
+    <strong>Generation:</strong> Bremsstrahlung (braking radiation) in X-ray tube, 50–125 kV<br/>
+    <strong>3 interactions:</strong> Photoelectric (✓ best, creates contrast) · Compton (✗ noise) · Pair production (PET, high energy)<br/>
+    <strong>Dense tissue → white (more absorption) | Air/muscle → dark</strong><br/>
+    <strong>Fluoroscopy:</strong> real-time · C-arm portable · XRII 10⁵× brightness<br/>
+    <strong>Angiography:</strong> iodine contrast · detects aneurysm/thrombosis<br/>
+    <strong>DSA:</strong> subtract mask image before contrast → vessels only
+  </div>
+
+  <div class="keywords">
+    <span class="kw">Röntgen 1895</span><span class="kw">Bremsstrahlung</span><span class="kw">photoelectric</span>
+    <span class="kw">Compton scattering</span><span class="kw">XRII</span><span class="kw">fluoroscopy</span>
+    <span class="kw">C-arm</span><span class="kw">angiography</span><span class="kw">DSA mask subtraction</span>
+  </div>
+  <a class="back-top" href="#top">↑ Back to top</a>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     QUESTION 3 — COMPUTED TOMOGRAPHY
+══════════════════════════════════════════ -->
+<section class="section s3" id="q3">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title-block">
+      <h2>Computed Tomography (CT)</h2>
+      <p>History · Radon transform · FBP · Beam geometries · CT types · Quality · Advantages / disadvantages</p>
+    </div>
+  </div>
+
+  <h3>History — Three Independent Discoveries</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="card-label">1917</div>
+      <h4>Johann Radon</h4>
+      <p>Mathematical framework for tomography — the <strong>Radon transform</strong>.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">1963</div>
+      <h4>Allan Cormack</h4>
+      <p>Mathematical analysis of tomographic reconstruction — <em>independently</em> of Radon.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">1972</div>
+      <h4>Godfrey Hounsfield</h4>
+      <p>First CT scanner — independently of both Radon and Cormack. Own reconstruction method.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">1979</div>
+      <h4>Nobel Prize</h4>
+      <p>Hounsfield + Cormack — Nobel Prize in Physiology or Medicine.</p>
+    </div>
+  </div>
+  <div class="info-box"><p>💡 Three people independently developed the same mathematical framework — an illustration of convergent ideas in the history of science.</p></div>
+
+  <h3>How CT Works</h3>
+  <p>Unlike standard X-ray (cone beam 3D), CT collimates rays into a <strong>2D fan beam</strong>:</p>
+
+  <div class="pipeline">
+    <div class="pipe-step">X-ray source + fan beam</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Many detector projections</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Rotate around patient</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step highlight">Sinogram</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step highlight">Reconstruction</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">3D volume</div>
+  </div>
+
+  <p>The <strong>sinogram</strong> = one line per projection angle. It encodes all projection data.</p>
+
+  <h3>Mathematical Reconstruction</h3>
+
+  <h4>Radon Transform</h4>
+  <p>The collected data are integrals (projections) of the attenuation function μ(x,y):</p>
+  <div class="formula">p_θ(r,θ) = ∫∫ μ(x,y) · δ(x·cos θ + y·sin θ − r) dx dy</div>
+
+  <h4>Projection-Slice Theorem</h4>
+  <ul>
+    <li>Infinite projections ⇒ perfect reconstruction of μ(x,y)</li>
+    <li>Inverse Radon transform ⇒ estimates μ(x,y)</li>
+    <li><strong>Unstable</strong> with noisy data</li>
+  </ul>
+
+  <h4>Filtered Back-Projection (FBP)</h4>
+  <p>The stabilized, discretized version of the inverse Radon transform. Standard algorithm in CT reconstruction.</p>
+  <div class="warn-box"><p>⚠️ In practice, only a finite number of projections exist → finite resolution artifacts.</p></div>
+
+  <h3>Beam Geometries</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Geometry</th><th>Description</th><th>Practicality</th></tr></thead>
+      <tbody>
+        <tr><td>Parallel-beam</td><td>New source position per ray</td><td>Not practical</td></tr>
+        <tr><td>Fan-beam (2D)</td><td>Single source → 1D detector row. One shot per angle.</td><td>Standard CT</td></tr>
+        <tr><td>Cone-beam (3D)</td><td>Single source → 2D flat detector. One rotation = full 3D.</td><td>Cone-beam CT (CBCT)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>CT Acquisition Modes</h3>
+  <details>
+    <summary>Single-slit CT — simplest</summary>
+    <div class="details-content">
+      <ul>
+        <li>Produces one axial slice per acquisition</li>
+        <li>Step-and-shoot axial mode: table moves between slices</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>Helical / Spiral CT — most common clinically</summary>
+    <div class="details-content">
+      <ul>
+        <li>X-ray tube + detectors rotate while patient moves along z-axis</li>
+        <li>Fast 3D data acquisition</li>
+        <li>Slightly lower z-resolution than step-and-shoot</li>
+        <li>Can tilt detector ±30°</li>
+        <li><strong>Pitch</strong> = Table Feed / Δz</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>Multi-slice CT — near real-time 3D</summary>
+    <div class="details-content">
+      <ul>
+        <li>Multiple detector rows → cone of X-ray data → 2D projection of 3D patient</li>
+        <li>1–3 rotations/second → quasi real-time 3D imaging at up to 20 cm/sec translation</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>Cone-beam CT (CBCT) — single rotation 3D</summary>
+    <div class="details-content">
+      <ul>
+        <li>2D flat detector; only one rotation needed</li>
+        <li>Reconstruction: Feldkamp-Davis-Kress (FDK) equation</li>
+        <li>Back-projection along cone-beam rays</li>
+        <li><strong>Advantages:</strong> potentially very fast, used for 3D angiography</li>
+        <li><strong>Disadvantages:</strong> sampling issues at extremities, varying z sampling rate</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>CT Image Quality</h3>
+  <div class="cards">
+    <div class="card"><div class="card-label">Acquisition</div><h4>Geometry</h4><p>Focal spot size, detector element size, table feed, interpolation method, sampling distance</p></div>
+    <div class="card"><div class="card-label">Reconstruction</div><h4>Algorithm</h4><p>Reconstruction kernel (filter), interpolation, voxel size</p></div>
+    <div class="card"><div class="card-label">Noise</div><h4>Quantum noise</h4><p>Statistical nature of X-rays. More power = less noise but higher dose. Larger Δz = less noise but lower axial resolution.</p></div>
+    <div class="card"><div class="card-label">Contrast</div><h4>Physical factors</h4><p>X-ray spectrum, beam hardening, scatter</p></div>
+  </div>
+
+  <h3>Advantages &amp; Disadvantages</h3>
+  <div class="compare">
+    <div class="compare-card pro">
+      <h4>Advantages</h4>
+      <ul>
+        <li>Eliminates <strong>superposition</strong> of structures outside ROI</li>
+        <li>Small differences in physical density can be distinguished</li>
+        <li>Multiplanar reformatted imaging (axial / coronal / sagittal)</li>
+        <li>CT angiography avoids invasive arterial catheter</li>
+        <li>CT colonoscopy: similar sensitivity to barium enema, potentially lower dose</li>
+      </ul>
+    </div>
+    <div class="compare-card con">
+      <h4>Disadvantages</h4>
+      <ul>
+        <li>Moderate to <strong>high radiation dose</strong></li>
+        <li>CT = only 7% of radiological exams (UK) but contributes <strong>47% of collective medical X-ray dose</strong></li>
+        <li>Contrast agents: risk of allergic reactions, nephropathy (kidney damage)</li>
+        <li>Higher risk of nephropathy in patients with renal insufficiency, diabetes</li>
+        <li>For moderate renal insufficiency: prefer MRI over CT</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- MEMO -->
+  <div class="memo" id="memo3">
+    <div class="memo-label">⚡ Quick Memo — Question 3</div>
+    <strong>History:</strong> Radon 1917 (math) · Cormack 1963 · Hounsfield 1972 (scanner) → Nobel 1979<br/>
+    <strong>CT principle:</strong> fan-beam X-ray · rotate around patient · sinogram → FBP reconstruction<br/>
+    <strong>Radon transform:</strong> p_θ(r,θ) = ∫ μ(x,y) δ(… ) — inverse = reconstruction<br/>
+    <strong>FBP</strong> = stabilized Radon inversion (discrete, noisy-data-proof)<br/>
+    <strong>Geometries:</strong> Parallel (not practical) · Fan-beam (standard) · Cone-beam (CBCT, one rotation)<br/>
+    <strong>Modes:</strong> Single-slit · Helical (most common) · Multi-slice · CBCT<br/>
+    <strong>Key number:</strong> CT = 7% exams but 47% of collective dose<br/>
+    <strong>Contrast risk:</strong> nephropathy in renal insufficiency → prefer MRI
+  </div>
+
+  <div class="keywords">
+    <span class="kw">Hounsfield 1972</span><span class="kw">Radon transform</span><span class="kw">sinogram</span>
+    <span class="kw">FBP</span><span class="kw">fan-beam</span><span class="kw">cone-beam</span><span class="kw">FDK</span>
+    <span class="kw">helical CT</span><span class="kw">pitch</span><span class="kw">quantum noise</span><span class="kw">47% dose</span>
+  </div>
+  <a class="back-top" href="#top">↑ Back to top</a>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     QUESTION 4 — NUCLEAR IMAGING
+══════════════════════════════════════════ -->
+<section class="section s4" id="q4">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div class="section-title-block">
+      <h2>Nuclear Imaging: SPECT vs PET</h2>
+      <p>Tracers · SPECT principle · PET principle · Comparison table</p>
+    </div>
+  </div>
+
+  <h3>General Principle of Nuclear Imaging</h3>
+  <p>Nuclear imaging is a form of <strong>metabolic/functional imaging</strong>. The general workflow:</p>
+
+  <div class="pipeline">
+    <div class="pipe-step">Inject radiotracer</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Tracer reaches metabolic target</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step highlight">Tracer emits radiation</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Detect photons externally</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Reconstruct 3D functional image</div>
+  </div>
+
+  <div class="key-box"><p>💡 Tracers are <strong>molecule-specific</strong>. Example: deprenyl triggers dopamine production. High metabolic activity = bright zones in the image.</p></div>
+
+  <div class="info-box"><p>Like fMRI, nuclear imaging is metabolic — but with <strong>much higher SNR</strong> (several orders of magnitude better than fMRI).</p></div>
+
+  <h3>SPECT — Single Photon Emission CT</h3>
+  <h4>Principle</h4>
+  <ul>
+    <li>Mainly used to study <strong>blood flow</strong></li>
+    <li>Radiopharmaceutical injected (or inhaled/ingested)</li>
+    <li>Gamma camera acquires a <strong>2D view of 3D radionuclide distribution</strong></li>
+    <li>Camera rotates 360° around patient → multiple 2D projections</li>
+    <li>Tomographic reconstruction → 3D dataset</li>
+    <li>Projections every 3–6°, 15–20 sec each → total scan 15–20 min</li>
+  </ul>
+
+  <h4>SPECT cameras</h4>
+  <ul>
+    <li><strong>Pinhole gamma camera</strong> rotates around patient</li>
+    <li><strong>Multi-head cameras:</strong> 2-head (2 simultaneous projections) or 3-head (120° spacing) → faster acquisition</li>
+    <li>Resolution: 64×64 or 128×128 pixels (low); pixel size 3–6 mm</li>
+    <li>Reconstructed images: lower resolution, increased noise, reconstruction artifacts vs planar</li>
+  </ul>
+
+  <h4>SPECT + CT hybrid</h4>
+  <p>Modern SPECT devices are integrated with CT scanners:</p>
+  <ul>
+    <li>CT images serve as an <strong>attenuation map</strong> of tissues</li>
+    <li>Integrated into SPECT reconstruction to correct for attenuation</li>
+    <li>Co-registered CT provides anatomical information</li>
+  </ul>
+  <div class="warn-box"><p>⚠️ Without attenuation correction, deep activity is underestimated in SPECT.</p></div>
+
+  <h3>PET — Positron Emission Tomography</h3>
+  <h4>Physical principle — positron annihilation</h4>
+
+  <div class="pipeline">
+    <div class="pipe-step">Inject ¹⁸F-FDG</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">¹⁸F decays → emits positron (β⁺)</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step highlight">Positron annihilates with electron</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">2 gamma photons (180° apart)</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Coincidence detection</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">3D reconstruction</div>
+  </div>
+
+  <div class="key-box">
+    <p><strong>Key:</strong> Only simultaneous (coincident) photon pairs are used for reconstruction — no collimator needed. This gives PET its superior sensitivity and resolution over SPECT.</p>
+  </div>
+
+  <h4>PET clinical applications</h4>
+  <div class="cards">
+    <div class="card"><div class="card-label">Cardiology</div><h4>Heart &amp; vessels</h4><p>Myocardial viability, coronary artery disease</p></div>
+    <div class="card"><div class="card-label">Oncology</div><h4>Cancer / Tumors</h4><p>Tumor detection, staging, treatment response (FDG avid tumors)</p></div>
+    <div class="card"><div class="card-label">Neurology</div><h4>Nervous system</h4><p>Brain activity, Alzheimer's, epilepsy, Parkinson's</p></div>
+  </div>
+
+  <h3>SPECT vs PET — Full Comparison</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Criterion</th><th>SPECT</th><th>PET</th></tr></thead>
+      <tbody>
+        <tr><td>Photon type</td><td>Single photon → <strong>collimator required</strong></td><td>Pair of gamma photons 180° apart → no collimator needed</td></tr>
+        <tr><td>Spatial resolution</td><td>Low: 6–8 mm</td><td>Better: 2–3 mm</td></tr>
+        <tr><td>Tracer decay</td><td>Slow — possible long-lasting effects</td><td>Fast</td></tr>
+        <tr><td>Tracer production</td><td>Not necessarily on-site</td><td>Requires <strong>cyclotron nearby</strong></td></tr>
+        <tr><td>Cost</td><td>Less expensive</td><td>More expensive</td></tr>
+        <tr><td>SNR vs fMRI</td><td>Better</td><td>Several orders of magnitude better</td></tr>
+        <tr><td>Primary use</td><td>Blood flow, perfusion</td><td>Metabolic activity (FDG uptake)</td></tr>
+        <tr><td>Combined with</td><td>CT (SPECT/CT) for attenuation</td><td>CT or MRI (PET/CT, PET/MRI)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Why iterative reconstruction is preferred in nuclear imaging</h4>
+  <ul>
+    <li>Limited number of projections</li>
+    <li>Irregular angle spacing and varied angles</li>
+    <li>Statistical (Poisson) noise and scattering</li>
+    <li>Non-linear ray paths</li>
+    <li>Need for metal artifact correction during reconstruction</li>
+  </ul>
+
+  <!-- MEMO -->
+  <div class="memo" id="memo4">
+    <div class="memo-label">⚡ Quick Memo — Question 4</div>
+    <strong>Principle:</strong> inject radiotracer → metabolic target → emits radiation → external detection → 3D map<br/>
+    <strong>SPECT:</strong> single photon · needs collimator · gamma camera rotates 360° · 6–8 mm resolution · 15–20 min scan<br/>
+    <strong>PET:</strong> ¹⁸F-FDG → positron → annihilation with e⁻ → 2 gamma at 180° → coincidence detection → no collimator<br/>
+    <strong>PET resolution:</strong> 2–3 mm (better than SPECT)<br/>
+    <strong>PET applications:</strong> Cardiology · Oncology · Neurology<br/>
+    <strong>PET needs cyclotron on-site; SPECT does not</strong><br/>
+    <strong>SNR:</strong> Nuclear imaging >> fMRI (several orders of magnitude)<br/>
+    <strong>Iterative reconstruction preferred</strong> for nuclear imaging (noise, scatter, limited projections)
+  </div>
+
+  <div class="keywords">
+    <span class="kw">SPECT</span><span class="kw">PET</span><span class="kw">¹⁸F-FDG</span><span class="kw">positron annihilation</span>
+    <span class="kw">coincidence detection</span><span class="kw">gamma camera</span><span class="kw">collimator</span>
+    <span class="kw">metabolic imaging</span><span class="kw">cyclotron</span><span class="kw">iterative reconstruction</span>
+  </div>
+  <a class="back-top" href="#top">↑ Back to top</a>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     QUESTION 5 — MRI
+══════════════════════════════════════════ -->
+<section class="section s5" id="q5">
+  <div class="section-header">
+    <div class="section-num" style="background:#0d5a8a">5</div>
+    <div class="section-title-block">
+      <h2>Magnetic Resonance Imaging (MRI)</h2>
+      <p>History · Physics (T1, T2) · Image formation · Modes (fMRI, MRA, MRS, EPI) · MRI vs CT</p>
+    </div>
+  </div>
+
+  <h3>History</h3>
+  <div class="cards">
+    <div class="card"><div class="card-label">1946</div><h4>Felix Bloch &amp; Edward Purcell</h4><p>Stanford + Harvard. Demonstrate <strong>Nuclear Magnetic Resonance (NMR)</strong>.</p></div>
+    <div class="card"><div class="card-label">1973</div><h4>Paul Lauterbur</h4><p>Stony Brook University. Publishes first MRI image in Nature. <strong>Nobel Prize in Physiology or Medicine 2003</strong>.</p></div>
+    <div class="card"><div class="card-label">Late 1970s</div><h4>First human images</h4><p>First human MRI images designed.</p></div>
+    <div class="card"><div class="card-label">1993</div><h4>fMRI</h4><p><strong>Functional MRI</strong> demonstrated in humans.</p></div>
+  </div>
+
+  <h3>Physical Basis of MRI</h3>
+
+  <div class="pipeline">
+    <div class="pipe-step">Protons align with B₀</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">RF pulse at resonance frequency ν</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Protons → high energy state</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step highlight">Precession → new RF signal emitted</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Signal captured by antenna</div>
+  </div>
+
+  <h4>Resonance frequency (Larmor frequency)</h4>
+  <div class="formula">ν = γ · |B₀| &nbsp;&nbsp; | &nbsp;&nbsp; γ (hydrogen) = 42.58 MHz/T</div>
+
+  <div class="key-box"><p><strong>Key insight:</strong> T1 and T2 are intrinsic properties of tissues, different per tissue type. These differences create contrast in MRI — the main source of its diagnostic richness.</p></div>
+
+  <h3>T1 and T2 Relaxation</h3>
+  <div class="compare">
+    <div class="compare-card pro">
+      <h4 style="color:#0d5a8a;border-color:#0d5a8a">T1 — Spin-lattice relaxation</h4>
+      <ul>
+        <li>Return of <strong>longitudinal magnetization</strong> M_z to equilibrium M₀</li>
+        <li>Equation: M_z = M₀(1 − e^{−t/T₁})</li>
+        <li>T₁ = time to reduce difference (M_z − M₀) by factor e</li>
+        <li>Describes how protons give energy back to the lattice</li>
+      </ul>
+    </div>
+    <div class="compare-card" style="border-color:var(--border)">
+      <h4 style="color:#6b3fa0;border-color:#6b3fa0">T2 — Spin-spin relaxation</h4>
+      <ul>
+        <li>Return of <strong>transverse magnetization</strong> M_xy to equilibrium (→ 0)</li>
+        <li>Equation: M_xy = M_xy0 · e^{−t/T₂}</li>
+        <li><strong>Always: T2 ≤ T1</strong></li>
+        <li>Both T1 and T2 processes occur simultaneously</li>
+        <li>When t→∞: M_xy→0 and M_z→M₀</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Image Formation</h3>
+  <ul>
+    <li><strong>Gradients</strong> are added to B₀ → spatial variation of B₀(r) → only selected parts resonate at transmission frequency ν</li>
+    <li>Tomographic methods (back-projection, etc.) generate 2D images</li>
+    <li>Stronger gradients → faster imaging or higher resolution</li>
+    <li>Faster gradient switching → faster scan (limited by nerve stimulation safety concerns)</li>
+    <li>Typical resolution: <strong>~1 mm³</strong></li>
+  </ul>
+
+  <h3>MRI Modes</h3>
+  <details open>
+    <summary>Standard MRI — pulse sequences</summary>
+    <div class="details-content">
+      <p>Uses different <strong>RF pulse sequences</strong> (time series of RF pulses) to manipulate magnetization vector M. Choice of sequence determines T1-weighted, T2-weighted, or proton-density-weighted contrast.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Echo-Planar Imaging (EPI)</summary>
+    <div class="details-content">
+      <ul>
+        <li>Each RF excitation followed by a train of gradients with different spatial encodings</li>
+        <li>Fast data collection → fewer motion artifacts</li>
+        <li>Foundation for fMRI</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>MR Spectroscopy (MRS)</summary>
+    <div class="details-content">
+      <ul>
+        <li>Images nuclei other than H: P (phosphorus), Na (sodium), F (fluorine)</li>
+        <li>MRI shows <em>where</em> a tumor is; MRS shows <em>how aggressive</em> it is (malignancy)</li>
+        <li>Applications: brain/breast/prostate cancer, epilepsy, Parkinson's, Huntington's disease</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>Functional MRI (fMRI) — BOLD contrast</summary>
+    <div class="details-content">
+      <ul>
+        <li>Measures changes in <strong>cerebral blood flow and oxygenation</strong></li>
+        <li>Active neurons consume oxygen transported by hemoglobin</li>
+        <li>Oxyhemoglobin = <strong>diamagnetic</strong>; Deoxyhemoglobin = <strong>paramagnetic</strong></li>
+        <li>MR signal of blood differs by oxygenation level → <strong>BOLD contrast</strong> (Blood-Oxygen-Level Dependent)</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>MR Angiography (MRA)</summary>
+    <div class="details-content">
+      <ul>
+        <li>Images blood vessels: evaluates stenosis (abnormal narrowing) and aneurysms</li>
+        <li>Techniques: paramagnetic contrast agent injection OR flow-related enhancement (fresh blood entering the plane responds differently from static tissue)</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>Interventional MRI</summary>
+    <div class="details-content">
+      <ul>
+        <li>MRI scanner guides minimally invasive procedures simultaneously</li>
+        <li>Strong magnetic RF field → requires <strong>non-magnetic instruments</strong></li>
+        <li>Open magnet design for better surgeon access</li>
+        <li>Typically uses weaker field (~0.2 T) → reduced sensitivity</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>Current Density Imaging (CDI)</summary>
+    <div class="details-content">
+      <ul>
+        <li>Maps electrical current pathways through tissue</li>
+        <li>External current applied during MRI → magnetic fields affect phase of magnetic dipoles</li>
+        <li>CDI uses MRI phase information to reconstruct current densities inside the object</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>MRI vs CT — Full Comparison</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Criterion</th><th>CT</th><th>MRI</th></tr></thead>
+      <tbody>
+        <tr><td>Contrast mechanism</td><td>X-ray attenuation only</td><td>Multiple (T1, T2, proton density, flow…)</td></tr>
+        <tr><td>Availability</td><td>More available, faster, cheaper</td><td>More expensive, less available</td></tr>
+        <tr><td>Tumor detection</td><td>Less sensitive</td><td>Generally superior</td></tr>
+        <tr><td>Repeated exams</td><td>Ionizing radiation — dose concern</td><td>Preferred (no radiation)</td></tr>
+        <tr><td>Bone / calcifications</td><td>Excellent bone/soft tissue differentiation</td><td>Less adapted to calcifications</td></tr>
+        <tr><td>Soft tissue</td><td>Less differentiated</td><td>Superior soft-tissue differentiation</td></tr>
+        <tr><td>Contrast agents</td><td>High atomic number (iodine, barium)</td><td>Para/diamagnetic properties</td></tr>
+        <tr><td>Renal insufficiency</td><td>Risk of contrast nephropathy</td><td>Preferred option</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MEMO -->
+  <div class="memo" id="memo5">
+    <div class="memo-label">⚡ Quick Memo — Question 5</div>
+    <strong>History:</strong> Bloch+Purcell 1946 (NMR) · Lauterbur 1973 (first image, Nobel 2003) · fMRI 1993<br/>
+    <strong>Principle:</strong> Protons align with B₀ → RF pulse at ν = γ|B₀| → precession → MR signal detected<br/>
+    <strong>γ (H) = 42.58 MHz/T</strong><br/>
+    <strong>T1</strong> (spin-lattice) = longitudinal M_z recovery: M_z = M₀(1−e^{−t/T₁})<br/>
+    <strong>T2</strong> (spin-spin) = transverse M_xy decay: M_xy = M_xy0·e^{−t/T₂}  |  Always T2 ≤ T1<br/>
+    <strong>Gradients</strong> allow spatial selection → only chosen parts resonate → image formation<br/>
+    <strong>Typical resolution: ~1 mm³</strong><br/>
+    <strong>fMRI:</strong> BOLD contrast — oxy-Hb (diamagnetic) vs deoxy-Hb (paramagnetic)<br/>
+    <strong>MRI vs CT:</strong> MRI better for soft tissue, no radiation, but expensive and slower
+  </div>
+
+  <div class="keywords">
+    <span class="kw">Lauterbur 1973</span><span class="kw">NMR</span><span class="kw">Larmor frequency</span>
+    <span class="kw">T1 spin-lattice</span><span class="kw">T2 spin-spin</span><span class="kw">T2 ≤ T1</span>
+    <span class="kw">gradient fields</span><span class="kw">BOLD</span><span class="kw">EPI</span><span class="kw">fMRI</span>
+    <span class="kw">MRS</span><span class="kw">MRA stenosis</span><span class="kw">flow enhancement</span>
+  </div>
+  <a class="back-top" href="#top">↑ Back to top</a>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ══════════════════════════════════════════
+     QUESTION 6 — ULTRASOUND
+══════════════════════════════════════════ -->
+<section class="section s6" id="q6">
+  <div class="section-header">
+    <div class="section-num" style="background:#1d6b3a">6</div>
+    <div class="section-title-block">
+      <h2>Medical Ultrasound Imaging</h2>
+      <p>History · Physics · A/M/B modes · Doppler (CW &amp; PW) · Applications</p>
+    </div>
+  </div>
+
+  <h3>Historical Milestones</h3>
+  <ul>
+    <li><strong>1877:</strong> Lord Rayleigh — <em>The Theory of Sound</em></li>
+    <li><strong>1880:</strong> Pierre Curie — discovery of the <strong>piezoelectric effect</strong> (enables generation and detection of ultrasonic waves)</li>
+    <li><strong>WWI:</strong> First practical use — submarine detection</li>
+    <li><strong>1942:</strong> First clinical use — brain tumor localization (Karl &amp; Friederich Dussik)</li>
+    <li><strong>1950:</strong> First grayscale images</li>
+    <li><strong>1965:</strong> Real-time imaging by Siemens device</li>
+    <li><strong>1968:</strong> Electronic beam steering with <strong>phased-array</strong> technology</li>
+    <li><strong>Mid-1970s:</strong> Popular technique; substantial improvements since mid-1990s</li>
+  </ul>
+
+  <h3>Properties of Ultrasound</h3>
+  <div class="compare">
+    <div class="compare-card pro">
+      <h4>Advantages</h4>
+      <ul>
+        <li>Non-invasive</li>
+        <li>Inexpensive</li>
+        <li>Portable</li>
+        <li>Excellent temporal resolution</li>
+        <li>No radiation — safe in pregnancy</li>
+      </ul>
+    </div>
+    <div class="compare-card con">
+      <h4>Disadvantages</h4>
+      <ul>
+        <li>Noisy (significant speckle noise)</li>
+        <li>Low spatial resolution</li>
+        <li>Operator-dependent</li>
+        <li>Dependent on patient anatomy</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Physical Properties of Ultrasonic Waves</h3>
+  <p>Ultrasonic waves are <strong>longitudinal compression waves</strong>:</p>
+  <ul>
+    <li>Transducer emits a sound pulse → <strong>compresses</strong> the medium</li>
+    <li>Elasticity limits compression → extends into <strong>rarefaction</strong></li>
+    <li>Rarefaction returns to compression → oscillation continues until <strong>damping</strong> stops it</li>
+    <li>Particles never travel far — energy is transmitted, not matter</li>
+  </ul>
+
+  <div class="info-box">
+    <p><strong>Medical ultrasound frequency:</strong> &gt; 2.5 MHz (beyond the ~20 Hz – 20 kHz human hearing range). <em>"Ultra"</em> = beyond audible.</p>
+  </div>
+
+  <h3>Acquisition Modes</h3>
+
+  <details open>
+    <summary>Mode A (Amplitude) — simplest, now obsolete</summary>
+    <div class="details-content">
+      <ul>
+        <li>Principle: clap and listen for echo</li>
+        <li>Distance formula: <strong>d = (elapsed time × speed of sound) / 2</strong></li>
+        <li>Speed of sound ≈ constant in tissues → time ≈ amplitude</li>
+        <li>Problem: only 1 line of information — unknown direction, unknown shape</li>
+      </ul>
+    </div>
+  </details>
+
+  <details open>
+    <summary>Mode M (Motion) — repeated A-mode</summary>
+    <div class="details-content">
+      <ul>
+        <li>Very high sampling rate: up to <strong>1,000 pulses/second</strong></li>
+        <li>Single axis tracked over time → visualizes movement of a structure (e.g. heart wall)</li>
+        <li>Still extensively used in <strong>cardiac and fetal imaging</strong></li>
+      </ul>
+    </div>
+  </details>
+
+  <details open>
+    <summary>Mode B (Brightness) — standard 2D imaging</summary>
+    <div class="details-content">
+      <ul>
+        <li>B = <strong>Brightness</strong></li>
+        <li>Obtained by <strong>translating or tilting</strong> the transducer</li>
+        <li>Multiple A-mode lines at different orientations → assembled into a 2D image</li>
+        <li>Applications: fetal imaging, cardiac imaging (normal and continuous)</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>Doppler Effect — Measuring Blood Flow Velocity</h3>
+  <div class="info-box">
+    <p>When a source approaches → waves are <strong>compressed</strong> (higher frequency). When it moves away → waves are <strong>stretched</strong> (lower frequency). This shift encodes velocity.</p>
+  </div>
+
+  <details>
+    <summary>Continuous Wave (CW) Doppler</summary>
+    <div class="details-content">
+      <ul>
+        <li>Compares transmitted frequency f_T with received frequency f_R</li>
+        <li>Doppler frequency: <strong>f_D = f_R − f_T ≈ −2|v_a|cos(θ) / c · f_T</strong></li>
+        <li>where v_a = blood velocity, θ = angle between beam and flow, c = speed of sound</li>
+        <li>Doppler signal can be made <strong>audible</strong> — pitch ∝ velocity</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Pulsed Wave (PW) Doppler — not strictly Doppler</summary>
+    <div class="details-content">
+      <ul>
+        <li>Received signal assumed = scaled, delayed replica of transmitted: s(t) = A·sin(2πf_T(t − Δt))</li>
+        <li>Δt = time between transmission and reception (depends on transducer-to-scatterer distance)</li>
+        <li>One sample acquired per received pulse at time t_R</li>
+        <li>If scatterer moves at velocity v_a → distance increases by v_a·T_PRF per pulse repetition period → increases Δt</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>Clinical Applications</h3>
+  <div class="cards">
+    <div class="card"><div class="card-label">3D Ultrasound</div><h4>Fetal 3D imaging</h4><p>Visualizes fetal face in 3D. Widely used in obstetrics.</p></div>
+    <div class="card"><div class="card-label">IVUS</div><h4>Intravascular Ultrasound</h4><p>Miniaturized transducer introduced into a blood vessel to image its wall from inside.</p></div>
+    <div class="card"><div class="card-label">Doppler</div><h4>Blood flow mapping</h4><p>Red = flow toward transducer. Blue = flow away. Used in vascular, cardiac imaging.</p></div>
+    <div class="card"><div class="card-label">US CT</div><h4>Breast mammography</h4><p>Ultrasound CT used as alternative approach to breast imaging.</p></div>
+  </div>
+
+  <div class="key-box">
+    <p>💡 Ultrasound is the only medical imaging modality routinely used for <strong>pregnancy monitoring</strong> — thanks to its safety (no radiation) and portability.</p>
+  </div>
+
+  <!-- MEMO -->
+  <div class="memo" id="memo6">
+    <div class="memo-label">⚡ Quick Memo — Question 6</div>
+    <strong>History:</strong> Piezoelectric effect (Curie 1880) · WWI (sonar) · First clinical use 1942 (Dussik) · B-mode 1950 · Phased-array 1968<br/>
+    <strong>Physics:</strong> Longitudinal compression waves · f &gt; 2.5 MHz · Damped oscillation in tissue<br/>
+    <strong>Mode A:</strong> distance = (time × c) / 2 · single line · obsolete<br/>
+    <strong>Mode M:</strong> repeated A-mode · up to 1000 pulses/sec · heart/fetal motion<br/>
+    <strong>Mode B:</strong> 2D image · translated/tilted transducer · multiple A-lines assembled<br/>
+    <strong>CW Doppler:</strong> f_D ≈ −2|v_a|cos(θ)/c · f_T — audible pitch = velocity<br/>
+    <strong>PW Doppler:</strong> delayed replica signal; samples change in Δt per pulse<br/>
+    <strong>Advantages:</strong> portable · no radiation · real-time · cheap · best for pregnancy<br/>
+    <strong>Disadvantages:</strong> speckle noise · low spatial resolution · operator-dependent
+  </div>
+
+  <div class="keywords">
+    <span class="kw">piezoelectric effect</span><span class="kw">longitudinal wave</span><span class="kw">&gt;2.5 MHz</span>
+    <span class="kw">Mode A/M/B</span><span class="kw">CW Doppler</span><span class="kw">PW Doppler</span>
+    <span class="kw">speckle noise</span><span class="kw">phased-array</span><span class="kw">IVUS</span>
+    <span class="kw">fetal monitoring</span><span class="kw">f_D formula</span>
+  </div>
+  <a class="back-top" href="#top">↑ Back to top</a>
+</section>
+
+</main>
+</div>
+
+<script>
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('nav a[href^="#q"]');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      navLinks.forEach(l=>l.classList.remove('active'));
+      const match=document.querySelector(`nav a[href="#${e.target.id}"]`);
+      if(match)match.classList.add('active');
+    }
+  });
+},{threshold:0.2,rootMargin:'-80px 0px -60% 0px'});
+sections.forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>

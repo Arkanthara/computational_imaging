@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Révision — Imagerie Médicale Computationnelle</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0a0c10;
+    --bg2: #111520;
+    --bg3: #181d2a;
+    --border: #232a3a;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --text-muted: #8892a4;
+    --text-dim: #4a5568;
+    --card: #13192b;
+    --card2: #0e1420;
+    --highlight: rgba(0,212,255,0.07);
+    --highlight2: rgba(124,58,237,0.1);
+    --highlight3: rgba(16,185,129,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* LAYOUT */
+  .layout { display: flex; min-height: 100vh; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 300px;
+    min-width: 300px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0;
+    z-index: 100;
+  }
+
+  .sidebar-header {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, #0f172a, #1a1f35);
+  }
+
+  .sidebar-header .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .sidebar-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .sidebar-header .subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .nav-section {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-section-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 0 20px 8px;
+  }
+
+  .nav-item {
+    display: block;
+    padding: 8px 20px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+    cursor: pointer;
+  }
+
+  .nav-item:hover { background: var(--highlight); color: var(--text); border-left-color: var(--accent); }
+  .nav-item.active { background: var(--highlight); color: var(--accent); border-left-color: var(--accent); }
+
+  .nav-item .num {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: var(--accent2);
+    color: white;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  .nav-sub {
+    display: block;
+    padding: 5px 20px 5px 48px;
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 11.5px;
+    transition: all 0.15s;
+  }
+  .nav-sub:hover { color: var(--accent); }
+
+  .nav-summary-link {
+    display: block;
+    margin: 4px 12px;
+    padding: 6px 10px;
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.2);
+    border-radius: 6px;
+    color: var(--accent3);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .nav-summary-link:hover { background: rgba(16,185,129,0.2); }
+
+  /* MAIN CONTENT */
+  .main {
+    flex: 1;
+    max-width: calc(100vw - 300px);
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0a0c10 0%, #0f1a2e 50%, #0a0c10 100%);
+    padding: 60px 60px 40px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,212,255,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .hero h1 span { color: var(--accent); }
+
+  .hero p { font-size: 15px; color: var(--text-muted); max-width: 600px; margin-bottom: 24px; }
+
+  .hero-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid;
+  }
+  .badge-blue { background: rgba(0,212,255,0.1); border-color: rgba(0,212,255,0.3); color: var(--accent); }
+  .badge-purple { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.3); color: #a78bfa; }
+  .badge-green { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: var(--accent3); }
+
+  /* CONTENT AREA */
+  .content { padding: 40px 60px 80px; }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 70px;
+    scroll-margin-top: 30px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    background: linear-gradient(135deg, var(--accent2), #4f46e5);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: white;
+  }
+
+  .section-title { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: var(--text); line-height: 1.2; }
+  .section-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+  /* MEMO BOX */
+  .memo {
+    background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(16,185,129,0.03));
+    border: 1px solid rgba(16,185,129,0.25);
+    border-left: 4px solid var(--accent3);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    position: relative;
+  }
+
+  .memo-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent3);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .memo-label::before { content: '▶'; font-size: 8px; }
+
+  .memo h4 { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+
+  /* KEY CONCEPTS BOX */
+  .key-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+
+  .key-box h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ALERT BOX */
+  .alert {
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-left: 4px solid var(--accent4);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+
+  .alert-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent4);
+    margin-bottom: 6px;
+  }
+
+  /* INFO BOX */
+  .info-box {
+    background: rgba(0,212,255,0.05);
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .grid-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .grid-card h5 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+
+  /* PROS/CONS */
+  .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .pros {
+    background: rgba(16,185,129,0.05);
+    border: 1px solid rgba(16,185,129,0.2);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .cons {
+    background: rgba(239,68,68,0.05);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .pros h5 { color: var(--accent3); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .cons h5 { color: var(--accent5); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th {
+    background: var(--bg3);
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  tr:hover td { background: var(--highlight); }
+  .td-good { color: var(--accent3); }
+  .td-bad { color: var(--accent5); }
+  .td-neutral { color: var(--accent4); }
+
+  /* COLLAPSIBLE */
+  .collapsible {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin: 12px 0;
+    overflow: hidden;
+  }
+
+  .collapsible-header {
+    width: 100%;
+    background: var(--bg3);
+    color: var(--text);
+    border: none;
+    padding: 14px 20px;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.15s;
+  }
+
+  .collapsible-header:hover { background: var(--highlight); }
+  .collapsible-header .arrow { transition: transform 0.2s; font-size: 12px; color: var(--accent); }
+  .collapsible.open .arrow { transform: rotate(90deg); }
+
+  .collapsible-body {
+    display: none;
+    padding: 16px 20px;
+    background: var(--card2);
+    border-top: 1px solid var(--border);
+  }
+  .collapsible.open .collapsible-body { display: block; }
+
+  /* LIST STYLES */
+  ul, ol { padding-left: 20px; margin: 8px 0; }
+  li { margin-bottom: 4px; font-size: 14px; color: var(--text); }
+  li strong { color: var(--accent); }
+
+  /* TAGS */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  /* FORMULA */
+  .formula {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin: 10px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--accent4);
+    text-align: center;
+  }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 24px; margin: 16px 0; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent2), var(--accent));
+  }
+  .timeline-item { position: relative; margin-bottom: 16px; }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -21px; top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg2);
+  }
+  .timeline-item .year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .timeline-item p { font-size: 13.5px; color: var(--text); }
+
+  /* COMPARE GRID */
+  .compare-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    margin: 16px 0 0;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .compare-header > div {
+    background: var(--bg3);
+    padding: 10px 16px;
+    border-radius: 8px 8px 0 0;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .compare-header > div:first-child { color: var(--text-muted); }
+
+  /* PIPELINE DIAGRAM */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .pipe-step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    min-width: 120px;
+    position: relative;
+  }
+  .pipe-step .pipe-icon { font-size: 20px; margin-bottom: 4px; }
+  .pipe-step .pipe-label { color: var(--text-muted); font-size: 10px; margin-top: 2px; }
+  .pipe-arrow { color: var(--accent); font-size: 20px; padding: 0 6px; }
+
+  /* MODALITIES TABLE */
+  .modality-icon { font-size: 18px; margin-right: 6px; }
+
+  /* TOP BACK */
+  .back-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 28px;
+    padding: 8px 16px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 12px;
+    transition: all 0.15s;
+  }
+  .back-top:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* QUICK SUMMARY PILL */
+  .summary-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16,185,129,0.12);
+    border: 1px solid rgba(16,185,129,0.3);
+    border-radius: 100px;
+    padding: 4px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  h3 { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: var(--text); margin: 20px 0 10px; }
+  h4 { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin: 16px 0 8px; }
+  p { margin-bottom: 10px; font-size: 14px; color: var(--text); }
+
+  .text-accent { color: var(--accent); }
+  .text-green { color: var(--accent3); }
+  .text-yellow { color: var(--accent4); }
+  .text-red { color: var(--accent5); }
+  .text-purple { color: #a78bfa; }
+  .text-muted { color: var(--text-muted); }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
+
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .main { max-width: 100vw; }
+    .hero, .content { padding: 24px; }
+    .grid-2, .grid-3, .pros-cons { grid-template-columns: 1fr; }
+    .compare-header { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">14X062 · UNIGE</div>
+    <h2>Imagerie Médicale Computationnelle</h2>
+    <div class="subtitle">Guide de révision — Examen final</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Accès rapide</div>
+    <a href="#top" class="nav-item">🏠 Accueil / Table des matières</a>
+    <a href="#summaries" class="nav-summary-link">⚡ Tous les résumés rapides</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Questions d'examen</div>
+    <a href="#q1" class="nav-item"><span class="num">1</span>Principes généraux</a>
+    <a href="#q1-summary" class="nav-sub">→ Résumé rapide</a>
+    <a href="#q2" class="nav-item"><span class="num">2</span>Radiographie</a>
+    <a href="#q2-summary" class="nav-sub">→ Résumé rapide</a>
+    <a href="#q3" class="nav-item"><span class="num">3</span>Tomodensitométrie (CT)</a>
+    <a href="#q3-summary" class="nav-sub">→ Résumé rapide</a>
+    <a href="#q4" class="nav-item"><span class="num">4</span>Imagerie nucléaire</a>
+    <a href="#q4-summary" class="nav-sub">→ Résumé rapide</a>
+    <a href="#q5" class="nav-item"><span class="num">5</span>IRM</a>
+    <a href="#q5-summary" class="nav-sub">→ Résumé rapide</a>
+    <a href="#q6" class="nav-item"><span class="num">6</span>Échographie</a>
+    <a href="#q6-summary" class="nav-sub">→ Résumé rapide</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">Tableaux comparatifs</div>
+    <a href="#comparison-table" class="nav-item">📊 Comparaison des modalités</a>
+    <a href="#spect-vs-pet" class="nav-item">⚛️ SPECT vs PET</a>
+    <a href="#mri-vs-ct" class="nav-item">🔬 IRM vs CT</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero" id="top">
+    <div class="hero-label">// Cours 14X062 — T. Holotyak — Université de Genève</div>
+    <h1>Imagerie Médicale<br><span>Computationnelle</span></h1>
+    <p>Guide complet de révision pour l'examen écrit. Couvre les 6 questions principales : principes généraux, radiographie, CT, imagerie nucléaire, IRM et échographie.</p>
+    <div class="hero-badges">
+      <span class="badge badge-blue">📡 6 Modalités</span>
+      <span class="badge badge-purple">📐 Physique & Reconstruction</span>
+      <span class="badge badge-green">⚡ Résumés rapides inclus</span>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+  <!-- ====================== FLASH SUMMARIES ====================== -->
+  <div class="section" id="summaries">
+    <div class="section-header">
+      <div class="section-num">⚡</div>
+      <div>
+        <div class="section-title">Résumés Éclair — Vue d'ensemble</div>
+        <div class="section-subtitle">Pour une révision ultra-rapide avant l'examen</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="grid-card" style="border-color:rgba(0,212,255,0.25)">
+        <h5 style="color:var(--accent)">1 · Principes généraux</h5>
+        <p style="font-size:12px">Pipeline : objet → appareil → données → algo → image reconstruite. Modalités : CT (rayons X), MRI (précession nucléaire), PET/SPECT (émission), US (ondes sonores). Données : 1D→2D→3D→4D. Défis : petits datasets, labels bruités, hétérogénéité.</p>
+      </div>
+      <div class="grid-card" style="border-color:rgba(124,58,237,0.3)">
+        <h5 style="color:#a78bfa">2 · Radiographie (X-ray)</h5>
+        <p style="font-size:12px">Rayons X = ondes EM, E = hc/λ (keV). 3 interactions : photo-électrique (✓ contraste), Compton (✗ bruit), paire. Denser = moins de photons = blanc. Format DICOM. ≥ 2000² pixels.</p>
+      </div>
+      <div class="grid-card" style="border-color:rgba(245,158,11,0.3)">
+        <h5 style="color:var(--accent4)">3 · CT (Tomodensitométrie)</h5>
+        <p style="font-size:12px">Rotation source-détecteur autour du patient. Transformée de Radon → rétroprojection filtrée. Fan-beam / Cone-beam. Types : séquentiel, hélicoïdal, multislice. HU pour valeurs. Dose plus élevée que RX.</p>
+      </div>
+      <div class="grid-card" style="border-color:rgba(16,185,129,0.3)">
+        <h5 style="color:var(--accent3)">4 · Nucléaire (SPECT / PET)</h5>
+        <p style="font-size:12px">Traceur radiomarqué → accumulation dans zones actives → détection photons. SPECT : 1 photon, collimateur, 6-8mm, lent. PET : 2 photons 180°, sans collimateur, 2-3mm, rapide. Imagerie FONCTIONNELLE.</p>
+      </div>
+      <div class="grid-card" style="border-color:rgba(0,212,255,0.25)">
+        <h5 style="color:var(--accent)">5 · IRM</h5>
+        <p style="font-size:12px">Champ B₀ aligne protons H → impulsion RF → précession → signal de relaxation T1/T2. Sans radiation. Meilleur contraste tissus mous. Plus lent, bruyant, cher. fMRI = BOLD contrast.</p>
+      </div>
+      <div class="grid-card" style="border-color:rgba(124,58,237,0.3)">
+        <h5 style="color:#a78bfa">6 · Échographie (US)</h5>
+        <p style="font-size:12px">&gt;2.5 MHz, ondes longitudinales. Transducteur émet/reçoit échos. Modes : A (amplitude), M (mouvement), B (2D brillance), Doppler (flux). Temps-réel, pas de radiation, portable. Bruit de speckle, résolution spatiale limitée.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================== COMPARISON TABLE ====================== -->
+  <div class="section" id="comparison-table">
+    <h3>📊 Tableau comparatif général des modalités</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Modalité</th>
+            <th>Signal physique</th>
+            <th>Type d'imagerie</th>
+            <th>Résolution</th>
+            <th>Radiation</th>
+            <th>Coût</th>
+            <th>Format données</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Radiographie (X)</strong></td>
+            <td>Rayons X ionisants</td>
+            <td>Transmission, anatomique</td>
+            <td class="td-good">Élevée</td>
+            <td class="td-bad">Oui (faible)</td>
+            <td class="td-good">Faible</td>
+            <td>2D DICOM</td>
+          </tr>
+          <tr>
+            <td><strong>CT</strong></td>
+            <td>Rayons X ionisants</td>
+            <td>Transmission 3D, anatomique</td>
+            <td class="td-good">Très élevée</td>
+            <td class="td-bad">Oui (modéré)</td>
+            <td class="td-neutral">Moyen</td>
+            <td>3D DICOM (voxels)</td>
+          </tr>
+          <tr>
+            <td><strong>SPECT</strong></td>
+            <td>Émission γ (1 photon)</td>
+            <td>Emission, fonctionnel</td>
+            <td class="td-bad">Faible (6-8mm)</td>
+            <td class="td-bad">Oui (traceur)</td>
+            <td class="td-neutral">Moyen</td>
+            <td>3D DICOM</td>
+          </tr>
+          <tr>
+            <td><strong>PET</strong></td>
+            <td>Émission γ (2 photons)</td>
+            <td>Emission, fonctionnel</td>
+            <td class="td-neutral">Bonne (2-3mm)</td>
+            <td class="td-bad">Oui (traceur)</td>
+            <td class="td-bad">Élevé</td>
+            <td>4D DICOM</td>
+          </tr>
+          <tr>
+            <td><strong>IRM</strong></td>
+            <td>Précession nucléaire RF</td>
+            <td>Transmission, anatomique/fonc.</td>
+            <td class="td-good">Élevée (~1mm³)</td>
+            <td class="td-good">Non</td>
+            <td class="td-bad">Élevé</td>
+            <td>3D/4D DICOM</td>
+          </tr>
+          <tr>
+            <td><strong>Échographie</strong></td>
+            <td>Ondes sonores &gt;2.5 MHz</td>
+            <td>Réflexion/rétrodiff., anatomique</td>
+            <td class="td-bad">Faible</td>
+            <td class="td-good">Non</td>
+            <td class="td-good">Faible</td>
+            <td>2D→4D DICOM</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ====================== Q1 ====================== -->
+  <div class="section" id="q1">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <div class="section-title">Principes généraux de l'imagerie médicale</div>
+        <div class="section-subtitle">Pipeline, coordonnées, plans anatomiques, modalités, types de données, défis</div>
+      </div>
+    </div>
+
+    <!-- MEMO -->
+    <div class="memo" id="q1-summary">
+      <div class="memo-label">Résumé rapide · Question 1</div>
+      <h4>Ce qu'il faut absolument retenir</h4>
+      <ul>
+        <li><strong>Pipeline</strong> : objet → appareil d'imagerie → données brutes → algorithme → image reconstruite</li>
+        <li><strong>Plans anatomiques</strong> : axial (⊥ axe corps), sagittal (gauche/droite), coronal (avant/arrière)</li>
+        <li><strong>6 modalités</strong> : CT, MRI/fMRI, SPECT, PET, Échographie + Radiographie X</li>
+        <li><strong>Anatomique vs Fonctionnel</strong> : IRM = structure, PET = activité métabolique</li>
+        <li><strong>Dimensions des données</strong> : 1D (point), 2D (pixel), 3D (voxel), 4D (voxel + temps)</li>
+        <li><strong>Défis ML</strong> : petits datasets, labels bruités, hétérogénéité, long-tail</li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag">Pipeline</span>
+      <span class="tag">Plans anatomiques</span>
+      <span class="tag">Coordonnées LSA/RPI</span>
+      <span class="tag">Modalités</span>
+      <span class="tag">1D→4D</span>
+      <span class="tag">Supervisé/Non-supervisé</span>
+      <span class="tag">DICOM</span>
+    </div>
+
+    <h3>🔄 Le pipeline d'imagerie médicale</h3>
+    <p>L'imagerie médicale suit toujours un même enchaînement logique :</p>
+    <div class="pipeline">
+      <div class="pipe-step"><div class="pipe-icon">🧑</div>Objet<div class="pipe-label">Patient</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="pipe-icon">🔬</div>Appareil<div class="pipe-label">CT, IRM, US…</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="pipe-icon">📊</div>Données brutes<div class="pipe-label">Sinogramme, k-space…</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="pipe-icon">⚙️</div>Algorithme<div class="pipe-label">Reconstruction</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="border-color:rgba(0,212,255,0.4)"><div class="pipe-icon">🖼️</div>Image reconstruite<div class="pipe-label">Coupe transversale</div></div>
+    </div>
+
+    <h3>🗺️ Plans et coordonnées anatomiques</h3>
+    <div class="grid-2">
+      <div class="key-box">
+        <h4>🔹 Système de coordonnées 3D</h4>
+        <ul>
+          <li><strong>Supérieur (S) / Inférieur (I)</strong> : axe vertical</li>
+          <li><strong>Gauche (L) / Droit (R)</strong> : axe horizontal (du point de vue du PATIENT)</li>
+          <li><strong>Antérieur (A) / Postérieur (P)</strong> : avant/arrière</li>
+        </ul>
+        <p style="margin-top:10px; font-size:13px; color:var(--text-muted)">Notation 3 lettres : ex. <strong class="text-accent">LSA</strong> = x: Gauche→Droit, y: Sup→Inf, z: Ant→Post</p>
+      </div>
+      <div class="key-box">
+        <h4>🔹 3 Plans de coupe</h4>
+        <ul>
+          <li><strong class="text-accent">Axial = Transversal</strong> : perpendiculaire à l'axe long du corps (coupe horizontale)</li>
+          <li><strong style="color:#a78bfa">Sagittal</strong> : sépare gauche et droit (<em>sagitta</em> = flèche)</li>
+          <li><strong class="text-green">Coronal</strong> : sépare avant et arrière (<em>corona</em> = couronne)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>🩺 Imagerie invasive vs non-invasive</h3>
+    <div class="grid-2">
+      <div class="grid-card">
+        <h5>Invasive</h5>
+        <ul>
+          <li>Endoscope (optique à l'intérieur)</li>
+          <li>Chirurgie ouverte</li>
+          <li>"Caméra pills" (capsule endoscopique)</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h5>Non-invasive (Imagerie médicale principale)</h5>
+        <ul>
+          <li>Images planaires vs. coupes transversales</li>
+          <li>Images statiques vs. séries temporelles (film)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>📦 Types de données selon la dimensionnalité</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Dimension</th><th>Structure</th><th>Exemple clinique</th><th>Format typique</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>1D</strong></td><td>Valeur scalaire / signal</td><td>Densité optique, ELISA, test antibiogramme, DNA Illumina</td><td>Signal brut</td></tr>
+          <tr><td><strong>2D (niveaux de gris)</strong></td><td>Matrice 2D pixels</td><td>Radiographie thoracique</td><td>DICOM</td></tr>
+          <tr><td><strong>2D (couleur)</strong></td><td>Tenseur 3D (R,G,B)</td><td>Lame histologique numérique</td><td>TIF/JPEG2000/DICOM</td></tr>
+          <tr><td><strong>2D + temps</strong></td><td>Tenseur 3D (série)</td><td>Fluoroscopie, angiographie</td><td>DICOM</td></tr>
+          <tr><td><strong>3D (CT slices)</strong></td><td>Tenseur 3D voxels</td><td>CT scanner</td><td>DICOM multislice</td></tr>
+          <tr><td><strong>3D (volume)</strong></td><td>Tenseur 3D voxels</td><td>IRM</td><td>DICOM</td></tr>
+          <tr><td><strong>4D</strong></td><td>Tenseur 4D voxels+temps</td><td>PET dynamique, fMRI</td><td>DICOM (5D pour PET-CT couleur)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>🧠 Imagerie anatomique vs fonctionnelle</h3>
+    <div class="grid-2">
+      <div class="pros" style="background: rgba(0,212,255,0.05); border-color: rgba(0,212,255,0.2);">
+        <h5 style="color:var(--accent)">Anatomique (ex. IRM)</h5>
+        <p style="font-size:13px">Montre la <strong>structure</strong> du cerveau, vivant ou mort.<br>Même résultat quelle que soit l'activité.</p>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:8px">"Une IRM montre que vous avez un cerveau"</p>
+      </div>
+      <div class="pros" style="background: rgba(239,68,68,0.05); border-color: rgba(239,68,68,0.2);">
+        <h5 style="color:var(--accent5)">Fonctionnelle (ex. PET)</h5>
+        <p style="font-size:13px">Montre l'<strong>activité métabolique</strong> → zones lumineuses = forte activité. Aucun signal sur cerveau mort.</p>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:8px">"Un PET montre que vous l'utilisez"</p>
+      </div>
+    </div>
+
+    <h3>⚠️ Défis de l'imagerie médicale (pour le Machine Learning)</h3>
+    <div class="alert">
+      <div class="alert-label">⚠️ Points d'attention examen</div>
+      <ul>
+        <li>Nombreuses modalités avec images de <strong>très grande taille</strong> mais <strong>petits datasets</strong></li>
+        <li>Acquisition <strong>non standardisée</strong> (appareils et réglages variés)</li>
+        <li>Distribution des maladies en <strong>longue traîne</strong> (long-tailed)</li>
+        <li>Labels <strong>épars et bruités</strong></li>
+        <li>Échantillons <strong>hétérogènes et déséquilibrés</strong></li>
+        <li><strong>Subjectivité</strong> dans la vérité terrain (ground-truth)</li>
+        <li>Impossible de de-identifier certaines images (ex. scans faciaux)</li>
+      </ul>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-header" onclick="toggleCollapsible(this)">
+        🎓 Approches d'apprentissage en imagerie médicale <span class="arrow">▶</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="grid-3">
+          <div class="key-box">
+            <h4>Non-supervisé</h4>
+            <p style="font-size:13px">Entraîner un GAN à reconstruire les 3 prochaines coupes IRM saines à partir des 3 précédentes. En inférence : comparer la reconstruction à l'image réelle pour détecter la maladie (ex. l₂ loss élevée = anormal).</p>
+          </div>
+          <div class="key-box">
+            <h4>Supervisé</h4>
+            <p style="font-size:13px">Données avec labels précis (patch labels). Apprentissage supervisé classique. Semi-supervisé = mixer données labellisées + non labellisées.</p>
+          </div>
+          <div class="key-box">
+            <h4>Multiple Instance Learning (MIL)</h4>
+            <p style="font-size:13px">Labels faibles au niveau image entière. L'image est découpée en patches ("instances"). Si un seul patch est positif, tout le "bag" est positif. Permet d'apprendre des features locales.</p>
+          </div>
+        </div>
+        <div class="info-box" style="margin-top:12px">
+          <strong>Transfer learning</strong> : entraîner sur domaine A (avec labels), puis adapter au domaine B (avec peu ou pas de labels). Très utile en imagerie médicale où les données labellisées sont rares.
+        </div>
+      </div>
+    </div>
+
+    <a href="#top" class="back-top">↑ Retour au sommaire</a>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ====================== Q2 ====================== -->
+  <div class="section" id="q2">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <div class="section-title">Radiographie (Rayons X)</div>
+        <div class="section-subtitle">Physique des rayons X, interactions avec la matière, détecteurs, qualité d'image, applications</div>
+      </div>
+    </div>
+
+    <div class="memo" id="q2-summary">
+      <div class="memo-label">Résumé rapide · Question 2</div>
+      <h4>Ce qu'il faut absolument retenir</h4>
+      <ul>
+        <li><strong>1895</strong> : découverte par Wilhelm Conrad Röntgen → Nobel 1901</li>
+        <li><strong>Physique</strong> : E = hf = hc/λ, énergie en keV, λ ≈ 10⁻¹⁰ m</li>
+        <li><strong>Génération</strong> : électrons → anode → Bremsstrahlung + radiation caractéristique</li>
+        <li><strong>3 interactions</strong> : photo-électrique (bon pour contraste), Compton (mauvais, bruit), paire (haute énergie, TEP)</li>
+        <li><strong>Contraste</strong> : os dense → absorbe plus → moins de photons → plus blanc</li>
+        <li><strong>Fluoroscopie</strong> : X en temps réel avec contraste iodé (coronarographie)</li>
+        <li><strong>DSA</strong> : soustraction numérique d'angiographie = image avec contraste − masque</li>
+        <li><strong>Résolution requise</strong> : ≥ 2000² pixels, format DICOM</li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag">Röntgen</span>
+      <span class="tag">E = hc/λ</span>
+      <span class="tag">Bremsstrahlung</span>
+      <span class="tag">Photo-électrique</span>
+      <span class="tag">Compton</span>
+      <span class="tag">DICOM</span>
+      <span class="tag">Fluoroscopie</span>
+      <span class="tag">DSA</span>
+    </div>
+
+    <h3>📜 Historique</h3>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="year">1895</div>
+        <p>Wilhelm Conrad Röntgen découvre les rayons X. Première image : la main de sa femme Anna Bertha.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1901</div>
+        <p>Premier Prix Nobel de Physique : <em>"En reconnaissance des services extraordinaires rendus par sa découverte des rayons remarquables qui portent son nom."</em></p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">Danger</div>
+        <p>Les rayons X furent utilisés très tôt en diagnostic médical, avant que les dangers des radiations ionisantes ne soient découverts. Röntgen lui-même est mort d'un cancer intestinal.</p>
+      </div>
+    </div>
+
+    <h3>⚡ Physique des rayons X</h3>
+    <div class="grid-2">
+      <div class="key-box">
+        <h4>Ondes électromagnétiques</h4>
+        <p>Les rayons X sont des photons : ondes EM à très courte longueur d'onde.</p>
+        <div class="formula">E = h · f = hc / λ</div>
+        <ul>
+          <li><strong>h</strong> = constante de Planck = 4.135 × 10⁻¹⁵ eVs</li>
+          <li><strong>c</strong> = vitesse lumière = 300 × 10⁶ m/s</li>
+          <li><strong>λ</strong> ≈ 10⁻¹⁰ m → E en ordre de <span class="text-accent">keV</span></li>
+        </ul>
+      </div>
+      <div class="key-box">
+        <h4>Génération dans le tube RX</h4>
+        <ul>
+          <li>Cathode chauffée → émission d'électrons (6–100 mA)</li>
+          <li>Accélérés vers anode (50–125 kV)</li>
+          <li>Impact → libération d'énergie via <strong class="text-accent">Bremsstrahlung</strong></li>
+          <li>Spectre continu + pics caractéristiques (transitions électroniques K-shell)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>🔬 Les 3 types d'interaction avec la matière</h3>
+    <div class="grid-3">
+      <div class="grid-card" style="border-color: rgba(16,185,129,0.3)">
+        <h5 style="color:var(--accent3)">✅ Photo-électrique</h5>
+        <p style="font-size:13px">Absorption <strong>totale</strong> du photon par un atome → éjection d'un électron. Idéal pour la radiographie : les tissus denses (os) absorbent plus → moins d'énergie arrive → <strong>plus blanc sur l'image</strong>.</p>
+      </div>
+      <div class="grid-card" style="border-color: rgba(239,68,68,0.3)">
+        <h5 style="color:var(--accent5)">❌ Compton</h5>
+        <p style="font-size:13px">Absorption <strong>partielle</strong> : le photon change de direction (énergie réduite) + électron éjecté. Le photon dévié peut être détecté → perçu comme <strong>bruit</strong> (chemin non linéaire mais assumé linéaire).</p>
+      </div>
+      <div class="grid-card" style="border-color: rgba(245,158,11,0.3)">
+        <h5 style="color:var(--accent4)">⚛️ Création de paires</h5>
+        <p style="font-size:13px">Seulement si E &gt; 1.02 MeV. Photon → paire électron-positron. Le positron s'annihile avec un électron → 2 photons opposés. Utilisé en <strong>imagerie nucléaire (PET)</strong>.</p>
+      </div>
+    </div>
+
+    <div class="alert">
+      <div class="alert-label">Règle mnémotechnique</div>
+      <p>Photo-électrique = <strong class="text-green">P pour "parfait"</strong> pour la radiographie (contraste élevé). Compton = <strong class="text-red">C pour "contaminant"</strong> (bruit). Paire = <strong class="text-yellow">utilisé en PET</strong>.</p>
+    </div>
+
+    <h3>🖥️ Qualité d'image X</h3>
+    <p>La qualité dépend de plusieurs facteurs :</p>
+    <ul>
+      <li><strong>Taille du foyer</strong> (anode tip) — plus fin = meilleure résolution</li>
+      <li><strong>Épaisseur du patient</strong> — plus épais = plus de diffusion Compton → dégradation</li>
+      <li><strong>Propriétés du phosphore</strong> — diffusion lumineuse</li>
+      <li><strong>Résolution du film</strong> et distance d'échantillonnage</li>
+    </ul>
+    <div class="info-box">
+      <strong>Résolution requise</strong> : screen-film → 5-15 lp/mm (100-33 μm) · phosphores → 2.5-5 lp/mm · mammographie numérique directe → résolution encore plus élevée.<br>
+      → <strong>Image size ≥ 2000² pixels</strong>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-header" onclick="toggleCollapsible(this)">
+        📡 Détecteurs de rayons X <span class="arrow">▶</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="grid-3">
+          <div class="key-box">
+            <h4>Film photographique</h4>
+            <p style="font-size:13px">Très inefficace : seulement 1-2% des rayons arrêtés. Nécessite forte dose.</p>
+          </div>
+          <div class="key-box">
+            <h4>Écrans intensificateurs</h4>
+            <p style="font-size:13px">Phosphore → convertit X en photons lumineux. Fluorescence (&lt;10⁻⁸s) ou Phosphorescence (retardée). Efficacité 5-20%.</p>
+          </div>
+          <div class="key-box">
+            <h4>XRII + Flat-panel</h4>
+            <p style="font-size:13px">Image intensifier : sortie 10⁵× plus lumineuse. Détecteurs plats : meilleure sensibilité, résolution temporelle, moins d'artefacts. Utilisés en fluoroscopie.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-header" onclick="toggleCollapsible(this)">
+        🏥 Applications cliniques de la radiographie <span class="arrow">▶</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="grid-2">
+          <div class="key-box">
+            <h4>Fluoroscopie (C-arm)</h4>
+            <p style="font-size:13px">Images X en <strong>temps réel</strong>. Contraste iodé pour guider les procédures ou évaluer les changements. Machine C-arm = fluoroscopie portable, utilisée au bloc opératoire.<br>
+            Intensité sortie ≈ 10⁵ fois l'entrée (flux gain × minification gain ≈ 100 chacun).<br>
+            Artefacts en éventail possibles avec objets denses (aiguille).</p>
+          </div>
+          <div class="key-box">
+            <h4>Angiographie + DSA</h4>
+            <p style="font-size:13px">Le sang a la même densité X que les tissus → contraste iodé injecté.<br>
+            Utilisé pour : anévrysmes, thromboses, fuites.<br>
+            <strong>DSA</strong> = images avec contraste − image masque (avant contraste) → isole les vaisseaux.<br>
+            Remplacée par CT-angiographie (moins invasive).</p>
+          </div>
+        </div>
+        <div class="pros-cons" style="margin-top:12px">
+          <div class="pros">
+            <h5>✅ Avantages radiographie</h5>
+            <ul>
+              <li>Faible dose de radiation</li>
+              <li>Peu coûteux</li>
+              <li>Commun et rapide</li>
+              <li>Bonne résolution osseuse</li>
+            </ul>
+          </div>
+          <div class="cons">
+            <h5>❌ Inconvénients</h5>
+            <ul>
+              <li>Plage de densité tissulaire limitée</li>
+              <li>Image 2D (superposition d'organes)</li>
+              <li>Radiation ionisante</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a href="#top" class="back-top">↑ Retour au sommaire</a>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ====================== Q3 ====================== -->
+  <div class="section" id="q3">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <div class="section-title">Tomodensitométrie (CT)</div>
+        <div class="section-subtitle">Principes, reconstruction tomographique, géométrie des faisceaux, types de scan, qualité</div>
+      </div>
+    </div>
+
+    <div class="memo" id="q3-summary">
+      <div class="memo-label">Résumé rapide · Question 3</div>
+      <h4>Ce qu'il faut absolument retenir</h4>
+      <ul>
+        <li><strong>Principe</strong> : rotation source-détecteur X autour du patient, acquisition de projections → reconstruction 2D/3D</li>
+        <li><strong>Radon 1917</strong> + Cormack 1963 + Hounsfield 1972 (premier CT) → Nobel Médecine 1979</li>
+        <li><strong>Transformée de Radon</strong> : intégrale de l'atténuation le long d'une ligne à angle θ</li>
+        <li><strong>Rétroprojection filtrée</strong> (FBP) : version stabilisée de la transformée de Radon inverse</li>
+        <li><strong>Sinogramme</strong> : une ligne par angle, représente les projections brutes</li>
+        <li><strong>Fan-beam</strong> (2D) → <strong>Cone-beam</strong> (3D) pour éviter la géométrie parallèle</li>
+        <li><strong>3 types</strong> : séquentiel (step&shoot), hélicoïdal (spirale), multislice</li>
+        <li><strong>CT &gt; Radiographie</strong> : élimine la superposition, mesure précise des densités</li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag">Transformée de Radon</span>
+      <span class="tag">FBP</span>
+      <span class="tag">Sinogramme</span>
+      <span class="tag">Fan-beam / Cone-beam</span>
+      <span class="tag">Hélicoïdal</span>
+      <span class="tag">Hounsfield</span>
+      <span class="tag">Voxel</span>
+    </div>
+
+    <h3>📜 Historique du CT</h3>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="year">1917</div>
+        <p><strong>Johann Radon</strong> établit le cadre mathématique de la tomographie (transformée de Radon).</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1963</div>
+        <p><strong>Allan Cormack</strong> publie l'analyse mathématique de la reconstruction tomographique (sans connaitre Radon).</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1972</div>
+        <p><strong>Godfrey Hounsfield</strong> développe le premier CT, sans connaître ni Radon ni Cormack, invente sa propre méthode.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1979</div>
+        <p>Hounsfield et Cormack reçoivent le <strong>Prix Nobel de Physiologie ou Médecine</strong>.</p>
+      </div>
+    </div>
+
+    <h3>⚙️ Principe de fonctionnement</h3>
+    <div class="key-box">
+      <h4>Acquisition</h4>
+      <p>Au lieu d'un faisceau 3D, les rayons X sont collimatés en un <strong>faisceau 2D "fan-beam"</strong>. La source et les détecteurs <strong>tournent autour du patient</strong>. Une projection 2D de la coupe est détectée par de nombreux détecteurs. Répété pour de nombreuses orientations angulaires. L'image de coupe est ensuite calculée à partir des projections.</p>
+    </div>
+
+    <div class="pipeline">
+      <div class="pipe-step"><div class="pipe-icon">☢️</div>Faisceau X<div class="pipe-label">Fan/Cone-beam</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="pipe-icon">🔄</div>Rotation 360°<div class="pipe-label">Source + détecteurs</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="pipe-icon">📋</div>Sinogramme<div class="pipe-label">1 ligne / angle</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="pipe-icon">🔢</div>FBP<div class="pipe-label">Reconstruction</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="border-color:rgba(0,212,255,0.4)"><div class="pipe-icon">🖼️</div>Image CT<div class="pipe-label">Coupe 2D/3D</div></div>
+    </div>
+
+    <h3>📐 La transformée de Radon</h3>
+    <div class="key-box">
+      <h4>Formulation mathématique</h4>
+      <p>L'atténuation totale mesurée à la position r, angle θ est :</p>
+      <div class="formula">p_θ(r, θ) = ∫∫ μ(x,y) · δ(x·cos θ + y·sin θ − r) dx dy</div>
+      <ul>
+        <li><strong>μ(x,y)</strong> = coefficient d'atténuation linéaire de l'objet en (x,y)</li>
+        <li><strong>δ</strong> = fonction de Dirac (sélectionne les points sur la ligne)</li>
+        <li><strong>r</strong> = position du rayon dans le détecteur</li>
+        <li><strong>θ</strong> = angle de la projection</li>
+      </ul>
+      <p style="margin-top:10px; font-size:13px; color:var(--text-muted)">C'est la <strong>transformée de Radon 2D</strong> de l'objet. Pour reconstruire, on applique la transformée de Radon <em>inverse</em>.</p>
+    </div>
+
+    <div class="alert">
+      <div class="alert-label">⚠️ Théorème coupe-projection (Projection-slice theorem)</div>
+      <ul>
+        <li>Nombre infini de projections → reconstruction parfaite de l'objet</li>
+        <li>En pratique : nombre fini → version <strong>stabilisée et discrétisée</strong> : <strong class="text-accent">Filtered Back-Projection (FBP)</strong></li>
+        <li>FBP : instable avec données bruitées → des filtres (kernel) sont appliqués</li>
+      </ul>
+    </div>
+
+    <h3>📡 Géométries de faisceau</h3>
+    <div class="grid-3">
+      <div class="grid-card">
+        <h5>Faisceau parallèle</h5>
+        <p style="font-size:13px">Configuration simple mais irréaliste : nécessite une nouvelle position source pour chaque rayon.</p>
+      </div>
+      <div class="grid-card" style="border-color:rgba(0,212,255,0.3)">
+        <h5 style="color:var(--accent)">Fan-beam (2D)</h5>
+        <p style="font-size:13px">Solution pratique : un seul tir → image complète. Source ponctuelle, faisceau en éventail, rangée de détecteurs 1D. Standard en CT clinique.</p>
+      </div>
+      <div class="grid-card" style="border-color:rgba(124,58,237,0.3)">
+        <h5 style="color:#a78bfa">Cone-beam (3D)</h5>
+        <p style="font-size:13px">Extension 3D : détecteur 2D (flat-panel). Une seule rotation → tout le volume. Utilisé en C-arm, angiographie 3D, CBCT dentaire. Reconstruction Feldkamp-Davis-Kress (FDK).</p>
+      </div>
+    </div>
+
+    <h3>🔄 Types de scanning 3D</h3>
+    <div class="grid-3">
+      <div class="grid-card">
+        <h5>Séquentiel (Step & Shoot)</h5>
+        <p style="font-size:13px">Table avance de Δz entre chaque acquisition. Simple mais lent, vibrations. Résolution z = Δs (largeur du faisceau en 2D).</p>
+      </div>
+      <div class="grid-card" style="border-color:rgba(16,185,129,0.3)">
+        <h5 style="color:var(--accent3)">Hélicoïdal / Spiral</h5>
+        <p style="font-size:13px">La table translate pendant la rotation. <strong>pitch</strong> = TF/Δz (table feed / épaisseur coupe). Rapide, continu, populaire. Légèrement moins bonne résolution z que séquentiel.</p>
+      </div>
+      <div class="grid-card" style="border-color:rgba(245,158,11,0.3)">
+        <h5 style="color:var(--accent4)">Multislice</h5>
+        <p style="font-size:13px">Plusieurs rangées de détecteurs → projection 2D du patient 3D. 1-3 rotations/seconde → imagerie quasi temps réel 3D. Vitesse jusqu'à 20 cm/s.</p>
+      </div>
+    </div>
+
+    <h3>🔍 Qualité d'image CT</h3>
+    <div class="grid-3">
+      <div class="key-box">
+        <h4>Acquisition</h4>
+        <ul>
+          <li>Taille du foyer (focal spot)</li>
+          <li>Taille des éléments détecteurs</li>
+          <li>Table feed</li>
+          <li>Méthode d'interpolation</li>
+        </ul>
+      </div>
+      <div class="key-box">
+        <h4>Reconstruction</h4>
+        <ul>
+          <li>Kernel (filtre) de reconstruction</li>
+          <li>Processus d'interpolation</li>
+          <li>Taille des voxels</li>
+        </ul>
+      </div>
+      <div class="key-box">
+        <h4>Bruit & Contraste</h4>
+        <ul>
+          <li>Bruit quantique (nature statistique des X)</li>
+          <li>Plus de puissance → moins de bruit mais + de dose</li>
+          <li>Grand Δz → moins de bruit mais résolution axiale ↓</li>
+          <li>Contraste : spectre X, beam hardening, diffusion</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pros-cons">
+      <div class="pros">
+        <h5>✅ Avantages CT</h5>
+        <ul>
+          <li>Élimine la superposition de structures</li>
+          <li>Différencie de petites différences de densité</li>
+          <li>Données visualisables en axial/coronal/sagittal (MPR)</li>
+          <li>CT-angiographie évite cathéter artériel</li>
+          <li>Coloscopie CT aussi efficace que lavement baryté</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <h5>❌ Inconvénients CT</h5>
+        <ul>
+          <li>Radiation ionisante modérée à élevée</li>
+          <li>CT = 7% des examens radio (UK) mais 47% de la dose collective</li>
+          <li>Produit de contraste : risque allergique, néphrotoxicité</li>
+          <li>Contre-indiqué si insuffisance rénale, diabète</li>
+          <li>Coût et disponibilité</li>
+        </ul>
+      </div>
+    </div>
+
+    <a href="#top" class="back-top">↑ Retour au sommaire</a>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ====================== Q4 ====================== -->
+  <div class="section" id="q4">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <div class="section-title">Imagerie Nucléaire : SPECT vs PET</div>
+        <div class="section-subtitle">Principe, traceurs radioactifs, différences SPECT/PET, reconstruction, avantages/inconvénients</div>
+      </div>
+    </div>
+
+    <div class="memo" id="q4-summary">
+      <div class="memo-label">Résumé rapide · Question 4</div>
+      <h4>Ce qu'il faut absolument retenir</h4>
+      <ul>
+        <li><strong>Principe commun</strong> : injection d'un traceur radiomarqué → accumulation dans zones d'activité métabolique → émission de photons détectés → image fonctionnelle</li>
+        <li><strong>SPECT</strong> : 1 photon γ, besoin d'un collimateur, résolution 6-8mm, lent (15-20min), traceurs longue durée</li>
+        <li><strong>PET</strong> : positron → annihilation → 2 photons γ à 180°, pas de collimateur, 2-3mm, rapide (&lt;1min), traceurs produits localement (cyclotron)</li>
+        <li>PET &gt; SPECT : meilleure résolution, meilleur SNR que fMRI</li>
+        <li>Applications : oncologie (FDG-PET pour tumeurs), neurologie (récepteurs), cardiologie</li>
+        <li>Combinaison PET-CT ou SPECT-CT pour corriger l'atténuation et ajouter info anatomique</li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag">Traceur radiomarqué</span>
+      <span class="tag">Émission fonctionnelle</span>
+      <span class="tag">Collimateur</span>
+      <span class="tag">FDG ¹⁸F</span>
+      <span class="tag">Annihilation</span>
+      <span class="tag">Coïncidence</span>
+      <span class="tag">Cyclotron</span>
+    </div>
+
+    <h3>💡 Principe de base de l'imagerie nucléaire</h3>
+    <div class="key-box">
+      <h4>Idée fondamentale</h4>
+      <p>Contrairement au CT qui <em>transmet</em> des rayons X, l'imagerie nucléaire mesure les rayons émis <em>depuis l'intérieur</em> du patient :</p>
+      <ol>
+        <li>Injection (intraveineuse) d'une <strong>molécule traceur marquée par un radionucléide</strong></li>
+        <li>Le traceur se dirige vers les sites anatomiques à <strong>activité métabolique</strong> (ex. tumeur, zone cérébrale active)</li>
+        <li>Le radionucléide émet des <strong>photons détectables</strong></li>
+        <li>Reconstruction tomographique → image fonctionnelle 3D/4D</li>
+      </ol>
+      <p style="margin-top:10px; font-size:13px; color:var(--accent3)">⚡ Comme l'fMRI mais avec un SNR bien supérieur (ordres de grandeur)</p>
+    </div>
+
+    <h3>⚛️ SPECT — Single Photon Emission Computed Tomography</h3>
+    <div class="grid-2">
+      <div class="key-box">
+        <h4>Principe</h4>
+        <ul>
+          <li>Émission d'<strong>un seul photon γ</strong> par désintégration</li>
+          <li>Nécessite un <strong>collimateur</strong> sur la caméra gamma pour déterminer la trajectoire</li>
+          <li>Caméra gamma collecte des images 2D à différents angles</li>
+          <li>Reconstruction tomographique → dataset 3D</li>
+          <li>Utilisé surtout pour l'étude du <strong>flux sanguin</strong></li>
+        </ul>
+      </div>
+      <div class="key-box">
+        <h4>Paramètres techniques</h4>
+        <ul>
+          <li>Images basse résolution : <strong>64×64 ou 128×128 pixels</strong></li>
+          <li>Taille pixel : <strong>3-6 mm</strong></li>
+          <li>Rotation 360° complète : 15-20 secondes/projection → scan total 15-20 min</li>
+          <li>Caméras multi-têtes (2 ou 3 têtes) → acquisition plus rapide</li>
+          <li>SPECT moderne intégré avec CT → correction atténuation</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>⚛️ PET — Positron Emission Tomography</h3>
+    <div class="key-box">
+      <h4>Processus physique en 4 étapes</h4>
+      <div class="grid-2" style="margin-top:12px">
+        <div>
+          <ol>
+            <li>Injection de <strong>FDG (fluorodésoxyglucose)</strong> contenant du <strong>¹⁸F radioactif</strong></li>
+            <li>Lors de la désintégration, l'isotope émet un <strong>positron</strong></li>
+            <li>Le positron s'annihile avec un électron → <strong>2 photons γ à 180°</strong> (511 keV chacun)</li>
+            <li>Seules les paires de photons en <strong>coïncidence simultanée</strong> sont utilisées pour la reconstruction</li>
+          </ol>
+        </div>
+        <div class="key-box" style="margin:0">
+          <h4>Avantages du PET</h4>
+          <ul>
+            <li><strong>Pas de collimateur</strong> (détection en coïncidence)</li>
+            <li>Meilleure résolution : <strong>2-3 mm</strong></li>
+            <li>Scan rapide : &lt; 1 minute possible</li>
+            <li>Meilleur SNR que fMRI</li>
+            <li>Idéal pour étudier les <strong>récepteurs cérébraux</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3 id="spect-vs-pet">⚖️ SPECT vs PET — Comparaison directe</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Critère</th>
+            <th style="color:#a78bfa">SPECT</th>
+            <th style="color:var(--accent)">PET</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Photons émis</strong></td>
+            <td>1 photon γ unique</td>
+            <td class="td-good">2 photons γ à 180° (annihilation)</td>
+          </tr>
+          <tr>
+            <td><strong>Collimateur</strong></td>
+            <td class="td-bad">Nécessaire (détermine direction)</td>
+            <td class="td-good">Non requis (détection coïncidence)</td>
+          </tr>
+          <tr>
+            <td><strong>Résolution spatiale</strong></td>
+            <td class="td-bad">6-8 mm (faible)</td>
+            <td class="td-good">2-3 mm (élevée)</td>
+          </tr>
+          <tr>
+            <td><strong>Temps d'acquisition</strong></td>
+            <td class="td-bad">15-20 minutes</td>
+            <td class="td-good">Moins d'1 minute possible</td>
+          </tr>
+          <tr>
+            <td><strong>Traceurs</strong></td>
+            <td class="td-good">Longue demi-vie, produits à distance</td>
+            <td class="td-bad">Courte demi-vie, nécessite cyclotron sur site</td>
+          </tr>
+          <tr>
+            <td><strong>Coût équipement</strong></td>
+            <td class="td-good">Moins cher</td>
+            <td class="td-bad">Plus cher (détecteurs + cyclotron)</td>
+          </tr>
+          <tr>
+            <td><strong>SNR vs fMRI</strong></td>
+            <td class="td-neutral">Supérieur</td>
+            <td class="td-good">Bien supérieur (ordres de grandeur)</td>
+          </tr>
+          <tr>
+            <td><strong>Applications clés</strong></td>
+            <td>Flux sanguin, métabolisme cœur/cerveau (suivi long terme)</td>
+            <td>Oncologie, neurologie, cardiologie (processus transitoires)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-header" onclick="toggleCollapsible(this)">
+        🔧 Méthodes itératives & quand les utiliser <span class="arrow">▶</span>
+      </button>
+      <div class="collapsible-body">
+        <p>Les méthodes itératives sont avantageuses dans les cas suivants (surtout pour SPECT/PET) :</p>
+        <ul>
+          <li>Nombre limité de projections</li>
+          <li>Projections irrégulièrement espacées ou orientées</li>
+          <li>Chemins de rayons non rectilignes (ex. réfraction en échographie)</li>
+          <li>Mesures correctives pendant la reconstruction (artefacts métalliques)</li>
+          <li>Présence de bruit statistique (Poisson) et de diffusion (principalement en imagerie fonctionnelle : SPECT, PET)</li>
+        </ul>
+      </div>
+    </div>
+
+    <a href="#top" class="back-top">↑ Retour au sommaire</a>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ====================== Q5 ====================== -->
+  <div class="section" id="q5">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <div class="section-title">Imagerie par Résonance Magnétique (IRM)</div>
+        <div class="section-subtitle">Histoire, physique NMR, relaxation T1/T2, modes IRM, applications, comparaison CT</div>
+      </div>
+    </div>
+
+    <div class="memo" id="q5-summary">
+      <div class="memo-label">Résumé rapide · Question 5</div>
+      <h4>Ce qu'il faut absolument retenir</h4>
+      <ul>
+        <li><strong>Principe</strong> : champ B₀ aligne les protons H → impulsion RF (ν = γ|B₀|) → les protons précèdent → signal de relaxation capté</li>
+        <li><strong>T1</strong> : relaxation spin-lattice (retour de Mz à l'équilibre), Mz = M₀(1 - e^(-t/T1))</li>
+        <li><strong>T2</strong> : relaxation spin-spin (décroissance de Mxy), Mxy = Mxy0 · e^(-t/T2), T2 ≤ T1</li>
+        <li>Gradients de B₀ → encodage spatial → seulement les protons résonnant à ν s'excitent</li>
+        <li><strong>fMRI = BOLD</strong> : Hb oxygénée diamagnétique, Hb désoxygénée paramagnétique → signal différent</li>
+        <li><strong>IRM &gt; CT</strong> : soft tissue, répétable sans radiation, multiplan</li>
+        <li><strong>IRM &lt; CT</strong> : lent, bruyant, cher, claustrophobie, incompatible métal</li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag">Champ magnétique B₀</span>
+      <span class="tag">Précession</span>
+      <span class="tag">T1 / T2</span>
+      <span class="tag">Impulsion RF</span>
+      <span class="tag">k-space</span>
+      <span class="tag">BOLD</span>
+      <span class="tag">fMRI</span>
+      <span class="tag">EPI</span>
+    </div>
+
+    <h3>📜 Historique IRM</h3>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="year">1946</div>
+        <p><strong>Felix Bloch</strong> (Stanford) et <strong>Edward Purcell</strong> (Harvard) démontrent la résonance magnétique nucléaire (RMN/NMR). → Nobel Physique 1952.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1973</div>
+        <p><strong>Paul Lauterbur</strong> (Stony Brook) publie la première image IRM dans Nature. → Nobel Médecine 2003.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">Fin 1970s</div>
+        <p>Premières images IRM humaines.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">Début 1980s</div>
+        <p>Premiers systèmes IRM commerciaux disponibles.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1993</div>
+        <p>Première démonstration de l'IRM fonctionnelle (fMRI) chez l'humain.</p>
+      </div>
+    </div>
+
+    <h3>⚙️ Physique de base de l'IRM</h3>
+    <div class="grid-2">
+      <div class="key-box">
+        <h4>Alignement des spins</h4>
+        <ul>
+          <li>Les noyaux d'hydrogène (protons) ont un <strong>moment magnétique</strong></li>
+          <li>Sans champ : orientations aléatoires → aimantation nette = 0</li>
+          <li>Avec champ <strong>B₀ fort</strong> : les protons s'alignent parallèle ou anti-parallèle à B₀</li>
+          <li>Aimantation longitudinale M₀ créée</li>
+        </ul>
+      </div>
+      <div class="key-box">
+        <h4>Impulsion RF et précession</h4>
+        <ul>
+          <li>Impulsion RF à la fréquence de <strong>Larmor</strong> : <code class="text-accent">ν = γ|B₀|</code></li>
+          <li>Pour H : γ = 42.58 MHz/T</li>
+          <li>Les protons passent en état de haute énergie (non-aligné)</li>
+          <li>Au retour à l'équilibre → <strong>précession</strong> → signal RF capté par antenne</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>⏱️ Relaxations T1 et T2</h3>
+    <div class="grid-2">
+      <div class="grid-card" style="border-color:rgba(0,212,255,0.3)">
+        <h5 style="color:var(--accent)">Relaxation T1 (spin-lattice)</h5>
+        <p style="font-size:13px">Retour de la composante longitudinale M_z à sa valeur d'équilibre M₀ :</p>
+        <div class="formula" style="font-size:12px">M_z(t) = M₀ (1 − e^(−t/T₁))</div>
+        <p style="font-size:13px; margin-top:6px"><strong>T₁</strong> = temps pour que la différence entre M_z et M₀ se réduise d'un facteur e.</p>
+      </div>
+      <div class="grid-card" style="border-color:rgba(124,58,237,0.3)">
+        <h5 style="color:#a78bfa">Relaxation T2 (spin-spin)</h5>
+        <p style="font-size:13px">Décroissance de la composante transversale M_xy :</p>
+        <div class="formula" style="font-size:12px">M_xy(t) = M_xy0 · e^(−t/T₂)</div>
+        <p style="font-size:13px; margin-top:6px"><strong>Toujours : T₂ ≤ T₁</strong><br>
+        T₂, T₁ se produisent <strong>simultanément</strong>.<br>
+        Quand t→∞ : M_xy→0, M_z→M₀</p>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>Pourquoi différents types de pondération IRM ?</strong> En jouant sur les paramètres d'acquisition (TR, TE), on peut pondérer l'image en T1, T2 ou densité de protons. Chaque pondération met en valeur différentes structures tissulaires.
+    </div>
+
+    <h3>🖼️ Formation de l'image IRM</h3>
+    <div class="key-box">
+      <h4>Encodage spatial</h4>
+      <ul>
+        <li>Des <strong>gradients de champ</strong> sont ajoutés à B₀ → variation spatiale de B₀(r)</li>
+        <li>Seulement les protons dans la région où ν correspond à la RF transmise résonnent</li>
+        <li>Méthodes tomographiques (rétroprojection, etc.) pour générer images 2D</li>
+        <li>Des gradients <strong>plus forts</strong> → imagerie plus rapide ou résolution plus élevée</li>
+        <li>Commutation rapide des gradients → contrainte sécuritaire (stimulation nerveuse)</li>
+        <li><strong>Résolution typique : ~1 mm³</strong></li>
+      </ul>
+    </div>
+
+    <h3>🔀 Modes d'IRM</h3>
+    <div class="grid-2">
+      <div class="grid-card">
+        <h5>IRM standard</h5>
+        <p style="font-size:13px">Séquences d'impulsions RF différentes (time-series) pour manipuler M. Inclut T1, T2, pondération densité.</p>
+      </div>
+      <div class="grid-card">
+        <h5>Echo-Planar Imaging (EPI)</h5>
+        <p style="font-size:13px">Après chaque excitation RF : train de gradients d'encodage spatial différents → collecte rapide → moins d'artefacts de mouvement.</p>
+      </div>
+      <div class="grid-card">
+        <h5>Spectroscopie RMN (MRS)</h5>
+        <p style="font-size:13px">Image d'autres noyaux (P, Na, F). Montre l'agressivité d'une tumeur. Utilisé en oncologie (cerveau, sein, prostate), épilepsie, Parkinson.</p>
+      </div>
+      <div class="grid-card" style="border-color:rgba(16,185,129,0.3)">
+        <h5 style="color:var(--accent3)">fMRI — IRM fonctionnelle</h5>
+        <p style="font-size:13px">Mesure les variations de flux sanguin. <strong>Contraste BOLD</strong> : hémoglobine oxygénée (diamagnétique) vs désoxygénée (paramagnétique) → signal IRM différent selon oxygénation.</p>
+      </div>
+    </div>
+
+    <h3>🩸 Applications IRM</h3>
+    <div class="grid-2">
+      <div class="grid-card">
+        <h5>Angiographie MRA</h5>
+        <ul style="font-size:12px">
+          <li>Visualiser les vaisseaux sanguins</li>
+          <li>Sténose, anévrysmes</li>
+          <li>Injection de produits de contraste paramagnétiques</li>
+          <li>Ou "flow-related enhancement" (tissu stationnaire saturé vs sang frais)</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h5>IRM interventionnelle</h5>
+        <ul style="font-size:12px">
+          <li>Guide des procédures mini-invasives en temps réel</li>
+          <li>Aimant ouvert → meilleur accès chirurgien</li>
+          <li>Implique souvent des champs plus faibles (~0.2T) → sensibilité réduite</li>
+          <li>Instruments non-magnétiques requis</li>
+        </ul>
+      </div>
+      <div class="grid-card">
+        <h5>CDI — Current Density Imaging</h5>
+        <ul style="font-size:12px">
+          <li>Cartographie des courants électriques dans les tissus</li>
+          <li>Courant externe → champs magnétiques locaux → affectent la phase des dipôles magnétiques</li>
+          <li>CDI utilise les informations de phase IRM pour reconstruire les densités de courant</li>
+        </ul>
+      </div>
+      <div class="grid-card" style="border-color:rgba(16,185,129,0.3)">
+        <h5 style="color:var(--accent3)">fMRI & Neuroimagerie</h5>
+        <ul style="font-size:12px">
+          <li>Activité cérébrale → consommation O₂ → changement d'oxygénation Hb</li>
+          <li>→ Signal BOLD différent</li>
+          <li>Applications : cartographie cérébrale, chirurgie, recherche cognitive</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 id="mri-vs-ct">⚖️ IRM vs CT</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Critère</th><th style="color:var(--accent4)">CT</th><th style="color:var(--accent)">IRM</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Signal</strong></td><td>Atténuation X uniquement</td><td>Multiples propriétés magnétiques</td></tr>
+          <tr><td><strong>Disponibilité</strong></td><td class="td-good">Haute, rapide, moins cher</td><td class="td-bad">Plus rare, lent, coûteux</td></tr>
+          <tr><td><strong>Détection tumeurs</strong></td><td class="td-bad">Moins précis</td><td class="td-good">Généralement supérieur</td></tr>
+          <tr><td><strong>Radiation</strong></td><td class="td-bad">Oui (ionisante)</td><td class="td-good">Non (aucune radiation)</td></tr>
+          <tr><td><strong>Examens répétés</strong></td><td class="td-bad">Risque de surdosage</td><td class="td-good">Sans restriction</td></tr>
+          <tr><td><strong>Tissu osseux</strong></td><td class="td-good">Excellent (haute densité Z)</td><td class="td-bad">Moins bien</td></tr>
+          <tr><td><strong>Tissu mou</strong></td><td class="td-bad">Limité</td><td class="td-good">Excellent</td></tr>
+          <tr><td><strong>Produit contraste</strong></td><td>Iodé (baryté)</td><td>Paramagnétique/diamagnétique</td></tr>
+          <tr><td><strong>Contre-indications</strong></td><td>Allergie contraste, insuffisance rénale</td><td>Implants métalliques, pacemaker</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <a href="#top" class="back-top">↑ Retour au sommaire</a>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ====================== Q6 ====================== -->
+  <div class="section" id="q6">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div>
+        <div class="section-title">Imagerie Ultrasonore (Échographie)</div>
+        <div class="section-subtitle">Histoire, propriétés physiques, modes A/M/B/Doppler, applications cliniques</div>
+      </div>
+    </div>
+
+    <div class="memo" id="q6-summary">
+      <div class="memo-label">Résumé rapide · Question 6</div>
+      <h4>Ce qu'il faut absolument retenir</h4>
+      <ul>
+        <li><strong>Ondes sonores longitudinales</strong> &gt; 2.5 MHz. L'humain entend 20 Hz - 20 kHz.</li>
+        <li><strong>Transducteur</strong> : effet piézoélectrique (Curie 1880). Émet ET reçoit.</li>
+        <li>Distance = (temps × vitesse du son) / 2 (aller-retour)</li>
+        <li><strong>Mode A</strong> (Amplitude) : 1D, obsolète, signal d'amplitude vs temps</li>
+        <li><strong>Mode M</strong> (Mouvement) : A-mode répété, 1000 pulses/sec, cœur fœtal</li>
+        <li><strong>Mode B</strong> (Brillance) : image 2D obtenue par balayage du transducteur</li>
+        <li><strong>Doppler CW</strong> : mesure vélocité continue, formule fD = (fR - fT) = -2vₐ/c × fT</li>
+        <li><strong>Doppler PW</strong> : mesure à une profondeur précise, discret, alias possible</li>
+        <li><strong>Avantages</strong> : temps réel, portable, sans radiation, peu cher. <strong>Inconvénients</strong> : bruit (speckle), résolution spatiale faible, dépend opérateur</li>
+      </ul>
+    </div>
+
+    <div class="tags">
+      <span class="tag">Piézoélectrique</span>
+      <span class="tag">&gt;2.5 MHz</span>
+      <span class="tag">Mode A/M/B</span>
+      <span class="tag">Doppler CW/PW</span>
+      <span class="tag">Speckle</span>
+      <span class="tag">DICOM</span>
+      <span class="tag">Transducteur</span>
+    </div>
+
+    <h3>📜 Historique</h3>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="year">1877</div>
+        <p>Lord Rayleigh publie "The Theory of Sound".</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1880</div>
+        <p><strong>Pierre Curie</strong> découvre l'effet piézoélectrique → permet la génération et la détection d'ondes ultrasonores.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">WW1</div>
+        <p>Première utilisation pratique : détection de sous-marins (SONAR).</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1942</div>
+        <p>Karl & Friederich Dussik : première utilisation clinique pour localiser des tumeurs cérébrales.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1950</div>
+        <p>Premières images en niveaux de gris. Temps réel par Siemens en 1965.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1968</div>
+        <p>Pilotage électronique du faisceau par technologie phased-array.</p>
+      </div>
+    </div>
+
+    <h3>🔊 Physique des ultrasons</h3>
+    <div class="grid-2">
+      <div class="key-box">
+        <h4>Ondes longitudinales de compression</h4>
+        <ul>
+          <li>Les particules ne se déplacent pas loin</li>
+          <li>Le transducteur émet un pulse sonore qui comprime le matériau</li>
+          <li>L'élasticité limite la compression → raréfaction</li>
+          <li>La raréfaction revient en compression → oscillation amortie</li>
+        </ul>
+        <div class="formula" style="font-size:12px">Médicale : &gt; 2.5 MHz · Humain : 20 Hz – 20 kHz</div>
+      </div>
+      <div class="key-box">
+        <h4>Calcul de distance</h4>
+        <div class="formula">distance = (temps_écoulé × vitesse_son) / 2</div>
+        <p style="font-size:13px">La division par 2 est nécessaire car le son fait un aller-retour (émission → réflexion → réception).</p>
+        <p style="font-size:13px; margin-top:6px">La vitesse du son est quasi-constante dans les tissus → temps ≈ distance.</p>
+      </div>
+    </div>
+
+    <h3>📡 Les modes d'acquisition</h3>
+
+    <div class="collapsible open">
+      <button class="collapsible-header" onclick="toggleCollapsible(this)">
+        📊 Mode A — Amplitude <span class="arrow">▶</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="grid-2">
+          <div>
+            <ul>
+              <li>Mode le plus simple, <strong>plus utilisé aujourd'hui</strong></li>
+              <li>Résultat : un signal 1D (amplitude en fonction du temps)</li>
+              <li>Les pics correspondent aux interfaces réfléchissantes</li>
+              <li><strong>Problème</strong> : on ne sait pas de quelle direction vient l'écho → direction et forme de l'objet inconnues</li>
+            </ul>
+          </div>
+          <div class="key-box" style="margin:0">
+            <h4>Analogie</h4>
+            <p style="font-size:13px">Comme taper dans ses mains et écouter l'écho : on sait qu'il y a un mur, mais pas sa forme précise.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-header" onclick="toggleCollapsible(this)">
+        ❤️ Mode M — Motion (Mouvement) <span class="arrow">▶</span>
+      </button>
+      <div class="collapsible-body">
+        <ul>
+          <li><strong>M pour Mouvement</strong> : mesure A-mode répétée en haute fréquence</li>
+          <li>Jusqu'à <strong>1000 pulses par seconde</strong></li>
+          <li>Utile pour évaluer les <strong>taux et le mouvement</strong></li>
+          <li>Encore très utilisé en <strong>imagerie cardiaque et fœtale</strong></li>
+          <li>Résultat : graphe montrant le mouvement de structures anatomiques dans le temps (ex. paroi cardiaque, sang, muscle cardiaque, péricarde)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-header" onclick="toggleCollapsible(this)">
+        🖼️ Mode B — Brightness (Brillance / 2D) <span class="arrow">▶</span>
+      </button>
+      <div class="collapsible-body">
+        <div class="grid-2">
+          <div>
+            <ul>
+              <li><strong>B pour Brillance</strong></li>
+              <li>Image 2D obtenue en <strong>translatant ou inclinant le transducteur</strong></li>
+              <li>Mode le plus courant en clinique aujourd'hui</li>
+              <li>Applications : fœtus, cœur (continu), cavités cardiaques</li>
+            </ul>
+          </div>
+          <div class="key-box" style="margin:0">
+            <h4>En pratique</h4>
+            <p style="font-size:13px">Le transducteur balaie la zone à imager. Chaque ligne A-mode devient une colonne de l'image 2D. L'intensité de chaque pixel = amplitude de l'écho.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-header" onclick="toggleCollapsible(this)">
+        🌊 Mode Doppler — Mesure de flux <span class="arrow">▶</span>
+      </button>
+      <div class="collapsible-body">
+        <h4>Principe de l'effet Doppler</h4>
+        <p>Un objet en mouvement modifie la fréquence des ondes qu'il reçoit/émet. En médecine : mesure de la vitesse du sang.</p>
+
+        <div class="grid-2" style="margin-top:12px">
+          <div class="grid-card" style="border-color:rgba(0,212,255,0.3)">
+            <h5 style="color:var(--accent)">Doppler CW — Onde Continue</h5>
+            <p style="font-size:13px">Compare fréquence transmise f_T avec reçue f_R.</p>
+            <div class="formula" style="font-size:11px; margin:8px 0">f_D = f_R − f_T ≈ −2|v_a|cos θ / c × f_T</div>
+            <ul style="font-size:12px">
+              <li>v_a = vitesse de l'objet (ex. sang)</li>
+              <li>θ = angle entre faisceau et direction mouvement</li>
+              <li>Peut être rendu audible (pitch ∝ vitesse)</li>
+            </ul>
+          </div>
+          <div class="grid-card" style="border-color:rgba(124,58,237,0.3)">
+            <h5 style="color:#a78bfa">Doppler PW — Onde Pulsée</h5>
+            <p style="font-size:13px">N'utilise <strong>pas réellement</strong> le principe Doppler. Signal reçu = réplique décalée et mise à l'échelle du transmis :</p>
+            <div class="formula" style="font-size:11px; margin:8px 0">s(t_R) = A·sin(2π·f_T·(t_R − Δt))</div>
+            <ul style="font-size:12px">
+              <li>Δt = temps entre émission et réception</li>
+              <li>Permet la mesure <strong>à une profondeur précise</strong></li>
+              <li>Risque d'aliasing (repliement de spectre)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>✅❌ Avantages et inconvénients</h3>
+    <div class="pros-cons">
+      <div class="pros">
+        <h5>✅ Avantages</h5>
+        <ul>
+          <li>Non-invasif</li>
+          <li>Peu coûteux</li>
+          <li>Portable</li>
+          <li>Excellente résolution temporelle</li>
+          <li>Temps réel</li>
+          <li>Pas de radiation ionisante</li>
+        </ul>
+      </div>
+      <div class="cons">
+        <h5>❌ Inconvénients</h5>
+        <ul>
+          <li>Bruyant (bruit de speckle)</li>
+          <li>Faible résolution spatiale</li>
+          <li>Dépend de l'opérateur (compétences requises)</li>
+          <li>Dépend de l'anatomie du patient</li>
+          <li>Plus cher que radiographie X seule</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>🏥 Applications cliniques de l'échographie</h3>
+    <div class="grid-3">
+      <div class="grid-card">
+        <h5>Écho-cardiographie</h5>
+        <p style="font-size:12px">Évaluation de la fonction cardiaque, des valves, des pressions.</p>
+      </div>
+      <div class="grid-card">
+        <h5>Monitoring fœtal</h5>
+        <p style="font-size:12px">Suivi de la grossesse, morphologie fœtale, rythme cardiaque. 3D/4D désormais disponible.</p>
+      </div>
+      <div class="grid-card">
+        <h5>Échographie Doppler</h5>
+        <p style="font-size:12px">Mesure du flux sanguin, détection de sténose carotidienne, thromboses veineuses.</p>
+      </div>
+      <div class="grid-card">
+        <h5>Biopsie guidée par US</h5>
+        <p style="font-size:12px">Guidage en temps réel de l'aiguille de biopsie vers la cible.</p>
+      </div>
+      <div class="grid-card">
+        <h5>US intravasculaire (IVUS)</h5>
+        <p style="font-size:12px">Transducteur miniaturisé à l'intérieur d'un vaisseau → image de la paroi artérielle.</p>
+      </div>
+      <div class="grid-card">
+        <h5>US CT / Mammographie</h5>
+        <p style="font-size:12px">Reconstruction tomographique par ultrasons pour le sein (complément ou alternative à la mammographie X).</p>
+      </div>
+    </div>
+
+    <div class="collapsible">
+      <button class="collapsible-header" onclick="toggleCollapsible(this)">
+        🔬 Élastographie & modes avancés <span class="arrow">▶</span>
+      </button>
+      <div class="collapsible-body">
+        <ul>
+          <li><strong>Élastographie</strong> : mesure la rigidité (elasticité) des tissus. Utile pour le foie (fibrose), les tumeurs</li>
+          <li><strong>Doppler triplex</strong> : combine B-mode, Doppler couleur et Doppler spectral</li>
+          <li><strong>Transvaginal</strong> : transducteur interne pour meilleure résolution gynécologique</li>
+          <li><strong>Endoscopique</strong> : transducteur à l'extrémité d'un endoscope</li>
+          <li>Données peuvent être rendues en 2D, 2D-slices, 3D ou 4D (DICOM)</li>
+        </ul>
+      </div>
+    </div>
+
+    <a href="#top" class="back-top">↑ Retour au sommaire</a>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="text-align:center; padding: 40px 0; color: var(--text-dim); font-size:12px; border-top: 1px solid var(--border); margin-top: 40px;">
+    <div style="font-family:'Syne',sans-serif; font-size:14px; color:var(--text-muted); margin-bottom:8px">Imagerie Médicale Computationnelle — 14X062</div>
+    <div>T. Holotyak · Université de Genève · Guide de révision généré pour l'examen</div>
+    <div style="margin-top:8px; font-family:'JetBrains Mono',monospace; color:var(--text-dim)">// 6 questions · 6 modalités · Bonne chance ! 🎓</div>
+  </div>
+
+  </div><!-- /content -->
+</main>
+</div><!-- /layout -->
+
+<script>
+function toggleCollapsible(btn) {
+  const col = btn.closest('.collapsible');
+  col.classList.toggle('open');
+}
+
+// Active nav highlighting on scroll
+const sections = document.querySelectorAll('.section[id]');
+const navItems = document.querySelectorAll('.nav-item[href]');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href') === '#' + id) {
+          item.classList.add('active');
+        }
+      });
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-50px 0px -50% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+// Open first collapsible in view
+document.querySelectorAll('.collapsible').forEach((col, i) => {
+  if (i === 0) col.classList.add('open');
+});
+</script>
+
+</body>
+</html>

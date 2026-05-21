@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Révision – Imagerie Computationnelle (Lecture 5)</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #1a1d27;
+    --bg3: #242736;
+    --accent: #4f8ef7;
+    --accent2: #e05c5c;
+    --accent3: #5ce0a8;
+    --accent4: #f0b429;
+    --text: #e2e8f0;
+    --muted: #8892a4;
+    --border: #2e3347;
+    --tag-bg: #2a3050;
+    --summary-bg: #1e3a2f;
+    --summary-border: #5ce0a8;
+    --warn-bg: #3a2a1e;
+    --warn-border: #f0b429;
+    --code-bg: #141720;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    display: flex;
+  }
+  /* SIDEBAR */
+  #sidebar {
+    width: 280px;
+    min-width: 220px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    padding: 1rem 0;
+    flex-shrink: 0;
+  }
+  #sidebar h2 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    padding: 0 1.2rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.5rem;
+  }
+  #sidebar a {
+    display: block;
+    padding: 0.45rem 1.2rem;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.85rem;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+  #sidebar a:hover { background: var(--bg3); border-left-color: var(--accent); color: var(--accent); }
+  #sidebar a.section-title {
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-top: 0.8rem;
+    pointer-events: none;
+    padding-top: 0.8rem;
+  }
+  #sidebar a.qlink { padding-left: 1.4rem; }
+  #sidebar a.memo-link { padding-left: 2rem; font-size: 0.78rem; color: var(--accent3); font-style: italic; }
+  /* MAIN */
+  #main {
+    flex: 1;
+    padding: 2rem 2.5rem;
+    max-width: 900px;
+    overflow-y: auto;
+  }
+  h1 { font-size: 1.9rem; color: var(--accent); margin-bottom: 0.3rem; }
+  .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; }
+  /* QUESTION CARD */
+  .q-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 2.5rem;
+    overflow: hidden;
+  }
+  .q-header {
+    background: var(--bg3);
+    padding: 1rem 1.4rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .q-num {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    padding: 0.2rem 0.6rem;
+    flex-shrink: 0;
+  }
+  .q-title { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+  .q-body { padding: 1.4rem 1.6rem; }
+  /* MEMO BOX */
+  .memo {
+    background: var(--summary-bg);
+    border-left: 4px solid var(--summary-border);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.4rem;
+  }
+  .memo-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent3);
+    margin-bottom: 0.4rem;
+  }
+  /* WARN BOX */
+  .warn {
+    background: var(--warn-bg);
+    border-left: 4px solid var(--warn-border);
+    border-radius: 0 8px 8px 0;
+    padding: 0.8rem 1rem;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+    color: var(--accent4);
+  }
+  /* TAGS */
+  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.6rem 0 1rem; }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--accent);
+    font-size: 0.75rem;
+    border-radius: 20px;
+    padding: 0.15rem 0.7rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+  }
+  /* TYPOGRAPHY */
+  h2 { font-size: 1.05rem; color: var(--accent); margin: 1.2rem 0 0.5rem; }
+  h3 { font-size: 0.95rem; color: var(--accent4); margin: 1rem 0 0.3rem; }
+  p { margin-bottom: 0.8rem; }
+  ul, ol { padding-left: 1.5rem; margin-bottom: 0.8rem; }
+  li { margin-bottom: 0.25rem; }
+  strong { color: #fff; }
+  em { color: var(--accent4); font-style: normal; font-weight: 600; }
+  code {
+    background: var(--code-bg);
+    color: var(--accent3);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.88rem;
+  }
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.88rem; }
+  th {
+    background: var(--bg3);
+    color: var(--accent);
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    border: 1px solid var(--border);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  td { padding: 0.5rem 0.8rem; border: 1px solid var(--border); }
+  tr:nth-child(even) td { background: var(--bg3); }
+  /* COLLAPSIBLE */
+  details {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 0.8rem 0;
+  }
+  summary {
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--accent4);
+    font-size: 0.9rem;
+    user-select: none;
+  }
+  summary:hover { color: var(--accent); }
+  details[open] summary { border-bottom: 1px solid var(--border); margin-bottom: 0.5rem; }
+  details .det-body { padding: 0.8rem 1rem; }
+  /* SVG / DIAGRAM */
+  .diagram {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    text-align: center;
+    overflow-x: auto;
+  }
+  .diagram svg { max-width: 100%; }
+  /* FORMULA */
+  .formula {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    margin: 0.8rem 0;
+    font-family: monospace;
+    color: var(--accent3);
+    font-size: 0.95rem;
+    text-align: center;
+  }
+  /* COMPARE GRID */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin: 1rem 0;
+  }
+  .compare-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+  }
+  .compare-box h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+  }
+  /* STEP LIST */
+  .steps { counter-reset: step; list-style: none; padding: 0; }
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+    align-items: flex-start;
+  }
+  .steps li::before {
+    content: counter(step);
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.8rem;
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+  /* TOP NAV */
+  .back-top {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.2rem 0.8rem;
+  }
+  .back-top:hover { color: var(--accent); border-color: var(--accent); }
+  /* FLOWCHART */
+  .flow { display: flex; flex-direction: column; gap: 0.4rem; margin: 1rem 0; }
+  .flow-step {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-size: 0.88rem;
+    position: relative;
+  }
+  .flow-step::after {
+    content: '▼';
+    position: absolute;
+    bottom: -1.1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+  .flow-step:last-child::after { display: none; }
+  .flow-step span { font-weight: 700; color: var(--accent4); margin-right: 0.5rem; }
+  @media (max-width: 768px) {
+    body { flex-direction: column; }
+    #sidebar { width: 100%; height: auto; position: static; }
+    #main { padding: 1rem; }
+    .compare-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <h2>Navigation</h2>
+  <a href="#top">🏠 Accueil</a>
+  <a href="#memos" class="qlink">⚡ Mémos rapides</a>
+
+  <a class="section-title">Microscopie</a>
+  <a class="qlink" href="#q7">Q7 – Paramètres optiques</a>
+  <a class="memo-link" href="#memo7">↳ mémo</a>
+  <a class="qlink" href="#q8">Q8 – Microscopie 2-photons</a>
+  <a class="memo-link" href="#memo8">↳ mémo</a>
+  <a class="qlink" href="#q9">Q9 – Microscopie champ lumineux</a>
+  <a class="memo-link" href="#memo9">↳ mémo</a>
+
+  <a class="section-title">Modèles d'imagerie</a>
+  <a class="qlink" href="#q10">Q10 – Modèle cohérent</a>
+  <a class="memo-link" href="#memo10">↳ mémo</a>
+  <a class="qlink" href="#q11">Q11 – Modèle simplifié</a>
+  <a class="memo-link" href="#memo11">↳ mémo</a>
+
+  <a class="section-title">Ptychographie de Fourier</a>
+  <a class="qlink" href="#q12">Q12 – Principe FPM</a>
+  <a class="memo-link" href="#memo12">↳ mémo</a>
+  <a class="qlink" href="#q13">Q13 – Reconstruction FPM</a>
+  <a class="memo-link" href="#memo13">↳ mémo</a>
+  <a class="qlink" href="#q14">Q14 – Épi-illumination FP</a>
+  <a class="memo-link" href="#memo14">↳ mémo</a>
+  <a class="qlink" href="#q15">Q15 – Multiplexage spectral</a>
+  <a class="memo-link" href="#memo15">↳ mémo</a>
+  <a class="qlink" href="#q16">Q16 – Stratégie d'échantillonnage</a>
+  <a class="memo-link" href="#memo16">↳ mémo</a>
+  <a class="qlink" href="#q17">Q17 – Modélisation multicouche</a>
+  <a class="memo-link" href="#memo17">↳ mémo</a>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+<div id="top">
+  <h1>📡 Imagerie Computationnelle – Révision Examen</h1>
+  <p class="subtitle">Cours 5 · T. Holotyak · Questions 7 à 17 · Support complet de révision</p>
+</div>
+
+<!-- ============================
+     MÉMOS RAPIDES CENTRALISÉS
+     ============================ -->
+<div id="memos" class="q-card">
+  <div class="q-header">
+    <span class="q-num">⚡</span>
+    <span class="q-title">Mémos Rapides – Toutes les Questions</span>
+  </div>
+  <div class="q-body">
+    <table>
+      <tr><th>#</th><th>Sujet</th><th>À retenir en 1 phrase</th></tr>
+      <tr><td>Q7</td><td>Params microscopie</td><td><strong>NA = sin θ</strong> → définit résolution &amp; FOV ; plus NA ↑, résolution ↑ mais FOV ↓</td></tr>
+      <tr><td>Q8</td><td>2-photons</td><td>2 photons NIR absorbés simultanément → excitation au point focal seulement → profondeur ↑, dégâts ↓</td></tr>
+      <tr><td>Q9</td><td>Champ lumineux (LFM)</td><td>Tableau de microlentilles devant capteur → snapshot 3D complet en une seule acquisition</td></tr>
+      <tr><td>Q10</td><td>Modèle cohérent</td><td><code>I = |(O·P)*PSF|²</code> → intensité = carré de l'amplitude du champ convoluée par le PSF</td></tr>
+      <tr><td>Q11</td><td>Modèle simplifié</td><td>N images Iₙ avec N angles d'incidence différents → objectif : retrouver O(x,y)</td></tr>
+      <tr><td>Q12</td><td>Principe FPM</td><td>Objectif faible NA (grand FOV) + LEDs différents angles → synthétiser NA élevée par calcul</td></tr>
+      <tr><td>Q13</td><td>Reconstruction FPM</td><td>5 étapes itératives : init → générer LR → remplacer amplitude → mettre à jour Fourier → répéter</td></tr>
+      <tr><td>Q14</td><td>Épi-illumination FP</td><td>Illumination et détection du même côté (réflexion) → échantillons opaques, anneau LED</td></tr>
+      <tr><td>Q15</td><td>Multiplexage spectral</td><td>LEDs R+G+B simultanées → déconvolvées algorithmiquement → imagerie couleur sans filtre</td></tr>
+      <tr><td>Q16</td><td>Échantillonnage</td><td>Énergie concentrée au centre Fourier → plus de LEDs vers le centre → convergence plus rapide</td></tr>
+      <tr><td>Q17</td><td>Multicouche</td><td>Objet = produit de tranches O₁·O₂·O₃… propagées par psf_t → imagerie 3D en profondeur</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- =======================
+     QUESTION 7
+     ======================= -->
+<div id="q7" class="q-card">
+  <div class="q-header">
+    <span class="q-num">Q7</span>
+    <span class="q-title">Paramètres des microscopes optiques</span>
+  </div>
+  <div class="q-body">
+
+    <div id="memo7" class="memo">
+      <div class="memo-title">⚡ Mémo rapide</div>
+      <strong>NA = sin θ</strong> (dans l'air) | La résolution latérale est <strong>proportionnelle à λ/NA</strong> | 
+      Un grand NA → haute résolution mais petit FOV. La fonction de transfert optique (OTF) est limitée par <strong>NA × 2π/λ</strong>.
+    </div>
+
+    <div class="tags">
+      <span class="tag">NA</span><span class="tag">Résolution</span>
+      <span class="tag">FOV</span><span class="tag">OTF / PSF</span>
+      <span class="tag">Diffraction</span>
+    </div>
+
+    <h2>1. Évolution historique des microscopes</h2>
+    <p>Les microscopes optiques conventionnels ont évolué depuis le 16ème siècle (microscope de Hooke) jusqu'au 21ème siècle. Malgré les améliorations mécaniques et optiques, un compromis fondamental demeure : <em>résolution vs champ de vue (FOV)</em>.</p>
+
+    <h2>2. La Ouverture Numérique (NA)</h2>
+    <div class="formula">NA = sin θ &nbsp;&nbsp; (dans l'air, n=1)</div>
+    <ul>
+      <li><strong>θ</strong> : demi-angle du cône de lumière collectée par l'objectif</li>
+      <li>Exemple bas NA : objectif 2× avec θ = 15° → NA ≈ 0.08</li>
+      <li>Exemple haut NA : objectif ~60× avec θ = 72° → NA ≈ 0.95</li>
+    </ul>
+
+    <h2>3. Fonction de Transfert Optique (OTF) et PSF</h2>
+    <p>La fréquence maximale transmise par un microscope est déterminée par :</p>
+    <div class="formula">OTF = FT{PSF} = circ(k_max) · e^{iφ(kx,ky)}</div>
+    <ul>
+      <li><code>k_max = NA × 2π/λ</code> : fréquence spatiale maximale collectée</li>
+      <li><code>φ(kx,ky)</code> : aberration du système (φ = 0 pour système limité par la diffraction)</li>
+      <li>Dans l'espace de Fourier, l'OTF est un disque circulaire de rayon k_max</li>
+    </ul>
+
+    <h2>4. Compromis Résolution / FOV</h2>
+    <div class="compare-grid">
+      <div class="compare-box">
+        <h4>🔍 Objectif 2× (NA = 0.08)</h4>
+        <ul>
+          <li>Grand champ de vue (FOV ≈ 1 cm)</li>
+          <li>Faible résolution</li>
+          <li>Images floues au niveau cellulaire</li>
+        </ul>
+      </div>
+      <div class="compare-box">
+        <h4>🔬 Objectif 20× (NA = 0.4)</h4>
+        <ul>
+          <li>Petit champ de vue</li>
+          <li>Haute résolution</li>
+          <li>Détails cellulaires visibles</li>
+        </ul>
+      </div>
+    </div>
+    <div class="warn">
+      ⚠️ Question centrale du cours : peut-on obtenir <strong>haute résolution ET grand FOV simultanément</strong> ? → C'est l'objectif de la ptychographie de Fourier (FPM).
+    </div>
+
+    <details>
+      <summary>📐 Détail : relation entre θ et NA (calcul numérique)</summary>
+      <div class="det-body">
+        <table>
+          <tr><th>Objectif</th><th>Angle θ</th><th>NA = sin θ</th><th>FOV relatif</th></tr>
+          <tr><td>2×</td><td>~8.6°</td><td>0.08</td><td>Grand</td></tr>
+          <tr><td>20×</td><td>~23.6°</td><td>0.40</td><td>Moyen</td></tr>
+          <tr><td>60×</td><td>~72°</td><td>0.95</td><td>Petit</td></tr>
+        </table>
+      </div>
+    </details>
+
+    <a href="#top" class="back-top">↑ Retour sommaire</a>
+  </div>
+</div>
+
+<!-- =======================
+     QUESTION 8
+     ======================= -->
+<div id="q8" class="q-card">
+  <div class="q-header">
+    <span class="q-num">Q8</span>
+    <span class="q-title">Microscopie à deux photons</span>
+  </div>
+  <div class="q-body">
+
+    <div id="memo8" class="memo">
+      <div class="memo-title">⚡ Mémo rapide</div>
+      Utilise la lumière <strong>NIR (proche infrarouge)</strong>. Deux photons d'énergie E=hf/2 sont absorbés <strong>simultanément</strong> pour exciter un fluorophore. L'excitation ne se produit qu'<strong>au point focal</strong> → pas besoin de pinhole, moins de dégâts, profondeur ≈ 1 mm.
+    </div>
+
+    <div class="tags">
+      <span class="tag">Fluorescence</span><span class="tag">NIR</span>
+      <span class="tag">Excitation 2-photons</span><span class="tag">Tissu vivant</span>
+      <span class="tag">Intravital</span>
+    </div>
+
+    <h2>1. Principe physique</h2>
+    <p>Dans la fluorescence classique (1 photon) : un photon d'énergie <code>E = hf = E₁ - E₀</code> est absorbé, et l'atome monte à l'état excité. Il émet ensuite un photon de fluorescence (longueur d'onde plus longue).</p>
+    <p>Dans la <strong>microscopie 2-photons</strong> : deux photons NIR de demi-énergie (<code>E = hf/2</code>) sont absorbés <em>simultanément</em>. Leur énergie combinée suffit à exciter le fluorophore.</p>
+
+    <div class="compare-grid">
+      <div class="compare-box">
+        <h4>☀️ 1 photon (classique)</h4>
+        <ul>
+          <li>Longueur d'onde courte (UV/visible)</li>
+          <li>Excitation hors foyer possible</li>
+          <li>Pinhole nécessaire (confocal)</li>
+          <li>Dégâts tissulaires importants</li>
+          <li>Pénétration limitée</li>
+        </ul>
+      </div>
+      <div class="compare-box">
+        <h4>💡 2 photons (NIR)</h4>
+        <ul>
+          <li>Longueur d'onde longue (NIR)</li>
+          <li>Excitation <strong>seulement au point focal</strong></li>
+          <li>Pas besoin de pinhole</li>
+          <li>Moins de dégâts tissulaires</li>
+          <li>Pénétration ≈ 1 mm</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>2. Pourquoi le NIR pénètre mieux ?</h2>
+    <p>Les tissus biologiques absorbent la lumière et la diffusent selon <code>~1/λ⁴</code> (diffusion de Rayleigh). La lumière NIR (λ ≈ 800–1000 nm) :</p>
+    <ul>
+      <li>Est moins absorbée par les chromophores tissulaires</li>
+      <li>Est moins diffusée (scattering ∝ 1/λ⁴)</li>
+    </ul>
+    <div class="warn">⚠️ La probabilité d'absorption simultanée de 2 photons est très faible en dehors du point focal (densité de photons insuffisante). C'est pourquoi seul le foyer est excité.</div>
+
+    <h2>3. Confocal vs 2-photons</h2>
+    <table>
+      <tr><th>Critère</th><th>Confocal</th><th>2-photons</th></tr>
+      <tr><td>Excitation</td><td>Hors foyer possible</td><td>Point focal uniquement</td></tr>
+      <tr><td>Rejet hors-foyer</td><td>Pinhole mécanique</td><td>Intrinsèque</td></tr>
+      <tr><td>Dégâts</td><td>Plus importants</td><td>Réduits</td></tr>
+      <tr><td>Profondeur</td><td>~100–200 µm</td><td>~1 mm</td></tr>
+      <tr><td>Pénétration</td><td>Limitée par diffusion</td><td>Meilleure (NIR)</td></tr>
+    </table>
+
+    <h2>4. Stratégies d'illumination et vitesse</h2>
+    <p>Le mode <em>point-scanning</em> (2PLSM) est <strong>lent</strong> : le point focal balaie séquentiellement tout le volume 3D. Pour accélérer :</p>
+    <ul>
+      <li><strong>Point illumination</strong> → détecteur ponctuel (lent)</li>
+      <li><strong>Line illumination</strong> → capteur linéaire (moyen)</li>
+      <li><strong>Plane (light-sheet) illumination</strong> → caméra 2D (rapide)</li>
+    </ul>
+    <div class="warn">⚠️ Ces approches améliorent la vitesse mais ne résolvent pas complètement le problème de lenteur.</div>
+
+    <h2>5. Applications biologiques</h2>
+    <p>Le microscope 2-photons est utilisé pour l'imagerie <em>intravitale</em> (tissu vivant) et <em>explant</em> (tissu ex vivo maintenu en culture). Applications typiques :</p>
+    <ul>
+      <li><strong>Cerveau</strong> : dynamique cellulaire, infections</li>
+      <li><strong>Foie</strong> : surveillance immunitaire (immune patrolling), infections</li>
+      <li><strong>Ganglions lymphatiques</strong> : dynamique T, B, cellules dendritiques, capture d'antigènes</li>
+      <li><strong>Moelle osseuse</strong> : cellules T mémoires, homéostasie</li>
+      <li><strong>Peau</strong> : transplantation, immunité anti-tumorale</li>
+      <li><strong>Poumon</strong> : imagerie intravitale, recrutement cellulaire</li>
+    </ul>
+
+    <details>
+      <summary>📊 Résumé technique (laser, détecteur)</summary>
+      <div class="det-body">
+        <ul>
+          <li>Laser utilisé : Ti:Sapphire femtoseconde (720–1020 nm)</li>
+          <li>Résolution latérale typique : 0.64 µm</li>
+          <li>Résolution axiale typique : 3.35 µm</li>
+          <li>Profondeur d'imagerie : jusqu'à ≈ 1 mm</li>
+          <li>Détecteurs : NDD (non-descanned detectors) pour capturer les photons diffusés</li>
+        </ul>
+      </div>
+    </details>
+
+    <a href="#top" class="back-top">↑ Retour sommaire</a>
+  </div>
+</div>
+
+<!-- =======================
+     QUESTION 9
+     ======================= -->
+<div id="q9" class="q-card">
+  <div class="q-header">
+    <span class="q-num">Q9</span>
+    <span class="q-title">Microscopie à champ lumineux (Light-Field Microscopy)</span>
+  </div>
+  <div class="q-body">
+
+    <div id="memo9" class="memo">
+      <div class="memo-title">⚡ Mémo rapide</div>
+      Le champ lumineux (light field) est une paramétrisation <strong>4D</strong> des rayons lumineux (position + angle). La LFM insère un <strong>tableau de microlentilles</strong> devant le capteur → capture un volume 3D entier en <strong>un seul snapshot</strong>. Avantage : vitesse maximale (pas de balayage). Inconvénient : compromis résolution/profondeur.
+    </div>
+
+    <div class="tags">
+      <span class="tag">Light field</span><span class="tag">4D</span>
+      <span class="tag">Microlentilles</span><span class="tag">Snapshot 3D</span>
+      <span class="tag">Volume illumination</span>
+    </div>
+
+    <h2>1. Concept du champ lumineux</h2>
+    <p>Un rayon lumineux dans l'espace est caractérisé par <strong>4 paramètres</strong> :</p>
+    <ul>
+      <li>Sa position sur le <strong>plan caméra</strong> (u, v)</li>
+      <li>Sa position sur le <strong>plan image</strong> (x, y)</li>
+    </ul>
+    <p>Cette paramétrisation 4D permet de reconstruire n'importe quelle vue virtuelle <em>a posteriori</em>, sans déplacer la caméra. On peut capturer une grille de vues multiples (différents angles d'observation) depuis une seule image.</p>
+
+    <h2>2. Principe de la LFM</h2>
+    <p>La LFM est une <strong>modification simple d'un microscope standard</strong> : on insère un tableau de microlentilles (microlens array) juste devant le capteur d'image (plan image natif).</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 600 140" xmlns="http://www.w3.org/2000/svg" style="font-family:monospace;font-size:11px;">
+        <!-- Objectif -->
+        <rect x="20" y="50" width="60" height="40" rx="4" fill="#2a3050" stroke="#4f8ef7" stroke-width="1.5"/>
+        <text x="50" y="68" fill="#4f8ef7" text-anchor="middle">Objectif</text>
+        <text x="50" y="82" fill="#8892a4" text-anchor="middle" font-size="9">NA obj</text>
+        <!-- Telecentric stop -->
+        <rect x="120" y="55" width="30" height="30" rx="4" fill="#2a3050" stroke="#f0b429" stroke-width="1.5"/>
+        <text x="135" y="68" fill="#f0b429" text-anchor="middle" font-size="9">Back</text>
+        <text x="135" y="80" fill="#f0b429" text-anchor="middle" font-size="9">Aperture</text>
+        <!-- Tube lens -->
+        <rect x="200" y="50" width="60" height="40" rx="4" fill="#2a3050" stroke="#4f8ef7" stroke-width="1.5"/>
+        <text x="230" y="68" fill="#4f8ef7" text-anchor="middle">Tube</text>
+        <text x="230" y="82" fill="#4f8ef7" text-anchor="middle">Lens</text>
+        <!-- Microlens array -->
+        <rect x="310" y="45" width="30" height="50" rx="4" fill="#1e3a2f" stroke="#5ce0a8" stroke-width="2"/>
+        <text x="325" y="68" fill="#5ce0a8" text-anchor="middle" font-size="9">µLens</text>
+        <text x="325" y="80" fill="#5ce0a8" text-anchor="middle" font-size="9">Array</text>
+        <!-- Sensor -->
+        <rect x="390" y="40" width="20" height="60" rx="2" fill="#2a3050" stroke="#e05c5c" stroke-width="1.5"/>
+        <text x="400" y="30" fill="#e05c5c" text-anchor="middle">Capteur</text>
+        <!-- Arrows -->
+        <line x1="80" y1="70" x2="118" y2="70" stroke="#8892a4" stroke-width="1" marker-end="url(#a)"/>
+        <line x1="150" y1="70" x2="198" y2="70" stroke="#8892a4" stroke-width="1" marker-end="url(#a)"/>
+        <line x1="260" y1="70" x2="308" y2="70" stroke="#8892a4" stroke-width="1" marker-end="url(#a)"/>
+        <line x1="340" y1="70" x2="388" y2="70" stroke="#8892a4" stroke-width="1" marker-end="url(#a)"/>
+        <defs>
+          <marker id="a" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#8892a4"/>
+          </marker>
+        </defs>
+        <!-- Labels -->
+        <text x="10" y="110" fill="#8892a4" font-size="9">Plan objet</text>
+        <text x="305" y="110" fill="#5ce0a8" font-size="9">Plan image natif</text>
+        <text x="380" y="110" fill="#e05c5c" font-size="9">Image finale</text>
+      </svg>
+    </div>
+
+    <h2>3. Comparaison des modalités d'illumination</h2>
+    <table>
+      <tr><th>Mode</th><th>Détecteur</th><th>Vitesse</th><th>Résolution axiale</th></tr>
+      <tr><td>Point scanning</td><td>Détecteur ponctuel</td><td>Lente</td><td>Élevée</td></tr>
+      <tr><td>Line illumination</td><td>Capteur linéaire</td><td>Moyenne</td><td>Bonne</td></tr>
+      <tr><td>Light-sheet (plan)</td><td>Capteur 2D</td><td>Rapide</td><td>Bonne</td></tr>
+      <tr><td><strong>LFM (volume)</strong></td><td><strong>Capteur 2D + µlentilles</strong></td><td><strong>Maximale (snapshot)</strong></td><td>Via reconstruction</td></tr>
+    </table>
+
+    <h2>4. Avantages et limites</h2>
+    <div class="compare-grid">
+      <div class="compare-box">
+        <h4>✅ Avantages</h4>
+        <ul>
+          <li>Capture du volume 3D en un seul instant (snapshot)</li>
+          <li>Idéal pour processus rapides (neurones, embryons)</li>
+          <li>Modification simple d'un microscope existant</li>
+        </ul>
+      </div>
+      <div class="compare-box">
+        <h4>❌ Limites</h4>
+        <ul>
+          <li>Compromis résolution spatiale / profondeur</li>
+          <li>Résolution limitée par le pas des microlentilles</li>
+          <li>Reconstruction computationnelle nécessaire</li>
+        </ul>
+      </div>
+    </div>
+
+    <a href="#top" class="back-top">↑ Retour sommaire</a>
+  </div>
+</div>
+
+<!-- =======================
+     QUESTION 10
+     ======================= -->
+<div id="q10" class="q-card">
+  <div class="q-header">
+    <span class="q-num">Q10</span>
+    <span class="q-title">Modèle d'imagerie microscopique cohérent</span>
+  </div>
+  <div class="q-body">
+
+    <div id="memo10" class="memo">
+      <div class="memo-title">⚡ Mémo rapide</div>
+      <code>I(x,y) = |(O(x,y) · P(x,y)) * PSF|²</code><br>
+      L'image est le <strong>carré du module</strong> de la convolution (champ objet × illumination) avec le PSF. OTF = TF{PSF} = circ(k_max) × e^{iφ}. Système sans aberration : φ = 0.
+    </div>
+
+    <div class="tags">
+      <span class="tag">Imagerie cohérente</span><span class="tag">PSF</span>
+      <span class="tag">OTF</span><span class="tag">Convolution</span>
+      <span class="tag">Phase</span>
+    </div>
+
+    <h2>Équation fondamentale</h2>
+    <div class="formula">I(x, y) = |(O(x,y) · P(x,y)) * PSF|²</div>
+
+    <h2>Variables et significations</h2>
+    <table>
+      <tr><th>Symbole</th><th>Nom</th><th>Description</th></tr>
+      <tr><td><code>I(x,y)</code></td><td>Image</td><td>Intensité mesurée (réelle, ≥ 0)</td></tr>
+      <tr><td><code>O(x,y)</code></td><td>Objet</td><td>Fonction complexe, inconnue → ce qu'on veut retrouver</td></tr>
+      <tr><td><code>P(x,y)</code></td><td>Illumination</td><td>Onde plane d'éclairage</td></tr>
+      <tr><td><code>PSF</code></td><td>Point Spread Function</td><td>Réponse impulsionnelle du système optique</td></tr>
+      <tr><td><code>*</code></td><td>Convolution</td><td>Flou dû aux limites du système optique</td></tr>
+      <tr><td><code>|·|²</code></td><td>Module carré</td><td>Passage champ → intensité (détecteur mesure l'intensité)</td></tr>
+    </table>
+
+    <h2>Onde plane d'illumination</h2>
+    <div class="formula">P(x,y) = e^{i·kₓ·x} · e^{i·k_y·y}</div>
+    <p>avec <code>(kₓ, k_y)</code> représentant l'angle d'incidence de l'onde plane.</p>
+
+    <h2>OTF et aberrations</h2>
+    <div class="formula">OTF = FT{PSF} = circ(k_max) · e^{iφ(kx,ky)}</div>
+    <ul>
+      <li><code>circ(k_max)</code> : fenêtre circulaire dans l'espace de Fourier, de rayon <code>k_max = NA × 2π/λ</code></li>
+      <li><code>φ(kx, ky)</code> : phase d'aberration du système</li>
+      <li>Si <code>φ = 0</code> : système limité par la diffraction (idéal)</li>
+    </ul>
+
+    <div class="warn">
+      ⚠️ <strong>Problème clé :</strong> Le détecteur ne mesure que l'intensité |·|² → la <strong>phase est perdue</strong>. C'est le problème de recouvrement de phase (phase retrieval), au cœur de la FPM.
+    </div>
+
+    <details>
+      <summary>🔬 Intuition physique du modèle</summary>
+      <div class="det-body">
+        <ol>
+          <li>La lumière incidente P(x,y) illumine l'objet O(x,y)</li>
+          <li>L'objet module le champ : produit O·P (amplitude + phase)</li>
+          <li>Ce champ est filtré par le système optique → convolution avec le PSF</li>
+          <li>Le capteur mesure le module² → perte d'information de phase</li>
+        </ol>
+      </div>
+    </details>
+
+    <a href="#top" class="back-top">↑ Retour sommaire</a>
+  </div>
+</div>
+
+<!-- =======================
+     QUESTION 11
+     ======================= -->
+<div id="q11" class="q-card">
+  <div class="q-header">
+    <span class="q-num">Q11</span>
+    <span class="q-title">Modèle d'imagerie simplifié (FPM)</span>
+  </div>
+  <div class="q-body">
+
+    <div id="memo11" class="memo">
+      <div class="memo-title">⚡ Mémo rapide</div>
+      On acquiert <strong>N images Iₙ</strong>, chacune sous un angle d'incidence différent <code>(kₓₙ, k_yₙ)</code>. L'objectif est de reconstruire <strong>O(x,y)</strong> (objet complexe inconnu) à partir de ces N mesures d'intensité.
+    </div>
+
+    <div class="tags">
+      <span class="tag">N angles d'incidence</span><span class="tag">Objet complexe</span>
+      <span class="tag">Problème inverse</span><span class="tag">Phase retrieval</span>
+    </div>
+
+    <h2>Modèle de formation d'image avec N acquisitions</h2>
+    <div class="formula">Iₙ(x, y) = |(O(x,y) · Pₙ(x,y)) * PSF|² &nbsp;&nbsp; n = 1, 2, 3, …, N</div>
+
+    <h2>Signification physique</h2>
+    <ul>
+      <li>Chaque LED du tableau illumine l'échantillon sous un angle différent <code>(kₓₙ, k_yₙ)</code></li>
+      <li>Chaque angle déplace la région de Fourier de l'objet collectée par l'objectif</li>
+      <li>En combinant N images, on couvre un espace de Fourier beaucoup plus grand</li>
+    </ul>
+
+    <div class="diagram">
+      <svg viewBox="0 0 520 160" xmlns="http://www.w3.org/2000/svg" style="font-family:monospace;font-size:10px;">
+        <!-- Espace de Fourier de l'objet -->
+        <circle cx="100" cy="80" r="70" fill="none" stroke="#4f8ef7" stroke-width="1" stroke-dasharray="4"/>
+        <text x="100" y="165" fill="#4f8ef7" text-anchor="middle">Espace Fourier de O</text>
+        <!-- Cercle collecté par objectif (basse NA) -->
+        <circle cx="100" cy="80" r="20" fill="#4f8ef7" fill-opacity="0.15" stroke="#4f8ef7" stroke-width="1.5"/>
+        <text x="100" y="85" fill="#4f8ef7" text-anchor="middle">NA_obj</text>
+        <!-- Flèche de déplacement (LED n) -->
+        <circle cx="145" cy="45" r="20" fill="#f0b429" fill-opacity="0.15" stroke="#f0b429" stroke-width="1.5"/>
+        <text x="145" y="40" fill="#f0b429" text-anchor="middle" font-size="9">LED n</text>
+        <circle cx="60" cy="50" r="20" fill="#5ce0a8" fill-opacity="0.15" stroke="#5ce0a8" stroke-width="1.5"/>
+        <text x="60" y="45" fill="#5ce0a8" text-anchor="middle" font-size="9">LED n'</text>
+        <circle cx="130" cy="115" r="20" fill="#e05c5c" fill-opacity="0.15" stroke="#e05c5c" stroke-width="1.5"/>
+        <text x="130" y="145" fill="#e05c5c" text-anchor="middle" font-size="9">LED n''</text>
+        <!-- Arrow to right side -->
+        <text x="200" y="85" fill="#8892a4" font-size="20">→</text>
+        <!-- Result high res Fourier -->
+        <circle cx="380" cy="80" r="70" fill="#1e3a2f" fill-opacity="0.5" stroke="#5ce0a8" stroke-width="2"/>
+        <text x="380" y="165" fill="#5ce0a8" text-anchor="middle">Espace Fourier synthétique</text>
+        <text x="380" y="80" fill="#5ce0a8" text-anchor="middle" font-size="11">(NA_syn)</text>
+        <text x="380" y="94" fill="#5ce0a8" text-anchor="middle" font-size="9">Haute résolution</text>
+        <text x="230" y="30" fill="#8892a4" font-size="9">Chaque angle = nouveau</text>
+        <text x="230" y="42" fill="#8892a4" font-size="9">patch dans l'espace Fourier</text>
+      </svg>
+    </div>
+
+    <h2>Objectif du problème inverse</h2>
+    <div class="warn">
+      Objectif : <strong>retrouver O(x,y)</strong> (complexe, inconnu) à partir des N images Iₙ(x,y) mesurées (réelles, positives). C'est un problème de <em>phase retrieval</em> sous contraintes multiples.
+    </div>
+
+    <h2>Différence clé avec Q10</h2>
+    <p>Dans le modèle simplifié, on ajoute l'indice <strong>n</strong> pour souligner qu'on acquiert plusieurs images sous des illuminations différentes, ce qui est la base de la FPM.</p>
+
+    <a href="#top" class="back-top">↑ Retour sommaire</a>
+  </div>
+</div>
+
+<!-- =======================
+     QUESTION 12
+     ======================= -->
+<div id="q12" class="q-card">
+  <div class="q-header">
+    <span class="q-num">Q12</span>
+    <span class="q-title">Principe de la Microscopie Ptychographique de Fourier (FPM)</span>
+  </div>
+  <div class="q-body">
+
+    <div id="memo12" class="memo">
+      <div class="memo-title">⚡ Mémo rapide</div>
+      <strong>Objectif faible NA</strong> (2×, NA=0.08) → grand FOV mais faible résolution. 
+      On illumine avec des LEDs à <strong>différents angles</strong> → chaque image est une vue différente du spectre de Fourier de l'objet. 
+      En combinant N images → <strong>NA synthétique ≈ 0.5</strong> → haute résolution sur grand FOV !
+    </div>
+
+    <div class="tags">
+      <span class="tag">Faible NA</span><span class="tag">LED matrix</span>
+      <span class="tag">NA synthétique</span><span class="tag">Grand FOV</span>
+      <span class="tag">Super-résolution</span>
+    </div>
+
+    <h2>1. Idée centrale</h2>
+    <p>La FPM exploite la <strong>redondance d'information</strong> entre de multiples images à basse résolution capturées sous différents angles pour synthétiser une image à haute résolution sur un grand champ de vue.</p>
+
+    <div class="compare-grid">
+      <div class="compare-box">
+        <h4>🔹 Point de départ</h4>
+        <ul>
+          <li>Objectif : 2× (NA = 0.08)</li>
+          <li>Grand FOV (≈ 1.2 cm de diamètre)</li>
+          <li>Faible résolution (basse NA)</li>
+        </ul>
+      </div>
+      <div class="compare-box">
+        <h4>🔹 Résultat obtenu</h4>
+        <ul>
+          <li>NA synthétique ≈ 0.5</li>
+          <li>Grand FOV conservé</li>
+          <li>Haute résolution → gigapixels !</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>2. Setup expérimental</h2>
+    <ul>
+      <li>Un <strong>tableau de LEDs</strong> est placé sous l'échantillon</li>
+      <li>Chaque LED allumée séquentiellement éclaire l'objet sous un angle différent <code>kₓᵢ</code></li>
+      <li>Un objectif de faible NA (2×, NA=0.08) capture l'image</li>
+      <li><strong>137 images</strong> acquises (une par LED dans l'implémentation standard)</li>
+      <li>Pas de balayage mécanique requis</li>
+    </ul>
+
+    <h2>3. Interprétation dans l'espace de Fourier</h2>
+    <p>Chaque LED éclairant sous un angle <code>(kₓₙ, k_yₙ)</code> déplace la région du spectre de Fourier de l'objet que l'objectif peut collecter :</p>
+    <ul>
+      <li>Région centrale (LED centrale) : basses fréquences de l'objet</li>
+      <li>LED périphérique : hautes fréquences déplacées dans le passant de l'objectif</li>
+      <li>En assemblant tous les patches → espace de Fourier étendu → haute résolution</li>
+    </ul>
+
+    <h2>4. Paramètres clés du système</h2>
+    <table>
+      <tr><th>Paramètre</th><th>Valeur</th></tr>
+      <tr><td>Objectif</td><td>2× (NA = 0.08)</td></tr>
+      <tr><td>FOV effectif</td><td>~1.2 cm de diamètre</td></tr>
+      <tr><td>Nombre d'images</td><td>137 frames basse résolution</td></tr>
+      <tr><td>NA synthétique maximale</td><td>~0.5</td></tr>
+      <tr><td>Balayage mécanique</td><td>Aucun</td></tr>
+      <tr><td>Source de référence</td><td>Zheng et al., Nature Photonics 2013</td></tr>
+    </table>
+
+    <a href="#top" class="back-top">↑ Retour sommaire</a>
+  </div>
+</div>
+
+<!-- =======================
+     QUESTION 13
+     ======================= -->
+<div id="q13" class="q-card">
+  <div class="q-header">
+    <span class="q-num">Q13</span>
+    <span class="q-title">Méthode de reconstruction FPM – Processus itératif</span>
+  </div>
+  <div class="q-body">
+
+    <div id="memo13" class="memo">
+      <div class="memo-title">⚡ Mémo rapide</div>
+      <strong>5 étapes :</strong><br>
+      ① Init HR | ② Générer image LR simulée | ③ Remplacer amplitude par mesure réelle | ④ Mettre à jour région Fourier | ⑤ Répéter pour tous les angles, puis recommencer. → Converge vers O(x,y) haute résolution + phase récupérée.
+    </div>
+
+    <div class="tags">
+      <span class="tag">Itératif</span><span class="tag">Phase retrieval</span>
+      <span class="tag">Fourier</span><span class="tag">Amplitude constraint</span>
+      <span class="tag">Convergence</span>
+    </div>
+
+    <h2>Vue d'ensemble de l'algorithme</h2>
+    <p>La reconstruction FPM est un algorithme de type <em>phase retrieval itératif</em>. On alterne entre le domaine spatial et le domaine de Fourier, en imposant des contraintes mesurées à chaque itération.</p>
+
+    <h2>Les 5 étapes en détail</h2>
+    <ol class="steps">
+      <li>
+        <div>
+          <strong>Initialisation de l'image haute résolution</strong><br>
+          On initialise une image HR complexe : <code>√I_hr · e^{iφ_hr}</code><br>
+          <em>Typiquement : l'image LR centrale interpolée, ou un guess aléatoire.</em>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Générer une image LR simulée</strong><br>
+          Pour chaque angle d'incidence n : on applique le masque de la pupille (cercle de rayon NA_obj dans Fourier) à la région correspondante de l'image HR.<br>
+          <code>√I_l · e^{iφ_l}</code> = image LR synthétique correspondant à l'angle courant.
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Remplacer l'amplitude par la mesure</strong><br>
+          On garde la <strong>phase calculée</strong> mais on remplace l'<strong>amplitude simulée</strong> par la mesure réelle :<br>
+          <code>√I_l · e^{iφ_l} → √I_lm · e^{iφ_l}</code><br>
+          (I_lm = mesure réelle de la caméra)
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Mettre à jour la région Fourier de l'image HR</strong><br>
+          On transforme le résultat (étape 3) et on met à jour le patch correspondant dans l'espace de Fourier de l'image HR (le cercle rouge dans le diagramme).
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Répéter pour toutes les LEDs, puis relancer</strong><br>
+          On répète les étapes 2-4 pour chaque angle d'incidence (N images). Puis on recommence depuis le début (étape 2), typiquement 2 à 10 fois au total.
+        </div>
+      </li>
+    </ol>
+
+    <h2>Diagramme de flux</h2>
+    <div class="flow">
+      <div class="flow-step"><span>①</span> Initialisation : image HR = interpolée depuis LR centrale</div>
+      <div class="flow-step"><span>②</span> [Pour LED n] : simuler image LR en masquant Fourier HR</div>
+      <div class="flow-step"><span>③</span> Remplacer amplitude par mesure réelle I_lm (garder phase)</div>
+      <div class="flow-step"><span>④</span> Mettre à jour le patch Fourier correspondant dans l'image HR</div>
+      <div class="flow-step"><span>⑤</span> Répéter ②③④ pour n = 1, …, N (toutes les LEDs)</div>
+      <div class="flow-step">↺ Recommencer ②–⑤ jusqu'à convergence (2–10 fois)</div>
+    </div>
+
+    <h2>Résultats obtenus</h2>
+    <ul>
+      <li>Image haute résolution en <strong>intensité</strong> : détails fins visibles</li>
+      <li>Image haute résolution en <strong>phase</strong> : contraste d'objets transparents (cellules non colorées !)</li>
+      <li>NA synthétique : combinaison de NA_obj + NA_illumination</li>
+    </ul>
+
+    <details>
+      <summary>📐 Détail mathématique de la mise à jour Fourier</summary>
+      <div class="det-body">
+        <p>Dans l'espace de Fourier, chaque LED n déplace l'origine de <code>(kₓₙ, k_yₙ)</code>. La région collectée par l'objectif est un disque de rayon <code>k_max = NA_obj × 2π/λ</code> centré en <code>(kₓₙ, k_yₙ)</code>.</p>
+        <p>En mettant à jour chaque disque avec les mesures réelles, on "remplit" progressivement un plus grand disque de rayon <code>NA_syn × 2π/λ</code> où <code>NA_syn = NA_obj + max|k_led|×λ/(2π)</code>.</p>
+      </div>
+    </details>
+
+    <a href="#top" class="back-top">↑ Retour sommaire</a>
+  </div>
+</div>
+
+<!-- =======================
+     QUESTION 14
+     ======================= -->
+<div id="q14" class="q-card">
+  <div class="q-header">
+    <span class="q-num">Q14</span>
+    <span class="q-title">Ptychographie de Fourier en épi-illumination</span>
+  </div>
+  <div class="q-body">
+
+    <div id="memo14" class="memo">
+      <div class="memo-title">⚡ Mémo rapide</div>
+      Dans l'épi-illumination, la lumière arrive <strong>du même côté</strong> que la détection (réflexion). Deux anneaux de LEDs (LED ring 1 et 2) éclairent de côté. L'objectif collecte la lumière réfléchie/diffusée. Permet d'imager des <strong>échantillons opaques</strong> (puces, CDs, surfaces réflectives). NA synthétique ≈ 0.76.
+    </div>
+
+    <div class="tags">
+      <span class="tag">Réflexion</span><span class="tag">Épi-illumination</span>
+      <span class="tag">Anneau LED</span><span class="tag">Surface opaque</span>
+      <span class="tag">NA syn = 0.76</span>
+    </div>
+
+    <h2>1. Principe et différence avec la FPM standard</h2>
+    <p>La FPM standard fonctionne en <strong>transmission</strong> (lumière traverse l'échantillon, LEDs en dessous). L'épi-FPM fonctionne en <strong>réflexion</strong> :</p>
+
+    <div class="compare-grid">
+      <div class="compare-box">
+        <h4>FPM standard (transmission)</h4>
+        <ul>
+          <li>LEDs sous l'échantillon</li>
+          <li>Lumière transmise collectée</li>
+          <li>Échantillons semi-transparents</li>
+          <li>Histologie, cellules</li>
+        </ul>
+      </div>
+      <div class="compare-box">
+        <h4>Épi-FPM (réflexion)</h4>
+        <ul>
+          <li>LEDs au-dessus de l'échantillon</li>
+          <li>Lumière réfléchie collectée</li>
+          <li>Échantillons opaques possibles</li>
+          <li>Surfaces, puces, CDs, métaux</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>2. Configuration optique</h2>
+    <ul>
+      <li><strong>Chemin d'illumination</strong> : LED ring → Lens 1 → Beam Splitter (BS) → OBJ → Échantillon</li>
+      <li><strong>Chemin de détection</strong> : Échantillon → OBJ → BS → Lens 1 → CCD</li>
+      <li><strong>Anneau LED 1</strong> (intérieur) : éclairage quasi axial → couvre les basses fréquences</li>
+      <li><strong>Anneau LED 2</strong> (extérieur) : éclairage oblique → hautes fréquences (darkfield)</li>
+      <li>Dans l'espace Fourier : les deux anneaux couvrent deux couronnes circulaires qui, combinées, donnent NA_syn ≈ 0.76</li>
+    </ul>
+
+    <h2>3. Résultats expérimentaux</h2>
+    <table>
+      <tr><th>Mode</th><th>NA</th><th>Résolution démontrée</th></tr>
+      <tr><td>Objectif seul (raw)</td><td>NA_obj = 0.28</td><td>Limité par diffraction (NA faible)</td></tr>
+      <tr><td>Reconstruction eFPM</td><td>NA_syn = 0.76</td><td>390 nm linewidth (groupe 10, élément 2)</td></tr>
+    </table>
+
+    <h2>4. Applications démontrées</h2>
+    <ul>
+      <li><strong>USAF resolution target</strong> : validation métrologique (390 nm de linewidth résolus)</li>
+      <li><strong>Surface de CD (Compact Disc)</strong> : résolution des pits ~850 nm sur surface réflective</li>
+      <li><strong>Échantillons biologiques réflectifs</strong> : bactéries, matériaux de surface</li>
+    </ul>
+
+    <details>
+      <summary>🔭 Variante : FP en détection (aperture scanning)</summary>
+      <div class="det-body">
+        <p>Une autre variante déplace une <strong>ouverture physique</strong> dans le plan de Fourier (plan focal arrière de l'objectif) tout en gardant l'illumination fixe. Chaque position de l'ouverture collecte un patch différent de l'espace Fourier. Avantage : fonctionne avec des sources incohérentes standard.</p>
+        <p>Permet aussi la <strong>reconstruction holographique 3D</strong> (intensité + phase) et le refocus numérique après acquisition.</p>
+      </div>
+    </details>
+
+    <a href="#top" class="back-top">↑ Retour sommaire</a>
+  </div>
+</div>
+
+<!-- =======================
+     QUESTION 15
+     ======================= -->
+<div id="q15" class="q-card">
+  <div class="q-header">
+    <span class="q-num">Q15</span>
+    <span class="q-title">Multiplexage spectral en imagerie FPM</span>
+  </div>
+  <div class="q-body">
+
+    <div id="memo15" class="memo">
+      <div class="memo-title">⚡ Mémo rapide</div>
+      Les LEDs <strong>R, G, B sont allumées simultanément</strong>. La caméra monochrome mesure la <strong>somme</strong> des intensités des 3 canaux. Un algorithme itératif démélange les canaux R, G, B → <strong>image couleur HR sans filtre spectral</strong>. Gain de vitesse × 3.
+    </div>
+
+    <div class="tags">
+      <span class="tag">R/G/B simultané</span><span class="tag">Caméra monochrome</span>
+      <span class="tag">Démixage spectral</span><span class="tag">Sans filtre</span>
+      <span class="tag">Multispectral</span>
+    </div>
+
+    <h2>1. Problème et motivation</h2>
+    <p>La FPM standard acquiert une LED à la fois → lent pour l'imagerie couleur (3 fois plus d'images nécessaires). Le multiplexage spectral permet d'allumer simultanément les LEDs R, G et B pour accélérer l'acquisition.</p>
+
+    <h2>2. Modèle de formation d'image multiplexé</h2>
+    <div class="formula">Iₙ(x, y) = Σᵢ |(Oᵢ(x,y) · Pₙ(x,y)) * PSFᵢ|²</div>
+    <p>où i ∈ {R, G, B} et Oᵢ est l'objet à la longueur d'onde i.</p>
+
+    <ul>
+      <li>La caméra monochrome mesure la <strong>somme</strong> des contributions R+G+B</li>
+      <li>Les trois canaux ont des k_max légèrement différents (λ différentes)</li>
+      <li>Objectif : retrouver O_R, O_G, O_B séparément à partir des mesures combinées Iₙ</li>
+    </ul>
+
+    <h2>3. Algorithme de démixage (5 étapes)</h2>
+    <ol class="steps">
+      <li>
+        <strong>Initialisation</strong> : guess initial pour √I_r·e^{iφr}, √I_g·e^{iφg}, √I_b·e^{iφb}
+      </li>
+      <li>
+        <strong>Générer images LR cibles</strong> pour chaque canal : √I_rt·e^{iφrt}, √I_gt·e^{iφgt}, √I_bt·e^{iφbt}
+      </li>
+      <li>
+        <strong>Sommer les intensités</strong> : I_t = I_rt + I_gt + I_bt
+      </li>
+      <li>
+        <strong>Mise à jour pondérée</strong> : <code>I'_rt = (I_m / I_t) × I_rt</code> (idem G et B) → la phase reste inchangée
+      </li>
+      <li>
+        <strong>Mettre à jour les régions spectrales HR</strong> de chaque canal
+      </li>
+    </ol>
+    <p style="margin-top:0.5rem;"><em>→ Répéter pour différents angles d'incidence, et itérer 2-10 fois.</em></p>
+
+    <h2>4. Résultats et avantages</h2>
+    <div class="compare-grid">
+      <div class="compare-box">
+        <h4>✅ Avantages</h4>
+        <ul>
+          <li>Aucun filtre spectral matériel nécessaire</li>
+          <li>Vitesse d'acquisition × 3 (ou plus)</li>
+          <li>Imagerie multispectrale computationnelle</li>
+          <li>Caméra monochrome standard suffisante</li>
+        </ul>
+      </div>
+      <div class="compare-box">
+        <h4>📊 Résultat visuel</h4>
+        <ul>
+          <li>LR acquis → monochrome flou</li>
+          <li>FP récupéré → couleur nette et haute résolution</li>
+          <li>Démontrée sur frottis sanguin couleur (NA_obj = 0.1)</li>
+        </ul>
+      </div>
+    </div>
+
+    <a href="#top" class="back-top">↑ Retour sommaire</a>
+  </div>
+</div>
+
+<!-- =======================
+     QUESTION 16
+     ======================= -->
+<div id="q16" class="q-card">
+  <div class="q-header">
+    <span class="q-num">Q16</span>
+    <span class="q-title">Stratégie d'échantillonnage en FPM</span>
+  </div>
+  <div class="q-body">
+
+    <div id="memo16" class="memo">
+      <div class="memo-title">⚡ Mémo rapide</div>
+      L'énergie dans l'espace de Fourier d'une image naturelle est <strong>concentrée au centre</strong>. Donc il faut plus de LEDs (plus de patches) autour du centre Fourier. Une distribution <strong>inégale (uneven pattern)</strong> converge nettement mieux qu'une distribution régulière (even pattern), notamment pour les premières itérations.
+    </div>
+
+    <div class="tags">
+      <span class="tag">Espace de Fourier</span><span class="tag">Distribution inégale</span>
+      <span class="tag">Convergence</span><span class="tag">Pattern LEDs</span>
+      <span class="tag">RMS error</span>
+    </div>
+
+    <h2>1. Observation clé : l'énergie dans l'espace de Fourier</h2>
+    <p>Pour la plupart des images naturelles (et biologiques), le spectre de puissance de Fourier est concentré vers les <strong>basses fréquences spatiales</strong> (centre de l'espace de Fourier). Les hautes fréquences (bords) contiennent moins d'énergie.</p>
+
+    <h2>2. Conséquence pour le choix des angles LEDs</h2>
+    <ul>
+      <li>Les LEDs centrales (angle faible) collectent des informations à <em>haute énergie</em> → elles sont les plus utiles</li>
+      <li>Les LEDs périphériques (grand angle) collectent des fréquences à faible énergie</li>
+      <li>→ Il est plus efficace d'avoir <em>plus de LEDs dans les régions centrales</em></li>
+    </ul>
+
+    <h2>3. Comparaison des patterns</h2>
+    <div class="compare-grid">
+      <div class="compare-box">
+        <h4>Pattern régulier (grille uniforme)</h4>
+        <ul>
+          <li>Distribution uniforme dans k-space</li>
+          <li>Convergence lente</li>
+          <li>Erreur RMS élevée à convergence</li>
+        </ul>
+      </div>
+      <div class="compare-box">
+        <h4>Pattern inégal (densité au centre)</h4>
+        <ul>
+          <li>Plus de LED dans la région centrale</li>
+          <li>Convergence plus rapide</li>
+          <li>Erreur RMS finale plus basse (~0.12% vs ~0.37%)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>4. Implémentation matérielle : l'illuminateur annulaire</h2>
+    <p>Pour obtenir une distribution concentrée vers le centre, on peut utiliser un <strong>anneau LED (ring illuminator)</strong> plutôt qu'une grille régulière :</p>
+    <ul>
+      <li>Premier anneau (rayon faible) : LEDs proches de l'axe → basses fréquences</li>
+      <li>Deuxième anneau : LEDs plus éloignées → hautes fréquences</li>
+      <li>Un miroir peut être utilisé pour créer l'image miroir du premier anneau (illumination axiale)</li>
+    </ul>
+
+    <h2>5. Si la distribution énergétique est connue</h2>
+    <div class="formula">Question : Si on connaît la distribution FT{O(x,y)}, comment choisir les angles (kₓₙ, k_yₙ) ?</div>
+    <p>Réponse : échantillonner <em>proportionnellement à l'énergie</em> attendue → optimisation bayésienne ou par densité spectrale estimée.</p>
+
+    <details>
+      <summary>📊 Résultats comparatifs (courbes d'erreur)</summary>
+      <div class="det-body">
+        <p>Graphe (c) du cours : erreur RMS en % vs numéro d'itération.</p>
+        <ul>
+          <li>Pattern inégal (vert) : descend rapidement vers ~0.12% et continue à décroître</li>
+          <li>Pattern régulier (rouge) : descend moins vite et stagne à ~0.37%</li>
+        </ul>
+        <p>Le pattern inégal converge environ <strong>3× plus vite</strong> et donne une erreur finale environ <strong>3× plus faible</strong>.</p>
+      </div>
+    </details>
+
+    <a href="#top" class="back-top">↑ Retour sommaire</a>
+  </div>
+</div>
+
+<!-- =======================
+     QUESTION 17
+     ======================= -->
+<div id="q17" class="q-card">
+  <div class="q-header">
+    <span class="q-num">Q17</span>
+    <span class="q-title">Modélisation multicouche en FPM</span>
+  </div>
+  <div class="q-body">
+
+    <div id="memo17" class="memo">
+      <div class="memo-title">⚡ Mémo rapide</div>
+      L'objet est modélisé comme un <strong>empilement de tranches 2D</strong> O₁, O₂, O₃, … séparées par des propagateurs psf_t. Le champ se propage entre les tranches par <strong>FT{psf_t} = e^{√(k₀²-kₓ²-k_y²) Δz}</strong>. Permet de reconstruire des objets <strong>épais en 3D</strong> à différentes profondeurs z.
+    </div>
+
+    <div class="tags">
+      <span class="tag">Multi-slice</span><span class="tag">Épaisseur 3D</span>
+      <span class="tag">Propagateur</span><span class="tag">Profondeur z</span>
+      <span class="tag">Reconstruction volumétrique</span>
+    </div>
+
+    <h2>1. Limitation du modèle à couche unique</h2>
+    <p>Le modèle simple <code>Iₙ = |(O·Pₙ)*PSF|²</code> suppose l'objet <em>infiniment mince</em>. Pour les objets épais (ex: coupes histologiques épaisses, organismes biologiques 3D), ce modèle est insuffisant.</p>
+
+    <h2>2. Modèle multi-tranches (multi-slice)</h2>
+    <p>On décompose l'objet en N tranches 2D empilées selon l'axe z :</p>
+    <div class="formula">O(x,y) → O₁(x,y), O₂(x,y), O₃(x,y), …, Oₙ(x,y)</div>
+
+    <p>Le champ se propage de la tranche k à k+1 par :</p>
+    <div class="formula">(O₁(x,y)·Pₙ(x,y)) * psf_t · O₂(x,y) * psf_t · O₃(x,y) * psf_t …</div>
+
+    <h2>3. Propagateur entre tranches</h2>
+    <div class="formula">FT{psf_t} = e^{√(k₀²−kₓ²−k_y²) · Δz}</div>
+    <ul>
+      <li><code>k₀ = 2π/λ</code> : nombre d'onde dans le milieu</li>
+      <li><code>Δz</code> : épaisseur de chaque tranche</li>
+      <li>Ce propagateur est la <strong>fonction de transfert de propagation angulaire</strong></li>
+    </ul>
+
+    <h2>4. Schéma de la modélisation</h2>
+    <div class="diagram">
+      <svg viewBox="0 0 480 200" xmlns="http://www.w3.org/2000/svg" style="font-size:10px;font-family:monospace;">
+        <!-- CCD -->
+        <rect x="180" y="10" width="120" height="20" rx="3" fill="#2a3050" stroke="#4f8ef7" stroke-width="1.5"/>
+        <text x="240" y="24" fill="#4f8ef7" text-anchor="middle">CCD détecteur</text>
+        <!-- Slice n -->
+        <rect x="120" y="60" width="240" height="18" rx="3" fill="#1e3a2f" stroke="#5ce0a8" stroke-width="1.5"/>
+        <text x="240" y="73" fill="#5ce0a8" text-anchor="middle">Tranche n: Oₙ(x,y)</text>
+        <!-- dots -->
+        <text x="240" y="100" fill="#8892a4" text-anchor="middle" font-size="14">⋮</text>
+        <!-- Slice 2 -->
+        <rect x="120" y="115" width="240" height="18" rx="3" fill="#1e3a2f" stroke="#5ce0a8" stroke-width="1.5"/>
+        <text x="240" y="128" fill="#5ce0a8" text-anchor="middle">Tranche 2: O₂(x,y)</text>
+        <!-- Slice 1 -->
+        <rect x="120" y="150" width="240" height="18" rx="3" fill="#1e3a2f" stroke="#5ce0a8" stroke-width="1.5"/>
+        <text x="240" y="163" fill="#5ce0a8" text-anchor="middle">Tranche 1: O₁(x,y)</text>
+        <!-- LED illumination -->
+        <text x="30" y="170" fill="#f0b429" font-size="9">LED (Pₙ)</text>
+        <line x1="80" y1="165" x2="118" y2="155" stroke="#f0b429" stroke-width="1.5" marker-end="url(#b)"/>
+        <defs>
+          <marker id="b" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#f0b429"/>
+          </marker>
+        </defs>
+        <!-- Propagation arrows -->
+        <text x="380" y="105" fill="#8892a4" font-size="9">propagation</text>
+        <text x="380" y="116" fill="#8892a4" font-size="9">psf_t entre</text>
+        <text x="380" y="127" fill="#8892a4" font-size="9">chaque tranche</text>
+        <!-- Arrow up -->
+        <line x1="240" y1="148" x2="240" y2="135" stroke="#8892a4" stroke-width="1" marker-end="url(#c)"/>
+        <line x1="240" y1="113" x2="240" y2="103" stroke="#8892a4" stroke-width="1" marker-end="url(#c)"/>
+        <line x1="240" y1="58" x2="240" y2="32" stroke="#8892a4" stroke-width="1" marker-end="url(#c)"/>
+        <defs>
+          <marker id="c" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#8892a4"/>
+          </marker>
+        </defs>
+        <!-- Δz label -->
+        <text x="100" y="140" fill="#e05c5c" font-size="9">Δz</text>
+        <line x1="110" y1="134" x2="110" y2="168" stroke="#e05c5c" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <h2>5. Résultats expérimentaux</h2>
+    <p>Démonstration sur une lame de pathologie épaisse avec l'algorithme multi-slice FPM :</p>
+    <ul>
+      <li>Reconstruction à z = −10 µm, z = −30 µm, z = −50 µm</li>
+      <li>Chaque profondeur montre des structures différentes nettement résolues</li>
+      <li>Permet de voir à travers plusieurs couches de cellules sans couper physiquement</li>
+    </ul>
+
+    <div class="warn">
+      ⚠️ Plus le nombre de tranches est grand, plus la reconstruction est précise mais aussi plus le coût computationnel augmente. Il faut choisir Δz adapté à l'épaisseur de cohérence du faisceau.
+    </div>
+
+    <details>
+      <summary>🔬 Extension : FPM incoherente et fluorescence</summary>
+      <div class="det-body">
+        <p>Le modèle FPM peut être étendu à l'imagerie <strong>incohérente</strong> en changeant le modèle :</p>
+        <div class="formula">Iₙ(x,y) = (O(x,y) · P(x−xₙ, y−yₙ)) * |PSF|²</div>
+        <p>où O et P sont réels positifs (intensité, non complexe). Cela permet la <strong>microscopie de fluorescence</strong> super-résolue en balayant un speckle inconnu sur l'échantillon et en récupérant simultanément l'objet ET le pattern d'illumination.</p>
+      </div>
+    </details>
+
+    <a href="#top" class="back-top">↑ Retour sommaire</a>
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center;color:var(--muted);font-size:0.8rem;padding:2rem 0;border-top:1px solid var(--border);margin-top:1rem;">
+  Document de révision · Cours 5 · T. Holotyak · Imagerie Computationnelle 14X062<br>
+  Basé sur les slides du cours · Généré pour l'examen
+</div>
+
+</main>
+
+<script>
+// Highlight active sidebar link on scroll
+const links = document.querySelectorAll('#sidebar a[href^="#q"]');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.style.borderLeftColor = '');
+      const id = e.target.id;
+      const link = document.querySelector(`#sidebar a[href="#${id}"]`);
+      if (link) link.style.borderLeftColor = 'var(--accent)';
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.q-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
