@@ -438,3 +438,4 @@ For instance, the conditioning variable can be a text description of the desired
 
 On the @fig6, the noise depends on the time step $t$ and is computed by a noise scheduler $cal(M)_t$ that determines the amount of noise to be removed at each step of the reverse diffusion process.
 In this way, the noise is gradually removed from the data as we iteratively apply the reverse diffusion process.
+

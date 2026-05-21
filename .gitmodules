@@ -1,3 +1,6 @@
 [submodule "report/neural-viz"]
 	path = report/neural-viz
 	url = git@github.com:Arkanthara/neural-viz.git
+[submodule "code/binary-diffusion-tabular"]
+	path = code/binary-diffusion-tabular
+	url = git@github.com:Arkanthara/binary-diffusion-tabular.git
