@@ -8,8 +8,15 @@
 #import "neural-viz/lib.typ": *
 #import emoji: camera
 
+#import "@preview/algorithmic:1.0.7"
+#import algorithmic: style-algorithm, algorithm-figure
+
+#show: style-algorithm
+
 // Main content
 #show: make-report.with(my-report)
+
+#show raw.where(block: true): set block(fill: luma(240), inset: 1em, radius: 0.5em, width: 100%)
 
 #set math.equation(numbering: "(1)")
 
@@ -249,11 +256,12 @@ The forward diffusion process can be defined as a simple XOR operation between t
 Thanks to the binary nature of the data, there is no need to tune a complex noise schedule as in the case of continuous data.
 This allows for a simpler preprocessing of the data and a more straightforward training of the model, which can lead to faster convergence and improved performance when dealing with binary data.
 
-== Training the model
+== Training the model <train>
 
 The training of the binary diffusion model involves optimizing loss functions that encourage the model to learn how to effectively reverse the noise addition process and recover the original binary data from the noisy binary data.
 
-The complete process can be represented as in the @fig4, where the model learns to predict the original binary data $hat(X)_0_t$ from the noisy binary data $X_t$ at each time step $t$ by removing the predicted noise $hat(z)_t$ from $X_t$.
+The complete process can be represented as in the @fig4, where the model learns to predict the original binary data $hat(X)_0_t$ and the predicted noise $hat(z)_t$ from the noisy binary data $X_t$ at each time step $t$.
+In this way, the model can reverse the noise either by predicting the original binary data $hat(X)_0_t$ ("target" mode), or by directly predicting the noise $hat(z)_t$ and then applying the XOR operation with the noisy binary data $X_t$ to remove the noise and recover the original data ("mask" mode).
 
 #figure(
   {
@@ -439,3 +447,163 @@ For instance, the conditioning variable can be a text description of the desired
 On the @fig6, the noise depends on the time step $t$ and is computed by a noise scheduler $cal(M)_t$ that determines the amount of noise to be removed at each step of the reverse diffusion process.
 In this way, the noise is gradually removed from the data as we iteratively apply the reverse diffusion process.
 
+#pagebreak()
+
+= Binary Diffusion Models for Tabular Data Generation
+
+Before working with images which are quite complex data and require more computational resources, we can start by working with tabular data which is simpler and more manageable, and then we can extend the approach to images.
+
+In the paper "Tabular Data Generation using Binary Diffusion" by V. Kinakh and S. Voloshynovskiy @tabular, the authors propose a binary diffusion model for generating synthetic tabular data, which is a common type of quantized data that can be represented in a binary format.
+
+The model is trained to learn the underlying distribution of the tabular data and can be used to generate new synthetic samples that resemble the original data, which can be useful for various applications such as data augmentation, privacy preservation, and imputation of missing values.
+
+== Link with image generation
+
+The process of generating tabular data is similar to the process of generating images, the main difference being the first transformation $T$ and the fact that the data are 1-dimensional instead of 2-dimensional as in the case of images.
+
+== First transformation for tabular data
+
+The first transformation $T$ for tabular data can be defined as a simple binary encoding of the original data, where the categorical features are one-hot encoded and the numerical features are binarized using a fixed number of bits to represent the values.
+
+Then, all binary features are concatenated to form a single binary vector that represents the original tabular data, that can be reversed using the inverse transformation $T^(-1)$ to recover the original tabular data from the binary representation.
+
+== Architecture of the model
+
+As described in the paper @tabular, the sampling algorithm for generating synthetic data from the binary diffusion model can be represented as in the @algo.
+
+#algorithm-figure(
+  "Sampling Algorithm",
+  inset: 0.3em,
+  {
+    import algorithmic: *
+        LineComment(
+          Assign[$X_t$][random binary tensor],
+          [Initialize noisy sample]
+        )
+
+        Assign[$Y$][condition/label]
+
+        Assign[$Y_epsilon$][apply condition]
+        Assign[$text("threshold")$][threshold value for binarization]
+
+
+        Assign[$p_theta$][pre-trained denoiser network]
+
+
+
+        For(
+          $t in {T, ..., 0}$,
+          {
+            LineComment(
+              Assign[$hat(X)_0, hat(z)_t$][$p_theta (hat(X)_0_t, hat(z)_t | X_t, t, Y_epsilon)$],
+              [Predict clean sample and latent noise]
+            )
+
+            LineComment(
+              Assign[$hat(X)_0$][$sigma(hat(X)_0) > text("threshold")$],
+              [Apply sigmoid and binarize]
+            )
+            Assign[$hat(z)_t$][$sigma(hat(z)_t) > text("threshold")$]
+
+            LineComment(
+              Assign[$z_t$][
+                get_binary_noise(t-1)
+              ],
+              [Generate random binary noise for time step t-1]
+            )
+
+            LineComment(
+              Assign[$X_t$][$hat(X)_0 xor z_t$],
+              [Update sample using XOR]
+            )
+          }
+        )
+
+        Return[$X_t$]
+      },
+    ) <algo>
+
+=== Fixed thresholding step
+
+In the paper @tabular, the authors mention that the model doesn't perform well when increasing the number of time steps $T$ in the reverse diffusion process.
+
+This behavior is quite surprising since increasing the number of time steps $T$ should allow the model to generate higher quality samples by gradually removing the noise from the data, which is a common behavior observed in diffusion models for continuous data.
+
+However, note that in the @algo, the binarization step uses a fixed threshold value that is applied to the predicted clean sample $hat(X)_0$ to determine the binary values of the generated sample.
+This fixed thresholding step can be the root cause of the performance degradation.
+
+For instance, if the model is in mode "mask", the predicted noise $hat(z)_t$ can have 50% of ones meaning that the model will bring 50% of changes to the data at each step of the reverse diffusion process.
+This can degrade the quality of the generated samples since the model will be forced to make a large number of changes to the data at each step instead of gradually removing the noise.
+
+Some tests have been done to try to understand the impact of the fixed thresholding step on the performance of the model
+
+=== Evaluation of the model
+
+To evaluate the performance of the binary diffusion model for tabular data generation, the procedure described in the paper @procedure is followed.
+
+The evaluation procedure consists of the following steps:
++ Train the binary diffusion model on the original dataset.
++ Generate a synthetic dataset by sampling from the trained model.
++ Train a machine learning model on the synthetic dataset.
++ Evaluate the performances.
+
+In the paper @tabular, the authors use a Random Forest classifier, a Linear/Logistic Regression classifier, and a Decision Tree classifier to evaluate the performance of the generated synthetic data on a classification and regression tasks, and they report the results in terms of prediction accuracy for classification tasks and mean squared error for regression tasks.
+
+#pagebreak()
+= Results
+
+First, I managed to reproduce the results of the paper @tabular on the Adult dataset @adult_2.
+
+Then, I tried to improve the performance of the model by bringing some modifications:
+- Removing the fixed thresholding
+- Correctly applying the guidance during the sampling process
+- Fixing the noise addition step in the sampling algorithm
+
+== Removing the fixed thresholding step
+
+The first modification was to remove the fixed thresholding step in the sampling algorithm (mode "mask").
+
+Instead of applying a fixed threshold to binarize the predicted clean sample $hat(X)_0$, I applied a dynamic threshold that is computed based on the quantity of noise to be removed at each step of the reverse diffusion process.
+
+This dynamic thresholding approach allows the model to adapt the binarization process to the amount of noise that is being removed at each step, which can lead to a gradual removal of the noise and an improvement in the quality of the generated samples as we increase the number of time steps $T$ in the reverse diffusion process.
+
+This modification doesn't improve the performance of the model.
+Indeed, the model already predicts the right amount of noise to be removed at each step, as shown by the following results that compare the quantity of noise in the predicted mask with the quantity of noise that should be removed at each step of the reverse diffusion process.
+```raw
+Step 800: Ones in mask: 33.6364%, Ones required: 33.6031%
+Step 600: Ones in mask: 20.4545%, Ones required: 20.3957%
+Step 400: Ones in mask: 10.4545%, Ones required: 10.4685%
+Step 200: Ones in mask: 4.0909%, Ones required: 3.8215%
+Step 0: Ones in mask: 0.4332%, Ones required: 0.4545%
+```
+So this analysis shows that the model predicts the right amount of noise to be removed at each step, which indicates that the fixed thresholding step is not the root cause of the performance degradation when increasing the number of time steps $T$ in the reverse diffusion process.
+
+== Correctly applying the guidance during the sampling process
+
+The second modification was to follow the approach described in the paper "Classifier-Free Diffusion Guidance" @guidance to guide correctly the sampling process.
+In fact, the guidance was not correctly applied in the current implementation since it was not following the approach proposed in the paper, even though the goal was to implement the classifier-free guidance as described in the paper @guidance.
+
+In the paper, the approach proposed is the following:
+$ (1 + w) dot epsilon_c - w dot epsilon_u $
+Where $epsilon_c$ is conditioned prediction and $epsilon_u$ is unconditioned prediction, and $w$ is a scalar value that controls the strength of the guidance.
+
+The conditioned prediction can be seen as the conformity to the desired properties, while the unconditioned prediction can be seen as the diversity of the generated samples, and the guidance allows to find a good balance between these two aspects to generate high-quality samples that match the desired properties while still being diverse and representative of the general distribution of the data.
+
+The current implementation was doing the following:
+$ epsilon_u + g dot (epsilon_c - epsilon_u) $
+which is equivalent to the approach proposed in the paper @guidance but with a different parameterization of the guidance strength, where $g = 1 + w$:
+$ epsilon_u + (1 + w) dot (epsilon_c - epsilon_u) = (1 + w) dot epsilon_c - w dot epsilon_u $
+
+This modification allows to correctly apply the guidance during the sampling process, but this is only a small fix of -1 in the implementation that doesn't have a significant impact on the performance of the model.
+
+== Fixing the noise addition step in the sampling algorithm
+
+The third modification was a small fix in the implementation of the sampling algorithm.
+
+As described in the @algo at line 11, the sample process adds the noise of the step $t-1$ to the predicted clean sample $hat(X)_0$ to get the new sample $X_t$ for the next step of the reverse diffusion process.
+
+But in the existent implementation, the noise of the current step $t$ was added instead of the noise of the next step $t-1$, which can lead to a degradation of the performance of the model.
+
+Indeed, the noise of the current step $t$ is not the correct noise to be added since it corresponds to the noise that was removed at the current step, while the noise of the next step $t-1$ corresponds to the noise that will be removed at the next step, which is the correct noise to be added to ensure that the model effectively reverses the noise addition process and generates high-quality samples.
+
+By adding the correct noise at each step, the amount of noise is now correctly reduced at each step of the reverse diffusion process.

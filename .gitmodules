@@ -4,3 +4,6 @@
 [submodule "code/binary-diffusion-tabular"]
 	path = code/binary-diffusion-tabular
 	url = git@github.com:Arkanthara/binary-diffusion-tabular.git
+[submodule "code/binary-ddpm"]
+	path = code/binary-ddpm
+	url = git@github.com:vkinakh/binary-ddpm.git

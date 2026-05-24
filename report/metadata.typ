@@ -24,11 +24,11 @@
   illustrations: (
     (
       path: "img/noisy_images/tangled.png",
-      width: 5cm,
+      width: 4.7cm,
     ),
     (
       path: "img/noisy_images/noisy_image_0.3.png",
-      width: 5cm,
+      width: 4.7cm,
     )
   ),
   project-name: "Computational Imaging",
