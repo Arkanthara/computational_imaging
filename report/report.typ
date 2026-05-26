@@ -20,6 +20,15 @@
 
 #set math.equation(numbering: "(1)")
 
+```python
+%| refresh: true
+%| echo: false
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from utils import *
+```
+
 = Introduction on Diffusion Models
 
 Generative models have revolutionized the field of artificial intelligence, enabling machines to create content that is indistinguishable from human-generated data or to improve the quality of data through various transformations.
@@ -567,7 +576,30 @@ Instead of applying a fixed threshold to binarize the predicted clean sample $ha
 
 This dynamic thresholding approach allows the model to adapt the binarization process to the amount of noise that is being removed at each step, which can lead to a gradual removal of the noise and an improvement in the quality of the generated samples as we increase the number of time steps $T$ in the reverse diffusion process.
 
-This modification doesn't improve the performance of the model.
+The @fig7 shows the results of the evaluation of the model with the dynamic thresholding approach (linear and quadratic schedules) compared to the fixed thresholding approach (constant schedule) for different values of $T$.
+
+We can see that the dynamic thresholding approach doesn't improve at all the performance of the model compared to the fixed thresholding approach.
+And between the two dynamic thresholding approaches, the linear schedule performs worse than the quadratic schedule, which is expected since the model was trained with a quadratic noise schedule.
+
+```python
+%| echo: false
+%| plt-axes.grid: false
+%| img-width: 60%
+%| label: fig7
+fig1 = plot_heatmaps(
+    value_col     = "mean",
+    x_col         = "n_timesteps",
+    y_col         = "schedule",
+    fixed_filters = {"strategy": "mask", "use_t_next": True, "renoise_factor": 1.0},
+    # subplot_cols  = ["strategy"],
+    # ncols         = 2,
+    cmap          = "RdYlGn",
+    suptitle      = "Schedule manual vs. auto (`const`) for `strategy=mask` and `use_t_next=True`",
+    cell_size      = (5, 4),
+)
+plt.show()
+```
+
 Indeed, the model already predicts the right amount of noise to be removed at each step, as shown by the following results that compare the quantity of noise in the predicted mask with the quantity of noise that should be removed at each step of the reverse diffusion process.
 ```raw
 Step 800: Ones in mask: 33.6364%, Ones required: 33.6031%
@@ -607,3 +639,70 @@ But in the existent implementation, the noise of the current step $t$ was added 
 Indeed, the noise of the current step $t$ is not the correct noise to be added since it corresponds to the noise that was removed at the current step, while the noise of the next step $t-1$ corresponds to the noise that will be removed at the next step, which is the correct noise to be added to ensure that the model effectively reverses the noise addition process and generates high-quality samples.
 
 By adding the correct noise at each step, the amount of noise is now correctly reduced at each step of the reverse diffusion process.
+
+However, as shown in @fig8, this modification allows to generate better samples for small values of $T$ but it doesn't allow to improve the performance of the model for larger values of $T$.
+
+```python
+%| echo: false
+%| label: fig8
+%| plt-axes.grid: false
+%| grid-columns: (1fr, 0.92fr)
+# plot_sensitivity(PARAM_KEYS, DATASETS, PLOT_CONFIG)
+# plot_timestep_lines(DATASETS, PLOT_CONFIG)
+
+fig1 = plot_heatmaps(
+    value_col     = "mean",
+    x_col         = "n_timesteps",
+    y_col         = "use_t_next",
+    fixed_filters = {"renoise_factor": 1.0, "schedule": "const"},
+    subplot_cols  = ["strategy"],
+    ncols         = 2,
+    cmap          = "RdYlGn",
+    suptitle      = "Fixed vs. non-fixed noise addition (`use_t_next`) for different strategies",
+    cell_size      = (5, 4),
+)
+plt.show()
+```
+
+=== Increasing the noise in the sampling process
+
+The last modification was to increase the noise in the sampling process by multiplying the predicted noise by a renoise factor that is greater than 1, which allows to add more noise at each step of the reverse diffusion process.
+
+This modification allows to better explore the space of possible samples, which results in an improvement of the performance of the model for larger values of $T$ in the reverse diffusion process, as shown in @fig9.
+
+```python
+%| echo: false
+%| label: fig9
+%| plt-axes.grid: false
+%| grid-columns: (1fr, 0.92fr)
+# plot_sensitivity(PARAM_KEYS, DATASETS, PLOT_CONFIG)
+# plot_timestep_lines(DATASETS, PLOT_CONFIG)
+
+fig1 = plot_heatmaps(
+    value_col     = "mean",
+    x_col         = "n_timesteps",
+    y_col         = "renoise_factor",
+    fixed_filters = {"use_t_next": True, "schedule": "const"},
+    subplot_cols  = ["strategy"],
+    ncols         = 2,
+    cmap          = "RdYlGn",
+    suptitle      = "Impact of increasing the noise in the sampling process (`renoise_factor`) for `use_t_next=True`",
+    cell_size      = (5, 4),
+)
+plt.show()
+```
+
+The @fig10 shows the best configurations for each strategy compared to the original implementation of the model (baseline) for different values of $T$ in the reverse diffusion process.
+We can see that the modifications allow to improve the performance of the model of up to 1% for different configurations, which shows that the modifications have a positive impact on the performance of the model, but there is still room for improvement to further enhance the performance of the model for larger values of $T$ in the reverse diffusion process.
+
+```python
+%| echo: false
+%| label: fig10
+%| fig-kind: table
+%| caption: Best configurations vs. original implementation (`baseline`)
+plot_study_table()
+```
+
+Here we were dealing with tabular data which is simpler than images, but the same modifications can be applied to the case of image generation to try to improve the performance of the model for larger values of $T$ in the reverse diffusion process.
+
+Theses modifications can be much more impactful in the case of images since the data are more complex and the noise addition and removal process is more challenging compared to the case of tabular data.
