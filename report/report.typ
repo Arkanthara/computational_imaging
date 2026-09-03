@@ -32,7 +32,7 @@ from utils import *
 = Introduction on Diffusion Models
 
 Generative models have revolutionized the field of artificial intelligence, enabling machines to create content that is indistinguishable from human-generated data or to improve the quality of data through various transformations.
-Among these models, diffusion models have emerged as a powerful class of generative models that have shown remarkable performance in tasks such as image generation, image super-resolution, and data denoising.
+Among these models, diffusion models have emerged as a powerful class of generative models that have shown remarkable performance in tasks such as data generation, image super-resolution, and data denoising.
 
 Diffusion models are based on the concept of a diffusion process, which is a stochastic process that describes how data points evolve over time. The core idea behind diffusion models is to model the data generation process as a gradual transformation from noise to structured data. This is achieved by defining a forward diffusion process that adds noise to the data and a reverse diffusion process that learns to remove the noise and recover the original data.
 
@@ -46,6 +46,8 @@ The discrete nature of quantized data can make it difficult for diffusion models
 In answer to this problem, researchers have proposed various approaches to adapt diffusion models for quantized data, such as Binary Diffusion Models (BDMs) and Quantized Diffusion Models (QDMs).
 These models are designed to handle the discrete nature of quantized data while still leveraging the powerful generative capabilities of diffusion models.
 
+#pagebreak()
+
 = Methodology
 
 There are several types of generative models, including:
@@ -55,22 +57,19 @@ There are several types of generative models, including:
 - Diffusion Models
 Each of these models has its own strengths and weaknesses, and the choice of model often depends on the specific application and the type of data being modeled.
 
-
 Diffusion models, in particular, have shown great promise in generating high-quality samples and have been successfully applied to a wide range of tasks.
 However, their performance can be limited when dealing with quantized data, which is often encountered in scenarios like computational imaging.
 To address this issue, researchers have developed specialized diffusion models that are designed to handle quantized data effectively.
 
-First, what are the foundational principles of diffusion models?
+Before going into the details of these specialized diffusion models, let's first understand the foundational principles of diffusion models and how they work.
 
-Diffusion models are a Markov chain-based generative model that defines a forward diffusion process and a reverse diffusion process.
+Diffusion models are Markov chains that consist of two main processes: the forward diffusion process and the reverse diffusion process.
 The forward diffusion process gradually adds noise to the data, while the reverse diffusion process learns to remove the noise and recover the original data.
 The training of diffusion models involves optimizing a variational bound on the data likelihood, which allows the model to learn the underlying data distribution effectively.
 
 == Forward Diffusion Process
 
 Suppose we have an original image $X_0$ that follows a data distribution $q$.
-
-In Denoising Diffusion Probabilistic Models (DDPMs), the forward diffusion process is defined as first order Markov chain that gradually adds noise to the data over a series of time steps.
 
 At each time step $t$, noise is added to the data according to a predefined schedule, which is typically controlled by a parameter $beta_t$ that determines the amount of noise added at each step, as shown in @eq1 where $epsilon_t ~ cal(N)(0, I)$ is a standard Gaussian noise term and $X_t$ is the noisy version of the data at time step $t$.
 
@@ -103,7 +102,7 @@ This process can be visualized as a gradual transformation of the original data 
 
   ml-diagram(nodes, edges: edges, spacing: 4.5em, label-size: 0.7em)
   },
-  caption: "Illustration of the forward diffusion process",
+  caption: "Forward diffusion process",
 ) <fig1>
 
 We can also express $X_t$ in term of the data distribution $q$ as described in @eq2, where $cal(N)(X; mu, sigma^2)$ denotes a Gaussian distribution with mean $mu$ and variance $sigma^2$ applied to $X$.
@@ -131,7 +130,8 @@ $
 $
 
 We note $N_t = sum_(k=1)^(t) sqrt((1 - alpha_k) product_(j=k+1)^(t) alpha_j) epsilon_k$.
-We want to express $N_t$ as a single noise term since a sum of independent Gaussian noise terms is also a Gaussian noise term with variance equal to the sum of the variances of the individual noise terms.
+We want to express $N_t$ as a single noise term since a sum of independent Gaussian noise terms is also a Gaussian noise term, which will allow us to obtain a closed-form expression for $X_t$ in terms of $X_0$ and a single noise term, as shown in @eq6.
+
 The variance of $N_t$ can be calculated as in @eq5, where we use the fact that $epsilon_1, epsilon_2, ..., epsilon_T ~ cal(N)(0, I)$ are independent standard Gaussian noise terms.
 
 #let Var = math.op("Var")
@@ -209,14 +209,14 @@ The reverse diffusion process can be thought of as a hiker starting at the base 
 
 The $mu_theta (X_t, t)$ indicates the direction in which the hiker should move to climb back up the mountain, while $Sigma_theta (X_t, t)$ represents the uncertainty in this direction, which indicates how many different paths the hiker can take to reach the peak.
 
-So if $mu_theta$ is zero, the hiker don't know which direction to go and can take any path, while if $mu_theta$ is large, the hiker has a clear direction to follow.
-And if $Sigma_theta$ is small, the hiker has only one path to follow, while if $Sigma_theta$ is large, the hiker has many different paths to choose from.
+// So if $mu_theta$ is zero, the hiker don't know which direction to go and can take any path, while if $mu_theta$ is large, the hiker has a clear direction to follow.
+// And if $Sigma_theta$ is small, the hiker has only one path to follow, while if $Sigma_theta$ is large, the hiker has many different paths to choose from.
 
 For instance, in the case of image generation, $mu_theta$ indicates that the image should be a bear, while $Sigma_theta$ indicates if it should be a black bear, a brown bear, or a polar bear.
 
-So the model aims to minimize the difference between the predicted distribution $p_theta (X_(t-1) | X_t)$ and the true distribution $q(X_(t-1) | X_t)$ to learn how to effectively reverse the noise addition process and recover the original data from the noisy data.
+So the model aims to minimize the difference between the predicted distribution $p_theta (X_(t-1) | X_t)$ and the true distribution $q(X_(t-1))$ to learn how to effectively reverse the noise addition process and recover the original data from the noisy data.
 
-The complete process can be represented as a Markov chain that alternates between the forward diffusion process and the reverse diffusion process, where the model learns to effectively reverse the noise addition process at each step to recover the original data from the noisy data, as illustrated in @fig3.
+The complete process can be represented as in @fig3, where the model learns to predict the original data $hat(X)_0_t$ and the predicted noise $hat(z)_t$ from the noisy data $X_t$ at each time step $t$.
 
 #let src_dir = "../../.."
 
@@ -234,8 +234,8 @@ The complete process can be represented as a Markov chain that alternates betwee
     image-node("x2", title: $X_2$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: (2.5, 3), pos: right-of("x1")),
     text-node("dots", " ... ", title-size: 1em, pos: right-of("x2"), node-size: (2, 3)),
     image-node("xT", title: $X_T$, src: src_dir + "/img/noisy_images/noisy_image_10.0.png", pos: right-of("dots"), cover: true, image-size: (2.5, 3)),
-    arrow-node("fwd", title: "Forward diffusion", dir: right, shape: "arrow", label-pos: "bellow", size: (2.5, 1), pos: below("x2", by: 0.6)),
-    arrow-node("fwd", title: "Reverse diffusion", dir: left, shape: "arrow", label-pos: "above", pos: above("x2", by: 0.7)),
+    arrow-node("fwd", title: "Forward diffusion", dir: right, shape: "arrow", label-pos: "bellow", size: (2.5, 0.8), pos: below("x2", by: 0.6)),
+    arrow-node("fwd", title: "Reverse diffusion", dir: left, shape: "arrow", label-pos: "above", size: (2.5, 0.8), pos: above("x2", by: 0.7)),
   )
 
   let edges = (
@@ -249,15 +249,17 @@ The complete process can be represented as a Markov chain that alternates betwee
     ml-edge("x1", "x0", bend: -45deg, from-side: "top", to-side: "top"),
   )
 
-  ml-diagram(nodes, edges: edges, label-size: 0.7em, spacing: 4.5em)
+  ml-diagram(nodes, edges: edges, label-size: 0.7em, spacing: 4.1em)
   },
-  caption: "Illustration of the complete diffusion process, which consists of a forward diffusion process that adds noise to the data and a reverse diffusion process that learns to remove the noise and recover the original data",
+  caption: "Complete diffusion process",
 ) <fig3>
+
+#pagebreak()
 
 = Binary Diffusion Models
 
 The binary diffusion models are a specific type of diffusion models that are designed to handle binary data, which is a common type of quantized data.
-For instance, in the context of computational imaging, we can deal with binary representations of images by a decomposition of the image into bit-planes, where each bit-plane represents a binary image that captures a specific bit of the pixel values.
+For instance, in the context of computational imaging, we can deal with binary representations of images by a decomposition of the image into bit-planes or by binarization of the image using some neural network-based binarization method.
 
 In binary diffusion models, thanks to the binary nature of the data, the management of the noise addition and removal process is simplified compared to the general case of continuous data.
 The forward diffusion process can be defined as a simple XOR operation between the binary data and a binary noise term, like the reverse diffusion process that is also defined as a simple XOR operation between the noisy binary data and a predicted binary noise term.
@@ -335,7 +337,8 @@ In this way, the model can reverse the noise either by predicting the original b
   caption: "Binary diffusion process",
 ) <fig4>
 
-As shown in @fig4, the model $p_theta$ takes as input the noisy binary data $X_t$, the time step $t$, and an optional conditioning variable $Y_epsilon$ that can be used to guide the generation process, and outputs a prediction of the original binary data $hat(X)_0_t$ and the predicted noise $hat(z)_t$ that was added to the data at time step $t$ in the forward diffusion process.
+As shown in @fig4, the model $p_theta$ takes also as input some additional information $Y_epsilon$ that can be used to condition the generation process on some specific attributes of the data.
+This can be seen as the prompt of the user that guides the generation process towards specific types of samples.
 
 === Loss functions
 
@@ -360,18 +363,18 @@ $ cal(L)(theta) = 1/B sum_(b=1)^B (cal(L)_z^((b)) + cal(L)_x^((b))) $ <eq11>
 
 === First transformation
 
-The first transformation $T$ can be defined as a simple binary encoding of the original data that must be inversible ($T^( -1 )$) to ensure that the model can learn to effectively reverse the noise addition process and recover the original data from the noisy data.
+The first transformation $T$ can be defined as a simple binary encoding of the original data that must be inversible ($T^( -1 )$) to ensure that the model can recover the original data from the noisy data.
 
 For instance, in the context of computational imaging, we can decompose an image into bit-planes, where each bit-plane represents a binary image that captures a specific bit of the pixel values, as illustrated in @fig5, with the $k$-th bit-plane representing the $k$-th bit of the pixel values.
 
 #figure(
   {
   let nodes = (
-    image-node("bitplane8", title: "Bit-plane 8", src: src_dir + "/img/bit_planes/bit_plane_7.png", cover: true, image-size: (3, 3)),
-    image-node("bitplane7", title: "Bit-plane 7", src: src_dir + "/img/bit_planes/bit_plane_6.png", cover: true, image-size: (3, 3), pos: right-of("bitplane8")),
+    image-node("bitplane8", title: "Bit-plane 8", src: src_dir + "/img/bit_planes/bit_plane_7.png", cover: true, image-size: (3, 3), title-gap: 0.5em),
+    image-node("bitplane7", title: "Bit-plane 7", src: src_dir + "/img/bit_planes/bit_plane_6.png", cover: true, image-size: (3, 3), title-gap: 0.5em, pos: right-of("bitplane8")),
     text-node("dots", " ... ", title-size: 1em, pos: right-of("bitplane7"), node-size: (3, 3)),
-    image-node("bitplane1", title: "Bit-plane 1", src: src_dir + "/img/bit_planes/bit_plane_0.png", cover: true, image-size: (3, 3), pos: right-of("dots")),
-    image-node("original", title: "Original image", caption-pos: "top", src: src_dir + "/img/bit_planes/original.png", cover: true, image-size: (3, 3), pos: explicit-pos( 2.5, y: -4)),
+    image-node("bitplane1", title: "Bit-plane 1", src: src_dir + "/img/bit_planes/bit_plane_0.png", cover: true, image-size: (3, 3), title-gap: 0.5em, pos: right-of("dots")),
+    image-node("original", title: "Original image", caption-pos: "top", src: src_dir + "/img/bit_planes/original.png", cover: true, image-size: (3, 3), title-gap: 0.5em, pos: explicit-pos( 2.5, y: -4)),
   )
 
   let edges = (
@@ -386,7 +389,7 @@ For instance, in the context of computational imaging, we can decompose an image
   caption: "Example of a binary encoding of an image into bit-planes"
 ) <fig5>
 
-So the first transformation $T$ is important since it allows to work with different types of data such as images @binary, tabular data @tabular etc... by simply applying an appropriate binary encoding to the data, which can be easily done as long as the encoding is inversible to ensure that the model can learn to effectively reverse the noise addition process and recover the original data from the noisy data.
+So the first transformation $T$ is important since it allows to work with different types of data such as images @binary, tabular data @tabular etc... by simply applying an appropriate binary encoding to the data.
 
 == Sampling from the model
 
@@ -394,8 +397,7 @@ The sampling process from the binary diffusion model involves starting from pure
 
 It can be illustrated as in @fig6, where the sampling process starts from pure noise $X_T$ and iteratively applies the reverse diffusion process to generate a sample $hat(X)_0_t$ that resembles the original data.
 
-Note that the sampling process can be guided by conditioning variables such as $Y_epsilon$ to generate samples that have specific desired properties.
-For instance, the conditioning variable can be a text description of the desired sample, which can be used to guide the generation process to produce samples that match the given description.
+Note that the sampling process can also be guided by conditioning variables such as $Y_epsilon$ to generate samples that have specific desired properties.
 
 
 #figure(
@@ -453,8 +455,7 @@ For instance, the conditioning variable can be a text description of the desired
   caption: "Sampling process",
 ) <fig6>
 
-On the @fig6, the noise depends on the time step $t$ and is computed by a noise scheduler $cal(M)_t$ that determines the amount of noise to be removed at each step of the reverse diffusion process.
-In this way, the noise is gradually removed from the data as we iteratively apply the reverse diffusion process.
+On the @fig6, the noise depends on the time step $t$ and is computed by a noise scheduler $cal(M)_t$ that determines the amount of noise to be removed to granually denoise the data.
 
 #pagebreak()
 
@@ -464,7 +465,7 @@ Before working with images which are quite complex data and require more computa
 
 In the paper "Tabular Data Generation using Binary Diffusion" by V. Kinakh and S. Voloshynovskiy @tabular, the authors propose a binary diffusion model for generating synthetic tabular data, which is a common type of quantized data that can be represented in a binary format.
 
-The model is trained to learn the underlying distribution of the tabular data and can be used to generate new synthetic samples that resemble the original data, which can be useful for various applications such as data augmentation, privacy preservation, and imputation of missing values.
+The model is trained to learn the underlying distribution of the tabular data and can be used to generate new synthetic samples that resemble the original data (which can be useful for data augmentation, privacy preservation, etc...).
 
 == Link with image generation
 
@@ -479,6 +480,8 @@ Then, all binary features are concatenated to form a single binary vector that r
 == Architecture of the model
 
 As described in the paper @tabular, the sampling algorithm for generating synthetic data from the binary diffusion model can be represented as in the @algo.
+
+#pagebreak()
 
 #algorithm-figure(
   "Sampling Algorithm",
@@ -532,19 +535,6 @@ As described in the paper @tabular, the sampling algorithm for generating synthe
       },
     ) <algo>
 
-=== Fixed thresholding step
-
-In the paper @tabular, the authors mention that the model doesn't perform well when increasing the number of time steps $T$ in the reverse diffusion process.
-
-This behavior is quite surprising since increasing the number of time steps $T$ should allow the model to generate higher quality samples by gradually removing the noise from the data, which is a common behavior observed in diffusion models for continuous data.
-
-However, note that in the @algo, the binarization step uses a fixed threshold value that is applied to the predicted clean sample $hat(X)_0$ to determine the binary values of the generated sample.
-This fixed thresholding step can be the root cause of the performance degradation.
-
-For instance, if the model is in mode "mask", the predicted noise $hat(z)_t$ can have 50% of ones meaning that the model will bring 50% of changes to the data at each step of the reverse diffusion process.
-This can degrade the quality of the generated samples since the model will be forced to make a large number of changes to the data at each step instead of gradually removing the noise.
-
-Some tests have been done to try to understand the impact of the fixed thresholding step on the performance of the model
 
 === Evaluation of the model
 
@@ -553,13 +543,26 @@ To evaluate the performance of the binary diffusion model for tabular data gener
 The evaluation procedure consists of the following steps:
 + Train the binary diffusion model on the original dataset.
 + Generate a synthetic dataset by sampling from the trained model.
-+ Train a machine learning model on the synthetic dataset.
++ Train some model on the synthetic dataset.
 + Evaluate the performances.
 
 In the paper @tabular, the authors use a Random Forest classifier, a Linear/Logistic Regression classifier, and a Decision Tree classifier to evaluate the performance of the generated synthetic data on a classification and regression tasks, and they report the results in terms of prediction accuracy for classification tasks and mean squared error for regression tasks.
 
+=== Fixed thresholding step
+
+In the paper @tabular, the authors mention that the model doesn't perform well when increasing the number of time steps $T$ in the reverse diffusion process.
+
+This behavior is quite surprising since increasing the number of time steps $T$ should allow the model to generate higher quality samples by gradually removing the noise from the data, which is a common behavior observed in diffusion models for continuous data.
+
+However, note that in the @algo, the binarization step uses a fixed threshold value, which can be the root cause of the performance degradation.
+
+For instance, if the model is in mode "mask", the predicted noise $hat(z)_t$ can have 50% of ones meaning that the model will bring 50% of changes to the data at each step of the reverse diffusion process.
+This can degrade the quality of the generated samples since the model will be forced to make a large number of changes to the data at each step instead of gradually removing the noise.
+
+Some tests have been done to try to understand the impact of the fixed thresholding step on the performance of the model
+
 #pagebreak()
-= Results
+= Results of Tabular Data Generation
 
 First, I managed to reproduce the results of the paper @tabular on the Adult dataset @adult_2.
 
@@ -584,18 +587,24 @@ And between the two dynamic thresholding approaches, the linear schedule perform
 ```python
 %| echo: false
 %| plt-axes.grid: false
-%| img-width: 60%
+%| img-width: 100%
 %| label: fig7
+
+import pandas as pd
+
+df = load_results("study_results.csv")[0]
+
 fig1 = plot_heatmaps(
+    df,
     value_col     = "mean",
     x_col         = "n_timesteps",
     y_col         = "schedule",
-    fixed_filters = {"strategy": "mask", "use_t_next": True, "renoise_factor": 1.0},
-    # subplot_cols  = ["strategy"],
+    fixed_filters = {"strategy": "mask", "renoise_factor": 1.0},
+    subplot_cols  = ["use_t_next"],
     # ncols         = 2,
-    cmap          = "RdYlGn",
-    suptitle      = "Schedule manual vs. auto (`const`) for `strategy=mask` and `use_t_next=True`",
+    suptitle      = "Schedule comparison for `strategy=mask` (baseline: `schedule=const`)",
     cell_size      = (5, 4),
+    std_col       = "std",
 )
 plt.show()
 ```
@@ -608,7 +617,7 @@ Step 400: Ones in mask: 10.4545%, Ones required: 10.4685%
 Step 200: Ones in mask: 4.0909%, Ones required: 3.8215%
 Step 0: Ones in mask: 0.4332%, Ones required: 0.4545%
 ```
-So this analysis shows that the model predicts the right amount of noise to be removed at each step, which indicates that the fixed thresholding step is not the root cause of the performance degradation when increasing the number of time steps $T$ in the reverse diffusion process.
+So this analysis shows that the fixed thresholding step is not the cause of the performance degradation since the model is already predicting the right amount of noise to be removed at each step, and the dynamic thresholding approach doesn't improve the performance of the model compared to the fixed thresholding approach.
 
 == Correctly applying the guidance during the sampling process
 
@@ -623,7 +632,7 @@ The conditioned prediction can be seen as the conformity to the desired properti
 
 The current implementation was doing the following:
 $ epsilon_u + g dot (epsilon_c - epsilon_u) $
-which is equivalent to the approach proposed in the paper @guidance but with a different parameterization of the guidance strength, where $g = 1 + w$:
+which is equivalent to the approach proposed in the paper @guidance but with a different parameterization of the guidance strength: $g = 1 + w$:
 $ epsilon_u + (1 + w) dot (epsilon_c - epsilon_u) = (1 + w) dot epsilon_c - w dot epsilon_u $
 
 This modification allows to correctly apply the guidance during the sampling process, but this is only a small fix of -1 in the implementation that doesn't have a significant impact on the performance of the model.
@@ -634,11 +643,92 @@ The third modification was a small fix in the implementation of the sampling alg
 
 As described in the @algo at line 11, the sample process adds the noise of the step $t-1$ to the predicted clean sample $hat(X)_0$ to get the new sample $X_t$ for the next step of the reverse diffusion process.
 
-But in the existent implementation, the noise of the current step $t$ was added instead of the noise of the next step $t-1$, which can lead to a degradation of the performance of the model.
+#let src_dir = "../../.."
 
-Indeed, the noise of the current step $t$ is not the correct noise to be added since it corresponds to the noise that was removed at the current step, while the noise of the next step $t-1$ corresponds to the noise that will be removed at the next step, which is the correct noise to be added to ensure that the model effectively reverses the noise addition process and generates high-quality samples.
+#let make-image-node = set-image-node-defaults(options: (image-pad: 0, image-width: 3.5, image-height: 4, border: false, title-size: 1em))
 
-By adding the correct noise at each step, the amount of noise is now correctly reduced at each step of the reverse diffusion process.
+#let src_dir = "../../.."
+
+#let make-image-node = set-image-node-defaults(options: (image-pad: 0, image-width: 3.5, image-height: 4, border: false, title-size: 1em))
+
+#figure(
+  {
+  let size = (2, 3)
+  let nodes = (
+    image-node("step_t", title: $X_t$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: size, pos: explicit-pos(0, y: 0)),
+    arrow-node("predict", title: "Predict", dir: right, shape: "arrow", label-pos: "inside", size: (3, 0.8), pos: right-of("step_t")),
+    gate-node("gate", pos: right-of("predict")),
+    image-node("pred", title: $hat(X)_0$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: above("gate", by: 0.6)),
+    image-node("noise", title: $z_t$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.5.png", cover: true, image-size: size, pos: below("gate", by: 0.6)),
+    arrow-node("update", title: "Renoise", dir: right, shape: "arrow", label-pos: "inside", size: (3.3, 0.8), pos: right-of("gate")),
+    module("done", title: "What was done", pos: above("update", by: 1), title-size: 0.8em),
+
+    image-node("pred_2", title: $hat(X)_0$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: right-of("pred", by: 2)),
+    image-node("noise_2", title: $z_(t)$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.5.png", cover: true, image-size: size, pos: right-of("noise", by: 2)),
+    gate-node("gate_2", pos: right-of("update", by: 3)),
+    image-node("updated_sample", title: $X_(t-1)$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: size, pos: right-of("gate_2", by: 2)),
+
+  )
+
+  let edges = (
+    ml-edge("pred_2", "gate_2", from-side: "right", to-side: "top", orthogonal: true),
+    ml-edge("noise_2", "gate_2", from-side: "right", to-side: "bottom", orthogonal: true),
+    ml-edge("gate_2", "updated_sample", from-side: "right", to-side: "left"),
+    ml-edge("updated_sample", "step_t", from-side: "top", to-side: "top", bend: -45deg, dash: "dashed", label: "Same amount of noise", mark: "<|-|>"),
+  )
+
+  ml-diagram(nodes, edges: edges, label-size: 1em, spacing: 1.5em)
+  },
+  caption: "Current implementation of the noise addition step in the sampling algorithm",
+) <noise_1>
+
+
+But in the existent implementation, the noise of the current step $t$ was added instead of the noise of the next step $t-1$ as shown in @noise_1.
+
+The noise of the current step $t$ is not the correct noise to be added since it corresponds to the noise that was removed at the current step, while the noise of the next step $t-1$ corresponds to the noise that will be removed at the next step.
+The correct implementation should add the noise of the next step $t-1$ to the predicted clean sample $hat(X)_0$ to get the new sample $X_(t-1)$ for the next step of the reverse diffusion process, as shown in @noise_2.
+
+#let src_dir = "../../.."
+
+#let make-image-node = set-image-node-defaults(options: (image-pad: 0, image-width: 3.5, image-height: 4, border: false, title-size: 1em))
+
+#let src_dir = "../../.."
+
+#let make-image-node = set-image-node-defaults(options: (image-pad: 0, image-width: 3.5, image-height: 4, border: false, title-size: 1em))
+
+#figure(
+  {
+  let size = (2, 3)
+  let nodes = (
+    image-node("step_t", title: $X_t$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: size, pos: explicit-pos(0, y: 0)),
+    arrow-node("predict", title: "Predict", dir: right, shape: "arrow", label-pos: "inside", size: (3, 0.8), pos: right-of("step_t")),
+    gate-node("gate", pos: right-of("predict")),
+    image-node("pred", title: $hat(X)_0$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: above("gate", by: 0.6)),
+    image-node("noise", title: $z_t$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.5.png", cover: true, image-size: size, pos: below("gate", by: 0.6)),
+    arrow-node("update", title: "Renoise", dir: right, shape: "arrow", label-pos: "inside", size: (3.3, 0.8), pos: right-of("gate")),
+    module("done", title: "What is correct", pos: above("update", by: 1), title-size: 0.8em),
+
+    image-node("pred_2", title: $hat(X)_0$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: right-of("pred", by: 2)),
+    image-node("noise_2", title: $z_(t-1)$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.3.png", cover: true, image-size: size, pos: right-of("noise", by: 2)),
+    gate-node("gate_2", pos: right-of("update", by: 3)),
+    image-node("updated_sample", title: $X_(t-1)$, src: src_dir + "/img/noisy_images/noisy_image_0.3.png", cover: true, image-size: size, pos: right-of("gate_2", by: 2)),
+
+  )
+
+  let edges = (
+    ml-edge("pred_2", "gate_2", from-side: "right", to-side: "top", orthogonal: true),
+    ml-edge("noise_2", "gate_2", from-side: "right", to-side: "bottom", orthogonal: true),
+    ml-edge("gate_2", "updated_sample", from-side: "right", to-side: "left"),
+    ml-edge("updated_sample", "step_t", from-side: "top", to-side: "top", bend: -45deg, dash: "dashed", label: "Not same amount of noise", label-side: "below", mark: "<|-|>"),
+  )
+
+  ml-diagram(nodes, edges: edges, label-size: 1em, spacing: 1.5em)
+  },
+  caption: "Correct implementation of the noise addition step in the sampling algorithm",
+) <noise_2>
+
+
+By adding the correct noise at each step, the amount of noise is now correctly reduced at each step of the reverse diffusion process, and this fix is called `use_t_next` since it uses the noise of the next step $t-1$ instead of the noise of the current step $t$.
 
 However, as shown in @fig8, this modification allows to generate better samples for small values of $T$ but it doesn't allow to improve the performance of the model for larger values of $T$.
 
@@ -646,20 +736,24 @@ However, as shown in @fig8, this modification allows to generate better samples 
 %| echo: false
 %| label: fig8
 %| plt-axes.grid: false
-%| grid-columns: (1fr, 0.92fr)
 # plot_sensitivity(PARAM_KEYS, DATASETS, PLOT_CONFIG)
 # plot_timestep_lines(DATASETS, PLOT_CONFIG)
 
+import pandas as pd
+
+df = load_results("study_results.csv")[0]
+
 fig1 = plot_heatmaps(
+    df,
     value_col     = "mean",
     x_col         = "n_timesteps",
     y_col         = "use_t_next",
     fixed_filters = {"renoise_factor": 1.0, "schedule": "const"},
     subplot_cols  = ["strategy"],
     ncols         = 2,
-    cmap          = "RdYlGn",
-    suptitle      = "Fixed vs. non-fixed noise addition (`use_t_next`) for different strategies",
+    suptitle      = "Fixed vs. non-fixed noise addition for different strategies\n(baseline: `use_t_next=False`)",
     cell_size      = (5, 4),
+    std_col       = "std",
 )
 plt.show()
 ```
@@ -674,20 +768,24 @@ This modification allows to better explore the space of possible samples, which 
 %| echo: false
 %| label: fig9
 %| plt-axes.grid: false
-%| grid-columns: (1fr, 0.92fr)
 # plot_sensitivity(PARAM_KEYS, DATASETS, PLOT_CONFIG)
 # plot_timestep_lines(DATASETS, PLOT_CONFIG)
 
+import pandas as pd
+
+df = load_results("study_results.csv")[0]
+
 fig1 = plot_heatmaps(
+    df,
     value_col     = "mean",
     x_col         = "n_timesteps",
     y_col         = "renoise_factor",
     fixed_filters = {"use_t_next": True, "schedule": "const"},
     subplot_cols  = ["strategy"],
     ncols         = 2,
-    cmap          = "RdYlGn",
-    suptitle      = "Impact of increasing the noise in the sampling process (`renoise_factor`) for `use_t_next=True`",
+    suptitle      = "Increase the noise in the sampling process (`renoise_factor`) for `use_t_next=True`\n(baseline: `renoise_factor=1.0`)",
     cell_size      = (5, 4),
+    std_col       = "std",
 )
 plt.show()
 ```
@@ -706,3 +804,164 @@ plot_study_table()
 Here we were dealing with tabular data which is simpler than images, but the same modifications can be applied to the case of image generation to try to improve the performance of the model for larger values of $T$ in the reverse diffusion process.
 
 Theses modifications can be much more impactful in the case of images since the data are more complex and the noise addition and removal process is more challenging compared to the case of tabular data.
+
+#pagebreak()
+
+= Results of Image Generation
+
+After working on the tabular data generation, I started to work on the image generation using binary diffusion models, and I tried to apply the same modifications that were applied to the case of tabular data generation to see if they can also improve the performance of the model.
+
+The results of the evaluation of the model were obtained after 5 days of computation on a RTX 4080 (16 Go VRAM), which shows that working with images is much more computationally expensive than working with tabular data, and it requires more time and resources to test and evaluate.
+
+== Evaluation of the model
+
+To evaluate the performance of the binary diffusion model for image generation, I used the CIFAR-10 dataset @cifar that was used for the training of the model.
+
+The evaluation procedure consists of the following steps:
++ Train the binary diffusion model on the CIFAR-10 dataset.
++ Generate a synthetic dataset by sampling from the trained model.
++ Evaluate the quality of the generated images using metrics such as Inception Score (IS) Fréchet Inception Distance (FID) and Kernel Inception Distance (KID) that are commonly used for evaluating the performance of generative models for images.
+
+The IS measures the quality of the generated images by evaluating how well they can be classified by a pre-trained Inception model, while the FID measures the distance between the distribution of the generated images and the distribution of the real images in the feature space of a pre-trained Inception model.
+
+
+For the evaluation, the IS, FID, FID-clip and KID metrics were used, where FID-clip is a variant of the FID metric that uses a pre-trained CLIP model instead of an Inception model and KID is a variant of the FID metric that uses a kernel-based approach to measure the distance between the distributions of the generated and real images.
+
+=== How to interpret the results of the evaluation
+
+- IS: Higher is better
+- FID: Lower is better
+- FID-clip: Lower is better
+- KID: Lower is better
+
+== Fixing the thresholding step in the sampling algorithm
+
+The same test of fixing the thresholding step to a certain amount of noise to be removed at each step of the reverse diffusion process was applied to the case of image generation, but it doesn't allow to improve the performance of the model, as shown in @fig11.
+
+This is consistent with the results obtained for the case of tabular data generation since in both cases the model already predicts the right amount of noise to be removed at each step.
+
+The only exception is the case of the FID-clip metric where the linear and quadratic schedules perform better than the baseline.
+
+```python
+%| echo: false
+%| label: fig11
+
+import pandas as pd
+df = pd.read_csv("results_img.csv")
+
+fig1 = plot_heatmaps(
+    df,
+    value_col     = "fid",
+    x_col         = "use_t_next",
+    y_col         = "schedule",
+    fixed_filters = {"renoise_factor": 1.0, "strategy": "mask"},
+    subplot_cols  = ["n_timesteps"],
+    ncols         = 2,
+    suptitle      = "Schedule comparison for `strategy=mask`\n(baseline: `schedule=const`)",
+    cell_size      = (5, 4),
+    use_kid         = True,
+)
+plt.show()
+```
+
+== Fixing the noise addition step in the sampling algorithm
+
+The same test of fixing the noise addition step to add the correct noise at each step of the reverse diffusion process was applied to the case of image generation, leading to a big improvement of the performance of the model for smaller values of $T$ in the reverse diffusion process, and only a small improvement for larger values of $T$, as shown in @fig12.
+
+For larger values of $T$, the FID-clip metric is the only metric that shows a decrease in the performance of the model when fixing the noise addition step, which is quite surprising since this modification should allow to improve the performance of the model by ensuring that the correct amount of noise is removed at each step of the reverse diffusion process.
+
+```python
+%| echo: false
+%| label: fig12
+%| plt-axes.grid: false
+
+import pandas as pd
+
+df = pd.read_csv("results_img.csv")
+
+fig1 = plot_heatmaps(
+    df,
+    value_col     = "fid",
+    x_col         = "strategy",
+    y_col         = "use_t_next",
+    fixed_filters = {"renoise_factor": 1.0, "schedule": "const"},
+    subplot_cols  = ["n_timesteps"],
+    ncols         = 2,
+    suptitle      = "Fixed vs. non-fixed noise addition (`use_t_next`) for different metrics and strategies (baseline: `use_t_next=False`)",
+    cell_size      = (5, 4),
+    use_kid         = True,
+)
+plt.show()
+```
+
+So fixing the noise addition step allows to improve globally the performance of the model, making it more effective at reversing the noise addition process and generating higher quality samples, but it doesn't allow to improve significantly the performance of the model for larger values of $T$ in the reverse diffusion process, which indicates that there are still some issues that need to be addressed to further enhance the performance of the model for larger values of $T$.
+
+Compared to the case of tabular data generation, fixing the noise addition step has a much bigger impact on the performance of the model for image generation, which can be explained by the fact that images are more complex data than tabular data, and the noise addition and removal process is more challenging for images compared to tabular data.
+
+== Increasing the noise in the sampling process
+
+The same test of increasing the noise in the sampling process by multiplying the predicted noise by a renoise factor that is greater than 1 was applied to the case of image generation, leading to a significant decrease in the performance of the model for larger values of $T$ in the reverse diffusion process, as shown in @fig13.
+
+This result is expected since increasing the noise means degradating the quality of the generated samples since the model will not be able to remove the noise effectively.
+
+```python
+%| echo: false
+%| label: fig13
+%| plt-axes.grid: false
+import pandas as pd
+df = pd.read_csv("results_img.csv")
+
+fig1 = plot_heatmaps(
+    df,
+    value_col     = "fid",
+    x_col         = "strategy",
+    y_col         = "renoise_factor",
+    fixed_filters = {"use_t_next": True, "schedule": "const"},
+    subplot_cols  = ["n_timesteps"],
+    ncols         = 2,
+    suptitle      = "Increase the noise in the sampling process (`renoise_factor`) for `use_t_next=True`\n(baseline: `renoise_factor=1.0`)",
+    cell_size      = (5, 4),
+    use_kid         = True,
+)
+plt.show()
+```
+
+== Generated images
+
+The @fig14 shows some examples of generated images for different values of $T$.
+We can distinguish horses in both images, but the image generated with $T=100$ shows more details and better quality.
+
+#figure(grid(
+  columns: 2,
+  figure(image("img/n10.jpg", width: 30%), caption: [$T=10$], kind: "subfigure"),
+  figure(image("img/n100.jpg", width: 30%), caption: [$T=100$], kind: "subfigure"),
+), caption: [Generated images for different values of $T$ in the reverse diffusion process]
+) <fig14>
+
+
+#pagebreak()
+
+= Conclusion
+
+In this report, we explored the concept of binary diffusion models and their application to both tabular data generation and image generation.
+
+We started by understanding the complete diffusion process, which consists of a forward diffusion process that adds noise to the data and a reverse diffusion process that learns to remove the noise and recover the original data.
+
+Then, we focused on binary diffusion models, which are designed to handle binary data, and we discussed the training of the model, including the loss functions used to optimize the model and the first transformation that allows to work with different types of data.
+
+Next, we evaluated the performance of the binary diffusion model for tabular data generation and image generation, and we applied some modifications to try to improve the performance of the model for larger values of $T$ in the reverse diffusion process.
+The modifications included removing the fixed thresholding step, correctly applying the guidance during the sampling process, fixing the noise addition step, and increasing the noise in the sampling process.
+
+Overall, the fixing of the noise addition step was the most impactful modification that allowed to improve the performance of the model for both tabular data generation and image generation, while the other modifications had a smaller impact on the performance of the model.
+
+But there is still room for improvement to further enhance the performance of the model for larger values of $T$ in the reverse diffusion process, and future work can focus on addressing the remaining issues and exploring other modifications that can further improve the performance of the model.
+
+== Acknowledgements
+
+I would like to thank V. Kinakh, the author of the papers "Tabular Data Generation using Binary Diffusion" @tabular and "Binary Diffusion Probabilistic Model" @binary, for his guidance and support throughout this project, and for providing investigations directions that helped to understand the issues with the model and how to address them.
+
+== Usage of AI
+
+- Claude Sonnet 4.6 (Free): code generation, code debugging, code review, graph library generation.
+- ChatGPT: explanations of concepts, code debugging.
+- Github Copilot autocompletion: code writing and report writing.

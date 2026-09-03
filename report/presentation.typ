@@ -652,18 +652,22 @@ Step 0: Ones in mask: 0.4332%, Ones required: 0.4545%
 ```python
 %| echo: false
 %| plt-axes.grid: false
-%| img-width: 60%
 %| label: fig7
+import pandas as pd
+
+df = load_results("study_results.csv")[0]
+
 fig1 = plot_heatmaps(
+    df,
     value_col     = "mean",
     x_col         = "n_timesteps",
     y_col         = "schedule",
-    fixed_filters = {"strategy": "mask", "use_t_next": True, "renoise_factor": 1.0},
-    # subplot_cols  = ["strategy"],
+    fixed_filters = {"strategy": "mask", "renoise_factor": 1.0},
+    subplot_cols  = ["use_t_next"],
     # ncols         = 2,
-    cmap          = "RdYlGn",
-    suptitle      = "Schedule manual vs. auto (`const`) for `strategy=mask` and `use_t_next=True`",
+    suptitle      = "Schedule comparison for `strategy=mask` (baseline: `schedule=const`)",
     cell_size      = (5, 4),
+    std_col         = "std",
 )
 plt.show()
 ```
@@ -695,20 +699,20 @@ with $g = (1 + w)$
 
 #figure(
   {
-  let size = (4, 6)
+  let size = (3, 5)
   let nodes = (
-    image-node("step_t", title: $X_t$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: size),
-    arrow-node("predict", title: "Predict", dir: right, shape: "arrow", label-pos: "inside", size: (3, 1), pos: right-of("step_t")),
+    image-node("step_t", title: $X_t$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: size, pos: explicit-pos(0, y: 0)),
+    arrow-node("predict", title: "Predict", dir: right, shape: "arrow", label-pos: "inside", size: (3, 0.8), pos: right-of("step_t")),
     gate-node("gate", pos: right-of("predict")),
-    image-node("pred", title: $hat(X_0)$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: above("gate", by: 0.6)),
+    image-node("pred", title: $hat(X)_0$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: above("gate", by: 0.6)),
     image-node("noise", title: $z_t$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.5.png", cover: true, image-size: size, pos: below("gate", by: 0.6)),
-    arrow-node("update", title: "Renoise", dir: right, shape: "arrow", label-pos: "inside", size: (3.3, 1), pos: right-of("gate")),
+    arrow-node("update", title: "Renoise", dir: right, shape: "arrow", label-pos: "inside", size: (3.3, 0.8), pos: right-of("gate")),
+    module("done", title: "What was done", pos: above("update", by: 1), title-size: 0.8em),
 
     image-node("pred_2", title: $hat(X)_0$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: right-of("pred", by: 2)),
-    image-node("noise_2", title: $z_(t-1)$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.3.png", cover: true, image-size: size, pos: right-of("noise", by: 2)),
+    image-node("noise_2", title: $z_(t)$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.5.png", cover: true, image-size: size, pos: right-of("noise", by: 2)),
     gate-node("gate_2", pos: right-of("update", by: 3)),
-    image-node("updated_sample", title: $X_(t-1)$, src: src_dir + "/img/noisy_images/noisy_image_0.3.png", cover: true, image-size: size, pos: right-of("gate_2", by: 2))
-
+    image-node("updated_sample", title: $X_(t-1)$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: size, pos: right-of("gate_2", by: 2)),
 
   )
 
@@ -716,10 +720,48 @@ with $g = (1 + w)$
     ml-edge("pred_2", "gate_2", from-side: "right", to-side: "top", orthogonal: true),
     ml-edge("noise_2", "gate_2", from-side: "right", to-side: "bottom", orthogonal: true),
     ml-edge("gate_2", "updated_sample", from-side: "right", to-side: "left"),
+    ml-edge("updated_sample", "step_t", from-side: "top", to-side: "top", bend: -45deg, dash: "dashed", label: "Same amount of noise", mark: "<|-|>"),
+  )
+
+  ml-diagram(nodes, edges: edges, label-size: 1em, spacing: 1.7em)
+  },
+)
+
+#let src_dir = "../../.."
+
+#let make-image-node = set-image-node-defaults(options: (image-pad: 0, image-width: 3.5, image-height: 4, border: false, title-size: 1em))
+
+#let src_dir = "../../.."
+
+#let make-image-node = set-image-node-defaults(options: (image-pad: 0, image-width: 3.5, image-height: 4, border: false, title-size: 1em))
+
+#figure(
+  {
+  let size = (3, 5)
+  let nodes = (
+    image-node("step_t", title: $X_t$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: size, pos: explicit-pos(0, y: 0)),
+    arrow-node("predict", title: "Predict", dir: right, shape: "arrow", label-pos: "inside", size: (3, 0.8), pos: right-of("step_t")),
+    gate-node("gate", pos: right-of("predict")),
+    image-node("pred", title: $hat(X)_0$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: above("gate", by: 0.6)),
+    image-node("noise", title: $z_t$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.5.png", cover: true, image-size: size, pos: below("gate", by: 0.6)),
+    arrow-node("update", title: "Renoise", dir: right, shape: "arrow", label-pos: "inside", size: (3.3, 0.8), pos: right-of("gate")),
+    module("done", title: "What is correct", pos: above("update", by: 1), title-size: 0.8em),
+
+    image-node("pred_2", title: $hat(X)_0$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: right-of("pred", by: 2)),
+    image-node("noise_2", title: $z_(t-1)$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.3.png", cover: true, image-size: size, pos: right-of("noise", by: 2)),
+    gate-node("gate_2", pos: right-of("update", by: 3)),
+    image-node("updated_sample", title: $X_(t-1)$, src: src_dir + "/img/noisy_images/noisy_image_0.3.png", cover: true, image-size: size, pos: right-of("gate_2", by: 2)),
 
   )
 
-  ml-diagram(nodes, edges: edges, label-size: 0.6em, spacing: 2em)
+  let edges = (
+    ml-edge("pred_2", "gate_2", from-side: "right", to-side: "top", orthogonal: true),
+    ml-edge("noise_2", "gate_2", from-side: "right", to-side: "bottom", orthogonal: true),
+    ml-edge("gate_2", "updated_sample", from-side: "right", to-side: "left"),
+    ml-edge("updated_sample", "step_t", from-side: "top", to-side: "top", bend: -45deg, dash: "dashed", label: "Not same amount of noise", label-side: "below", mark: "<|-|>"),
+  )
+
+  ml-diagram(nodes, edges: edges, label-size: 1em, spacing: 1.7em)
   },
 )
 
@@ -741,21 +783,24 @@ with $g = (1 + w)$
 # plot_sensitivity(PARAM_KEYS, DATASETS, PLOT_CONFIG)
 # plot_timestep_lines(DATASETS, PLOT_CONFIG)
 
+import pandas as pd
+
+df = load_results("study_results.csv")[0]
+
 fig1 = plot_heatmaps(
+    df,
     value_col     = "mean",
     x_col         = "n_timesteps",
     y_col         = "use_t_next",
     fixed_filters = {"renoise_factor": 1.0, "schedule": "const"},
     subplot_cols  = ["strategy"],
     ncols         = 2,
-    cmap          = "RdYlGn",
-    suptitle      = "Fixed vs. non-fixed noise addition (`use_t_next`) for different strategies",
+    suptitle      = "Fixed vs. non-fixed noise addition for different strategies\n(baseline: `use_t_next=False`)",
     cell_size      = (5, 4),
+    std_col         = "std",
 )
 plt.show()
 ```
-
-=== Increasing the noise in the sampling process
 
 ```python
 %| echo: false
@@ -766,16 +811,21 @@ plt.show()
 # plot_sensitivity(PARAM_KEYS, DATASETS, PLOT_CONFIG)
 # plot_timestep_lines(DATASETS, PLOT_CONFIG)
 
+import pandas as pd
+
+df = load_results("study_results.csv")[0]
+
 fig1 = plot_heatmaps(
+    df,
     value_col     = "mean",
     x_col         = "n_timesteps",
     y_col         = "renoise_factor",
     fixed_filters = {"use_t_next": True, "schedule": "const"},
     subplot_cols  = ["strategy"],
     ncols         = 2,
-    cmap          = "RdYlGn",
-    suptitle      = "Impact of increasing the noise in the sampling process (`renoise_factor`) for `use_t_next=True`",
+    suptitle      = "Increase the noise in the sampling process (`renoise_factor`) for `use_t_next=True`\n(baseline: `renoise_factor=1.0`)",
     cell_size      = (5, 4),
+    std_col         = "std",
 )
 plt.show()
 ```
@@ -801,7 +851,7 @@ plot_study_table()
   - FID clip score
   - Inception Score
   - KID score
-- Experimental setup: RTX 4080, 16GB of VRAM, running for #text("more than 24 hours", fill: red, weight: "bold")
+- Experimental setup: RTX 4080, 16GB of VRAM, running for #text("5 days", fill: red, weight: "bold")
 ]
 
 #pdfpc.speaker-note(
@@ -828,11 +878,103 @@ plot_study_table()
 
 #pagebreak()
 
+
+#tblock(title: "How to interpret the results of the evaluation")[
+- IS: Higher is better
+- FID: Lower is better
+- FID-clip: Lower is better
+- KID: Lower is better
+]
+
+== Fixing the thresholding step in the sampling algorithm
+
+```python
+%| echo: false
+%| label: fig11
+
+import pandas as pd
+df = pd.read_csv("results_img.csv")
+
+fig1 = plot_heatmaps(
+    df,
+    value_col     = "fid",
+    x_col         = "use_t_next",
+    y_col         = "schedule",
+    fixed_filters = {"renoise_factor": 1.0, "strategy": "mask"},
+    subplot_cols  = ["n_timesteps"],
+    ncols         = 2,
+    suptitle      = "Schedule comparison for `strategy=mask`\n(baseline: `schedule=const`)",
+    cell_size      = (5, 4),
+    use_kid         = True,
+)
+plt.show()
+```
+
+== Fixing the noise addition step in the sampling algorithm
+
+```python
+%| echo: false
+%| label: fig12
+%| plt-axes.grid: false
+
+import pandas as pd
+
+df = pd.read_csv("results_img.csv")
+
+fig1 = plot_heatmaps(
+    df,
+    value_col     = "fid",
+    x_col         = "strategy",
+    y_col         = "use_t_next",
+    fixed_filters = {"renoise_factor": 1.0, "schedule": "const"},
+    subplot_cols  = ["n_timesteps"],
+    ncols         = 2,
+    suptitle      = "Fixed vs. non-fixed noise addition (`use_t_next`) for different metrics and strategies (baseline: `use_t_next=False`)",
+    cell_size      = (5, 4),
+    use_kid         = True,
+)
+plt.show()
+```
+
+== Increasing the noise in the sampling process
+
+```python
+%| echo: false
+%| label: fig13
+%| plt-axes.grid: false
+import pandas as pd
+df = pd.read_csv("results_img.csv")
+
+fig1 = plot_heatmaps(
+    df,
+    value_col     = "fid",
+    x_col         = "strategy",
+    y_col         = "renoise_factor",
+    fixed_filters = {"use_t_next": True, "schedule": "const"},
+    subplot_cols  = ["n_timesteps"],
+    ncols         = 2,
+    suptitle      = "Increase the noise in the sampling process (`renoise_factor`) for `use_t_next=True`\n(baseline: `renoise_factor=1.0`)",
+    cell_size      = (5, 4),
+    use_kid         = True,
+)
+plt.show()
+```
+
+
+
+#pagebreak()
+
+== Visual comparison of the generated images
+
 #grid(
   columns: (1fr, 1fr),
   figure(image("img/cifar/t_10.jpg"), caption: "10 steps of reverse diffusion process"),
   figure(image("img/cifar/t_100.jpg"), caption: "100 steps of reverse diffusion process")
 )
+
+
+#pagebreak()
+
 
 = Conclusion
 

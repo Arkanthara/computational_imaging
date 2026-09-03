@@ -647,502 +647,432 @@ def plot_study_table(
 
             plt.show()
 
-"""
-plot_heatmaps.py
-================
-A fully-customisable heatmap-grid function for tabular experiment results.
- 
-Quick start
------------
-    from plot_heatmaps import plot_heatmaps
-    import pandas as pd
- 
-    df = pd.read_csv("results.csv")
- 
-    fig = plot_heatmaps(
-        df,
-        value_col     = "mean_all_models",
-        x_col         = "n_timesteps",
-        y_col         = "renoise_factor",
-        fixed_filters = {"strategy": "mask"},
-        subplot_cols  = ["schedule", "use_t_next"],
-        ncols         = 3,
-        suptitle      = "Mask strategy — accuracy grid",
-    )
-    plt.show()
-"""
- 
+# """
+# plot_heatmaps.py  –  Annotated heatmap grid from a tidy DataFrame.
+# """
+# import numpy as np
+# import pandas as pd
+# import matplotlib.pyplot as plt
+# import matplotlib.colors as mcolors
+# from matplotlib.patches import Rectangle
+
+
+# # use_kid sub-cell definitions: (column, low_is_better, short_label)
+# # Layout per cell:  FID  | FID-C
+# #                    IS  |  KID
+# _KID = [
+#     ("fid",             True,  "FID"),
+#     ("fid_clip",        True,  "FID-C"),
+#     ("inception_score", False, "IS"),
+#     ("kid",             True,  "KID"),
+# ]
+# # (dx, dy) offset from integer cell-centre to the sub-cell's bottom-left corner
+# _KID_OFFSETS = [(-0.5, -0.5), (0.0, -0.5), (-0.5, 0.0), (0.0, 0.0)]
+
+
+# def _text_color(rgba):
+#     """Return #111 or #eee depending on background luminance."""
+#     lum = 0.2126 * rgba[0] + 0.7152 * rgba[1] + 0.0722 * rgba[2]
+#     return "#111" if lum > 0.45 else "#eee"
+
+
+# def plot_heatmaps(
+#     df:             pd.DataFrame,
+#     value_col:      str,
+#     x_col:          str,
+#     y_col:          str,
+#     fixed_filters:  dict  = None,
+#     subplot_cols:   list  = None,
+#     ncols:          int   = 3,
+#     cell_size:      tuple = (5, 4),
+#     suptitle:       str   = "",
+#     low_is_better:  bool  = False,
+#     baseline_col:   str   = None,
+#     aggfunc:        str   = "mean",
+#     fmt:            str   = ".4f",
+#     annot_fontsize: int   = 10,
+#     use_kid:        bool  = False,
+# ) -> plt.Figure:
+#     """
+#     Plot a grid of annotated heatmaps from a tidy DataFrame.
+
+#     If use_kid=True each cell shows four colour-coded sub-cells:
+#         FID  | FID-C      (both: lower = greener)
+#          IS  |  KID       (IS: higher = greener; KID: lower = greener)
+#     Each metric uses its own global colour scale across all subplots.
+#     value_col is still used for the baseline reference when baseline_col is set.
+
+#     All other parameters behave identically to the original.
+#     """
+
+#     # ── 1. Fixed filters ────────────────────────────────────────────────────
+#     data = df.copy()
+#     for col, val in (fixed_filters or {}).items():
+#         data = data[data[col] == val]
+
+#     # ── 2. Baseline (value shown in suptitle; no in-axes box) ───────────────
+#     baseline_val = None
+#     if baseline_col and baseline_col in data.columns:
+#         mask = data[baseline_col].isin(["BASELINE", True])
+#         if mask.any():
+#             baseline_val = data.loc[mask, value_col].mean()
+#         data = data[~mask]
+
+#     # ── 3. Subplot groups ────────────────────────────────────────────────────
+#     subplot_cols = subplot_cols or []
+#     groups = (
+#         [(k if isinstance(k, tuple) else (k,), g)
+#          for k, g in data.groupby(subplot_cols)]
+#         if subplot_cols else [((), data)]
+#     )
+#     n      = len(groups)
+#     ncols_ = min(ncols, n)
+#     nrows_ = int(np.ceil(n / ncols_))
+
+#     def make_pivot(grp, col):
+#         return grp.pivot_table(index=y_col, columns=x_col,
+#                                values=col, aggfunc=aggfunc)
+
+#     # ── 4. Colour scales ─────────────────────────────────────────────────────
+#     if use_kid:
+#         # One (pivots, cmap, norm) per metric, shared across all subplots
+#         kid_info = {}
+#         for col, lib, _ in _KID:
+#             pivs = [make_pivot(g, col) for _, g in groups]
+#             flat = np.concatenate([p.values.ravel() for p in pivs])
+#             flat = flat[np.isfinite(flat)]
+#             kid_info[col] = (
+#                 pivs,
+#                 plt.get_cmap("RdYlGn_r" if lib else "RdYlGn"),
+#                 mcolors.Normalize(flat.min(), flat.max()),
+#             )
+#         ref_pivots = kid_info["fid"][0]          # shape / tick labels reference
+#     else:
+#         ref_pivots = [make_pivot(g, value_col) for _, g in groups]
+#         flat = np.concatenate([p.values.ravel() for p in ref_pivots])
+#         flat = flat[np.isfinite(flat)]
+#         cmap_s = plt.get_cmap("RdYlGn_r" if low_is_better else "RdYlGn")
+#         norm_s = (
+#             mcolors.TwoSlopeNorm(vmin=flat.min(), vcenter=baseline_val,
+#                                  vmax=flat.max())
+#             if baseline_val is not None and flat.min() < baseline_val < flat.max()
+#             else mcolors.Normalize(flat.min(), flat.max())
+#         )
+
+#     # ── 5. Draw ──────────────────────────────────────────────────────────────
+#     fig, axes = plt.subplots(
+#         nrows_, ncols_,
+#         figsize   = (ncols_ * cell_size[0], nrows_ * cell_size[1] + 0.8),
+#         squeeze   = False,
+#         facecolor = "white",
+#     )
+
+#     for idx, ((key, _), ref_piv) in enumerate(zip(groups, ref_pivots)):
+#         ax     = axes[idx // ncols_][idx % ncols_]
+#         ny, nx = ref_piv.shape
+
+#         if use_kid:
+#             # ── 4-quadrant sub-cell rendering ───────────────────────────────
+#             ax.set_xlim(-0.5, nx - 0.5)
+#             ax.set_ylim(ny - 0.5, -0.5)          # invert y to match imshow
+
+#             for yi in range(ny):
+#                 for xi in range(nx):
+#                     for (col, _, label), (dx, dy) in zip(_KID, _KID_OFFSETS):
+#                         pivs, cmap_, norm_ = kid_info[col]
+#                         v = float(pivs[idx].values[yi, xi])
+#                         if not np.isfinite(v):
+#                             continue
+#                         rgba = cmap_(norm_(v))
+#                         tc   = _text_color(rgba)
+#                         rx, ry = xi + dx, yi + dy
+#                         ax.add_patch(Rectangle(
+#                             (rx, ry), 0.5, 0.5,
+#                             facecolor=rgba, edgecolor="white",
+#                             linewidth=0.3, zorder=1,
+#                         ))
+#                         cx, cy = rx + 0.25, ry + 0.25
+#                         # label (small, above centre) + value (below centre)
+#                         ax.text(cx, cy - 0.10, label,
+#                                 ha="center", va="center", color=tc,
+#                                 fontsize=annot_fontsize * 0.55,
+#                                 fontweight="bold", zorder=3)
+#                         ax.text(cx, cy + 0.10, format(v, fmt),
+#                                 ha="center", va="center", color=tc,
+#                                 fontsize=annot_fontsize * 0.72, zorder=3)
+#         else:
+#             # ── standard single-metric imshow ────────────────────────────────
+#             mat = ref_piv.values.astype(float)
+#             ax.imshow(mat, cmap=cmap_s, norm=norm_s,
+#                       aspect="auto", interpolation="nearest")
+#             for yi in range(ny):
+#                 for xi in range(nx):
+#                     v = mat[yi, xi]
+#                     if not np.isfinite(v):
+#                         continue
+#                     rgba = cmap_s(norm_s(v))
+#                     ax.text(xi, yi, format(v, fmt),
+#                             ha="center", va="center",
+#                             fontsize=annot_fontsize, fontweight="bold",
+#                             color=_text_color(rgba), zorder=3)
+
+#         # ── shared: cell-border separators + axis labels ─────────────────────
+#         for x in np.arange(-0.5, nx, 1):
+#             ax.axvline(x, color="white", linewidth=0.8, zorder=2)
+#         for y in np.arange(-0.5, ny, 1):
+#             ax.axhline(y, color="white", linewidth=0.8, zorder=2)
+
+#         ax.set_xticks(range(nx))
+#         ax.set_yticks(range(ny))
+#         ax.set_xticklabels([str(v) for v in ref_piv.columns])
+#         ax.set_yticklabels([str(v) for v in ref_piv.index])
+#         ax.set_xlabel(x_col, fontsize=10, labelpad=6)
+#         ax.set_ylabel(y_col, fontsize=10, labelpad=6)
+
+#         title = ("  ·  ".join(f"{c}={v}" for c, v in zip(subplot_cols, key))
+#                  if subplot_cols else value_col)
+#         ax.set_title(title, fontsize=10, fontweight="semibold", pad=8)
+
+#     # Hide unused axes
+#     for idx in range(n, nrows_ * ncols_):
+#         axes[idx // ncols_][idx % ncols_].set_visible(False)
+
+#     # ── Suptitle — baseline goes here, not inside the axes ───────────────────
+#     sup = suptitle
+#     if baseline_val is not None:
+#         sup += f"\n[baseline {value_col} = {format(baseline_val, fmt)}]"
+#     fig.suptitle(sup, fontsize=14, fontweight="bold")
+#     plt.tight_layout()
+#     return fig
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
-import matplotlib.ticker as mticker
 from matplotlib.patches import Rectangle
-from typing import Any, Callable, Dict, List, Optional, Union
- 
- 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Internal helpers
-# ─────────────────────────────────────────────────────────────────────────────
- 
-def _subset(df: pd.DataFrame, subplot_cols: List[str], key: tuple) -> pd.DataFrame:
-    """Return rows of *df* matching *key* across *subplot_cols*."""
-    if not subplot_cols:
-        return df
-    mask = pd.Series(True, index=df.index)
-    for col, val in zip(subplot_cols, key):
-        mask &= df[col] == val
-    return df[mask]
- 
- 
-def _auto_text_color(rgba, threshold: float = 0.50) -> str:
-    """Black or white text depending on perceived luminance of *rgba*."""
-    r, g, b = rgba[:3]
-    lum = 0.2126 * r + 0.7152 * g + 0.0722 * b
-    return "#111111" if lum > threshold else "#f5f5f5"
- 
- 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Main function
-# ─────────────────────────────────────────────────────────────────────────────
- 
+
+# use_kid sub-cell definitions: (column, low_is_better, short_label)
+# Layout per cell:  FID  | FID-C
+#                    IS  |  KID
+_KID = [
+    ("fid",             True,  "FID"),
+    ("fid_clip",        True,  "FID-C"),
+    ("inception_score", False, "IS"),
+    ("kid",             True,  "KID"),
+]
+_KID_OFFSETS = [(-0.5, -0.5), (0.0, -0.5), (-0.5, 0.0), (0.0, 0.0)]
+
+
+def _text_color(rgba):
+    lum = 0.2126 * rgba[0] + 0.7152 * rgba[1] + 0.0722 * rgba[2]
+    return "#111" if lum > 0.45 else "#eee"
+
+
 def plot_heatmaps(
-    df: Optional[pd.DataFrame] = None,
-    # ── data mapping ──────────────────────────────────────────────────────────
-    value_col: str                       = "mean_all_models",
-    x_col:     str                       = "n_timesteps",
-    y_col:     str                       = "renoise_factor",
-    # ── filtering & grouping ──────────────────────────────────────────────────
-    fixed_filters: Optional[Dict[str, Any]] = None,
-    subplot_cols:  Optional[List[str]]      = None,
-    aggfunc:       Union[str, Callable]     = "mean",
-    # ── layout ────────────────────────────────────────────────────────────────
-    ncols:     int            = 3,
-    cell_size: tuple          = (3.8, 3.0),
-    figsize:   Optional[tuple] = None,
-    # ── colormap ──────────────────────────────────────────────────────────────
-    cmap:   str            = "RdYlGn",
-    vmin:   Optional[float] = None,
-    vmax:   Optional[float] = None,
-    center: Optional[float] = None,
-    # ── annotations ───────────────────────────────────────────────────────────
-    annot:            bool  = True,
-    fmt:              str   = ".4f",
-    annot_fontsize:   int   = 10,
-    annot_fontweight: str   = "bold",
-    annot_alpha:      float = 0.95,
-    # ── cell borders ──────────────────────────────────────────────────────────
-    linewidths: float = 1.2,
-    linecolor:  str   = "#00000030",
-    # ── colorbar ──────────────────────────────────────────────────────────────
-    show_cbar:     bool           = False,
-    cbar_label:    Optional[str]  = None,
-    cbar_fraction: float          = 0.025,
-    cbar_pad:      float          = 0.03,
-    cbar_n_ticks:  int            = 6,
-    # ── titles & labels ───────────────────────────────────────────────────────
-    suptitle:                 str              = "Heatmap Grid",
-    suptitle_fontsize:        int              = 16,
-    suptitle_fontweight:      str              = "bold",
-    suptitle_y:               float            = 1.01,
-    subplot_titles:           Optional[List[str]] = None,
-    subplot_title_template:   Optional[str]       = None,
-    subplot_title_fontsize:   int              = 11,
-    subplot_title_fontweight: str              = "semibold",
-    subplot_title_pad:        float            = 8.0,
-    xlabel:               Optional[str] = None,
-    ylabel:               Optional[str] = None,
-    axis_label_fontsize:  int           = 10,
-    tick_fontsize:        int           = 9,
-    tick_rotation_x:      int           = 0,
-    tick_rotation_y:      int           = 0,
-    # ── colours (direct overrides, no preset system) ──────────────────────────
-    facecolor:    str = "white",
-    ax_facecolor: str = "white",
-    text_color:   str = "#111111",
-    spine_color:  str = "#cccccc",
-    # ── output ────────────────────────────────────────────────────────────────
-    tight_layout_pad: float         = 2.0,
-    savefig:          Optional[str] = None,
-    dpi:              int           = 150,
-    pad_inches:       float         = 0.2,
+    df:             pd.DataFrame,
+    x_col:          str,
+    y_col:          str,
+    value_col:      str   = None,   # required when use_kid=False
+    fixed_filters:  dict  = None,
+    subplot_cols:   list  = None,
+    ncols:          int   = 3,
+    cell_size:      tuple = (5, 4),
+    suptitle:       str   = "",
+    low_is_better:  bool  = False,
+    aggfunc:        str   = "mean",
+    fmt:            str   = ".4f",
+    annot_fontsize: int   = 10,
+    use_kid:        bool  = False,
+    std_col:        str   = None,   # ← NEW: pre-computed std column (non-KID mode).
+                                    #        KID mode auto-detects "{metric}_std" columns
+                                    #        (e.g. "fid_std", "kid_std", …).
 ) -> plt.Figure:
     """
-    Plot a grid of heatmaps from a DataFrame of experiment results.
- 
-    Parameters
-    ----------
-    df : pd.DataFrame
-        Input data.
- 
-    value_col : str
-        Column whose aggregated value fills each heatmap cell.
-        e.g. ``"mean_all_models"``, ``"delta_vs_baseline"``.
- 
-    x_col : str
-        Column mapped to the x-axis of every heatmap (e.g. ``"n_timesteps"``).
- 
-    y_col : str
-        Column mapped to the y-axis of every heatmap (e.g. ``"renoise_factor"``).
- 
-    fixed_filters : dict, optional
-        ``{column: value}`` pairs applied before anything else.
-        e.g. ``{"strategy": "mask", "dataset": "adult"}``.
- 
-    subplot_cols : list of str, optional
-        Columns whose unique combinations each produce one subplot.
-        e.g. ``["schedule"]``            → one subplot per schedule value.
-        e.g. ``["schedule", "use_t_next"]`` → one subplot per pair.
-        ``None`` → single heatmap.
- 
-    aggfunc : str or callable
-        Aggregation when multiple rows share the same (x, y) cell.
-        e.g. ``"mean"``, ``"max"``, ``np.median``.
- 
-    ncols : int
-        Number of subplot columns in the grid.
- 
-    cell_size : (w, h)
-        Width × height in inches per heatmap, used for auto figsize.
- 
-    figsize : (w, h), optional
-        Override the auto-computed figure size.
- 
-    cmap : str
-        Matplotlib colormap. Diverging: ``"RdYlGn"``, ``"coolwarm"``.
-        Sequential: ``"viridis"``, ``"YlOrRd"``.
- 
-    vmin, vmax : float, optional
-        Colour-scale limits, shared across all subplots.
-        Auto-computed from filtered data if not supplied.
- 
-    center : float, optional
-        Centre the colormap at this value (activates TwoSlopeNorm).
-        e.g. ``center=0.0`` for delta columns.
- 
-    annot : bool
-        Overlay cell values as text.
- 
-    fmt : str
-        Python format spec for annotations: ``".4f"``, ``"+.4f"``, ``".2%"``.
- 
-    show_cbar : bool
-        Show a shared colorbar (default False).
- 
-    subplot_titles : list of str, optional
-        Explicit titles for each subplot in order. Overrides auto-generation.
- 
-    subplot_title_template : str, optional
-        f-string template filled with subplot-group column values.
-        e.g. ``"schedule={schedule} | use_t_next={use_t_next}"``.
- 
-    facecolor : str
-        Figure background colour (default ``"white"``).
- 
-    ax_facecolor : str
-        Axes background colour (default ``"white"``).
- 
-    text_color : str
-        Colour for all text elements (default ``"#111111"``).
- 
-    spine_color : str
-        Colour for axes spines and colorbar outline (default ``"#cccccc"``).
- 
-    savefig : str, optional
-        File path. Saves the figure before returning if given.
- 
-    Returns
-    -------
-    fig : matplotlib.figure.Figure
- 
-    Examples
-    --------
-    >>> fig = plot_heatmaps(
-    ...     df,
-    ...     value_col     = "mean_all_models",
-    ...     x_col         = "n_timesteps",
-    ...     y_col         = "renoise_factor",
-    ...     fixed_filters = {"strategy": "mask"},
-    ...     subplot_cols  = ["schedule", "use_t_next"],
-    ...     ncols         = 3,
-    ...     suptitle      = "Mask strategy — accuracy by timesteps & renoise",
-    ... )
-    >>> plt.show()
- 
-    # Delta view with a diverging colormap centred on 0
-    >>> fig = plot_heatmaps(
-    ...     df,
-    ...     value_col    = "delta_vs_baseline",
-    ...     x_col        = "n_timesteps",
-    ...     y_col        = "renoise_factor",
-    ...     fixed_filters= {"strategy": "target"},
-    ...     subplot_cols = ["schedule"],
-    ...     cmap         = "RdYlGn",
-    ...     center       = 0.0,
-    ...     fmt          = "+.4f",
-    ...     suptitle     = "Target strategy — Δ vs baseline",
-    ...     show_cbar    = True,
-    ... )
-    """
+    Plot a grid of annotated heatmaps from a tidy DataFrame.
 
-    if df is None:
-        df, _, _, _ = load_results(RESULTS_CSV)
- 
-    # ── 1. Filter ─────────────────────────────────────────────────────────────
+    value_col is optional when use_kid=True (metrics are fid, fid_clip,
+    inception_score, kid). Each cell shows four colour-coded sub-cells:
+        FID  | FID-C      lower = greener
+         IS  |  KID       IS: higher = greener; others: lower = greener
+
+    Colour scale is a plain min→max linear ramp per metric,
+    computed independently per subplot (so each subplot's own min/max
+    always maps to the full red→green range).
+
+    std_col (non-KID): name of a column holding pre-computed std values;
+        shown as "mean\\n±std" inside each cell.
+    KID mode: std is shown automatically whenever a column named
+        "{metric}_std" exists in df (e.g. "fid_std", "inception_score_std").
+    """
+    if not use_kid and value_col is None:
+        raise ValueError("value_col is required when use_kid=False")
+
+    # ── 1. Fixed filters ────────────────────────────────────────────────────
     data = df.copy()
-    if fixed_filters:
-        for col, val in fixed_filters.items():
-            if col not in data.columns:
-                raise KeyError(f"fixed_filters key '{col}' not in DataFrame columns.")
-            data = data[data[col] == val]
-    if data.empty:
-        raise ValueError("No data remaining after applying fixed_filters.")
- 
-    # ── 2. Group keys (one key → one subplot) ─────────────────────────────────
-    _subplot_cols = subplot_cols or []
-    if _subplot_cols:
-        if len(_subplot_cols) == 1:
-            groups   = data.groupby(_subplot_cols[0], sort=True)
-            raw_keys = [(k,) for k in groups.groups.keys()]
-        else:
-            groups   = data.groupby(_subplot_cols, sort=True)
-            raw_keys = list(groups.groups.keys())
-        group_keys = [k if isinstance(k, tuple) else (k,) for k in raw_keys]
+    for col, val in (fixed_filters or {}).items():
+        data = data[data[col] == val]
+
+    # ── 2. Subplot groups ────────────────────────────────────────────────────
+    subplot_cols = subplot_cols or []
+    groups = (
+        [(k if isinstance(k, tuple) else (k,), g)
+         for k, g in data.groupby(subplot_cols)]
+        if subplot_cols else [((), data)]
+    )
+    n      = len(groups)
+    ncols_ = min(ncols, n)
+    nrows_ = int(np.ceil(n / ncols_))
+
+    def make_pivot(grp, col):
+        return grp.pivot_table(index=y_col, columns=x_col,
+                               values=col, aggfunc=aggfunc)
+
+    # ── 3. Precompute pivots & colormaps (norms are per-subplot, see § 4) ────
+    std_pivots   = None  # ← NEW: populated below for non-KID mode
+    kid_std_info = {}    # ← NEW: populated below for KID mode
+
+    if use_kid:
+        kid_info = {}
+        for col, lib, _ in _KID:
+            pivs = [make_pivot(g, col) for _, g in groups]
+            kid_info[col] = (
+                pivs,
+                plt.get_cmap("RdYlGn_r" if lib else "RdYlGn"),
+            )
+        ref_pivots = kid_info["fid"][0]
+
+        # ← NEW: auto-detect "{metric}_std" columns ──────────────────────────
+        for col, _, _ in _KID:
+            std_c = f"{col}_std"
+            if std_c in data.columns:
+                kid_std_info[col] = [make_pivot(g, std_c) for _, g in groups]
+        # ─────────────────────────────────────────────────────────────────────
     else:
-        group_keys = [()]
- 
-    n_plots = len(group_keys)
- 
-    # ── 3. Build pivots & global colour scale ─────────────────────────────────
-    pivots   = {}
-    all_vals = []
-    for key in group_keys:
-        sub = _subset(data, _subplot_cols, key)
-        piv = sub.pivot_table(
-            index=y_col, columns=x_col, values=value_col, aggfunc=aggfunc
-        )
-        pivots[key] = piv
-        all_vals.append(piv.values.ravel())
- 
-    finite  = np.concatenate(all_vals)
-    finite  = finite[np.isfinite(finite)]
-    _vmin   = float(vmin if vmin is not None else np.min(finite))
-    _vmax   = float(vmax if vmax is not None else np.max(finite))
- 
-    if center is not None:
-        _norm = mcolors.TwoSlopeNorm(vmin=_vmin, vcenter=float(center), vmax=_vmax)
-    else:
-        _norm = mcolors.Normalize(vmin=_vmin, vmax=_vmax)
- 
-    _cmap_obj = plt.get_cmap(cmap)
- 
-    # ── 4. Figure layout ──────────────────────────────────────────────────────
-    ncols_  = min(ncols, n_plots)
-    nrows_  = int(np.ceil(n_plots / ncols_))
- 
-    if figsize is None:
-        n_x     = data[x_col].nunique()
-        n_y     = data[y_col].nunique()
-        fw      = ncols_ * (cell_size[0] + n_x * 0.25)
-        fh      = nrows_ * (cell_size[1] + n_y * 0.20)
-        figsize = (max(fw, 6), max(fh, 3))
- 
+        ref_pivots = [make_pivot(g, value_col) for _, g in groups]
+        cmap_s = plt.get_cmap("RdYlGn_r" if low_is_better else "RdYlGn")
+
+        # ← NEW: build std pivots when std_col is provided ────────────────────
+        if std_col is not None and std_col in data.columns:
+            std_pivots = [make_pivot(g, std_col) for _, g in groups]
+        # ─────────────────────────────────────────────────────────────────────
+
+    # ── 4. Draw ──────────────────────────────────────────────────────────────
     fig, axes = plt.subplots(
         nrows_, ncols_,
-        figsize   = figsize,
-        facecolor = facecolor,
+        figsize   = (ncols_ * cell_size[0], nrows_ * cell_size[1] + 0.8),
         squeeze   = False,
-        layout    = "constrained",
+        facecolor = "white",
     )
-    fig.patch.set_facecolor(facecolor)
- 
-    # ── 5. Draw each subplot ──────────────────────────────────────────────────
-    last_img = None
-    for idx, key in enumerate(group_keys):
-        row, col = divmod(idx, ncols_)
-        ax       = axes[row][col]
-        ax.set_facecolor(ax_facecolor)
- 
-        piv      = pivots[key]
-        mat      = piv.values.astype(float)
-        x_labels = [str(v) for v in piv.columns]
-        y_labels = [str(v) for v in piv.index]
-        n_y_ax, n_x_ax = mat.shape
- 
-        # Draw cells
-        img = ax.imshow(
-            mat, cmap=_cmap_obj, norm=_norm,
-            aspect="auto", interpolation="nearest",
-        )
-        last_img = img
- 
-        # Cell borders
-        for yi in range(n_y_ax):
-            for xi in range(n_x_ax):
-                ax.add_patch(Rectangle(
-                    (xi - 0.5, yi - 0.5), 1, 1,
-                    fill=False, edgecolor=linecolor,
-                    linewidth=linewidths, zorder=2,
-                ))
- 
-        # Annotations
-        if annot:
-            for yi in range(n_y_ax):
-                for xi in range(n_x_ax):
-                    val = mat[yi, xi]
-                    if not np.isfinite(val):
-                        continue
-                    txt_c = _auto_text_color(_cmap_obj(_norm(val)))
-                    ax.text(
-                        xi, yi, format(val, fmt),
-                        ha="center", va="center",
-                        fontsize=annot_fontsize,
-                        fontweight=annot_fontweight,
-                        color=txt_c, alpha=annot_alpha,
-                        zorder=3,
-                    )
- 
-        # Axes cosmetics
-        ax.set_xticks(range(n_x_ax))
-        ax.set_yticks(range(n_y_ax))
-        ax.set_xticklabels(
-            x_labels, color=text_color, fontsize=tick_fontsize,
-            rotation=tick_rotation_x,
-            ha="center" if tick_rotation_x == 0 else "right",
-        )
-        ax.set_yticklabels(
-            y_labels, color=text_color, fontsize=tick_fontsize,
-            rotation=tick_rotation_y,
-        )
-        ax.tick_params(axis="both", which="both", length=0, colors=text_color)
-        ax.set_xlabel(xlabel or x_col, color=text_color,
-                      fontsize=axis_label_fontsize, labelpad=6)
-        ax.set_ylabel(ylabel or y_col, color=text_color,
-                      fontsize=axis_label_fontsize, labelpad=6)
-        for spine in ax.spines.values():
-            spine.set_edgecolor(spine_color)
-            spine.set_linewidth(0.8)
- 
-        # Subplot title
-        if subplot_titles and idx < len(subplot_titles):
-            title_str = subplot_titles[idx]
-        elif subplot_title_template and _subplot_cols:
-            title_str = subplot_title_template.format(
-                **dict(zip(_subplot_cols, key))
-            )
-        elif _subplot_cols:
-            title_str = "  ·  ".join(
-                f"{c} = {v}" for c, v in zip(_subplot_cols, key)
-            )
+
+    for idx, ((key, _), ref_piv) in enumerate(zip(groups, ref_pivots)):
+        ax     = axes[idx // ncols_][idx % ncols_]
+        ny, nx = ref_piv.shape
+
+        if use_kid:
+            # Per-subplot, per-metric norms (each subplot's own min/max)
+            subplot_norms = {}
+            for col, _, _ in _KID:
+                pivs, _ = kid_info[col]
+                local_vals = pivs[idx].values.ravel()
+                local_vals = local_vals[np.isfinite(local_vals)]
+                subplot_norms[col] = mcolors.Normalize(
+                    local_vals.min(), local_vals.max()
+                )
+
+            ax.set_xlim(-0.5, nx - 0.5)
+            ax.set_ylim(ny - 0.5, -0.5)          # invert y like imshow
+
+            for yi in range(ny):
+                for xi in range(nx):
+                    for (col, _, label), (dx, dy) in zip(_KID, _KID_OFFSETS):
+                        pivs, cmap_ = kid_info[col]
+                        norm_ = subplot_norms[col]
+                        v = float(pivs[idx].values[yi, xi])
+                        if not np.isfinite(v):
+                            continue
+                        rgba = cmap_(norm_(v))
+                        tc   = _text_color(rgba)
+                        rx, ry = xi + dx, yi + dy
+                        ax.add_patch(Rectangle(
+                            (rx, ry), 0.5, 0.5,
+                            facecolor=rgba, edgecolor="white",
+                            linewidth=0.3, zorder=1,
+                        ))
+                        cx, cy_c = rx + 0.25, ry + 0.25
+
+                        # ← NEW: build value string, shift positions when std present
+                        val_str  = format(v, fmt)
+                        label_dy = -0.10                   # default label offset
+                        val_dy   = +0.10                   # default value offset
+                        val_fs   = annot_fontsize * 0.72   # default value font size
+                        if col in kid_std_info:
+                            sv = float(kid_std_info[col][idx].values[yi, xi])
+                            if np.isfinite(sv):
+                                val_str  = f"{val_str}\n±{format(sv, fmt)}"
+                                label_dy = -0.14           # push label up
+                                val_dy   = +0.06           # center the 2-liner
+                                val_fs   = annot_fontsize * 0.60
+                        # ─────────────────────────────────────────────────────
+
+                        ax.text(cx, cy_c + label_dy, label,
+                                ha="center", va="center", color=tc,
+                                fontsize=annot_fontsize * 0.55,
+                                fontweight="bold", zorder=3)
+                        ax.text(cx, cy_c + val_dy, val_str,
+                                ha="center", va="center", color=tc,
+                                fontsize=val_fs, zorder=3,
+                                linespacing=1.15)          # ← NEW: tighten 2-liner
         else:
-            title_str = value_col
- 
-        ax.set_title(
-            title_str, color=text_color,
-            fontsize=subplot_title_fontsize,
-            fontweight=subplot_title_fontweight,
-            pad=subplot_title_pad,
-        )
- 
-    # ── 6. Hide empty axes ────────────────────────────────────────────────────
-    for idx in range(n_plots, nrows_ * ncols_):
-        row, col = divmod(idx, ncols_)
-        axes[row][col].set_visible(False)
- 
-    # ── 7. Shared colorbar (opt-in) ───────────────────────────────────────────
-    if show_cbar and last_img is not None:
-        visible_axes = [
-            axes[r][c]
-            for r in range(nrows_) for c in range(ncols_)
-            if axes[r][c].get_visible()
-        ]
-        cb = fig.colorbar(
-            last_img, ax=visible_axes,
-            fraction=cbar_fraction, pad=cbar_pad, shrink=0.85,
-        )
-        cb.set_label(cbar_label or value_col, color=text_color,
-                     fontsize=axis_label_fontsize, labelpad=8)
-        cb.ax.tick_params(labelsize=tick_fontsize, colors=text_color, length=4)
-        plt.setp(cb.ax.yaxis.get_ticklabels(), color=text_color)
-        cb.outline.set_edgecolor(spine_color)
-        cb.outline.set_linewidth(0.8)
-        cb.locator = mticker.MaxNLocator(nbins=cbar_n_ticks)
-        cb.update_ticks()
- 
-    # ── 8. Supertitle & spacing ───────────────────────────────────────────────
-    fig.suptitle(
-        suptitle, color=text_color,
-        fontsize=suptitle_fontsize, fontweight=suptitle_fontweight,
-        y=suptitle_y,
-    )
-    fig.get_layout_engine().set(
-        w_pad=tight_layout_pad / 72,
-        h_pad=tight_layout_pad / 72,
-        hspace=0.06, wspace=0.06,
-    )
- 
-    # ── 9. Save ───────────────────────────────────────────────────────────────
-    if savefig:
-        fig.savefig(
-            savefig, dpi=dpi, bbox_inches="tight",
-            facecolor=facecolor, pad_inches=pad_inches,
-        )
- 
+            mat = ref_piv.values.astype(float)
+            # Per-subplot norm (this subplot's own min/max)
+            flat_local = mat.ravel()
+            flat_local = flat_local[np.isfinite(flat_local)]
+            norm_s = mcolors.Normalize(flat_local.min(), flat_local.max())
+
+            ax.imshow(mat, cmap=cmap_s, norm=norm_s,
+                      aspect="auto", interpolation="nearest")
+            for yi in range(ny):
+                for xi in range(nx):
+                    v = mat[yi, xi]
+                    if not np.isfinite(v):
+                        continue
+                    rgba = cmap_s(norm_s(v))
+
+                    # ← NEW: append "±std" line when std_pivots available
+                    txt    = format(v, fmt)
+                    ann_fs = annot_fontsize
+                    if std_pivots is not None:
+                        sv = std_pivots[idx].values[yi, xi]
+                        if np.isfinite(sv):
+                            txt    = f"{txt}\n±{format(sv, fmt)}"
+                            ann_fs = annot_fontsize * 0.82
+                    # ─────────────────────────────────────────────────────────
+
+                    ax.text(xi, yi, txt,
+                            ha="center", va="center",
+                            fontsize=ann_fs, fontweight="bold",
+                            color=_text_color(rgba), zorder=3,
+                            linespacing=1.2)               # ← NEW: tighten 2-liner
+
+        for x in np.arange(-0.5, nx, 1):
+            ax.axvline(x, color="white", linewidth=0.8, zorder=2)
+        for y in np.arange(-0.5, ny, 1):
+            ax.axhline(y, color="white", linewidth=0.8, zorder=2)
+
+        ax.set_xticks(range(nx))
+        ax.set_yticks(range(ny))
+        ax.set_xticklabels([str(v) for v in ref_piv.columns])
+        ax.set_yticklabels([str(v) for v in ref_piv.index])
+        ax.set_xlabel(x_col, fontsize=10, labelpad=6)
+        ax.set_ylabel(y_col, fontsize=10, labelpad=6)
+
+        title = ("  ·  ".join(f"{c}={v}" for c, v in zip(subplot_cols, key))
+                 if subplot_cols else (value_col or "metrics"))
+        ax.set_title(title, fontsize=10, fontweight="semibold", pad=8)
+
+    for idx in range(n, nrows_ * ncols_):
+        axes[idx // ncols_][idx % ncols_].set_visible(False)
+
+    fig.suptitle(suptitle, fontsize=14, fontweight="bold")
+    plt.tight_layout()
     return fig
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-#  Demo  (run this file directly: python plot_heatmaps.py)
-# ─────────────────────────────────────────────────────────────────────────────
-
-if __name__ == "__main__":
-    df, _, _, _ = load_results(RESULTS_CSV)
-    # ensure correct types
-    df["use_t_next"]     = df["use_t_next"].astype(str)
-    df["renoise_factor"] = df["renoise_factor"].astype(float)
-    df["n_timesteps"]    = df["n_timesteps"].astype(int)
-
-    # ── Example 1: mask strategy, one subplot per schedule ─────────────────
-    print("Rendering Example 1 …")
-    fig1 = plot_heatmaps(
-        df,
-        value_col     = "mean_all_models",
-        x_col         = "n_timesteps",
-        y_col         = "renoise_factor",
-        fixed_filters = {"strategy": "mask"},
-        subplot_cols  = ["schedule", "use_t_next"],
-        ncols         = 3,
-        cmap          = "RdYlGn",
-        suptitle      = "Strategy = mask  ·  mean accuracy across models",
-        style         = "dark",
-        highlight_best  = True,
-        highlight_worst = True,
-        fmt           = ".4f",
-        annot_fontsize= 9,
-        savefig       = "heatmap_mask_dark.png",
-    )
-    plt.show()
-
-    # ── Example 2: delta view, diverging colormap ──────────────────────────
-    print("Rendering Example 2 …")
-    fig2 = plot_heatmaps(
-        df,
-        value_col               = "delta_vs_baseline",
-        x_col                   = "n_timesteps",
-        y_col                   = "renoise_factor",
-        fixed_filters           = {"strategy": "target"},
-        subplot_cols            = ["use_t_next"],
-        ncols                   = 2,
-        cmap                    = "RdYlGn",
-        center                  = 0.0,
-        fmt                     = "+.4f",
-        suptitle                = "Strategy = target  ·  Δ vs baseline",
-        subplot_title_template  = "use_t_next = {use_t_next}",
-        style                   = "midnight",
-        highlight_best          = True,
-        highlight_worst         = True,
-        savefig                 = "heatmap_target_delta.png",
-    )
-    plt.show()
-
-    print("Done.")

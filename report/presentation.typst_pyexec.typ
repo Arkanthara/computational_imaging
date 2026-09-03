@@ -661,7 +661,7 @@ Step 0: Ones in mask: 0.4332%, Ones required: 0.4545%
 
 #pagebreak()
 
-#figure(image(".typst_pyexec/figures/cell_2_1.svg", width: 60%), caption: [Schedule manual vs. auto (`const`) for `strategy=mask` and `use_t_next=True`]) <fig7>
+#figure(grid(columns: 2, [#figure(image(".typst_pyexec/figures/cell_2_1_1.svg"), kind: "subfigure", caption: [use_t_next=False]) <fig7-a>], [#figure(image(".typst_pyexec/figures/cell_2_1_2.svg"), kind: "subfigure", caption: [use_t_next=True]) <fig7-b>]), caption: [Schedule comparison for `strategy=mask` (baseline: `schedule=const`)], kind: image) <fig7>
 
 
 == Guidance during sampling process ?
@@ -691,20 +691,20 @@ with $g = (1 + w)$
 
 #figure(
   {
-  let size = (4, 6)
+  let size = (3, 5)
   let nodes = (
-    image-node("step_t", title: $X_t$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: size),
-    arrow-node("predict", title: "Predict", dir: right, shape: "arrow", label-pos: "inside", size: (3, 1), pos: right-of("step_t")),
+    image-node("step_t", title: $X_t$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: size, pos: explicit-pos(0, y: 0)),
+    arrow-node("predict", title: "Predict", dir: right, shape: "arrow", label-pos: "inside", size: (3, 0.8), pos: right-of("step_t")),
     gate-node("gate", pos: right-of("predict")),
-    image-node("pred", title: $hat(X_0)$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: above("gate", by: 0.6)),
+    image-node("pred", title: $hat(X)_0$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: above("gate", by: 0.6)),
     image-node("noise", title: $z_t$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.5.png", cover: true, image-size: size, pos: below("gate", by: 0.6)),
-    arrow-node("update", title: "Renoise", dir: right, shape: "arrow", label-pos: "inside", size: (3.3, 1), pos: right-of("gate")),
+    arrow-node("update", title: "Renoise", dir: right, shape: "arrow", label-pos: "inside", size: (3.3, 0.8), pos: right-of("gate")),
+    module("done", title: "What was done", pos: above("update", by: 1), title-size: 0.8em),
 
     image-node("pred_2", title: $hat(X)_0$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: right-of("pred", by: 2)),
-    image-node("noise_2", title: $z_(t-1)$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.3.png", cover: true, image-size: size, pos: right-of("noise", by: 2)),
+    image-node("noise_2", title: $z_(t)$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.5.png", cover: true, image-size: size, pos: right-of("noise", by: 2)),
     gate-node("gate_2", pos: right-of("update", by: 3)),
-    image-node("updated_sample", title: $X_(t-1)$, src: src_dir + "/img/noisy_images/noisy_image_0.3.png", cover: true, image-size: size, pos: right-of("gate_2", by: 2))
-
+    image-node("updated_sample", title: $X_(t-1)$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: size, pos: right-of("gate_2", by: 2)),
 
   )
 
@@ -712,10 +712,48 @@ with $g = (1 + w)$
     ml-edge("pred_2", "gate_2", from-side: "right", to-side: "top", orthogonal: true),
     ml-edge("noise_2", "gate_2", from-side: "right", to-side: "bottom", orthogonal: true),
     ml-edge("gate_2", "updated_sample", from-side: "right", to-side: "left"),
+    ml-edge("updated_sample", "step_t", from-side: "top", to-side: "top", bend: -45deg, dash: "dashed", label: "Same amount of noise", mark: "<|-|>"),
+  )
+
+  ml-diagram(nodes, edges: edges, label-size: 1em, spacing: 1.7em)
+  },
+)
+
+#let src_dir = "../../.."
+
+#let make-image-node = set-image-node-defaults(options: (image-pad: 0, image-width: 3.5, image-height: 4, border: false, title-size: 1em))
+
+#let src_dir = "../../.."
+
+#let make-image-node = set-image-node-defaults(options: (image-pad: 0, image-width: 3.5, image-height: 4, border: false, title-size: 1em))
+
+#figure(
+  {
+  let size = (3, 5)
+  let nodes = (
+    image-node("step_t", title: $X_t$, src: src_dir + "/img/noisy_images/noisy_image_0.5.png", cover: true, image-size: size, pos: explicit-pos(0, y: 0)),
+    arrow-node("predict", title: "Predict", dir: right, shape: "arrow", label-pos: "inside", size: (3, 0.8), pos: right-of("step_t")),
+    gate-node("gate", pos: right-of("predict")),
+    image-node("pred", title: $hat(X)_0$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: above("gate", by: 0.6)),
+    image-node("noise", title: $z_t$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.5.png", cover: true, image-size: size, pos: below("gate", by: 0.6)),
+    arrow-node("update", title: "Renoise", dir: right, shape: "arrow", label-pos: "inside", size: (3.3, 0.8), pos: right-of("gate")),
+    module("done", title: "What is correct", pos: above("update", by: 1), title-size: 0.8em),
+
+    image-node("pred_2", title: $hat(X)_0$, caption-pos: "top", title-gap: 0.4em, src: src_dir + "/img/noisy_images/tangled.png", cover: true, image-size: size, pos: right-of("pred", by: 2)),
+    image-node("noise_2", title: $z_(t-1)$, caption-pos: "bottom", title-gap: 0.4em, src: src_dir + "/img/noisy_images/noise_0.3.png", cover: true, image-size: size, pos: right-of("noise", by: 2)),
+    gate-node("gate_2", pos: right-of("update", by: 3)),
+    image-node("updated_sample", title: $X_(t-1)$, src: src_dir + "/img/noisy_images/noisy_image_0.3.png", cover: true, image-size: size, pos: right-of("gate_2", by: 2)),
 
   )
 
-  ml-diagram(nodes, edges: edges, label-size: 0.6em, spacing: 2em)
+  let edges = (
+    ml-edge("pred_2", "gate_2", from-side: "right", to-side: "top", orthogonal: true),
+    ml-edge("noise_2", "gate_2", from-side: "right", to-side: "bottom", orthogonal: true),
+    ml-edge("gate_2", "updated_sample", from-side: "right", to-side: "left"),
+    ml-edge("updated_sample", "step_t", from-side: "top", to-side: "top", bend: -45deg, dash: "dashed", label: "Not same amount of noise", label-side: "below", mark: "<|-|>"),
+  )
+
+  ml-diagram(nodes, edges: edges, label-size: 1em, spacing: 1.7em)
   },
 )
 
@@ -729,12 +767,10 @@ with $g = (1 + w)$
 #pagebreak()
 
 
-#figure(grid(columns: (1fr, 0.92fr), [#figure(image(".typst_pyexec/figures/cell_3_1_1.svg"), kind: "subfigure", caption: [strategy = mask]) <fig8-a>], [#figure(image(".typst_pyexec/figures/cell_3_1_2.svg"), kind: "subfigure", caption: [strategy = target]) <fig8-b>]), caption: [Fixed vs. non-fixed noise addition (`use_t_next`) for different strategies], kind: image) <fig8>
+#figure(grid(columns: (1fr, 0.92fr), [#figure(image(".typst_pyexec/figures/cell_3_1_1.svg"), kind: "subfigure", caption: [strategy=mask]) <fig8-a>], [#figure(image(".typst_pyexec/figures/cell_3_1_2.svg"), kind: "subfigure", caption: [strategy=target]) <fig8-b>]), caption: [Fixed vs. non-fixed noise addition for different strategies #linebreak() (baseline: `use_t_next=False`)], kind: image) <fig8>
 
 
-=== Increasing the noise in the sampling process
-
-#figure(grid(columns: (1fr, 0.9fr), [#figure(image(".typst_pyexec/figures/cell_4_1_1.svg", width: 80%), kind: "subfigure", caption: [strategy = mask]) <fig9-a>], [#figure(image(".typst_pyexec/figures/cell_4_1_2.svg", width: 80%), kind: "subfigure", caption: [strategy = target]) <fig9-b>]), caption: [Impact of increasing the noise in the sampling process (`renoise_factor`) for `use_t_next=True`], kind: image) <fig9>
+#figure(grid(columns: (1fr, 0.9fr), [#figure(image(".typst_pyexec/figures/cell_4_1_1.svg", width: 80%), kind: "subfigure", caption: [strategy=mask]) <fig9-a>], [#figure(image(".typst_pyexec/figures/cell_4_1_2.svg", width: 80%), kind: "subfigure", caption: [strategy=target]) <fig9-b>]), caption: [Increase the noise in the sampling process (`renoise_factor`) for `use_t_next=True` #linebreak() (baseline: `renoise_factor=1.0`)], kind: image) <fig9>
 
 
 == Best configurations vs. original implementation
@@ -753,7 +789,7 @@ with $g = (1 + w)$
   - FID clip score
   - Inception Score
   - KID score
-- Experimental setup: RTX 4080, 16GB of VRAM, running for #text("more than 24 hours", fill: red, weight: "bold")
+- Experimental setup: RTX 4080, 16GB of VRAM, running for #text("5 days", fill: red, weight: "bold")
 ]
 
 #pdfpc.speaker-note(
@@ -780,11 +816,44 @@ with $g = (1 + w)$
 
 #pagebreak()
 
+
+#tblock(title: "How to interpret the results of the evaluation")[
+- IS: Higher is better
+- FID: Lower is better
+- FID-clip: Lower is better
+- KID: Lower is better
+]
+
+== Fixing the thresholding step in the sampling algorithm
+
+#figure(grid(columns: 2, [#figure(image(".typst_pyexec/figures/cell_6_1_1.svg"), kind: "subfigure", caption: [n_timesteps=10]) <fig11-a>], [#figure(image(".typst_pyexec/figures/cell_6_1_2.svg"), kind: "subfigure", caption: [n_timesteps=100]) <fig11-b>]), caption: [Schedule comparison for `strategy=mask` #linebreak() (baseline: `schedule=const`)], kind: image) <fig11>
+
+
+== Fixing the noise addition step in the sampling algorithm
+
+#figure(grid(columns: 2, [#figure(image(".typst_pyexec/figures/cell_7_1_1.svg"), kind: "subfigure", caption: [n_timesteps=10]) <fig12-a>], [#figure(image(".typst_pyexec/figures/cell_7_1_2.svg"), kind: "subfigure", caption: [n_timesteps=100]) <fig12-b>]), caption: [Fixed vs. non-fixed noise addition (`use_t_next`) for different metrics and strategies (baseline: `use_t_next=False`)], kind: image) <fig12>
+
+
+== Increasing the noise in the sampling process
+
+#figure(grid(columns: 2, [#figure(image(".typst_pyexec/figures/cell_8_1_1.svg"), kind: "subfigure", caption: [n_timesteps=10]) <fig13-a>], [#figure(image(".typst_pyexec/figures/cell_8_1_2.svg"), kind: "subfigure", caption: [n_timesteps=100]) <fig13-b>]), caption: [Increase the noise in the sampling process (`renoise_factor`) for `use_t_next=True` #linebreak() (baseline: `renoise_factor=1.0`)], kind: image) <fig13>
+
+
+
+
+#pagebreak()
+
+== Visual comparison of the generated images
+
 #grid(
   columns: (1fr, 1fr),
   figure(image("img/cifar/t_10.jpg"), caption: "10 steps of reverse diffusion process"),
   figure(image("img/cifar/t_100.jpg"), caption: "100 steps of reverse diffusion process")
 )
+
+
+#pagebreak()
+
 
 = Conclusion
 
